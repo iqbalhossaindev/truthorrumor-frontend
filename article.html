@@ -1,308 +1,123 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="google-adsense-account" content="ca-pub-2944530159971400" />
-  <title>Loading Article | TruthOrRumor</title>
-  <meta name="description" content="TruthOrRumor article page" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "https://bsnezcbmsbsememwqsjs.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_HTgjJsMcfGgIJaUSAzXTfw_yQ2dD_Uy";
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  <style>
-    * {
-      box-sizing: border-box;
+  function getSlugFromPath() {
+    const parts = window.location.pathname.split("/").filter(Boolean);
+    return decodeURIComponent(parts[1] || "").trim().toLowerCase();
+  }
+
+  function formatDate(value) {
+    const date = value ? new Date(value) : new Date();
+    if (Number.isNaN(date.getTime())) return "Unknown date";
+    return new Intl.DateTimeFormat("en", {
+      dateStyle: "medium",
+      timeStyle: "short"
+    }).format(date);
+  }
+
+  function escapeHtml(text) {
+    return String(text || "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function getVerifiedIcon(color) {
+    return `
+      <svg viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l6 2.5v5c0 4.3-2.6 8.1-6 9.5-3.4-1.4-6-5.2-6-9.5v-5L12 3z"></path>
+        <path d="M9.3 11.8l1.8 1.8 3.7-3.8"></path>
+      </svg>
+    `;
+  }
+
+  function renderStatusBadge(type) {
+    const isTruth = String(type || "").toLowerCase() !== "rumor";
+    return isTruth
+      ? `<span class="status-badge truth">${getVerifiedIcon("#22c55e")} <span>Truth Verified</span></span>`
+      : `<span class="status-badge rumor">${getVerifiedIcon("#ef4444")} <span>Rumor Verified</span></span>`;
+  }
+
+  async function loadArticle() {
+    const slug = getSlugFromPath();
+    const root = document.getElementById("articleRoot");
+
+    if (!slug) {
+      root.innerHTML = `<div class="state">Article slug not found.</div>`;
+      return;
     }
 
-    :root {
-      --bg: #07111d;
-      --bg2: #101b2c;
-      --bg3: #152235;
-      --text: #f8fafc;
-      --muted: rgba(248,250,252,0.72);
-      --line: rgba(255,255,255,0.12);
-      --glass: rgba(255,255,255,0.08);
-      --glass2: rgba(255,255,255,0.11);
-      --gold: #f2b53a;
-      --orange: #ff8d3a;
-      --green: #22c55e;
-      --red: #ef4444;
-      --shadow: 0 16px 40px rgba(0,0,0,0.28);
+    let article = null;
+
+    const exactResult = await supabaseClient
+      .from("posts")
+      .select("*")
+      .eq("slug", slug)
+      .limit(1);
+
+    if (Array.isArray(exactResult.data) && exactResult.data.length > 0) {
+      article = exactResult.data[0];
     }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at 12% 10%, rgba(255,255,255,0.08), transparent 18%),
-        radial-gradient(circle at 86% 16%, rgba(183,132,255,0.16), transparent 18%),
-        radial-gradient(circle at 76% 72%, rgba(79,209,255,0.14), transparent 18%),
-        radial-gradient(circle at 52% 82%, rgba(242,181,58,0.10), transparent 14%),
-        linear-gradient(135deg, var(--bg), var(--bg2) 48%, var(--bg3));
-      padding: 20px;
-    }
-
-    .wrap {
-      width: min(920px, 100%);
-      margin: 0 auto;
-    }
-
-    .card {
-      background: linear-gradient(180deg, var(--glass2), var(--glass));
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px) saturate(145%);
-      -webkit-backdrop-filter: blur(12px) saturate(145%);
-      border-radius: 28px;
-      padding: 24px;
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(242,181,58,0.22);
-      background: rgba(242,181,58,0.12);
-      color: var(--text);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .brand {
-      font-size: 18px;
-      font-weight: 700;
-      background: linear-gradient(90deg, #ffffff 0%, #ffffff 26%, #f2d07a 46%, #f2b53a 56%, #ff8d3a 74%, #ef4444 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-
-    .status-badge.truth {
-      color: #b7ffd0;
-      background: rgba(34,197,94,0.14);
-      border: 1px solid rgba(34,197,94,0.18);
-    }
-
-    .status-badge.rumor {
-      color: #ffd1d1;
-      background: rgba(239,68,68,0.14);
-      border: 1px solid rgba(239,68,68,0.18);
-    }
-
-    .status-badge svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    h1 {
-      margin: 0 0 14px;
-      font-size: clamp(30px, 6vw, 48px);
-      line-height: 1.15;
-    }
-
-    .meta {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.7;
-      margin-bottom: 18px;
-    }
-
-    .summary {
-      padding: 14px 16px;
-      border-radius: 20px;
-      background: rgba(242,181,58,0.12);
-      border: 1px solid rgba(242,181,58,0.16);
-      margin-bottom: 18px;
-      line-height: 1.8;
-    }
-
-    .hero-image {
-      width: 100%;
-      border-radius: 22px;
-      margin-bottom: 18px;
-      object-fit: cover;
-      max-height: 420px;
-      border: 1px solid var(--line);
-      background: #050505;
-    }
-
-    .content {
-      font-size: 17px;
-      line-height: 1.95;
-      white-space: pre-line;
-    }
-
-    .source-row {
-      margin-top: 22px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 16px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .btn.primary {
-      border: none;
-      background: linear-gradient(135deg, var(--gold), var(--orange));
-      color: #180d00;
-    }
-
-    .state {
-      text-align: center;
-      color: var(--muted);
-      padding: 40px 20px;
-      font-size: 16px;
-    }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <div class="topbar">
-      <a class="back-btn" href="/">Back to Home</a>
-      <div class="brand">TruthOrRumor</div>
-    </div>
-
-    <div id="articleRoot" class="card">
-      <div class="state">Loading article...</div>
-    </div>
-  </div>
-
-  <script>
-    const SUPABASE_URL = "https://bsnezcbmsbsememwqsjs.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_HTgjJsMcfGgIJaUSAzXTfw_yQ2dD_Uy";
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    function getSlugFromPath() {
-      const parts = window.location.pathname.split("/").filter(Boolean);
-      return decodeURIComponent(parts[1] || "");
-    }
-
-    function formatDate(value) {
-      const date = value ? new Date(value) : new Date();
-      if (Number.isNaN(date.getTime())) return "Unknown date";
-      return new Intl.DateTimeFormat("en", {
-        dateStyle: "medium",
-        timeStyle: "short"
-      }).format(date);
-    }
-
-    function escapeHtml(text) {
-      return String(text || "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    function getVerifiedIcon(color) {
-      return `
-        <svg viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 3l6 2.5v5c0 4.3-2.6 8.1-6 9.5-3.4-1.4-6-5.2-6-9.5v-5L12 3z"></path>
-          <path d="M9.3 11.8l1.8 1.8 3.7-3.8"></path>
-        </svg>
-      `;
-    }
-
-    function renderStatusBadge(type) {
-      const isTruth = String(type || "").toLowerCase() !== "rumor";
-      return isTruth
-        ? `<span class="status-badge truth">${getVerifiedIcon("#22c55e")} <span>Truth Verified</span></span>`
-        : `<span class="status-badge rumor">${getVerifiedIcon("#ef4444")} <span>Rumor Verified</span></span>`;
-    }
-
-    async function loadArticle() {
-      const slug = getSlugFromPath();
-      const root = document.getElementById("articleRoot");
-
-      if (!slug) {
-        root.innerHTML = `<div class="state">Article slug not found.</div>`;
-        return;
-      }
-
-      const { data, error } = await supabaseClient
+    if (!article) {
+      const fallbackResult = await supabaseClient
         .from("posts")
         .select("*")
-        .eq("slug", slug)
-        .eq("published", true)
-        .single();
+        .ilike("slug", slug)
+        .limit(1);
 
-      if (error || !data) {
-        root.innerHTML = `<div class="state">Article not found.</div>`;
-        return;
+      if (Array.isArray(fallbackResult.data) && fallbackResult.data.length > 0) {
+        article = fallbackResult.data[0];
       }
-
-      const title = data.title || "TruthOrRumor Article";
-      const summary = data.excerpt || data.summary || "";
-      const content = data.content || "";
-      const imageUrl = data.image_url || "";
-      const country = data.country || "World";
-      const category = data.category || "World News";
-      const verdict = data.verdict || "truth";
-      const sourceUrl = data.source_url || "";
-      const publishedAt = data.created_at || "";
-      const updatedAt = data.updated_at || data.created_at || "";
-
-      document.title = `${title} | TruthOrRumor`;
-
-      const descriptionTag = document.querySelector('meta[name="description"]');
-      if (descriptionTag) {
-        descriptionTag.setAttribute("content", summary || title);
-      }
-
-      root.innerHTML = `
-        ${renderStatusBadge(verdict)}
-        <h1>${escapeHtml(title)}</h1>
-        <div class="meta">
-          ${escapeHtml(country)} • ${escapeHtml(category)} • Published ${formatDate(publishedAt)} • Updated ${formatDate(updatedAt)}
-        </div>
-        ${summary ? `<div class="summary"><strong>Quick Summary:</strong> ${escapeHtml(summary)}</div>` : ""}
-        ${imageUrl ? `<img class="hero-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(title)}" onerror="this.style.display='none'">` : ""}
-        <div class="content">${escapeHtml(content)}</div>
-        <div class="source-row">
-          <a class="btn primary" href="/">Home</a>
-          ${sourceUrl ? `<a class="btn" href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">Source</a>` : ""}
-        </div>
-      `;
     }
 
-    loadArticle();
-  </script>
-</body>
-</html>
+    if (!article) {
+      root.innerHTML = `<div class="state">Article not found.<br><br>Slug: ${escapeHtml(slug)}</div>`;
+      return;
+    }
+
+    if (article.published !== true) {
+      root.innerHTML = `<div class="state">This article exists but is not published yet.</div>`;
+      return;
+    }
+
+    const title = article.title || "TruthOrRumor Article";
+    const summary = article.excerpt || article.summary || "";
+    const content = article.content || "";
+    const imageUrl = article.image_url || "";
+    const country = article.country || "World";
+    const category = article.category || "World News";
+    const verdict = article.verdict || "truth";
+    const sourceUrl = article.source_url || "";
+    const publishedAt = article.created_at || "";
+    const updatedAt = article.updated_at || article.created_at || "";
+
+    document.title = `${title} | TruthOrRumor`;
+
+    const descriptionTag = document.querySelector('meta[name="description"]');
+    if (descriptionTag) {
+      descriptionTag.setAttribute("content", summary || title);
+    }
+
+    root.innerHTML = `
+      ${renderStatusBadge(verdict)}
+      <h1>${escapeHtml(title)}</h1>
+      <div class="meta">
+        ${escapeHtml(country)} • ${escapeHtml(category)} • Published ${formatDate(publishedAt)} • Updated ${formatDate(updatedAt)}
+      </div>
+      ${summary ? `<div class="summary"><strong>Quick Summary:</strong> ${escapeHtml(summary)}</div>` : ""}
+      ${imageUrl ? `<img class="hero-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(title)}" onerror="this.style.display='none'">` : ""}
+      <div class="content">${escapeHtml(content)}</div>
+      <div class="source-row">
+        <a class="btn primary" href="/">Home</a>
+        ${sourceUrl ? `<a class="btn" href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">Source</a>` : ""}
+      </div>
+    `;
+  }
+
+  loadArticle();
+</script>
