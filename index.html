@@ -5,17 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google-adsense-account" content="ca-pub-2944530159971400" />
   <title>TruthOrRumor</title>
-  <meta
-    name="description"
-    content="TruthOrRumor helps readers separate facts from rumors with clear, trusted, and readable reporting."
-  />
+  <meta name="description" content="TruthOrRumor helps readers separate facts from rumors with clear, trusted, and readable reporting." />
   <meta property="og:title" content="TruthOrRumor" />
-  <meta
-    property="og:description"
-    content="Separating facts from rumors with clear, trusted, and readable reporting."
-  />
+  <meta property="og:description" content="Separating Facts from Rumors" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="/logo.png" />
+  <meta property="og:image" content="logo.png" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -25,50 +19,50 @@
 
     :root {
       --bg: #07111d;
-      --bg-2: #0f1b2b;
-      --bg-3: #15263a;
+      --bg-2: #101b2c;
+      --bg-3: #152235;
       --text: #f8fafc;
-      --muted: rgba(248, 250, 252, 0.74);
+      --muted: rgba(248, 250, 252, 0.72);
       --line: rgba(255, 255, 255, 0.12);
       --glass: rgba(255, 255, 255, 0.08);
-      --glass-2: rgba(255, 255, 255, 0.06);
-      --glass-3: rgba(255, 255, 255, 0.12);
+      --glass-2: rgba(255, 255, 255, 0.05);
+      --glass-3: rgba(255, 255, 255, 0.11);
       --gold: #f2b53a;
       --orange: #ff8d3a;
       --green: #22c55e;
       --red: #ef4444;
-      --cyan: #53d6ff;
+      --cyan: #4fd1ff;
       --purple: #b784ff;
-      --shadow: 0 16px 42px rgba(0, 0, 0, 0.28);
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
       --reader-font-size: 17px;
       --reader-line-height: 1.9;
       --reader-width: 860px;
     }
 
     body[data-theme="sepia"] {
-      --bg: #f4ecdf;
-      --bg-2: #eadcc9;
-      --bg-3: #dfd0be;
-      --text: #2b2118;
-      --muted: rgba(43, 33, 24, 0.72);
-      --line: rgba(58, 43, 30, 0.12);
-      --glass: rgba(255, 248, 240, 0.44);
-      --glass-2: rgba(255, 248, 240, 0.34);
+      --bg: #f5eddf;
+      --bg-2: #eadcc7;
+      --bg-3: #dfd0bb;
+      --text: #2a2118;
+      --muted: rgba(42, 33, 24, 0.72);
+      --line: rgba(75, 58, 36, 0.12);
+      --glass: rgba(255, 248, 240, 0.42);
+      --glass-2: rgba(255, 248, 240, 0.30);
       --glass-3: rgba(255, 248, 240, 0.56);
-      --shadow: 0 16px 36px rgba(63, 48, 28, 0.12);
+      --shadow: 0 16px 36px rgba(73, 52, 26, 0.12);
     }
 
     body[data-theme="soft-light"] {
-      --bg: #eef4fb;
-      --bg-2: #e3edf8;
-      --bg-3: #d8e6f5;
-      --text: #172130;
-      --muted: rgba(23, 33, 48, 0.72);
-      --line: rgba(23, 33, 48, 0.12);
+      --bg: #eef3fb;
+      --bg-2: #e6edf7;
+      --bg-3: #dce7f2;
+      --text: #17212d;
+      --muted: rgba(23, 33, 45, 0.70);
+      --line: rgba(23, 33, 45, 0.12);
       --glass: rgba(255, 255, 255, 0.46);
       --glass-2: rgba(255, 255, 255, 0.32);
-      --glass-3: rgba(255, 255, 255, 0.6);
-      --shadow: 0 16px 36px rgba(19, 28, 43, 0.1);
+      --glass-3: rgba(255, 255, 255, 0.60);
+      --shadow: 0 16px 36px rgba(19, 28, 43, 0.10);
     }
 
     html {
@@ -85,14 +79,18 @@
       padding-top: 82px;
       background:
         radial-gradient(circle at 12% 10%, rgba(255,255,255,0.08), transparent 18%),
-        radial-gradient(circle at 85% 16%, rgba(183,132,255,0.16), transparent 18%),
-        radial-gradient(circle at 78% 76%, rgba(83,214,255,0.12), transparent 18%),
-        radial-gradient(circle at 52% 84%, rgba(242,181,58,0.10), transparent 14%),
+        radial-gradient(circle at 86% 16%, rgba(183,132,255,0.16), transparent 18%),
+        radial-gradient(circle at 76% 72%, rgba(79,209,255,0.14), transparent 18%),
+        radial-gradient(circle at 52% 82%, rgba(242,181,58,0.10), transparent 14%),
         linear-gradient(135deg, var(--bg), var(--bg-2) 48%, var(--bg-3));
       background-color: var(--bg);
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
       overscroll-behavior-y: none;
+    }
+
+    body.reader-mode {
+      padding-top: 18px;
     }
 
     body.reader-mode .top-ticker,
@@ -109,9 +107,10 @@
       max-width: 100%;
     }
 
-    .glass,
+    .liquid-card,
+    .footer-card,
     .modal-card,
-    .footer-card {
+    .article-card {
       background: linear-gradient(180deg, var(--glass-3), var(--glass));
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
@@ -121,6 +120,7 @@
       -webkit-transform: translateZ(0);
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
+      contain: paint;
     }
 
     .wrap {
@@ -168,7 +168,6 @@
       background: var(--red);
       box-shadow: 0 0 0 rgba(239,68,68,0.5);
       animation: pulse 2s infinite;
-      flex: 0 0 auto;
     }
 
     @keyframes pulse {
@@ -187,10 +186,11 @@
 
     .ticker-track {
       display: inline-flex;
-      gap: 40px;
+      gap: 38px;
       white-space: nowrap;
       padding-left: 100%;
-      animation: tickerMove 80s linear infinite;
+      animation: tickerMove 85s linear infinite;
+      will-change: transform;
       font-size: 14px;
     }
 
@@ -222,30 +222,15 @@
       overflow: hidden;
     }
 
-    .site-header::before,
-    .hero::before,
-    .card::before,
-    .story-card::before,
-    .footer-card::before,
-    .modal-card::before {
+    .site-header::before {
       content: "";
       position: absolute;
       inset: 0;
       background:
         radial-gradient(circle at 14% 16%, rgba(255,255,255,0.12), transparent 16%),
-        radial-gradient(circle at 84% 22%, rgba(183,132,255,0.12), transparent 18%),
-        radial-gradient(circle at 76% 78%, rgba(83,214,255,0.09), transparent 18%);
+        radial-gradient(circle at 85% 22%, rgba(183,132,255,0.12), transparent 18%),
+        radial-gradient(circle at 78% 78%, rgba(79,209,255,0.10), transparent 18%);
       pointer-events: none;
-    }
-
-    .site-header > *,
-    .hero > *,
-    .card > *,
-    .story-card > *,
-    .footer-card > *,
-    .modal-card > * {
-      position: relative;
-      z-index: 1;
     }
 
     .brand-row {
@@ -254,6 +239,8 @@
       align-items: flex-start;
       gap: 16px;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
 
     .brand-left {
@@ -264,10 +251,10 @@
     }
 
     .site-logo {
-      width: 78px;
-      height: 78px;
-      border-radius: 22px;
+      width: 76px;
+      height: 76px;
       object-fit: contain;
+      border-radius: 22px;
       padding: 10px;
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.16);
@@ -275,7 +262,7 @@
 
     .brand-title {
       margin: 0;
-      font-size: clamp(34px, 6vw, 58px);
+      font-size: clamp(32px, 6vw, 58px);
       line-height: 1;
       letter-spacing: -0.8px;
       background: linear-gradient(90deg, #ffffff 0%, #ffffff 26%, #f2d07a 46%, #f2b53a 56%, #ff8d3a 74%, #ef4444 100%);
@@ -295,14 +282,14 @@
       color: var(--muted);
       font-size: 14px;
       white-space: nowrap;
+      position: relative;
+      z-index: 1;
     }
 
     .nav-row,
     .chip-row,
-    .tool-row,
     .footer-links,
-    .footer-social,
-    .story-mode-row {
+    .footer-social {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
@@ -316,8 +303,7 @@
     }
 
     .nav-row::-webkit-scrollbar,
-    .chip-row::-webkit-scrollbar,
-    .stories-track::-webkit-scrollbar {
+    .chip-row::-webkit-scrollbar {
       display: none;
     }
 
@@ -347,7 +333,6 @@
     .chip,
     .tiny-btn,
     .tool-btn,
-    .story-mode-btn,
     .footer-link-btn {
       display: inline-flex;
       align-items: center;
@@ -379,6 +364,16 @@
       overflow: hidden;
     }
 
+    .search-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 16% 16%, rgba(255,255,255,0.10), transparent 16%),
+        radial-gradient(circle at 78% 82%, rgba(79,209,255,0.08), transparent 16%);
+      pointer-events: none;
+    }
+
     .search-inner {
       position: relative;
       z-index: 1;
@@ -406,7 +401,10 @@
     }
 
     .search-row,
-    .card-actions {
+    .tool-row,
+    .card-actions,
+    .slider-actions,
+    .article-actions {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
@@ -428,27 +426,27 @@
       color: var(--muted);
     }
 
-    .primary-btn,
-    .secondary-btn {
-      border-radius: 18px;
-      padding: 14px 18px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: inherit;
-    }
-
     .primary-btn {
       border: none;
+      border-radius: 18px;
+      padding: 14px 18px;
       background: linear-gradient(135deg, var(--gold), var(--orange));
       color: #180d00;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
       box-shadow: 0 10px 22px rgba(242,181,58,0.16);
     }
 
     .secondary-btn {
       border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px 18px;
       background: rgba(255,255,255,0.06);
       color: var(--text);
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
     }
 
     .filter-panel {
@@ -463,8 +461,8 @@
     }
 
     .filter-title,
-    .share-section-title,
-    .modal-note {
+    .modal-note,
+    .share-section-title {
       margin: 0 0 10px 0;
       font-size: 15px;
       color: var(--muted);
@@ -477,12 +475,45 @@
       scrollbar-width: none;
     }
 
+    .chip-flag {
+      width: 18px;
+      height: 14px;
+      border-radius: 3px;
+      object-fit: cover;
+      flex: 0 0 auto;
+    }
+
+    .chip-svg {
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
     .hero {
       border-radius: 30px;
       padding: 26px;
-      margin-top: 22px;
+      margin-bottom: 22px;
       position: relative;
       overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 12% 14%, rgba(255,255,255,0.12), transparent 16%),
+        radial-gradient(circle at 84% 22%, rgba(183,132,255,0.12), transparent 18%),
+        radial-gradient(circle at 76% 78%, rgba(79,209,255,0.09), transparent 18%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
     }
 
     .eyebrow {
@@ -511,12 +542,19 @@
       color: var(--muted);
       line-height: 1.8;
       font-size: 16px;
-      max-width: 820px;
+      max-width: 800px;
     }
 
-    .hero-actions,
-    .stories-header,
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
     .section-head,
+    .slider-head,
+    .article-top,
     .share-top {
       display: flex;
       justify-content: space-between;
@@ -525,52 +563,52 @@
       flex-wrap: wrap;
     }
 
-    .hero-actions {
-      justify-content: flex-start;
-      margin-top: 18px;
-    }
-
     .section-head,
-    .stories-header {
+    .slider-head {
       margin-bottom: 12px;
     }
 
     .section-head h3,
-    .stories-header h3,
+    .slider-head h3,
     .share-top h3 {
       margin: 0;
       font-size: 28px;
     }
 
     .section-head span,
-    .stories-header span,
-    .card-meta,
+    .slider-head span,
+    .meta,
+    .slider-meta,
     .share-count {
       color: var(--muted);
       font-size: 14px;
       line-height: 1.7;
     }
 
-    .stories-section {
-      margin-top: 22px;
+    .slider-section {
       margin-bottom: 22px;
     }
 
-    .stories-track {
+    .slider-track {
       display: flex;
       gap: 14px;
       overflow-x: auto;
       padding: 4px 4px 10px;
+      scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
       scrollbar-width: none;
     }
 
-    .story-nav {
+    .slider-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .slider-nav {
       display: flex;
       gap: 10px;
     }
 
-    .story-nav button {
+    .slider-nav button {
       width: 42px;
       height: 42px;
       border-radius: 50%;
@@ -580,25 +618,36 @@
       cursor: pointer;
     }
 
-    .story-card {
-      min-width: min(86vw, 360px);
-      border-radius: 28px;
-      overflow: hidden;
-      position: relative;
-      padding: 18px;
-    }
-
     .grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 16px;
     }
 
-    .card {
+    .card,
+    .slider-card {
       border-radius: 28px;
       overflow: hidden;
       position: relative;
       padding: 18px;
+    }
+
+    .card::before,
+    .slider-card::before,
+    .article-card::before,
+    .footer-card::before,
+    .modal-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 16% 14%, rgba(255,255,255,0.08), transparent 14%),
+        radial-gradient(circle at 84% 82%, rgba(79,209,255,0.06), transparent 14%);
+      pointer-events: none;
+    }
+
+    .slider-card {
+      min-width: 86%;
     }
 
     .photo-wrap {
@@ -606,23 +655,30 @@
       overflow: hidden;
       background: rgba(255,255,255,0.04);
       border: 1px solid var(--line);
+    }
+
+    .card-photo-wrap,
+    .slider-photo-wrap {
       margin: -18px -18px 16px;
       border-radius: 28px 28px 20px 20px;
     }
 
-    .photo-wrap img {
+    .article-photo-wrap {
+      margin: 16px 0 18px;
+      border-radius: 24px;
+    }
+
+    .card-photo,
+    .slider-photo,
+    .article-photo {
       width: 100%;
       object-fit: cover;
       background: #060606;
     }
 
-    .card .photo-wrap img {
-      height: 220px;
-    }
-
-    .story-card .photo-wrap img {
-      height: 240px;
-    }
+    .card-photo { height: 220px; }
+    .slider-photo { height: 240px; }
+    .article-photo { height: 280px; border-radius: 24px; }
 
     .status-badge {
       display: inline-flex;
@@ -632,6 +688,8 @@
       border-radius: 999px;
       font-size: 12px;
       font-weight: 700;
+      position: relative;
+      z-index: 1;
     }
 
     .status-badge.truth {
@@ -653,25 +711,28 @@
     }
 
     .card h4,
-    .story-card h4 {
+    .slider-card h4 {
       margin: 12px 0 10px;
       font-size: 22px;
       line-height: 1.35;
+      position: relative;
+      z-index: 1;
     }
 
     .card p,
-    .story-card p {
+    .slider-card p {
       margin: 0;
       color: var(--muted);
       line-height: 1.7;
+      position: relative;
+      z-index: 1;
     }
 
-    .card-meta {
-      margin-top: 10px;
-    }
-
-    .card-actions {
+    .card-actions,
+    .slider-actions {
       margin-top: 14px;
+      position: relative;
+      z-index: 1;
     }
 
     .tiny-btn {
@@ -697,7 +758,43 @@
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 10px 22px rgba(242,181,58,0.16);
-      font-family: inherit;
+    }
+
+    .article-card {
+      max-width: var(--reader-width);
+      margin: 0 auto;
+      border-radius: 28px;
+      overflow: hidden;
+      position: relative;
+      padding: 24px;
+    }
+
+    .article-card h2 {
+      margin: 14px 0 10px;
+      font-size: clamp(30px, 6vw, 48px);
+      line-height: 1.16;
+      letter-spacing: -0.6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .quick-summary {
+      padding: 14px 16px;
+      border-radius: 22px;
+      background: rgba(242,181,58,0.12);
+      border: 1px solid rgba(242,181,58,0.16);
+      margin: 16px 0;
+      line-height: 1.8;
+      position: relative;
+      z-index: 1;
+    }
+
+    .article-body {
+      white-space: pre-line;
+      font-size: var(--reader-font-size);
+      line-height: var(--reader-line-height);
+      position: relative;
+      z-index: 1;
     }
 
     .empty-state {
@@ -723,13 +820,18 @@
     }
 
     .modal-card {
-      width: min(640px, 100%);
+      width: min(620px, 100%);
       max-height: 92vh;
       overflow-y: auto;
       border-radius: 28px;
       position: relative;
       padding: 18px;
       overflow-x: hidden;
+    }
+
+    .modal-card > * {
+      position: relative;
+      z-index: 1;
     }
 
     .modal-close {
@@ -741,7 +843,6 @@
       color: var(--text);
       font-size: 20px;
       cursor: pointer;
-      font-family: inherit;
     }
 
     .share-preview,
@@ -780,6 +881,22 @@
       color: var(--muted);
       line-height: 1.6;
       font-size: 14px;
+    }
+
+    .story-mode-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .story-mode-btn {
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      font-size: 13px;
     }
 
     .share-grid {
@@ -851,13 +968,35 @@
       line-height: 1.6;
     }
 
+    .floating-share-btn {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 95;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(242,181,58,0.20);
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      color: #180d00;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.26);
+      cursor: pointer;
+    }
+
+    .floating-share-btn.show {
+      display: inline-flex;
+    }
+
     .floating-accessibility-btn {
       position: fixed;
       left: 14px;
       bottom: 18px;
       z-index: 95;
-      width: 52px;
-      height: 52px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.22);
       background: rgba(255,255,255,0.82);
@@ -871,8 +1010,8 @@
     }
 
     .floating-accessibility-btn svg.main {
-      width: 27px;
-      height: 27px;
+      width: 28px;
+      height: 28px;
       color: #1f2937;
     }
 
@@ -972,17 +1111,22 @@
     }
 
     @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-      .glass,
-      .modal-card,
+      .liquid-card,
       .footer-card,
+      .modal-card,
+      .article-card,
       .floating-accessibility-btn {
-        background: rgba(16,24,38,0.92);
+        background: rgba(16, 24, 38, 0.92);
       }
     }
 
     @media (min-width: 768px) {
       .grid {
         grid-template-columns: repeat(2, 1fr);
+      }
+
+      .slider-card {
+        min-width: 48%;
       }
 
       .share-grid {
@@ -994,12 +1138,16 @@
       .grid {
         grid-template-columns: repeat(3, 1fr);
       }
+
+      .slider-card {
+        min-width: 32%;
+      }
     }
   </style>
 </head>
 <body>
   <div class="top-ticker">
-    <div class="ticker-wrap glass">
+    <div class="ticker-wrap liquid-card">
       <div class="live-pill">
         <span class="live-dot"></span>
         <span>Live Now</span>
@@ -1012,6 +1160,16 @@
       </div>
     </div>
   </div>
+
+  <button id="floatingShareBtn" class="floating-share-btn" onclick="openShareMenuFromCurrentArticle()" aria-label="Open share menu">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9">
+      <circle cx="18" cy="5" r="3"></circle>
+      <circle cx="6" cy="12" r="3"></circle>
+      <circle cx="18" cy="19" r="3"></circle>
+      <path d="M8.6 10.7l6.8-4.1"></path>
+      <path d="M8.6 13.3l6.8 4.1"></path>
+    </svg>
+  </button>
 
   <button class="floating-accessibility-btn" onclick="openAccessibilityModal()" aria-label="Accessibility">
     <svg class="main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -1095,8 +1253,8 @@
       <div class="access-group">
         <p class="share-section-title">Line Spacing</p>
         <div class="tool-row">
-          <button class="tool-btn" onclick="changeLineHeight(-0.1)">Tight</button>
-          <button class="tool-btn" onclick="changeLineHeight(0.1)">Relaxed</button>
+          <button class="tool-btn" onclick="changeLineSpacing(-0.1)">Tight</button>
+          <button class="tool-btn" onclick="changeLineSpacing(0.1)">Relaxed</button>
         </div>
       </div>
 
@@ -1113,13 +1271,13 @@
   <div id="toast" class="toast">Done</div>
 
   <div class="wrap">
-    <header class="site-header glass">
+    <header class="site-header liquid-card">
       <div class="brand-row">
         <div class="brand-left">
-          <img src="/logo.png" alt="TruthOrRumor logo" class="site-logo" onerror="this.style.display='none'">
+          <img src="logo.png" alt="TruthOrRumor logo" class="site-logo" onerror="this.style.display='none'">
           <div>
             <h1 class="brand-title">TruthOrRumor</h1>
-            <div class="tagline">Separating facts from rumors</div>
+            <div class="tagline">Separating Facts from Rumors</div>
           </div>
         </div>
         <div class="updated">Updated: <span id="updatedTime">Loading...</span></div>
@@ -1128,11 +1286,11 @@
 
     <nav class="nav-row" id="navRow"></nav>
 
-    <section class="search-panel glass">
+    <section class="search-panel liquid-card">
       <div class="search-inner">
         <div class="search-title">Truth Or Rumor Search</div>
         <div class="search-row">
-          <input id="searchInput" class="search-input" type="text" placeholder="Search news by title, country, or topic" />
+          <input id="searchInput" class="search-input" type="text" placeholder="Search news, country, topic..." />
           <button class="primary-btn" onclick="runSearch()">Search</button>
           <button class="secondary-btn" onclick="toggleFilters()">Filters</button>
           <button class="secondary-btn" onclick="togglePageAudio(this)" data-speaking="false">Tap To Listen</button>
@@ -1140,20 +1298,18 @@
       </div>
     </section>
 
-    <section id="filterPanel" class="filter-panel glass">
+    <section id="filterPanel" class="filter-panel liquid-card">
       <p class="filter-title">Country Filter</p>
       <div class="chip-row" id="countryFilters"></div>
 
       <p class="filter-title">Topic Filter</p>
       <div class="chip-row" id="topicFilters"></div>
 
-      <p class="filter-title">Truth Or Rumor Filter</p>
+      <p class="filter-title">Truth / Rumor Filter</p>
       <div class="chip-row" id="typeFilters"></div>
     </section>
 
-    <main id="app">
-      <div class="empty-state glass">Loading news...</div>
-    </main>
+    <main id="app"></main>
 
     <footer class="footer">
       <div class="footer-card">
@@ -1200,43 +1356,32 @@
     const SUPABASE_URL = "https://bsnezcbmsbsememwqsjs.supabase.co";
     const SUPABASE_KEY = "sb_publishable_HTgjJsMcfGgIJaUSAzXTfw_yQ2dD_Uy";
     const TABLE_NAME = "posts";
+
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const state = {
-      posts: [],
-      currentCountry: "All",
-      currentTopic: "All",
-      currentType: "all",
-      currentSearch: "",
-      filtersOpen: false,
-      activeShareId: null,
-      shareMode: "full"
-    };
-
     const countryOptions = [
-      "All",
-      "World",
-      "Bangladesh",
-      "India",
-      "China",
-      "USA",
-      "Russia",
-      "Iran",
-      "Israel",
-      "Canada",
-      "Lebanon"
+      { value: "All", label: "All Countries" },
+      { value: "World", label: "World" },
+      { value: "Bangladesh", label: "Bangladesh" },
+      { value: "India", label: "India" },
+      { value: "China", label: "China" },
+      { value: "USA", label: "USA" },
+      { value: "Russia", label: "Russia" },
+      { value: "Iran", label: "Iran" },
+      { value: "Israel", label: "Israel" },
+      { value: "Middle East", label: "Middle East" },
+      { value: "Canada", label: "Canada" }
     ];
 
     const topicOptions = [
-      "All",
-      "World News",
-      "Politics",
-      "Business",
-      "Finance",
-      "Technology",
-      "Humanitarian",
-      "Sports",
-      "Entertainment"
+      { value: "All", label: "All Topics" },
+      { value: "World News", label: "World" },
+      { value: "Politics", label: "Politics" },
+      { value: "Business", label: "Business" },
+      { value: "Finance", label: "Finance" },
+      { value: "Technology", label: "Tech" },
+      { value: "Sports", label: "Sports" },
+      { value: "Entertainment", label: "Entertainment" }
     ];
 
     const typeOptions = [
@@ -1245,7 +1390,23 @@
       { value: "rumor", label: "Rumor" }
     ];
 
-    const readerPrefs = {
+    let articles = [];
+    let currentCountry = "All";
+    let currentTopic = "All";
+    let currentType = "all";
+    let currentSearch = "";
+    let filtersOpen = false;
+
+    let currentSpeech = null;
+    let currentSpeechButton = null;
+    let speechStartTimer = null;
+    let toastTimer = null;
+
+    let savedArticleIds = new Set();
+    let activeShareArticleId = null;
+    let shareMode = "full";
+
+    const uiPrefs = {
       theme: "dark",
       fontSize: 17,
       lineHeight: 1.9,
@@ -1253,10 +1414,11 @@
       readerMode: false
     };
 
-    let currentSpeech = null;
-    let currentSpeechButton = null;
-    let speechTimer = null;
-    let toastTimer = null;
+    const userProfile = {
+      topicScores: {},
+      countryScores: {},
+      articleScores: {}
+    };
 
     function safeJsonParse(value, fallback) {
       try {
@@ -1268,24 +1430,19 @@
 
     function escapeHtml(text) {
       return String(text || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
     }
 
-    function slugify(text) {
-      return String(text || "")
-        .toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9\s-]/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/-+/g, "-");
-    }
-
-    function isPublishedValue(value) {
-      return value === true || value === "true" || value === 1 || value === "1";
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
     }
 
     function formatDate(value) {
@@ -1297,46 +1454,37 @@
       }).format(date);
     }
 
-    function showToast(message) {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.classList.add("show");
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
-    }
-
     function updateTime() {
       const target = document.getElementById("updatedTime");
-      if (!target) return;
-      target.textContent = new Intl.DateTimeFormat("en", {
-        dateStyle: "medium",
-        timeStyle: "short"
-      }).format(new Date());
-    }
-
-    function loadReaderPrefs() {
-      const saved = safeJsonParse(localStorage.getItem("tor_reader_prefs"), null);
-      if (saved) {
-        Object.assign(readerPrefs, saved);
+      if (target) {
+        target.textContent = new Intl.DateTimeFormat("en", {
+          dateStyle: "medium",
+          timeStyle: "short"
+        }).format(new Date());
       }
-      applyReaderPrefs();
     }
 
-    function saveReaderPrefs() {
-      localStorage.setItem("tor_reader_prefs", JSON.stringify(readerPrefs));
+    function loadPrefs() {
+      const saved = safeJsonParse(localStorage.getItem("tor_reader_prefs") || "null", null);
+      if (saved) Object.assign(uiPrefs, saved);
+      applyPrefs();
     }
 
-    function applyReaderPrefs() {
-      document.body.dataset.theme = readerPrefs.theme;
-      document.body.classList.toggle("reader-mode", readerPrefs.readerMode);
-      document.documentElement.style.setProperty("--reader-font-size", readerPrefs.fontSize + "px");
-      document.documentElement.style.setProperty("--reader-line-height", String(readerPrefs.lineHeight));
-      document.documentElement.style.setProperty("--reader-width", readerPrefs.width);
+    function savePrefs() {
+      localStorage.setItem("tor_reader_prefs", JSON.stringify(uiPrefs));
+    }
+
+    function applyPrefs() {
+      document.body.dataset.theme = uiPrefs.theme;
+      document.body.classList.toggle("reader-mode", uiPrefs.readerMode);
+      document.documentElement.style.setProperty("--reader-font-size", uiPrefs.fontSize + "px");
+      document.documentElement.style.setProperty("--reader-line-height", String(uiPrefs.lineHeight));
+      document.documentElement.style.setProperty("--reader-width", uiPrefs.width);
       updateAccessibilityButtons();
     }
 
     function updateAccessibilityButtons() {
-      [
+      const ids = [
         "themeDarkBtn",
         "themeSepiaBtn",
         "themeSoftBtn",
@@ -1344,7 +1492,9 @@
         "widthNormalBtn",
         "widthWideBtn",
         "readerModeBtn"
-      ].forEach(id => {
+      ];
+
+      ids.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.remove("active");
       });
@@ -1355,62 +1505,61 @@
         "soft-light": "themeSoftBtn"
       };
 
-      const themeBtn = document.getElementById(themeMap[readerPrefs.theme]);
+      const themeBtn = document.getElementById(themeMap[uiPrefs.theme]);
       if (themeBtn) themeBtn.classList.add("active");
 
       const widthBtn =
-        readerPrefs.width === "720px" ? "widthNarrowBtn" :
-        readerPrefs.width === "980px" ? "widthWideBtn" :
+        uiPrefs.width === "720px" ? "widthNarrowBtn" :
+        uiPrefs.width === "980px" ? "widthWideBtn" :
         "widthNormalBtn";
 
       const widthEl = document.getElementById(widthBtn);
       if (widthEl) widthEl.classList.add("active");
 
-      if (readerPrefs.readerMode) {
+      if (uiPrefs.readerMode) {
         const btn = document.getElementById("readerModeBtn");
         if (btn) btn.classList.add("active");
       }
     }
 
     function setTheme(theme) {
-      readerPrefs.theme = theme;
-      saveReaderPrefs();
-      applyReaderPrefs();
+      uiPrefs.theme = theme;
+      savePrefs();
+      applyPrefs();
     }
 
     function setReaderWidth(width) {
-      readerPrefs.width = width;
-      saveReaderPrefs();
-      applyReaderPrefs();
+      uiPrefs.width = width;
+      savePrefs();
+      applyPrefs();
     }
 
     function changeFontSize(delta) {
-      readerPrefs.fontSize = Math.max(14, Math.min(24, readerPrefs.fontSize + delta));
-      saveReaderPrefs();
-      applyReaderPrefs();
+      uiPrefs.fontSize = Math.max(14, Math.min(24, uiPrefs.fontSize + delta));
+      savePrefs();
+      applyPrefs();
     }
 
-    function changeLineHeight(delta) {
-      readerPrefs.lineHeight = Math.max(1.5, Math.min(2.4, +(readerPrefs.lineHeight + delta).toFixed(1)));
-      saveReaderPrefs();
-      applyReaderPrefs();
+    function changeLineSpacing(delta) {
+      uiPrefs.lineHeight = Math.max(1.5, Math.min(2.4, +(uiPrefs.lineHeight + delta).toFixed(1)));
+      savePrefs();
+      applyPrefs();
     }
 
     function toggleReaderMode() {
-      readerPrefs.readerMode = !readerPrefs.readerMode;
-      saveReaderPrefs();
-      applyReaderPrefs();
+      uiPrefs.readerMode = !uiPrefs.readerMode;
+      savePrefs();
+      applyPrefs();
     }
 
     function resetReadingSettings() {
-      readerPrefs.theme = "dark";
-      readerPrefs.fontSize = 17;
-      readerPrefs.lineHeight = 1.9;
-      readerPrefs.width = "860px";
-      readerPrefs.readerMode = false;
-      saveReaderPrefs();
-      applyReaderPrefs();
-      showToast("Accessibility reset");
+      uiPrefs.theme = "dark";
+      uiPrefs.fontSize = 17;
+      uiPrefs.lineHeight = 1.9;
+      uiPrefs.width = "860px";
+      uiPrefs.readerMode = false;
+      savePrefs();
+      applyPrefs();
     }
 
     function openAccessibilityModal() {
@@ -1423,94 +1572,161 @@
       document.getElementById("accessibilityBackdrop").classList.remove("show");
     }
 
-    function getSavedMap() {
-      return safeJsonParse(localStorage.getItem("tor_saved_posts"), {});
+    function loadUserProfile() {
+      const saved = safeJsonParse(localStorage.getItem("tor_user_profile") || "null", null);
+      if (!saved) return;
+      userProfile.topicScores = saved.topicScores || {};
+      userProfile.countryScores = saved.countryScores || {};
+      userProfile.articleScores = saved.articleScores || {};
     }
 
-    function saveSavedMap(map) {
-      localStorage.setItem("tor_saved_posts", JSON.stringify(map));
+    function saveUserProfile() {
+      localStorage.setItem("tor_user_profile", JSON.stringify(userProfile));
     }
 
-    function isSaved(id) {
-      const map = getSavedMap();
-      return Boolean(map[String(id)]);
+    function learnFromArticle(article, action = "view") {
+      if (!article) return;
+
+      const weights = { view: 3, read: 4, save: 5, share: 4, audio: 3 };
+      const amount = weights[action] || 1;
+
+      userProfile.topicScores[article.topic] = (userProfile.topicScores[article.topic] || 0) + amount;
+      userProfile.countryScores[article.country] = (userProfile.countryScores[article.country] || 0) + amount;
+      userProfile.articleScores[article.id] = (userProfile.articleScores[article.id] || 0) + amount;
+      saveUserProfile();
     }
 
-    function getSavedPosts() {
-      const map = getSavedMap();
-      return Object.values(map)
-        .map((item, index) => normalizePost(item, index))
-        .filter(Boolean);
+    function scoreArticleForUser(article) {
+      return (
+        (userProfile.topicScores[article.topic] || 0) * 3 +
+        (userProfile.countryScores[article.country] || 0) * 2 +
+        (userProfile.articleScores[article.id] || 0)
+      );
     }
 
-    function toggleSaveArticle(id) {
-      const key = String(id);
-      const map = getSavedMap();
-
-      if (map[key]) {
-        delete map[key];
-        saveSavedMap(map);
-        showToast("Removed from saved");
-      } else {
-        const post = getPostById(key);
-        if (!post) return;
-        map[key] = post;
-        saveSavedMap(map);
-        showToast("Saved");
-      }
-
-      renderRoute();
-      if (state.activeShareId) renderShareModal();
+    function getPersonalizedArticles() {
+      return [...articles]
+        .filter(item => item.page === "today")
+        .sort((a, b) => scoreArticleForUser(b) - scoreArticleForUser(a))
+        .slice(0, 6);
     }
 
-    function getShareCounts() {
-      return safeJsonParse(localStorage.getItem("tor_share_counts"), {});
+    function loadSavedCache() {
+      return safeJsonParse(localStorage.getItem("tor_saved_articles") || "{}", {});
     }
 
-    function getShareCount(id) {
-      const map = getShareCounts();
-      return map[String(id)] || 0;
+    function saveSavedCache(cache) {
+      localStorage.setItem("tor_saved_articles", JSON.stringify(cache));
+      savedArticleIds = new Set(Object.keys(cache));
     }
 
-    function incrementShareCount(id) {
-      const map = getShareCounts();
-      const key = String(id);
-      map[key] = (map[key] || 0) + 1;
-      localStorage.setItem("tor_share_counts", JSON.stringify(map));
+    function initSavedArticles() {
+      const cache = loadSavedCache();
+      savedArticleIds = new Set(Object.keys(cache));
+    }
+
+    function loadShareCounts() {
+      return safeJsonParse(localStorage.getItem("tor_share_counts") || "{}", {});
+    }
+
+    function getShareCount(articleId) {
+      const counts = loadShareCounts();
+      return counts[String(articleId)] || 0;
+    }
+
+    function incrementShareCount(articleId) {
+      const counts = loadShareCounts();
+      const key = String(articleId);
+      counts[key] = (counts[key] || 0) + 1;
+      localStorage.setItem("tor_share_counts", JSON.stringify(counts));
+      updateShareCountText(key);
+    }
+
+    function updateShareCountText(articleId) {
       const el = document.getElementById("shareCountText");
-      if (el) el.textContent = "Shared " + getShareCount(key) + " times";
+      if (el) el.textContent = `Shared ${getShareCount(articleId)} times`;
+    }
+
+    function getCountryFlagUrl(country) {
+      const map = {
+        Bangladesh: "https://flagcdn.com/w40/bd.png",
+        India: "https://flagcdn.com/w40/in.png",
+        China: "https://flagcdn.com/w40/cn.png",
+        USA: "https://flagcdn.com/w40/us.png",
+        Russia: "https://flagcdn.com/w40/ru.png",
+        Iran: "https://flagcdn.com/w40/ir.png",
+        Israel: "https://flagcdn.com/w40/il.png",
+        Canada: "https://flagcdn.com/w40/ca.png"
+      };
+      return map[country] || "";
+    }
+
+    function getCountryIcon(country) {
+      const url = getCountryFlagUrl(country);
+      if (url) {
+        return `<img src="${url}" alt="${escapeHtml(country)} flag" class="chip-flag">`;
+      }
+      return `<span class="chip-svg"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a15 15 0 0 1 0 18"></path><path d="M12 3a15 15 0 0 0 0 18"></path></svg></span>`;
+    }
+
+    function getTopicIcon() {
+      return `<span class="chip-svg"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg></span>`;
+    }
+
+    function getTypeIcon(type) {
+      return `<span class="chip-svg">${getVerifiedIcon(type === "real" ? "#22c55e" : "#ef4444")}</span>`;
+    }
+
+    function getVerifiedIcon(color) {
+      return `
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="${color}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l6 2.5v5c0 4.3-2.6 8.1-6 9.5-3.4-1.4-6-5.2-6-9.5v-5L12 3z"></path>
+          <path d="M9.3 11.8l1.8 1.8 3.7-3.8"></path>
+        </svg>
+      `;
+    }
+
+    function renderStatusBadge(type) {
+      const isTruth = type === "real";
+      const badgeClass = isTruth ? "truth" : "rumor";
+      const label = isTruth ? "Truth Verified" : "Rumor Verified";
+      const color = isTruth ? "#22c55e" : "#ef4444";
+      return `<span class="status-badge ${badgeClass}">${getVerifiedIcon(color)} <span>${label}</span></span>`;
+    }
+
+    function resetSpeechButton(button) {
+      if (!button) return;
+      button.textContent = "Tap To Listen";
+      button.dataset.speaking = "false";
+    }
+
+    function resetAllSpeechButtons() {
+      document.querySelectorAll('[data-speaking="true"]').forEach(resetSpeechButton);
     }
 
     function stopAllSpeech() {
-      if (speechTimer) clearTimeout(speechTimer);
-      speechTimer = null;
+      if (speechStartTimer) clearTimeout(speechStartTimer);
+      speechStartTimer = null;
       try {
         window.speechSynthesis.cancel();
       } catch {}
-      document.querySelectorAll('[data-speaking="true"]').forEach(btn => {
-        btn.textContent = "Tap To Listen";
-        btn.dataset.speaking = "false";
-      });
+      resetAllSpeechButtons();
       currentSpeech = null;
       currentSpeechButton = null;
     }
 
-    function toggleSpeechText(text, button) {
+    function toggleSpeech(text, button) {
       if (!text || !text.trim()) return;
 
-      const sameButton =
-        currentSpeechButton === button &&
-        button &&
-        button.dataset.speaking === "true";
-
-      if (sameButton) {
+      const isSame = currentSpeechButton === button && button && button.dataset.speaking === "true";
+      if (isSame) {
         stopAllSpeech();
         return;
       }
 
       stopAllSpeech();
 
-      speechTimer = setTimeout(() => {
+      speechStartTimer = setTimeout(() => {
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = "en-US";
         currentSpeech = utterance;
@@ -1521,8 +1737,13 @@
           button.dataset.speaking = "true";
         }
 
-        utterance.onend = stopAllSpeech;
-        utterance.onerror = stopAllSpeech;
+        utterance.onend = () => {
+          if (currentSpeech === utterance) stopAllSpeech();
+        };
+
+        utterance.onerror = () => {
+          if (currentSpeech === utterance) stopAllSpeech();
+        };
 
         try {
           window.speechSynthesis.speak(utterance);
@@ -1530,176 +1751,150 @@
           stopAllSpeech();
         }
 
-        speechTimer = null;
+        speechStartTimer = null;
       }, 60);
     }
 
     function togglePageAudio(button) {
-      const text = document.getElementById("app")?.innerText || "";
-      toggleSpeechText(text, button);
+      const appText = document.getElementById("app")?.innerText || "";
+      toggleSpeech(appText, button);
     }
 
-    function toggleArticleAudio(postId, button) {
-      const post = getPostById(postId);
-      if (!post) return;
-      const text = [post.title, post.summary, post.content].filter(Boolean).join(". ");
-      toggleSpeechText(text, button);
+    function toggleArticleAudio(id, button) {
+      const article = getArticleById(id);
+      if (!article) return;
+      learnFromArticle(article, "audio");
+      toggleSpeech(`${article.text.title}. ${article.text.summary}. ${article.text.content}`, button);
     }
 
-    function getVerifiedIcon(color) {
-      return `
-        <svg viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 3l6 2.5v5c0 4.3-2.6 8.1-6 9.5-3.4-1.4-6-5.2-6-9.5v-5L12 3z"></path>
-          <path d="M9.3 11.8l1.8 1.8 3.7-3.8"></path>
-        </svg>
-      `;
+    function getArticleKey(article) {
+      return String(article.slug || article.id || "");
     }
 
-    function renderStatusBadge(type) {
-      const isTruth = type === "real";
-      const cls = isTruth ? "truth" : "rumor";
-      const label = isTruth ? "Truth Verified" : "Rumor Verified";
-      const color = isTruth ? "#22c55e" : "#ef4444";
-      return `<span class="status-badge ${cls}">${getVerifiedIcon(color)} <span>${label}</span></span>`;
+    function getArticleById(id) {
+      const key = String(id);
+      return articles.find(item => getArticleKey(item) === key) || getSavedArticles().find(item => getArticleKey(item) === key) || null;
     }
 
-    function normalizePost(item, index) {
-      const title = String(item?.title || "").trim();
-      if (!title) return null;
+    function getSavedArticles() {
+      return Object.values(loadSavedCache()).map((item, index) => normalizeArticle(item, index)).filter(Boolean);
+    }
 
-      const slug = String(item?.slug || "").trim() || slugify(title) || String(item?.id || index + 1);
-      const verdict = String(item?.verdict || "truth").toLowerCase() === "rumor" ? "rumor" : "real";
-      const country = String(item?.country || "World").trim() || "World";
-      const topic = String(item?.category || "World News").trim() || "World News";
-      const summary = String(item?.excerpt || item?.summary || item?.content || "").trim();
-      const content = String(item?.content || item?.excerpt || item?.summary || "").trim();
+    function normalizeArticle(item, index) {
       const createdAt = item?.created_at || item?.published_at || new Date().toISOString();
       const updatedAt = item?.updated_at || createdAt;
+      const rawTitle = item?.title || "";
+      const rawSummary = item?.excerpt || item?.summary || "";
+      const rawContent = item?.content || rawSummary || "";
+      const country = typeof item?.country === "string" && item.country.trim() ? item.country.trim() : "World";
+      const topic = typeof item?.category === "string" && item.category.trim() ? item.category.trim() : "World News";
+      const type = String(item?.verdict || "truth").toLowerCase() === "rumor" ? "rumor" : "real";
+      const slug = String(item?.slug || item?.id || index + 1);
+      const ageInDays = Math.max(0, (Date.now() - new Date(createdAt).getTime()) / 86400000);
+      const page = ageInDays > 7 ? "old" : "today";
+
+      if (!rawTitle) return null;
 
       return {
-        id: String(item?.id || slug),
+        id: slug,
         slug,
-        title,
-        summary,
-        content,
         country,
         topic,
-        verdict,
-        sourceUrl: String(item?.source_url || ""),
-        imageUrl: String(item?.image_url || ""),
-        createdAt,
+        type,
+        page,
+        popular: false,
+        publishedAt: createdAt,
         updatedAt,
-        published: isPublishedValue(item?.published)
+        sourceUrl: item?.source_url || "",
+        imageUrl: item?.image_url || "",
+        text: {
+          title: rawTitle,
+          summary: rawSummary,
+          content: rawContent
+        }
       };
     }
 
-    function setPosts(data) {
-      state.posts = Array.isArray(data)
-        ? data.map((item, index) => normalizePost(item, index)).filter(Boolean).filter(item => item.published)
+    function setNewsData(data) {
+      const normalized = Array.isArray(data)
+        ? data.map((item, index) => normalizeArticle(item, index)).filter(Boolean)
         : [];
 
-      state.posts.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+      normalized.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+      normalized.forEach((article, index) => {
+        article.popular = index < 6;
+      });
+
+      articles = normalized;
       renderTicker();
       renderRoute();
-      updateTime();
-    }
-
-    function getPostById(id) {
-      const key = String(id);
-      return state.posts.find(item => item.id === key || item.slug === key) || getSavedPosts().find(item => item.id === key || item.slug === key) || null;
-    }
-
-    function buildArticleLink(post, source = "share") {
-      const url = new URL(window.location.origin + "/article/" + encodeURIComponent(post.slug));
-      url.searchParams.set("utm_source", source);
-      url.searchParams.set("utm_medium", "social");
-      url.searchParams.set("utm_campaign", "share");
-      return url.toString();
-    }
-
-    function openArticle(slug) {
-      if (!slug) return;
-      window.location.href = "/article/" + encodeURIComponent(slug);
     }
 
     function renderTicker() {
-      const target = document.getElementById("headlineTicker");
-      if (!target) return;
+      const latest = articles
+        .filter(item => item.page === "today")
+        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+        .slice(0, 8);
 
-      const latest = state.posts.slice(0, 10);
+      const ticker = document.getElementById("headlineTicker");
+      if (!ticker) return;
+
       if (!latest.length) {
-        target.innerHTML = `
-          <span class="ticker-item">Latest headlines will appear here.</span>
-          <span class="ticker-item">Latest headlines will appear here.</span>
-        `;
+        ticker.innerHTML = `<span class="ticker-item">Latest headlines will appear here.</span><span class="ticker-item">Latest headlines will appear here.</span>`;
         return;
       }
 
-      const row = latest.map(item => `<span class="ticker-item">${escapeHtml(item.title)}</span>`).join("");
-      target.innerHTML = row + row;
+      const row = latest.map(item => `<span class="ticker-item">${escapeHtml(item.text.title)}</span>`).join("");
+      ticker.innerHTML = row + row;
     }
 
     function renderNav() {
-      const currentHash = location.hash || "#home";
+      const hash = location.hash || "#home";
       const nav = [
         { value: "#home", label: "Home" },
-        { value: "#latest", label: "Latest" },
-        { value: "#truth", label: "Truth" },
-        { value: "#rumor", label: "Rumor" },
+        { value: "#today", label: "Today" },
+        { value: "#old", label: "Old News" },
+        { value: "#rumors", label: "Rumor" },
+        { value: "#real", label: "Truth" },
+        { value: "#popular", label: "Popular" },
         { value: "#saved", label: "Saved" }
       ];
 
       document.getElementById("navRow").innerHTML = nav.map(item => {
-        return `<button class="nav-btn ${currentHash === item.value ? "active" : ""}" onclick="goTo('${item.value}')">${item.label}</button>`;
+        return `<button class="nav-btn ${hash === item.value ? "active" : ""}" onclick="goTo('${item.value}')">${item.label}</button>`;
       }).join("");
     }
 
     function renderCountryFilters() {
       document.getElementById("countryFilters").innerHTML = countryOptions.map(item => {
-        return `<button class="chip ${state.currentCountry === item ? "active" : ""}" onclick="setCountryFilter(${JSON.stringify(item)})">${escapeHtml(item)}</button>`;
+        return `<button class="chip ${currentCountry === item.value ? "active" : ""}" onclick="currentCountry='${item.value}'; renderCountryFilters(); goTo('#results');">${getCountryIcon(item.value)} ${item.label}</button>`;
       }).join("");
     }
 
     function renderTopicFilters() {
       document.getElementById("topicFilters").innerHTML = topicOptions.map(item => {
-        return `<button class="chip ${state.currentTopic === item ? "active" : ""}" onclick="setTopicFilter(${JSON.stringify(item)})">${escapeHtml(item)}</button>`;
+        return `<button class="chip ${currentTopic === item.value ? "active" : ""}" onclick="currentTopic='${item.value}'; renderTopicFilters(); goTo('#results');">${getTopicIcon()} ${item.label}</button>`;
       }).join("");
     }
 
     function renderTypeFilters() {
-      document.getElementById("typeFilters").innerHTML = typeOptions.map(item => {
-        return `<button class="chip ${state.currentType === item.value ? "active" : ""}" onclick="setTypeFilter(${JSON.stringify(item.value)})">${escapeHtml(item.label)}</button>`;
-      }).join("") + `<button class="chip" onclick="clearFilters()">Clear</button>`;
-    }
-
-    function setCountryFilter(value) {
-      state.currentCountry = value;
-      renderCountryFilters();
-      goTo("#latest");
-    }
-
-    function setTopicFilter(value) {
-      state.currentTopic = value;
-      renderTopicFilters();
-      goTo("#latest");
-    }
-
-    function setTypeFilter(value) {
-      state.currentType = value;
-      renderTypeFilters();
-      goTo("#latest");
+      document.getElementById("typeFilters").innerHTML =
+        typeOptions.map(item => {
+          return `<button class="chip ${currentType === item.value ? "active" : ""}" onclick="currentType='${item.value}'; renderTypeFilters(); goTo('#results');">${getTypeIcon(item.value)} ${item.label}</button>`;
+        }).join("") +
+        `<button class="chip" onclick="clearFilters()">Clear Filters</button>`;
     }
 
     function toggleFilters() {
-      state.filtersOpen = !state.filtersOpen;
-      document.getElementById("filterPanel").classList.toggle("show", state.filtersOpen);
+      filtersOpen = !filtersOpen;
+      document.getElementById("filterPanel").classList.toggle("show", filtersOpen);
     }
 
     function clearFilters() {
-      state.currentCountry = "All";
-      state.currentTopic = "All";
-      state.currentType = "all";
-      state.currentSearch = "";
+      currentCountry = "All";
+      currentTopic = "All";
+      currentType = "all";
+      currentSearch = "";
       document.getElementById("searchInput").value = "";
       renderCountryFilters();
       renderTopicFilters();
@@ -1708,246 +1903,328 @@
     }
 
     function runSearch() {
-      state.currentSearch = document.getElementById("searchInput").value.trim().toLowerCase();
-      goTo("#latest");
+      currentSearch = document.getElementById("searchInput").value.trim().toLowerCase();
+      goTo("#results");
     }
 
     function goTo(hash) {
-      history.replaceState({}, "", hash);
+      const url = new URL(window.location.href);
+      url.hash = hash;
+      url.searchParams.delete("article");
+      history.replaceState({}, "", url.toString());
       renderRoute();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function matchesFilters(post) {
-      const haystack = [
-        post.title,
-        post.summary,
-        post.content,
-        post.country,
-        post.topic,
-        post.slug
-      ].join(" ").toLowerCase();
-
-      const countryOk = state.currentCountry === "All" || post.country === state.currentCountry;
-      const topicOk = state.currentTopic === "All" || post.topic === state.currentTopic;
-      const typeOk = state.currentType === "all" || post.verdict === state.currentType;
-      const searchOk = state.currentSearch === "" || haystack.includes(state.currentSearch);
-
+    function matchesFilters(article) {
+      const text = `${article.text.title} ${article.text.summary} ${article.text.content} ${article.country} ${article.topic}`.toLowerCase();
+      const countryOk = currentCountry === "All" || article.country === currentCountry || (currentCountry === "World" && article.topic === "World News");
+      const topicOk = currentTopic === "All" || article.topic === currentTopic;
+      const typeOk = currentType === "all" || article.type === currentType;
+      const searchOk = currentSearch === "" || text.includes(currentSearch);
       return countryOk && topicOk && typeOk && searchOk;
     }
 
-    function getFilteredPosts() {
-      return state.posts.filter(matchesFilters);
+    function getArticlesForPage(page) {
+      if (page === "saved") return getSavedArticles();
+
+      return articles.filter(article => {
+        if (!matchesFilters(article)) return false;
+        if (page === "today") return article.page === "today";
+        if (page === "old") return article.page === "old";
+        if (page === "rumors") return article.type === "rumor";
+        if (page === "real") return article.type === "real";
+        if (page === "popular") return article.popular === true;
+        return true;
+      });
     }
 
-    function getPagePosts(page) {
-      const filtered = getFilteredPosts();
+    function renderNewsPhoto(article, className = "card-photo") {
+      const imageUrl = article.imageUrl || "";
+      if (!imageUrl) return "";
 
-      if (page === "truth") return filtered.filter(item => item.verdict === "real");
-      if (page === "rumor") return filtered.filter(item => item.verdict === "rumor");
-      if (page === "saved") return getSavedPosts().filter(matchesFilters);
-      return filtered;
+      const wrapClass =
+        className === "slider-photo" ? "slider-photo-wrap" :
+        className === "article-photo" ? "article-photo-wrap" :
+        "card-photo-wrap";
+
+      return `<div class="photo-wrap ${wrapClass}"><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(article.text.title)}" class="${className}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.style.display='none'"></div>`;
     }
 
-    function renderPhoto(post) {
-      if (!post.imageUrl) return "";
-      return `
-        <div class="photo-wrap">
-          <img
-            src="${escapeHtml(post.imageUrl)}"
-            alt="${escapeHtml(post.title)}"
-            loading="lazy"
-            referrerpolicy="no-referrer"
-            onerror="this.parentElement.style.display='none'"
-          >
+    function renderMetaLine(article) {
+      return `${escapeHtml(article.country)} • ${escapeHtml(article.topic)} • ${article.page === "old" ? "Old News" : "Today"} • Published ${formatDate(article.publishedAt)} • Updated ${formatDate(article.updatedAt)}`;
+    }
+
+    function renderSourceButton(article) {
+      return article.sourceUrl
+        ? `<a class="tiny-btn" href="${escapeHtml(article.sourceUrl)}" target="_blank" rel="noopener noreferrer">Source</a>`
+        : "";
+    }
+
+    function renderSaveButton(article) {
+      return `<button class="tiny-btn" onclick='toggleSaveArticle(${JSON.stringify(getArticleKey(article))})'>${savedArticleIds.has(getArticleKey(article)) ? "Saved" : "Save"}</button>`;
+    }
+
+    function renderShareButton(article) {
+      return `<button class="share-btn" onclick='openShareMenu(${JSON.stringify(getArticleKey(article))})'>Share</button>`;
+    }
+
+    function renderCard(article) {
+      return `<article class="card liquid-card">
+        ${renderNewsPhoto(article, "card-photo")}
+        ${renderStatusBadge(article.type)}
+        <h4>${escapeHtml(article.text.title)}</h4>
+        <p>${escapeHtml(article.text.summary)}</p>
+        <div class="meta">${renderMetaLine(article)}</div>
+        <div class="share-count">Shared ${getShareCount(getArticleKey(article))} times</div>
+        <div class="card-actions">
+          <button class="tiny-btn" onclick='openArticle(${JSON.stringify(getArticleKey(article))})'>Read More</button>
+          <button class="tiny-btn" onclick='toggleArticleAudio(${JSON.stringify(getArticleKey(article))}, this)' data-speaking="false">Tap To Listen</button>
+          ${renderShareButton(article)}
+          ${renderSaveButton(article)}
+          ${renderSourceButton(article)}
         </div>
-      `;
-    }
-
-    function renderMeta(post) {
-      return `${escapeHtml(post.country)} • ${escapeHtml(post.topic)} • Published ${formatDate(post.createdAt)} • Updated ${formatDate(post.updatedAt)}`;
-    }
-
-    function renderCard(post) {
-      return `
-        <article class="card glass">
-          ${renderPhoto(post)}
-          ${renderStatusBadge(post.verdict)}
-          <h4>${escapeHtml(post.title)}</h4>
-          <p>${escapeHtml(post.summary || post.content.slice(0, 180))}</p>
-          <div class="card-meta">${renderMeta(post)}</div>
-          <div class="share-count">Shared ${getShareCount(post.id)} times</div>
-          <div class="card-actions">
-            <button class="tiny-btn" onclick='openArticle(${JSON.stringify(post.slug)})'>Read More</button>
-            <button class="tiny-btn" onclick='toggleArticleAudio(${JSON.stringify(post.id)}, this)' data-speaking="false">Tap To Listen</button>
-            <button class="share-btn" onclick='openShareMenu(${JSON.stringify(post.id)})'>Share</button>
-            <button class="tiny-btn" onclick='toggleSaveArticle(${JSON.stringify(post.id)})'>${isSaved(post.id) ? "Saved" : "Save"}</button>
-            ${post.sourceUrl ? `<a class="tiny-btn" href="${escapeHtml(post.sourceUrl)}" target="_blank" rel="noopener noreferrer">Source</a>` : ""}
-          </div>
-        </article>
-      `;
-    }
-
-    function renderStoryCard(post) {
-      return `
-        <article class="story-card glass">
-          ${renderPhoto(post)}
-          ${renderStatusBadge(post.verdict)}
-          <h4>${escapeHtml(post.title)}</h4>
-          <p>${escapeHtml(post.summary || post.content.slice(0, 160))}</p>
-          <div class="card-meta">${renderMeta(post)}</div>
-          <div class="card-actions">
-            <button class="tiny-btn" onclick='openArticle(${JSON.stringify(post.slug)})'>Read More</button>
-            <button class="share-btn" onclick='openShareMenu(${JSON.stringify(post.id)})'>Share</button>
-          </div>
-        </article>
-      `;
+      </article>`;
     }
 
     function renderGrid(list) {
-      if (!list.length) {
-        return `<div class="empty-state glass">No posts found.</div>`;
-      }
+      if (!list.length) return `<div class="empty-state liquid-card">No posts yet.</div>`;
       return `<div class="grid">${list.map(renderCard).join("")}</div>`;
     }
 
-    function scrollStories(direction) {
-      const track = document.getElementById("storiesTrack");
-      if (!track) return;
-      track.scrollBy({ left: direction * track.clientWidth * 0.85, behavior: "smooth" });
+    function renderSliderCard(article) {
+      return `<article class="slider-card liquid-card">
+        ${renderNewsPhoto(article, "slider-photo")}
+        ${renderStatusBadge(article.type)}
+        <h4>${escapeHtml(article.text.title)}</h4>
+        <p>${escapeHtml(article.text.summary)}</p>
+        <div class="slider-meta">${renderMetaLine(article)}</div>
+        <div class="share-count">Shared ${getShareCount(getArticleKey(article))} times</div>
+        <div class="slider-actions">
+          <button class="tiny-btn" onclick='openArticle(${JSON.stringify(getArticleKey(article))})'>Read More</button>
+          ${renderShareButton(article)}
+          ${renderSaveButton(article)}
+        </div>
+      </article>`;
+    }
+
+    function renderNewsSlider(list) {
+      if (!list.length) {
+        return `<section class="slider-section"><div class="slider-head"><h3>Top Stories</h3><span>Latest headlines</span></div><div class="empty-state liquid-card">No slider news yet.</div></section>`;
+      }
+
+      return `<section class="slider-section">
+        <div class="slider-head">
+          <h3>Top Stories</h3>
+          <div class="slider-nav">
+            <button onclick="moveSlider('newsSlider', -1)">‹</button>
+            <button onclick="moveSlider('newsSlider', 1)">›</button>
+          </div>
+        </div>
+        <div class="slider-track" id="newsSlider">${list.map(renderSliderCard).join("")}</div>
+      </section>`;
+    }
+
+    function moveSlider(id, direction) {
+      const slider = document.getElementById(id);
+      if (!slider) return;
+      slider.scrollBy({ left: direction * slider.clientWidth * 0.9, behavior: "smooth" });
+    }
+
+    function startAutoSlider() {
+      const slider = document.getElementById("newsSlider");
+      if (!slider) return;
+
+      clearInterval(window.newsSliderTimer);
+      window.newsSliderTimer = setInterval(() => {
+        const maxScroll = slider.scrollWidth - slider.clientWidth;
+        const next = slider.scrollLeft + slider.clientWidth * 0.9;
+
+        if (next >= maxScroll - 5) {
+          slider.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          slider.scrollBy({ left: slider.clientWidth * 0.9, behavior: "smooth" });
+        }
+      }, 5000);
     }
 
     function renderHome() {
-      const latest = state.posts.slice(0, 12);
-      const featured = state.posts.slice(0, 8);
+      const latest = getArticlesForPage("today").sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+      const personalized = getPersonalizedArticles();
+      const popular = getArticlesForPage("popular").slice(0, 3);
+
+      setTimeout(startAutoSlider, 120);
 
       return `
+        <section class="hero liquid-card">
+          <div class="hero-inner">
+            <div class="eyebrow">Facts Or Fiction?</div>
+            <h2>Find the Facts. Filter the Rumors.</h2>
+            <p>TruthOrRumor helps readers understand what is true, what is misleading, and what needs caution. This website also learns your reading interests on your device, so you see more stories that match your choices.</p>
+            <div class="hero-actions">
+              <button class="primary-btn" onclick="goTo('#today')">Browse News</button>
+              <button class="secondary-btn" onclick="togglePageAudio(this)" data-speaking="false">Tap To Listen</button>
+            </div>
+          </div>
+        </section>
+
+        ${renderNewsSlider(latest.slice(0, 6))}
+
+        <section style="margin-bottom:22px;">
+          <div class="section-head">
+            <h3>Recommended For You</h3>
+            <span>Built from your reading choices</span>
+          </div>
+          ${renderGrid(personalized)}
+        </section>
+
+        <section style="margin-bottom:22px;">
+          <div class="section-head">
+            <h3>Popular</h3>
+            <span>Trending stories</span>
+          </div>
+          ${renderGrid(popular)}
+        </section>
+
         <section>
           <div class="section-head">
             <h3>Latest News</h3>
-            <span>Newest stories</span>
+            <span>Newest headlines</span>
           </div>
-          ${renderGrid(latest)}
-        </section>
-
-        <section class="stories-section">
-          <div class="stories-header">
-            <h3>Top Stories</h3>
-            <div class="story-nav">
-              <button onclick="scrollStories(-1)">‹</button>
-              <button onclick="scrollStories(1)">›</button>
-            </div>
-          </div>
-          <div id="storiesTrack" class="stories-track">
-            ${featured.map(renderStoryCard).join("")}
-          </div>
-        </section>
-
-        <section class="hero glass">
-          <div class="eyebrow">Fact Checks And Real News</div>
-          <h2>Find the facts. Filter the rumors.</h2>
-          <p>TruthOrRumor helps readers understand what is true, what is misleading, and what needs caution. Open any story to read the full article on its own URL.</p>
-          <div class="hero-actions">
-            <button class="primary-btn" onclick="goTo('#latest')">Browse News</button>
-            <button class="secondary-btn" onclick="togglePageAudio(this)" data-speaking="false">Tap To Listen</button>
-          </div>
+          ${renderGrid(latest.slice(0, 6))}
         </section>
       `;
     }
 
-    function renderPage(page) {
+    function renderListPage(page) {
+      const list = getArticlesForPage(page);
       const titleMap = {
-        latest: "Latest News",
-        truth: "Truth",
-        rumor: "Rumor",
-        saved: "Saved Articles"
+        today: "Today News",
+        old: "Old News Archive",
+        rumors: "Rumor",
+        real: "Truth",
+        popular: "Popular",
+        saved: "Saved Articles",
+        results: "Filtered Results"
       };
 
-      const list = getPagePosts(page);
+      return `<section><div class="section-head"><h3>${titleMap[page] || "News"}</h3><span>Updated stories</span></div>${renderGrid(list)}</section>`;
+    }
+
+    function renderArticlePage(id) {
+      const article = getArticleById(id);
+      if (!article) return `<div class="empty-state liquid-card">Article not found.</div>`;
+
+      learnFromArticle(article, "read");
+
       return `
-        <section>
-          <div class="section-head">
-            <h3>${titleMap[page] || "Latest News"}</h3>
-            <span>Updated stories</span>
+        <article class="article-card">
+          <div class="article-top">
+            ${renderStatusBadge(article.type)}
+            <div class="meta">${renderMetaLine(article)}</div>
           </div>
-          ${renderGrid(list)}
-        </section>
+
+          <h2>${escapeHtml(article.text.title)}</h2>
+          ${renderNewsPhoto(article, "article-photo")}
+          <div class="quick-summary"><strong>Quick Summary:</strong> ${escapeHtml(article.text.summary)}</div>
+          <div class="article-body">${escapeHtml(article.text.content)}</div>
+          <div class="share-count">Shared ${getShareCount(getArticleKey(article))} times</div>
+
+          <div class="article-actions">
+            <button class="primary-btn" onclick="goTo('#home')">Back To Home</button>
+            <button class="secondary-btn" onclick='toggleArticleAudio(${JSON.stringify(getArticleKey(article))}, this)' data-speaking="false">Tap To Listen</button>
+            <button class="secondary-btn" onclick="toggleReaderMode()">Reader Mode</button>
+            <button class="secondary-btn" onclick='toggleSaveArticle(${JSON.stringify(getArticleKey(article))})'>${savedArticleIds.has(getArticleKey(article)) ? "Saved" : "Save"}</button>
+            ${renderShareButton(article)}
+            ${renderSourceButton(article)}
+          </div>
+        </article>
       `;
     }
 
-    function renderRoute() {
-      renderNav();
-      renderCountryFilters();
-      renderTopicFilters();
-      renderTypeFilters();
-      updateAccessibilityButtons();
+    function openArticle(id) {
+      const article = getArticleById(id);
+      if (!article) return;
 
-      const app = document.getElementById("app");
-      const hash = location.hash || "#home";
+      learnFromArticle(article, "view");
 
-      if (hash === "#truth") {
-        app.innerHTML = renderPage("truth");
-        return;
-      }
+      const url = new URL(window.location.href);
+      url.searchParams.set("article", getArticleKey(article));
+      history.pushState({}, "", url.toString());
 
-      if (hash === "#rumor") {
-        app.innerHTML = renderPage("rumor");
-        return;
-      }
-
-      if (hash === "#saved") {
-        app.innerHTML = renderPage("saved");
-        return;
-      }
-
-      if (hash === "#latest") {
-        app.innerHTML = renderPage("latest");
-        return;
-      }
-
-      app.innerHTML = renderHome();
+      renderRoute();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function getSharePayload(post, mode) {
-      const url = buildArticleLink(post, "share");
-      const quote = (post.content || post.summary || post.title).split(/(?<=[.!?])\s+/)[0] || post.title;
+    function toggleSaveArticle(id) {
+      const article = getArticleById(id);
+      if (!article) return;
+
+      const key = getArticleKey(article);
+      const cache = loadSavedCache();
+
+      if (savedArticleIds.has(key)) {
+        delete cache[key];
+      } else {
+        cache[key] = article;
+        learnFromArticle(article, "save");
+      }
+
+      saveSavedCache(cache);
+      renderRoute();
+    }
+
+    function buildArticleLink(article, source = "direct") {
+      const url = new URL(window.location.origin + window.location.pathname);
+      url.searchParams.set("article", getArticleKey(article));
+      url.searchParams.set("utm_source", source);
+      url.searchParams.set("utm_medium", "social");
+      url.searchParams.set("utm_campaign", "share");
+      return url.toString();
+    }
+
+    function getSharePayload(article, mode, url) {
+      const title = article.text?.title || "";
+      const summary = article.text?.summary || "";
+      const content = article.text?.content || "";
+      const quote = (content || summary || title).split(/(?<=[.!?])\s+/)[0] || title;
 
       if (mode === "headline") {
         return {
-          title: post.title,
-          text: post.title,
+          title,
+          text: title,
           url,
-          previewTitle: post.title,
+          previewTitle: title,
           previewBody: "Share only the headline with the article link."
         };
       }
 
       if (mode === "summary") {
         return {
-          title: post.title,
-          text: post.summary || post.title,
+          title,
+          text: summary || title,
           url,
-          previewTitle: post.title,
-          previewBody: post.summary || "Short summary will be shared."
+          previewTitle: title,
+          previewBody: summary || "Short summary will be shared."
         };
       }
 
       if (mode === "quote") {
         return {
-          title: post.title,
+          title,
           text: quote,
           url,
-          previewTitle: quote,
+          previewTitle: `"${quote}"`,
           previewBody: "This quote card will be shared with the article link."
         };
       }
 
       return {
-        title: post.title,
-        text: [post.title, post.summary].filter(Boolean).join("\n\n"),
+        title,
+        text: [title, summary].filter(Boolean).join("\n\n"),
         url,
-        previewTitle: post.title,
-        previewBody: post.summary || "Full article preview will be shared."
+        previewTitle: title,
+        previewBody: summary || "Full article preview will be shared."
       };
     }
 
@@ -1963,46 +2240,41 @@
         save: `<span class="icon-wrap save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v15H5z"></path><path d="M9 3v6h6V3"></path><path d="M9 21v-6h6v6"></path></svg></span>`,
         qr: `<span class="icon-wrap qr"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3Zm2 2v4h4V5H5Zm8-2h8v8h-8V3Zm2 2v4h4V5h-4ZM3 13h8v8H3v-8Zm2 2v4h4v-4H5Zm10-2h2v2h-2v-2Zm2 2h2v2h-2v-2Zm-4 2h2v2h-2v-2Zm2 2h2v2h-2v-2Zm4-2h2v4h-2v-4Z"/></svg></span>`
       };
-
       return icons[type] || icons.link;
     }
 
-    function openShareMenu(postId) {
-      state.activeShareId = String(postId);
-      state.shareMode = "full";
+    function setShareMode(mode) {
+      shareMode = mode;
+      renderShareModal();
+    }
+
+    function openShareMenu(id) {
+      activeShareArticleId = String(id);
+      shareMode = "full";
       renderShareModal();
       document.getElementById("shareModalBackdrop").classList.add("show");
     }
 
-    function closeShareMenu(event) {
-      if (event && event.target && event.target.id !== "shareModalBackdrop") return;
-      document.getElementById("shareModalBackdrop").classList.remove("show");
-    }
-
-    function setShareMode(mode) {
-      state.shareMode = mode;
-      renderShareModal();
-    }
-
     function renderShareModal() {
-      const post = getPostById(state.activeShareId);
-      if (!post) return;
+      const article = getArticleById(activeShareArticleId);
+      if (!article) return;
 
-      const payload = getSharePayload(post, state.shareMode);
+      const articleKey = getArticleKey(article);
+      const payload = getSharePayload(article, shareMode, buildArticleLink(article, "share"));
       const preview = document.getElementById("sharePreview");
       const row = document.getElementById("storyModeRow");
       const grid = document.getElementById("shareGrid");
       const note = document.getElementById("shareNote");
       const qrImage = document.getElementById("qrImage");
 
-      const joined = [payload.text, payload.url].filter(Boolean).join("\n\n");
-      const encodedText = encodeURIComponent(joined);
+      const shareTextForLink = [payload.text, payload.url].filter(Boolean).join("\n\n");
+      const encodedText = encodeURIComponent(shareTextForLink);
       const encodedUrl = encodeURIComponent(payload.url);
-      const encodedQuote = encodeURIComponent(payload.text);
+      const encodedTitle = encodeURIComponent(payload.title);
 
       preview.innerHTML = `
         <div class="share-preview-head">
-          <img src="${post.imageUrl || "/logo.png"}" alt="${escapeHtml(post.title)}" onerror="this.src='/logo.png'">
+          <img src="${article.imageUrl || "logo.png"}" alt="${escapeHtml(article.text.title)}" onerror="this.src='logo.png'">
           <div>
             <h4>${escapeHtml(payload.previewTitle)}</h4>
             <p>${escapeHtml(payload.previewBody)}</p>
@@ -2011,57 +2283,82 @@
       `;
 
       row.innerHTML = `
-        <button class="story-mode-btn ${state.shareMode === "full" ? "active" : ""}" onclick="setShareMode('full')">Full Article</button>
-        <button class="story-mode-btn ${state.shareMode === "headline" ? "active" : ""}" onclick="setShareMode('headline')">Headline Only</button>
-        <button class="story-mode-btn ${state.shareMode === "summary" ? "active" : ""}" onclick="setShareMode('summary')">Short Summary</button>
-        <button class="story-mode-btn ${state.shareMode === "quote" ? "active" : ""}" onclick="setShareMode('quote')">Quote Card</button>
+        <button class="story-mode-btn ${shareMode === "full" ? "active" : ""}" onclick="setShareMode('full')">Full Article</button>
+        <button class="story-mode-btn ${shareMode === "headline" ? "active" : ""}" onclick="setShareMode('headline')">Headline Only</button>
+        <button class="story-mode-btn ${shareMode === "summary" ? "active" : ""}" onclick="setShareMode('summary')">Short Summary</button>
+        <button class="story-mode-btn ${shareMode === "quote" ? "active" : ""}" onclick="setShareMode('quote')">Quote Card</button>
       `;
 
       grid.innerHTML = `
-        <button class="share-option" onclick="shareNative()">${getShareIcon("device")} <span>Device Share</span></button>
-        <button class="share-option" onclick="copyShareLink()">${getShareIcon("link")} <span>Copy Link</span></button>
-        <button class="share-option" onclick="openShareWindow('https://wa.me/?text=${encodedText}')">${getShareIcon("whatsapp")} <span>WhatsApp</span></button>
-        <button class="share-option" onclick="openShareWindow('https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedQuote}')">${getShareIcon("facebook")} <span>Facebook</span></button>
-        <button class="share-option" onclick="openShareWindow('https://twitter.com/intent/tweet?text=${encodedText}')">${getShareIcon("x")} <span>X</span></button>
-        <button class="share-option" onclick="openShareWindow('https://t.me/share/url?url=${encodedUrl}&text=${encodedQuote}')">${getShareIcon("telegram")} <span>Telegram</span></button>
-        <button class="share-option" onclick="shareByEmail()">${getShareIcon("email")} <span>Email</span></button>
-        <button class="share-option" onclick='toggleSaveArticle(${JSON.stringify(post.id)})'>${getShareIcon("save")} <span>${isSaved(post.id) ? "Saved" : "Save For Later"}</span></button>
-        <button class="share-option" onclick="downloadQr()">${getShareIcon("qr")} <span>Download QR</span></button>
+        <button class="share-option" onclick="shareNative()">
+          ${getShareIcon("device")} <span>Device Share</span>
+        </button>
+
+        <button class="share-option" onclick="copyShareLink()">
+          ${getShareIcon("link")} <span>Copy Link</span>
+        </button>
+
+        <button class="share-option" onclick="openShareWindow('https://wa.me/?text=${encodedText}')">
+          ${getShareIcon("whatsapp")} <span>WhatsApp</span>
+        </button>
+
+        <button class="share-option" onclick="openShareWindow('https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}')">
+          ${getShareIcon("facebook")} <span>Facebook</span>
+        </button>
+
+        <button class="share-option" onclick="openShareWindow('https://twitter.com/intent/tweet?text=${encodedText}')">
+          ${getShareIcon("x")} <span>X</span>
+        </button>
+
+        <button class="share-option" onclick="openShareWindow('https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(payload.text)}')">
+          ${getShareIcon("telegram")} <span>Telegram</span>
+        </button>
+
+        <button class="share-option" onclick="shareByEmail()">
+          ${getShareIcon("email")} <span>Email</span>
+        </button>
+
+        <button class="share-option" onclick="toggleSaveArticle(${JSON.stringify(articleKey)})">
+          ${getShareIcon("save")} <span>${savedArticleIds.has(articleKey) ? "Saved" : "Save For Later"}</span>
+        </button>
+
+        <button class="share-option" onclick="downloadQr()">
+          ${getShareIcon("qr")} <span>Download QR</span>
+        </button>
       `;
 
-      note.innerHTML = `Share mode: <strong>${escapeHtml(
-        state.shareMode === "full" ? "Full Article" :
-        state.shareMode === "headline" ? "Headline Only" :
-        state.shareMode === "summary" ? "Short Summary" : "Quote Card"
-      )}</strong><br>Share URL: ${escapeHtml(payload.url)}`;
-
       qrImage.dataset.url = payload.url;
-      qrImage.dataset.fallback = "no";
+      qrImage.dataset.fallbackUsed = "no";
       qrImage.onerror = function () {
-        if (qrImage.dataset.fallback === "yes") return;
-        qrImage.dataset.fallback = "yes";
+        if (qrImage.dataset.fallbackUsed === "yes") return;
+        qrImage.dataset.fallbackUsed = "yes";
         qrImage.src = "https://quickchart.io/qr?size=220&text=" + encodeURIComponent(payload.url);
       };
       qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(payload.url);
 
-      document.getElementById("shareCountText").textContent = "Shared " + getShareCount(post.id) + " times";
+      note.innerHTML = `Share mode: <strong>${escapeHtml(
+        shareMode === "full" ? "Full Article" :
+        shareMode === "headline" ? "Headline Only" :
+        shareMode === "summary" ? "Short Summary" : "Quote Card"
+      )}</strong><br>Share URL: ${escapeHtml(payload.url)}`;
+
+      updateShareCountText(articleKey);
+
       window.__sharePayload = payload;
-      window.__sharePostId = post.id;
+      window.__shareArticleKey = articleKey;
     }
 
     function shareNative() {
+      if (!window.__sharePayload) return;
       const payload = window.__sharePayload;
-      if (!payload) return;
-
       if (navigator.share) {
         navigator.share({
           title: payload.title,
           text: payload.text,
           url: payload.url
         }).then(() => {
-          incrementShareCount(window.__sharePostId);
-          renderRoute();
-          renderShareModal();
+          incrementShareCount(window.__shareArticleKey);
+          learnFromArticle(getArticleById(window.__shareArticleKey), "share");
         }).catch(() => {});
       } else {
         copyShareLink();
@@ -2069,35 +2366,26 @@
     }
 
     function copyShareLink() {
-      const payload = window.__sharePayload;
-      if (!payload) return;
-
-      navigator.clipboard.writeText(payload.url).then(() => {
-        incrementShareCount(window.__sharePostId);
-        renderRoute();
-        renderShareModal();
+      if (!window.__sharePayload) return;
+      navigator.clipboard.writeText(window.__sharePayload.url).then(() => {
+        incrementShareCount(window.__shareArticleKey);
         showToast("Link copied");
       });
     }
 
     function openShareWindow(url) {
-      incrementShareCount(window.__sharePostId);
-      renderRoute();
-      renderShareModal();
+      incrementShareCount(window.__shareArticleKey);
+      learnFromArticle(getArticleById(window.__shareArticleKey), "share");
       window.open(url, "_blank");
     }
 
     function shareByEmail() {
-      const payload = window.__sharePayload;
-      if (!payload) return;
-
-      incrementShareCount(window.__sharePostId);
-      renderRoute();
-      renderShareModal();
-
-      const subject = encodeURIComponent(payload.title);
-      const body = encodeURIComponent([payload.text, payload.url].filter(Boolean).join("\n\n"));
-      location.href = "mailto:?subject=" + subject + "&body=" + body;
+      if (!window.__sharePayload) return;
+      const subject = encodeURIComponent(window.__sharePayload.title);
+      const body = encodeURIComponent([window.__sharePayload.text, window.__sharePayload.url].filter(Boolean).join("\n\n"));
+      incrementShareCount(window.__shareArticleKey);
+      learnFromArticle(getArticleById(window.__shareArticleKey), "share");
+      location.href = `mailto:?subject=${subject}&body=${body}`;
     }
 
     function downloadQr() {
@@ -2108,45 +2396,117 @@
       a.click();
     }
 
-    async function loadPosts() {
+    function openShareMenuFromCurrentArticle() {
+      const params = new URLSearchParams(window.location.search);
+      const articleId = params.get("article");
+      if (articleId) openShareMenu(articleId);
+    }
+
+    function closeShareMenu(event) {
+      if (event && event.target && event.target.id !== "shareModalBackdrop") return;
+      document.getElementById("shareModalBackdrop").classList.remove("show");
+    }
+
+    function renderRoute() {
+      const app = document.getElementById("app");
+      const floatingShareBtn = document.getElementById("floatingShareBtn");
+      if (!app) return;
+
+      renderNav();
+      renderCountryFilters();
+      renderTopicFilters();
+      renderTypeFilters();
+      updateAccessibilityButtons();
+
+      const params = new URLSearchParams(window.location.search);
+      const articleId = params.get("article");
+
+      if (articleId) {
+        app.innerHTML = renderArticlePage(articleId);
+        floatingShareBtn.classList.add("show");
+        return;
+      }
+
+      floatingShareBtn.classList.remove("show");
+
+      const hash = location.hash || "#home";
+      if (hash === "#home" || hash === "") return void(app.innerHTML = renderHome());
+      if (hash === "#today") return void(app.innerHTML = renderListPage("today"));
+      if (hash === "#old") return void(app.innerHTML = renderListPage("old"));
+      if (hash === "#rumors") return void(app.innerHTML = renderListPage("rumors"));
+      if (hash === "#real") return void(app.innerHTML = renderListPage("real"));
+      if (hash === "#popular") return void(app.innerHTML = renderListPage("popular"));
+      if (hash === "#saved") return void(app.innerHTML = renderListPage("saved"));
+      if (hash === "#results") return void(app.innerHTML = renderListPage("results"));
+
+      app.innerHTML = renderHome();
+    }
+
+    async function loadAllNews() {
       try {
         const { data, error } = await supabaseClient
           .from(TABLE_NAME)
           .select("*")
+          .eq("published", true)
           .order("created_at", { ascending: false });
 
         if (error) throw error;
 
-        setPosts(data || []);
+        setNewsData(data || []);
+        updateTime();
       } catch (error) {
         console.error(error);
-        setPosts(getSavedPosts());
+        const savedOnly = getSavedArticles();
+        setNewsData(savedOnly.length ? savedOnly : []);
         showToast("Could not load live news");
       }
     }
 
-    document.getElementById("searchInput").addEventListener("keydown", function (event) {
+    function setNewsData(data) {
+      const normalized = Array.isArray(data)
+        ? data.map((item, index) => normalizeArticle(item, index)).filter(Boolean)
+        : [];
+
+      normalized.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+      normalized.forEach((article, index) => {
+        article.popular = index < 6;
+      });
+
+      articles = normalized;
+      renderTicker();
+      renderRoute();
+    }
+
+    document.getElementById("searchInput").addEventListener("keydown", event => {
       if (event.key === "Enter") runSearch();
     });
 
-    window.addEventListener("hashchange", function () {
+    window.addEventListener("popstate", () => {
       stopAllSpeech();
       renderRoute();
     });
 
-    window.addEventListener("keydown", function (event) {
+    window.addEventListener("hashchange", () => {
+      stopAllSpeech();
+      renderRoute();
+    });
+
+    window.addEventListener("keydown", event => {
       if (event.key === "Escape") {
         closeShareMenu();
         closeAccessibilityModal();
       }
     });
 
-    loadReaderPrefs();
-    renderRoute();
+    loadUserProfile();
+    initSavedArticles();
+    loadPrefs();
     updateTime();
+    renderRoute();
+
     setInterval(updateTime, 60000);
-    loadPosts();
-    setInterval(loadPosts, 300000);
+    loadAllNews();
+    setInterval(loadAllNews, 300000);
   </script>
 </body>
 </html>
