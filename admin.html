@@ -3,23 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Truth Or Rumor Admin</title>
+  <title>TruthOrRumor Admin</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
-      --fb-bg: #f0f2f5;
-      --fb-card: #ffffff;
-      --fb-line: #d8dbe1;
-      --fb-text: #1c1e21;
-      --fb-muted: #65676b;
-      --fb-blue: #1877f2;
-      --fb-blue-dark: #1666d8;
-      --fb-soft: #e7f3ff;
-      --fb-soft-2: #eef3f8;
-      --success: #16a34a;
-      --danger: #dc2626;
-      --radius: 18px;
-      --shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+      --bg-1: #132b12;
+      --bg-2: #1b3818;
+      --panel: rgba(20, 35, 18, 0.94);
+      --panel-2: rgba(31, 53, 28, 0.96);
+      --line: rgba(255, 255, 255, 0.08);
+      --text: #f8fafc;
+      --muted: #c7d2c4;
+      --gold: #f7d774;
+      --orange: #ff9b3d;
+      --red: #ff5e57;
+      --green-soft: #274425;
+      --input: rgba(10, 20, 10, 0.72);
+      --button: linear-gradient(90deg, #f7d774 0%, #ff9b3d 55%, #ff5e57 100%);
+      --radius: 22px;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
     }
 
     * {
@@ -32,8 +34,10 @@
       padding: 0;
       min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
-      background: var(--fb-bg);
-      color: var(--fb-text);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(247, 215, 116, 0.10), transparent 30%),
+        linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
     }
 
     .hidden {
@@ -46,64 +50,70 @@
     }
 
     .card {
-      background: var(--fb-card);
+      background: var(--panel);
+      border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      border: 1px solid rgba(0, 0, 0, 0.04);
+      backdrop-filter: blur(8px);
     }
 
     .login-wrap {
       min-height: 100vh;
       display: grid;
       place-items: center;
-      padding: 20px;
-      background:
-        radial-gradient(circle at top, rgba(24, 119, 242, 0.15), transparent 35%),
-        linear-gradient(180deg, #f7f9fc 0%, #eef2f7 100%);
+      padding: 22px;
     }
 
     .login-stack {
-      width: min(560px, 100%);
+      width: min(760px, 100%);
       text-align: center;
     }
 
-    .brand-badge {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 18px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 64px;
-      font-weight: 900;
-      color: #1761b0;
-      background: linear-gradient(135deg, #8dd9ee, #7cc9df);
-      box-shadow:
-        0 0 0 10px rgba(24, 119, 242, 0.06),
-        0 0 28px rgba(24, 119, 242, 0.18);
-      animation: floatBadge 3s ease-in-out infinite;
+    .brand-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .brand-logo {
+      width: 92px;
+      height: 92px;
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: 0 0 25px rgba(247, 215, 116, 0.14);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .brand-title-wrap {
+      text-align: left;
     }
 
     .glow-title {
       margin: 0;
-      font-size: clamp(38px, 7vw, 64px);
-      line-height: 1.05;
+      font-size: clamp(42px, 7vw, 74px);
+      line-height: 1;
       font-weight: 900;
-      color: #0f172a;
-      animation: glowPulse 2.4s ease-in-out infinite;
+      letter-spacing: -1px;
+      background: linear-gradient(90deg, #ffffff 0%, #f7d774 35%, #ff9b3d 68%, #ff5e57 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: glowPulse 2.8s ease-in-out infinite;
     }
 
     .brand-subtitle {
-      margin: 12px 0 24px;
+      margin: 10px 0 0;
+      color: var(--muted);
       font-size: 18px;
-      color: var(--fb-muted);
     }
 
     .login-card {
-      width: 100%;
-      max-width: 460px;
+      width: min(460px, 100%);
       margin: 0 auto;
-      padding: 26px;
+      padding: 28px;
       text-align: left;
     }
 
@@ -114,8 +124,9 @@
 
     .login-card p {
       margin: 0 0 18px;
-      color: var(--fb-muted);
-      font-size: 16px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
     }
 
     .site-header {
@@ -125,40 +136,42 @@
       gap: 16px;
       padding: 18px 22px;
       margin-bottom: 18px;
-      position: sticky;
-      top: 8px;
-      z-index: 10;
     }
 
     .site-brand {
       display: flex;
       align-items: center;
       gap: 14px;
+      min-width: 0;
     }
 
-    .site-brand-mark {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 32px;
-      font-weight: 900;
-      color: #1761b0;
-      background: linear-gradient(135deg, #8dd9ee, #7cc9df);
-      box-shadow: 0 6px 18px rgba(24, 119, 242, 0.18);
+    .site-brand-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      object-fit: cover;
+      flex: 0 0 auto;
+      box-shadow: 0 0 20px rgba(247, 215, 116, 0.12);
+      background: rgba(255, 255, 255, 0.04);
     }
 
     .site-brand h1 {
       margin: 0;
-      font-size: 38px;
-      line-height: 1.1;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.05;
       font-weight: 900;
+      letter-spacing: -0.6px;
+      background: linear-gradient(90deg, #ffffff 0%, #f7d774 36%, #ff9b3d 68%, #ff5e57 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 20px rgba(255, 162, 67, 0.15);
+      animation: glowPulse 2.8s ease-in-out infinite;
     }
 
     .site-brand p {
-      margin: 5px 0 0;
-      color: var(--fb-muted);
+      margin: 6px 0 0;
+      color: var(--muted);
       font-size: 14px;
     }
 
@@ -170,80 +183,68 @@
 
     .dashboard {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
       gap: 18px;
       align-items: start;
     }
 
     .panel {
-      padding: 18px;
+      padding: 20px;
     }
 
-    .composer-head {
+    .editor-head {
       display: flex;
       align-items: center;
       gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .editor-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      object-fit: cover;
+      flex: 0 0 auto;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .editor-head h2 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .editor-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .headline-box {
       margin-bottom: 16px;
     }
 
-    .composer-avatar {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 36px;
-      font-weight: 900;
-      color: #1761b0;
-      background: linear-gradient(135deg, #8dd9ee, #7cc9df);
-      flex: 0 0 auto;
-    }
-
-    .composer-head h2 {
-      margin: 0;
-      font-size: 24px;
-      font-weight: 800;
-    }
-
-    .composer-head p {
-      margin: 6px 0 0;
-      color: var(--fb-muted);
-      font-size: 14px;
-    }
-
-    .prompt-box {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--fb-soft-2);
-      border-radius: 999px;
-      padding: 10px 14px;
-      margin-bottom: 14px;
-      border: 1px solid #e3e7ed;
-    }
-
-    .prompt-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 24px;
-      font-weight: 900;
-      color: #1761b0;
-      background: linear-gradient(135deg, #8dd9ee, #7cc9df);
-      flex: 0 0 auto;
-    }
-
-    .prompt-input {
-      border: 0;
-      background: transparent;
+    .headline-input {
       width: 100%;
-      font-size: 34px;
-      line-height: 1.2;
-      color: #7a7d83;
+      padding: 18px 20px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--panel-2);
+      color: #ffffff;
+      font-size: clamp(24px, 4vw, 34px);
+      font-weight: 700;
       outline: none;
-      padding: 4px 0;
+    }
+
+    .headline-input::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .headline-input:focus {
+      border-color: rgba(247, 215, 116, 0.45);
+      box-shadow: 0 0 0 4px rgba(247, 215, 116, 0.08);
     }
 
     .option-row {
@@ -253,40 +254,39 @@
       margin-bottom: 14px;
     }
 
-    .option-pill {
-      background: #eef3f8;
+    .option-card {
+      background: var(--panel-2);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 18px;
-      border: 1px solid #dde5ef;
-      padding: 12px 14px;
+      padding: 14px 14px 12px;
     }
 
-    .option-pill .option-label {
+    .option-card .option-label {
       display: block;
+      margin-bottom: 8px;
       font-size: 12px;
-      color: var(--fb-muted);
-      margin-bottom: 6px;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.6px;
+      color: var(--muted);
     }
 
-    .option-pill select,
-    .option-pill input {
-      border: 0;
-      background: transparent;
+    .option-card input,
+    .option-card select {
       width: 100%;
-      font-size: 16px;
-      font-weight: 700;
-      color: #0f5fc5;
+      border: 0;
       outline: none;
+      background: transparent;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
       padding: 0;
     }
 
     .details-box {
-      border: 1px solid #e1e6ed;
-      background: #f9fbfd;
-      border-radius: 18px;
-      padding: 0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(31, 53, 28, 0.65);
+      border-radius: 20px;
       overflow: hidden;
       margin-bottom: 14px;
     }
@@ -295,10 +295,10 @@
       list-style: none;
       cursor: pointer;
       padding: 16px 18px;
-      font-weight: 800;
-      color: var(--fb-text);
-      background: #ffffff;
-      border-bottom: 1px solid #eef2f7;
+      font-size: 24px;
+      font-weight: 900;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.02);
     }
 
     .details-box summary::-webkit-details-marker {
@@ -306,7 +306,8 @@
     }
 
     .details-content {
-      padding: 16px;
+      padding: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .form-group {
@@ -324,7 +325,7 @@
       margin-bottom: 8px;
       font-size: 14px;
       font-weight: 700;
-      color: #1c1e21;
+      color: #ffffff;
     }
 
     input,
@@ -340,28 +341,34 @@
       width: 100%;
       padding: 13px 14px;
       border-radius: 14px;
-      border: 1px solid #d7dde6;
-      background: #ffffff;
-      color: var(--fb-text);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--input);
+      color: #ffffff;
       font-size: 15px;
       outline: none;
+    }
+
+    .text-input::placeholder,
+    .text-area::placeholder {
+      color: rgba(255, 255, 255, 0.40);
     }
 
     .text-input:focus,
     .text-area:focus,
     .file-input:focus {
-      border-color: var(--fb-blue);
-      box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.12);
+      border-color: rgba(247, 215, 116, 0.45);
+      box-shadow: 0 0 0 3px rgba(247, 215, 116, 0.08);
     }
 
     .text-area {
       resize: vertical;
       min-height: 120px;
+      line-height: 1.6;
     }
 
     .small-text {
       margin-top: 6px;
-      color: var(--fb-muted);
+      color: var(--muted);
       font-size: 12px;
     }
 
@@ -374,7 +381,7 @@
 
     .btn {
       border: 0;
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 12px 18px;
       cursor: pointer;
       font-size: 15px;
@@ -388,31 +395,34 @@
     }
 
     .btn-primary {
-      background: var(--fb-blue);
-      color: white;
+      background: var(--button);
+      color: #111827;
     }
 
     .btn-primary:hover {
-      background: var(--fb-blue-dark);
+      transform: translateY(-1px);
     }
 
     .btn-secondary {
-      background: #e4e6eb;
-      color: #050505;
+      background: rgba(255, 255, 255, 0.10);
+      color: #ffffff;
     }
 
     .btn-secondary:hover {
-      background: #d8dce3;
-    }
-
-    .btn-success {
-      background: var(--success);
-      color: white;
+      background: rgba(255, 255, 255, 0.16);
     }
 
     .btn-danger {
-      background: var(--danger);
-      color: white;
+      background: rgba(255, 94, 87, 0.92);
+      color: #ffffff;
+    }
+
+    .btn-danger:hover {
+      background: rgba(255, 94, 87, 1);
+    }
+
+    .hidden-checkbox {
+      display: none;
     }
 
     .toolbar {
@@ -422,16 +432,20 @@
     .search-input {
       width: 100%;
       padding: 14px 16px;
-      border: 1px solid #d7dde6;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 999px;
-      background: #f0f2f5;
+      background: var(--panel-2);
+      color: #ffffff;
       font-size: 15px;
       outline: none;
     }
 
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.40);
+    }
+
     .search-input:focus {
-      border-color: var(--fb-blue);
-      background: #ffffff;
+      border-color: rgba(247, 215, 116, 0.45);
     }
 
     .posts-list {
@@ -439,11 +453,18 @@
       gap: 14px;
     }
 
+    .feed-title {
+      margin: 0 0 14px;
+      font-size: 24px;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
     .post-card {
       padding: 16px;
-      border: 1px solid #e6ebf1;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 18px;
-      background: #ffffff;
+      background: rgba(31, 53, 28, 0.82);
     }
 
     .post-top {
@@ -453,27 +474,24 @@
       margin-bottom: 12px;
     }
 
-    .post-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 24px;
-      font-weight: 900;
-      color: #1761b0;
-      background: linear-gradient(135deg, #8dd9ee, #7cc9df);
+    .post-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      object-fit: cover;
       flex: 0 0 auto;
+      background: rgba(255, 255, 255, 0.04);
     }
 
     .post-title-wrap h3 {
       margin: 0 0 6px;
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1.35;
+      color: #ffffff;
     }
 
     .post-time {
-      color: var(--fb-muted);
+      color: var(--muted);
       font-size: 12px;
       line-height: 1.5;
     }
@@ -494,27 +512,27 @@
     }
 
     .badge-truth {
-      background: rgba(22, 163, 74, 0.12);
-      color: #15803d;
+      background: rgba(247, 215, 116, 0.18);
+      color: #ffe9a0;
     }
 
     .badge-rumor {
-      background: rgba(220, 38, 38, 0.12);
-      color: #b91c1c;
+      background: rgba(255, 94, 87, 0.18);
+      color: #ffb0ab;
     }
 
     .badge-category {
-      background: #e7f3ff;
-      color: #0f5fc5;
+      background: rgba(255, 155, 61, 0.16);
+      color: #ffd1a4;
     }
 
     .badge-draft {
-      background: #fff4d6;
-      color: #a16207;
+      background: rgba(255, 255, 255, 0.10);
+      color: #ffffff;
     }
 
     .post-excerpt {
-      color: #444950;
+      color: #e5ece4;
       font-size: 14px;
       line-height: 1.6;
       white-space: pre-wrap;
@@ -522,7 +540,7 @@
     }
 
     .post-meta-line {
-      color: var(--fb-muted);
+      color: var(--muted);
       font-size: 12px;
       line-height: 1.6;
       margin-bottom: 12px;
@@ -540,7 +558,7 @@
       max-height: 240px;
       object-fit: cover;
       border-radius: 16px;
-      border: 1px solid #dde5ef;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       margin-top: 10px;
     }
 
@@ -559,63 +577,39 @@
     }
 
     .status-success {
-      background: rgba(22, 163, 74, 0.12);
-      color: #166534;
-      border: 1px solid rgba(22, 163, 74, 0.18);
+      background: rgba(76, 175, 80, 0.14);
+      color: #c8facc;
+      border: 1px solid rgba(76, 175, 80, 0.18);
     }
 
     .status-error {
-      background: rgba(220, 38, 38, 0.12);
-      color: #991b1b;
-      border: 1px solid rgba(220, 38, 38, 0.18);
+      background: rgba(255, 94, 87, 0.14);
+      color: #ffd3d1;
+      border: 1px solid rgba(255, 94, 87, 0.18);
     }
 
     .status-info {
-      background: rgba(24, 119, 242, 0.12);
-      color: #0f5fc5;
-      border: 1px solid rgba(24, 119, 242, 0.18);
+      background: rgba(247, 215, 116, 0.14);
+      color: #ffe9a0;
+      border: 1px solid rgba(247, 215, 116, 0.18);
     }
 
     .empty {
-      color: var(--fb-muted);
+      color: var(--muted);
       font-size: 14px;
       padding: 8px 0;
     }
 
-    .hidden-checkbox {
-      display: none;
-    }
-
     @keyframes glowPulse {
       0% {
-        text-shadow:
-          0 0 0 rgba(24, 119, 242, 0.00),
-          0 0 0 rgba(24, 119, 242, 0.00);
-        transform: scale(1);
+        filter: drop-shadow(0 0 0 rgba(255, 155, 61, 0));
       }
       50% {
-        text-shadow:
-          0 0 16px rgba(24, 119, 242, 0.28),
-          0 0 34px rgba(24, 119, 242, 0.18);
-        transform: scale(1.01);
+        filter: drop-shadow(0 0 10px rgba(255, 155, 61, 0.30))
+                drop-shadow(0 0 22px rgba(255, 94, 87, 0.16));
       }
       100% {
-        text-shadow:
-          0 0 0 rgba(24, 119, 242, 0.00),
-          0 0 0 rgba(24, 119, 242, 0.00);
-        transform: scale(1);
-      }
-    }
-
-    @keyframes floatBadge {
-      0% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-8px);
-      }
-      100% {
-        transform: translateY(0px);
+        filter: drop-shadow(0 0 0 rgba(255, 155, 61, 0));
       }
     }
 
@@ -629,7 +623,7 @@
       }
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 720px) {
       .site-header {
         flex-direction: column;
         align-items: flex-start;
@@ -639,12 +633,12 @@
         grid-template-columns: 1fr;
       }
 
-      .prompt-input {
-        font-size: 24px;
+      .brand-top {
+        flex-direction: column;
       }
 
-      .site-brand h1 {
-        font-size: 30px;
+      .brand-title-wrap {
+        text-align: center;
       }
     }
   </style>
@@ -652,9 +646,13 @@
 <body>
   <div id="loginView" class="login-wrap">
     <div class="login-stack">
-      <div class="brand-badge">T</div>
-      <h1 class="glow-title">Truth Or Rumor</h1>
-      <p class="brand-subtitle">Admin Studio</p>
+      <div class="brand-top">
+        <img src="/logo.png" alt="TruthOrRumor Logo" class="brand-logo" data-logo />
+        <div class="brand-title-wrap">
+          <h1 class="glow-title">TruthOrRumor</h1>
+          <p class="brand-subtitle">Admin Panel</p>
+        </div>
+      </div>
 
       <div class="card login-card">
         <h2>Admin Login</h2>
@@ -679,10 +677,10 @@
   <div id="adminView" class="page hidden">
     <div class="card site-header">
       <div class="site-brand">
-        <div class="site-brand-mark">T</div>
+        <img src="/logo.png" alt="TruthOrRumor Logo" class="site-brand-logo" data-logo />
         <div>
-          <h1>Truth Or Rumor</h1>
-          <p>Facebook style admin post composer</p>
+          <h1>TruthOrRumor</h1>
+          <p>Write and manage your website news</p>
         </div>
       </div>
 
@@ -694,34 +692,38 @@
 
     <div class="dashboard">
       <section class="card panel">
-        <div class="composer-head">
-          <div class="composer-avatar">T</div>
+        <div class="editor-head">
+          <img src="/logo.png" alt="TruthOrRumor Logo" class="editor-logo" data-logo />
           <div>
-            <h2 id="formTitle">Create Post</h2>
-            <p>Same admin system, now with a Facebook inspired design.</p>
+            <h2 id="formTitle">Write News</h2>
+            <p>Write news or provisional updates for your website.</p>
           </div>
         </div>
 
-        <div class="prompt-box">
-          <div class="prompt-avatar">T</div>
-          <input type="text" id="title" class="prompt-input" placeholder="What's on your mind?" />
+        <div class="headline-box">
+          <input
+            type="text"
+            id="title"
+            class="headline-input"
+            placeholder="News Title"
+          />
         </div>
 
         <div class="option-row">
-          <div class="option-pill">
-            <span class="option-label">Visibility</span>
+          <div class="option-card">
+            <span class="option-label">Status</span>
             <select id="visibilitySelect">
-              <option value="published">Public</option>
+              <option value="published">Published</option>
               <option value="draft">Draft</option>
             </select>
           </div>
 
-          <div class="option-pill">
+          <div class="option-card">
             <span class="option-label">Category</span>
             <input type="text" id="category" placeholder="World / Tech / Politics" />
           </div>
 
-          <div class="option-pill">
+          <div class="option-card">
             <span class="option-label">Verdict</span>
             <select id="verdict">
               <option value="truth">Truth</option>
@@ -731,12 +733,12 @@
         </div>
 
         <details class="details-box" open>
-          <summary>More post options</summary>
+          <summary>More News Options</summary>
           <div class="details-content">
             <div class="form-row">
               <div class="form-group">
                 <label for="slug">Slug</label>
-                <input class="text-input" type="text" id="slug" placeholder="example-post-title" />
+                <input class="text-input" type="text" id="slug" placeholder="example-news-title" />
                 <div class="small-text">If empty, slug will be created from title.</div>
               </div>
 
@@ -752,8 +754,8 @@
             </div>
 
             <div class="form-group">
-              <label for="content">Full Content</label>
-              <textarea class="text-area" id="content" placeholder="Write the full article"></textarea>
+              <label for="content">Full News Content</label>
+              <textarea class="text-area" id="content" placeholder="Write news or provisional update here"></textarea>
             </div>
 
             <div class="form-group">
@@ -773,7 +775,7 @@
         <input type="checkbox" id="published" class="hidden-checkbox" checked />
 
         <div class="btn-row">
-          <button type="button" class="btn btn-primary" id="saveBtn">Post</button>
+          <button type="button" class="btn btn-primary" id="saveBtn">Publish News</button>
           <button type="button" class="btn btn-secondary" id="resetBtn">Clear</button>
         </div>
 
@@ -781,8 +783,10 @@
       </section>
 
       <section class="card panel">
+        <h2 class="feed-title">All News Posts</h2>
+
         <div class="toolbar">
-          <input class="search-input" type="text" id="searchInput" placeholder="Search posts by title or category" />
+          <input class="search-input" type="text" id="searchInput" placeholder="Search news by title or category" />
         </div>
 
         <div id="postsList" class="posts-list">
@@ -793,6 +797,7 @@
   </div>
 
   <script>
+    const LOGO_URL = "/logo.png";
     const SUPABASE_URL = "https://bsnezcbmsbsememwqsjs.supabase.co";
     const SUPABASE_KEY = "sb_publishable_HTgjJsMcfGgIJaUSAzXTfw_yQ2dD_Uy";
     const STORAGE_BUCKET = "news-images";
@@ -835,6 +840,10 @@
 
     const searchInput = document.getElementById("searchInput");
     const postsList = document.getElementById("postsList");
+
+    document.querySelectorAll("[data-logo]").forEach(function(img) {
+      img.src = LOGO_URL;
+    });
 
     function showStatus(element, message, type) {
       element.className = "status-box show status-" + type;
@@ -895,7 +904,8 @@
       editingId = null;
       slugTouched = false;
 
-      formTitle.textContent = "Create Post";
+      formTitle.textContent = "Write News";
+      saveBtn.textContent = "Publish News";
       titleInput.value = "";
       slugInput.value = "";
       categoryInput.value = "";
@@ -915,7 +925,8 @@
       editingId = post.id;
       slugTouched = true;
 
-      formTitle.textContent = "Edit Post";
+      formTitle.textContent = "Edit News";
+      saveBtn.textContent = "Update News";
       titleInput.value = post.title || "";
       slugInput.value = post.slug || "";
       categoryInput.value = post.category || "";
@@ -943,13 +954,13 @@
         const verdictClass = post.verdict === "rumor" ? "badge-rumor" : "badge-truth";
         const verdictText = post.verdict === "rumor" ? "Rumor" : "Truth";
         const publishBadge = post.published
-          ? '<span class="badge badge-category">Public</span>'
+          ? '<span class="badge badge-category">Published</span>'
           : '<span class="badge badge-draft">Draft</span>';
 
         return `
           <article class="post-card">
             <div class="post-top">
-              <div class="post-avatar">T</div>
+              <img src="${escapeHtml(LOGO_URL)}" alt="Logo" class="post-logo" />
               <div class="post-title-wrap">
                 <h3>${escapeHtml(post.title || "Untitled")}</h3>
                 <div class="post-time">Created: ${escapeHtml(formatDate(post.created_at))}</div>
@@ -1041,7 +1052,7 @@
       const published = publishedInput.checked;
 
       if (!title) {
-        showStatus(formStatus, "Title is required.", "error");
+        showStatus(formStatus, "News title is required.", "error");
         return;
       }
 
@@ -1052,7 +1063,7 @@
 
       try {
         saveBtn.disabled = true;
-        showStatus(formStatus, "Saving post...", "info");
+        showStatus(formStatus, "Saving news...", "info");
 
         const finalImageUrl = await uploadImage(imageFileInput.files[0]);
 
@@ -1087,18 +1098,18 @@
           throw result.error;
         }
 
-        showStatus(formStatus, editingId ? "Post updated successfully." : "Post created successfully.", "success");
+        showStatus(formStatus, editingId ? "News updated successfully." : "News published successfully.", "success");
         resetForm();
         await fetchPosts();
       } catch (error) {
-        showStatus(formStatus, error.message || "Could not save the post.", "error");
+        showStatus(formStatus, error.message || "Could not save the news.", "error");
       } finally {
         saveBtn.disabled = false;
       }
     }
 
     async function deletePost(id) {
-      const confirmed = window.confirm("Are you sure you want to delete this post?");
+      const confirmed = window.confirm("Are you sure you want to delete this news post?");
       if (!confirmed) return;
 
       const result = await supabaseClient
@@ -1116,7 +1127,7 @@
       }
 
       await fetchPosts();
-      window.alert("Post deleted successfully.");
+      window.alert("News deleted successfully.");
     }
 
     function filterPosts() {
