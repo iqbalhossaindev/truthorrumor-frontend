@@ -1,0 +1,2019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TruthOrRumor</title>
+  <meta name="description" content="TruthOrRumor helps readers separate facts from rumors with clear, trusted, and readable reporting." />
+  <meta property="og:title" content="TruthOrRumor" />
+  <meta property="og:description" content="Separating Facts from Rumors" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="logo.png" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.74);
+      --card: rgba(255,255,255,0.03);
+      --card-2: rgba(255,255,255,0.045);
+      --border: rgba(255,255,255,0.09);
+      --soft: rgba(255,255,255,0.05);
+      --input: rgba(255,255,255,0.06);
+      --shadow: 0 16px 40px rgba(0,0,0,0.28);
+
+      --green: #33c45d;
+      --green-soft: rgba(51,196,93,0.14);
+      --red: #df4a4a;
+      --red-soft: rgba(223,74,74,0.14);
+      --gold: #f2b53a;
+      --gold-2: #ff8d3a;
+      --gold-soft: rgba(242,181,58,0.14);
+
+      --reader-font-size: 17px;
+      --reader-line-height: 1.9;
+      --reader-width: 860px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+      padding-top: 86px;
+      background:
+        radial-gradient(circle at top left, rgba(51,196,93,0.12), transparent 30%),
+        radial-gradient(circle at top right, rgba(242,181,58,0.10), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(223,74,74,0.10), transparent 28%),
+        linear-gradient(135deg, #050505, #0d0d0d 46%, #151515);
+    }
+
+    body[data-theme="sepia"] {
+      --text: #2b2118;
+      --muted: rgba(59,46,35,0.76);
+      --card: rgba(255,248,238,0.58);
+      --card-2: rgba(255,248,238,0.72);
+      --border: rgba(109,82,49,0.12);
+      --soft: rgba(130,96,55,0.08);
+      --input: rgba(255,252,246,0.78);
+      --shadow: 0 16px 32px rgba(74,49,18,0.12);
+      background:
+        radial-gradient(circle at top left, rgba(201,151,72,0.12), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(180,101,82,0.10), transparent 30%),
+        linear-gradient(135deg, #f4eadb, #ebddca 46%, #e1d0ba);
+    }
+
+    body[data-theme="soft-light"] {
+      --text: #21201d;
+      --muted: rgba(52,50,46,0.72);
+      --card: rgba(255,255,255,0.58);
+      --card-2: rgba(255,255,255,0.72);
+      --border: rgba(61,58,52,0.10);
+      --soft: rgba(0,0,0,0.04);
+      --input: rgba(255,255,255,0.80);
+      --shadow: 0 16px 32px rgba(0,0,0,0.08);
+      background:
+        radial-gradient(circle at top left, rgba(51,196,93,0.08), transparent 28%),
+        radial-gradient(circle at top right, rgba(242,181,58,0.08), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(223,74,74,0.07), transparent 28%),
+        linear-gradient(135deg, #f3f3f1, #eceae5 46%, #e2e0da);
+    }
+
+    body.reader-mode {
+      padding-top: 14px;
+    }
+
+    body.reader-mode .floating-headline,
+    body.reader-mode .header,
+    body.reader-mode .quick-links,
+    body.reader-mode .reading-tools,
+    body.reader-mode .info-sections,
+    body.reader-mode .newsletter-card,
+    body.reader-mode .footer,
+    body.reader-mode #filterPanel,
+    body.reader-mode #navRow {
+      display: none !important;
+    }
+
+    .progress-wrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      z-index: 300;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #33c45d 0%, #f2b53a 55%, #df4a4a 100%);
+      transition: none;
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb.one {
+      top: 10px;
+      left: -100px;
+      width: 280px;
+      height: 280px;
+      background: #29c84b;
+    }
+
+    .orb.two {
+      right: -90px;
+      bottom: 100px;
+      width: 280px;
+      height: 280px;
+      background: #d64a4a;
+    }
+
+    .orb.three {
+      top: 260px;
+      right: 12%;
+      width: 220px;
+      height: 220px;
+      background: #f2b53a;
+      opacity: 0.12;
+    }
+    .floating-headline {
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1120px, calc(100% - 20px));
+      z-index: 220;
+      pointer-events: none;
+    }
+
+    .ticker-wrap {
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(18,18,18,0.60);
+      border: 1px solid rgba(255,255,255,0.09);
+      display: flex;
+      align-items: center;
+      min-height: 60px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      pointer-events: auto;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.24);
+    }
+
+    body[data-theme="sepia"] .ticker-wrap,
+    body[data-theme="soft-light"] .ticker-wrap {
+      background: var(--card-2);
+      border-color: var(--border);
+    }
+
+    .live-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 60px;
+      padding: 0 14px;
+      background: rgba(255,255,255,0.04);
+      border-right: 1px solid rgba(255,255,255,0.08);
+      white-space: nowrap;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .live-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 rgba(223,74,74,0.70);
+      animation: pulse 2.2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(.9); box-shadow: 0 0 0 0 rgba(223,74,74,.6); }
+      70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(223,74,74,0); }
+      100% { transform: scale(.9); box-shadow: 0 0 0 0 rgba(223,74,74,0); }
+    }
+
+    .ticker {
+      position: relative;
+      overflow: hidden;
+      flex: 1;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+    }
+
+    .ticker-track {
+      display: inline-flex;
+      gap: 42px;
+      white-space: nowrap;
+      will-change: transform;
+      animation: tickerMove 85s linear infinite;
+      padding-left: 100%;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ticker-item::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex: 0 0 auto;
+    }
+
+    @keyframes tickerMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .wrap {
+      width: min(1240px, 100%);
+      margin: 0 auto;
+      padding: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .glass {
+      background: var(--card);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+    }
+
+    .header {
+      border-radius: 28px;
+      padding: 22px 18px 18px;
+      margin-bottom: 18px;
+      background: var(--card);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .site-logo {
+      width: 66px;
+      height: 66px;
+      object-fit: contain;
+      border-radius: 16px;
+      padding: 6px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.08;
+      background: linear-gradient(90deg, #ffffff 0%, #ffffff 34%, var(--gold) 48%, #f4b33f 54%, #ff7b44 72%, var(--red) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    body[data-theme="sepia"] .brand h1,
+    body[data-theme="soft-light"] .brand h1 {
+      background: linear-gradient(90deg, #2a2119 0%, #2a2119 34%, #d7941f 48%, #dc7d2e 72%, #c24949 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .tagline {
+      margin-top: 8px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 15px;
+      max-width: 760px;
+    }
+
+    .updated {
+      color: var(--muted);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .search-panel {
+      margin-top: 18px;
+      border-radius: 22px;
+      padding: 18px;
+      background: var(--card-2);
+      border: 1px solid var(--border);
+    }
+
+    .search-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 14px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(242,181,58,0.22);
+      box-shadow: 0 0 18px rgba(242,181,58,0.08);
+    }
+
+    .search-label::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+    }
+
+    .search-row,
+    .card-actions,
+    .slider-actions,
+    .article-actions,
+    .newsletter-row,
+    .tool-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-input,
+    .newsletter-input {
+      flex: 1;
+      min-width: 180px;
+      border: 1px solid var(--border);
+      background: var(--input);
+      color: var(--text);
+      outline: none;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 15px;
+    }
+
+    .search-input::placeholder,
+    .newsletter-input::placeholder {
+      color: var(--muted);
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font-family: inherit;
+    }
+
+    .btn,
+    .nav-btn,
+    .chip,
+    .mini-btn,
+    .slider-nav button,
+    .quick-link-btn,
+    .tool-btn,
+    .story-mode-btn,
+    .share-option,
+    .share-round-btn {
+      border: none;
+      cursor: pointer;
+      transition: .22s ease;
+    }
+
+    .btn:active,
+    .nav-btn:active,
+    .chip:active,
+    .mini-btn:active,
+    .slider-nav button:active,
+    .quick-link-btn:active,
+    .tool-btn:active,
+    .story-mode-btn:active,
+    .share-option:active,
+    .share-round-btn:active {
+      transform: scale(.98);
+    }
+
+    .btn,
+    .mini-btn,
+    .quick-link-btn,
+    .tool-btn,
+    .nav-btn,
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .btn {
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-weight: 700;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #180d00;
+    }
+
+    .btn.secondary,
+    .mini-btn,
+    .quick-link-btn,
+    .tool-btn,
+    .nav-btn,
+    .chip {
+      background: var(--soft);
+    }
+
+    .nav-row,
+    .chip-row,
+    .quick-links {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 14px;
+      scrollbar-width: none;
+    }
+
+    .nav-row::-webkit-scrollbar,
+    .chip-row::-webkit-scrollbar,
+    .quick-links::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-btn,
+    .chip,
+    .quick-link-btn,
+    .tool-btn {
+      white-space: nowrap;
+      padding: 11px 15px;
+      border-radius: 999px;
+      font-size: 14px;
+      border: 1px solid transparent;
+    }
+
+    .nav-btn.active,
+    .chip.active,
+    .tool-btn.active,
+    .quick-link-btn.active,
+    .story-mode-btn.active {
+      background: var(--gold-soft);
+      border-color: rgba(242,181,58,0.20);
+    }
+
+    .chip-flag {
+      width: 18px;
+      height: 14px;
+      object-fit: cover;
+      border-radius: 3px;
+      flex: 0 0 auto;
+    }
+
+    .chip-svg {
+      display: inline-flex;
+      width: 18px;
+      height: 18px;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+    .filter-panel,
+    .reading-tools {
+      border-radius: 22px;
+      padding: 16px;
+      margin-bottom: 18px;
+      background: var(--card);
+      display: none;
+      animation: fadeUp .25s ease;
+    }
+
+    .filter-panel.show,
+    .reading-tools.show {
+      display: block;
+    }
+
+    .filter-title,
+    .tools-title,
+    .share-section-title {
+      margin: 0 0 10px 0;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .tools-grid,
+    .info-sections,
+    .grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: 1fr;
+    }
+
+    .tool-group,
+    .card,
+    .slider-card,
+    .article-page,
+    .info-card,
+    .newsletter-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+
+    .tool-group {
+      padding: 12px;
+      border-radius: 18px;
+    }
+
+    .hero {
+      border-radius: 28px;
+      padding: 26px;
+      margin-bottom: 24px;
+      background: var(--card);
+    }
+
+    .eyebrow {
+      color: #ffd47e;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .hero h2 {
+      margin: 10px 0 12px;
+      font-size: 38px;
+      line-height: 1.18;
+    }
+
+    .hero p,
+    .card p,
+    .slider-card p,
+    .info-card p,
+    .newsletter-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .section-head,
+    .slider-head,
+    .article-top,
+    .share-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .section-head,
+    .slider-head {
+      margin-bottom: 12px;
+    }
+
+    .section-head h3,
+    .slider-head h3,
+    .info-card h3,
+    .newsletter-card h3,
+    .share-top h3 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    .section-head span,
+    .slider-head span,
+    .meta,
+    .slider-meta,
+    .share-count {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .slider-track {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 4px 4px 10px;
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+    }
+
+    .slider-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .slider-card {
+      min-width: 86%;
+      scroll-snap-align: start;
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+    }
+
+    .slider-nav {
+      display: flex;
+      gap: 10px;
+    }
+
+    .slider-nav button {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--soft);
+      color: var(--text);
+    }
+
+    .card {
+      border-radius: 22px;
+      padding: 18px;
+      animation: fadeUp .35s ease;
+    }
+
+    .photo-wrap {
+      width: 100%;
+      overflow: hidden;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .card-photo-wrap {
+      margin: -18px -18px 16px;
+      border-radius: 22px 22px 18px 18px;
+    }
+
+    .slider-photo-wrap {
+      margin: -18px -18px 16px;
+      border-radius: 24px 24px 18px 18px;
+    }
+
+    .article-photo-wrap {
+      margin: 16px 0 18px;
+      border-radius: 20px;
+    }
+
+    .card-photo,
+    .slider-photo,
+    .article-photo {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      background: #0a0a0a;
+    }
+
+    .card-photo { height: 210px; }
+    .slider-photo { height: 230px; }
+    .article-photo { height: 260px; border-radius: 20px; }
+
+    .badge {
+      display: inline-block;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .badge.real {
+      background: var(--green-soft);
+      color: #c1ffd1;
+    }
+
+    .badge.rumor {
+      background: var(--red-soft);
+      color: #ffc1c1;
+    }
+    body[data-theme="sepia"] .badge.real,
+    body[data-theme="soft-light"] .badge.real {
+      color: #146c37;
+    }
+
+    body[data-theme="sepia"] .badge.rumor,
+    body[data-theme="soft-light"] .badge.rumor {
+      color: #b44444;
+    }
+
+    .card h4,
+    .slider-card h4 {
+      margin: 12px 0 10px;
+      font-size: 21px;
+      line-height: 1.38;
+    }
+
+    .mini-btn {
+      padding: 10px 14px;
+      border-radius: 14px;
+      color: var(--text);
+    }
+
+    .share-round-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #180d00;
+      font-weight: 700;
+      border: 1px solid rgba(242,181,58,0.25);
+    }
+
+    .article-page {
+      border-radius: 28px;
+      padding: 24px;
+      max-width: var(--reader-width);
+      margin: 0 auto;
+      animation: fadeUp .35s ease;
+    }
+
+    .article-page h2 {
+      margin: 14px 0 10px;
+      font-size: 34px;
+      line-height: 1.22;
+    }
+
+    .quick-summary {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(242,181,58,0.20);
+      margin: 16px 0;
+      line-height: 1.8;
+    }
+
+    .article-body {
+      color: var(--text);
+      line-height: var(--reader-line-height);
+      font-size: var(--reader-font-size);
+      white-space: pre-line;
+    }
+
+    .floating-share-btn {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 250;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #180d00;
+      border: 1px solid rgba(242,181,58,0.24);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.28);
+    }
+
+    .floating-share-btn.show {
+      display: inline-flex;
+    }
+
+    .empty-state {
+      border-radius: 22px;
+      padding: 30px 18px;
+      text-align: center;
+      color: var(--muted);
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+
+    .info-card,
+    .newsletter-card {
+      border-radius: 24px;
+      padding: 22px;
+    }
+
+    .contact-list,
+    .social-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .contact-item,
+    .social-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: var(--card-2);
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .contact-icon,
+    .social-icon,
+    .icon-wrap {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--gold-soft);
+      flex: 0 0 auto;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%);
+      background: rgba(12,12,12,0.9);
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      z-index: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: .22s ease;
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    .share-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.52);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 450;
+      padding: 14px;
+    }
+
+    .share-modal-backdrop.show {
+      display: flex;
+    }
+    .share-modal {
+      width: min(560px, 100%);
+      max-height: 92vh;
+      overflow-y: auto;
+      border-radius: 24px;
+      padding: 18px;
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .share-close {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--soft);
+      color: var(--text);
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .share-preview,
+    .qr-wrap,
+    .tool-group {
+      background: var(--card-2);
+    }
+
+    .share-preview,
+    .qr-wrap {
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+
+    .share-preview-head {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .share-preview img {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 14px;
+      flex: 0 0 auto;
+    }
+
+    .share-preview h4 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .share-preview p,
+    .share-note {
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .story-mode-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .story-mode-btn {
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--text);
+      border: 1px solid transparent;
+      font-size: 13px;
+    }
+
+    .share-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .share-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .qr-wrap {
+      display: none;
+      text-align: center;
+    }
+
+    .qr-wrap.show {
+      display: block;
+    }
+
+    .qr-wrap img {
+      width: 160px;
+      height: 160px;
+      border-radius: 16px;
+      background: #fff;
+      padding: 8px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 18px 8px 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (min-width: 768px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .tools-grid { grid-template-columns: 1fr 1fr; }
+      .info-sections { grid-template-columns: 1fr 1fr; }
+      .slider-card { min-width: 48%; }
+      .hero h2 { font-size: 48px; }
+      .article-page h2 { font-size: 42px; }
+    }
+
+    @media (min-width: 1024px) {
+      .grid { grid-template-columns: repeat(3, 1fr); }
+      .slider-card { min-width: 32%; }
+      .share-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-wrap"><div id="readingProgress" class="progress-bar"></div></div>
+
+  <div class="floating-headline">
+    <div class="ticker-wrap">
+      <div class="live-pill">
+        <span class="live-dot"></span>
+        <span>Live Now</span>
+      </div>
+      <div class="ticker">
+        <div class="ticker-track" id="headlineTicker">
+          <span class="ticker-item">Latest headlines will appear here.</span>
+          <span class="ticker-item">Latest headlines will appear here.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div class="orb three"></div>
+
+  <button id="floatingShareBtn" class="floating-share-btn" onclick="openShareMenuFromCurrentArticle()" aria-label="Open share menu">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9">
+      <circle cx="18" cy="5" r="3"></circle>
+      <circle cx="6" cy="12" r="3"></circle>
+      <circle cx="18" cy="19" r="3"></circle>
+      <path d="M8.6 10.7l6.8-4.1"></path>
+      <path d="M8.6 13.3l6.8 4.1"></path>
+    </svg>
+  </button>
+  <div id="shareModalBackdrop" class="share-modal-backdrop" onclick="closeShareMenu(event)">
+    <div class="share-modal" onclick="event.stopPropagation()">
+      <div class="share-top">
+        <div>
+          <h3>Share Story</h3>
+          <div class="share-count" id="shareCountText">Shared 0 times</div>
+        </div>
+        <button class="share-close" onclick="closeShareMenu()">×</button>
+      </div>
+
+      <div class="share-preview" id="sharePreview"></div>
+
+      <p class="share-section-title">Share As</p>
+      <div class="story-mode-row" id="storyModeRow"></div>
+
+      <p class="share-section-title">Quick Share</p>
+      <div class="share-grid" id="shareGrid"></div>
+
+      <div class="share-note" id="shareNote"></div>
+
+      <div class="qr-wrap" id="qrWrap">
+        <p class="share-section-title">QR Code</p>
+        <img id="qrImage" alt="QR Code">
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Done</div>
+
+  <div class="wrap">
+    <header class="header glass">
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-top">
+            <img src="logo.png" alt="TruthOrRumor logo" class="site-logo" onerror="this.style.display='none'">
+            <div>
+              <h1>TruthOrRumor</h1>
+              <div class="tagline">Separating Facts from Rumors</div>
+            </div>
+          </div>
+        </div>
+        <div class="updated">Updated: <span id="updatedTime">Loading...</span></div>
+      </div>
+
+      <div class="search-panel">
+        <div class="search-label">Truth Or Rumor Search</div>
+        <div class="search-row">
+          <input id="searchInput" class="search-input" type="text" placeholder="Search news, country, topic..." />
+          <button class="btn primary" onclick="runSearch()">Search</button>
+          <button class="btn secondary" onclick="toggleFilters()">Filters</button>
+          <button class="btn secondary" onclick="togglePageAudio(this)" data-speaking="false">Tap To Listen</button>
+        </div>
+      </div>
+    </header>
+
+    <nav class="nav-row" id="navRow"></nav>
+
+    <div class="quick-links">
+      <button class="quick-link-btn" onclick="document.getElementById('about-us').scrollIntoView({ behavior: 'smooth' })">About Us</button>
+      <button class="quick-link-btn" onclick="document.getElementById('contact-us').scrollIntoView({ behavior: 'smooth' })">Contact Us</button>
+      <button class="quick-link-btn" onclick="goTo('#saved')">Saved</button>
+      <button class="quick-link-btn" id="accessibilityBtn" onclick="toggleAccessibilityPanel()">Accessibility</button>
+    </div>
+
+    <section id="accessibilityPanel" class="reading-tools glass">
+      <p class="tools-title">Accessibility Settings</p>
+
+      <div class="tools-grid">
+        <div class="tool-group">
+          <strong>Theme</strong>
+          <div class="tool-row">
+            <button class="tool-btn" id="themeDarkBtn" onclick="setTheme('dark')">Dark</button>
+            <button class="tool-btn" id="themeSepiaBtn" onclick="setTheme('sepia')">Sepia</button>
+            <button class="tool-btn" id="themeSoftBtn" onclick="setTheme('soft-light')">Soft Light</button>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <strong>Reader Width</strong>
+          <div class="tool-row">
+            <button class="tool-btn" id="widthNarrowBtn" onclick="setReaderWidth('720px')">Narrow</button>
+            <button class="tool-btn" id="widthNormalBtn" onclick="setReaderWidth('860px')">Normal</button>
+            <button class="tool-btn" id="widthWideBtn" onclick="setReaderWidth('980px')">Wide</button>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <strong>Font Size</strong>
+          <div class="tool-row">
+            <button class="tool-btn" onclick="changeFontSize(-1)">A-</button>
+            <button class="tool-btn" onclick="changeFontSize(1)">A+</button>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <strong>Line Spacing</strong>
+          <div class="tool-row">
+            <button class="tool-btn" onclick="changeLineSpacing(-0.1)">Tight</button>
+            <button class="tool-btn" onclick="changeLineSpacing(0.1)">Relaxed</button>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <strong>Reader Mode</strong>
+          <div class="tool-row">
+            <button class="tool-btn" id="readerModeBtn" onclick="toggleReaderMode()">Toggle Reader Mode</button>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <strong>Preferences</strong>
+          <div class="tool-row">
+            <button class="tool-btn" onclick="resetReadingSettings()">Reset</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="filterPanel" class="filter-panel glass">
+      <p class="filter-title">Country Filter</p>
+      <div class="chip-row" id="countryFilters"></div>
+
+      <p class="filter-title">Topic Filter</p>
+      <div class="chip-row" id="topicFilters"></div>
+
+      <p class="filter-title">Truth / Rumor Filter</p>
+      <div class="chip-row" id="typeFilters"></div>
+    </section>
+
+    <main id="app"></main>
+
+    <section class="info-sections">
+      <section id="about-us" class="info-card glass">
+        <h3>About Us</h3>
+        <p><strong>TruthOrRumor</strong> is a professional news and fact checking platform dedicated to helping people separate real facts from false claims, misleading stories, and online rumors.</p>
+        <p>In today’s fast moving digital world, information spreads quickly, but not all of it is true. Our mission is to verify trending news, investigate viral claims, and present clear, reliable, and easy to understand reports that people can trust.</p>
+        <p>At <strong>TruthOrRumor</strong>, we focus on accuracy, transparency, and responsibility. We review sources carefully, compare facts, and highlight what is true, what is misleading, and what is only rumor.</p>
+        <p><strong>Find the Facts. Filter the Rumors.</strong></p>
+      </section>
+
+      <section id="contact-us" class="info-card glass">
+        <h3>Contact Us</h3>
+
+        <div class="contact-list">
+          <a class="contact-item" href="tel:+15798995633">
+            <span class="contact-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6.4 6.4l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6A2 2 0 0 1 22 16.9z"></path>
+              </svg>
+            </span>
+            <span>+1 579 899 5633</span>
+          </a>
+
+          <a class="contact-item" href="mailto:hello@truthorrumor.com">
+            <span class="contact-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <path d="M3 7l9 6 9-6"></path>
+              </svg>
+            </span>
+            <span>hello@truthorrumor.com</span>
+          </a>
+        </div>
+      </section>
+    </section>
+
+    <section class="newsletter-card glass">
+      <h3>Newsletter Signup</h3>
+      <p>Get your trusted daily or weekly update.</p>
+      <div class="newsletter-row">
+        <input class="newsletter-input" id="newsletterEmail" type="email" placeholder="Enter your email" />
+        <button class="btn primary" onclick="signupNewsletter()">Sign Up</button>
+      </div>
+    </section>
+
+    <div class="footer">TruthOrRumor</div>
+  </div>
+
+  <script>
+    const API_TODAY = "https://ai-world-news-api-ohfa.vercel.app/api/news?page=today&limit=200";
+    const API_ARCHIVE = "https://ai-world-news-api-ohfa.vercel.app/api/archive?limit=200";
+
+    const countryOptions = [
+      { value: "All", label: "All Countries" },
+      { value: "World", label: "World" },
+      { value: "Bangladesh", label: "Bangladesh" },
+      { value: "India", label: "India" },
+      { value: "China", label: "China" },
+      { value: "USA", label: "USA" },
+      { value: "Russia", label: "Russia" },
+      { value: "Iran", label: "Iran" },
+      { value: "Israel", label: "Israel" },
+      { value: "Middle East", label: "Middle East" }
+    ];
+
+    const topicOptions = [
+      { value: "All", label: "All Topics" },
+      { value: "World News", label: "World" },
+      { value: "Politics", label: "Politics" },
+      { value: "Business", label: "Business" },
+      { value: "Finance", label: "Finance" },
+      { value: "Technology", label: "Tech" },
+      { value: "Sports", label: "Sports" },
+      { value: "Entertainment", label: "Entertainment" },
+      { value: "Apple", label: "Apple" },
+      { value: "Samsung", label: "Samsung" },
+      { value: "Phone Launch", label: "Phone Launch" },
+      { value: "New Popular Tech Product", label: "Popular Product" }
+    ];
+
+    const typeOptions = [
+      { value: "all", label: "All" },
+      { value: "real", label: "Truth" },
+      { value: "rumor", label: "Rumor" }
+    ];
+    let articles = [];
+    let currentCountry = "All";
+    let currentTopic = "All";
+    let currentType = "all";
+    let currentSearch = "";
+    let filtersOpen = false;
+    let accessibilityOpen = false;
+    let lastListHash = "#results";
+
+    let currentSpeech = null;
+    let currentSpeechButton = null;
+    let speechStartTimer = null;
+    let scrollTicking = false;
+    let toastTimer = null;
+
+    let activeShareArticleId = null;
+    let shareMode = "full";
+    let savedArticleIds = new Set();
+
+    const uiPrefs = {
+      theme: "dark",
+      fontSize: 17,
+      lineHeight: 1.9,
+      width: "860px",
+      readerMode: false
+    };
+
+    const userProfile = {
+      topicScores: {},
+      countryScores: {},
+      articleScores: {}
+    };
+
+    function safeJsonParse(value, fallback) {
+      try { return JSON.parse(value); } catch { return fallback; }
+    }
+
+    function tapFeedback(pattern = 10) {
+      if ("vibrate" in navigator) {
+        navigator.vibrate(pattern);
+      }
+    }
+
+    document.addEventListener("click", event => {
+      if (event.target.closest("button, a")) tapFeedback(8);
+    }, { passive: true });
+
+    function loadUserProfile() {
+      const saved = safeJsonParse(localStorage.getItem("tor_user_profile") || "null", null);
+      if (!saved) return;
+      userProfile.topicScores = saved.topicScores || {};
+      userProfile.countryScores = saved.countryScores || {};
+      userProfile.articleScores = saved.articleScores || {};
+    }
+
+    function saveUserProfile() {
+      localStorage.setItem("tor_user_profile", JSON.stringify(userProfile));
+    }
+
+    function learnFromArticle(article, action = "view") {
+      if (!article) return;
+
+      const weights = {
+        view: 3,
+        read: 4,
+        save: 5,
+        share: 4,
+        audio: 3
+      };
+
+      const amount = weights[action] || 1;
+
+      userProfile.topicScores[article.topic] = (userProfile.topicScores[article.topic] || 0) + amount;
+      userProfile.countryScores[article.country] = (userProfile.countryScores[article.country] || 0) + amount;
+      userProfile.articleScores[article.id] = (userProfile.articleScores[article.id] || 0) + amount;
+
+      saveUserProfile();
+    }
+
+    function scoreArticleForUser(article) {
+      return (
+        (userProfile.topicScores[article.topic] || 0) * 3 +
+        (userProfile.countryScores[article.country] || 0) * 2 +
+        (userProfile.articleScores[article.id] || 0)
+      );
+    }
+
+    function getPersonalizedArticles() {
+      return [...articles]
+        .filter(item => item.page === "today")
+        .sort((a, b) => scoreArticleForUser(b) - scoreArticleForUser(a))
+        .slice(0, 6);
+    }
+
+    function loadSavedCache() {
+      return safeJsonParse(localStorage.getItem("tor_saved_articles") || "{}", {});
+    }
+
+    function saveSavedCache(cache) {
+      localStorage.setItem("tor_saved_articles", JSON.stringify(cache));
+      savedArticleIds = new Set(Object.keys(cache).map(Number));
+    }
+
+    function initSavedArticles() {
+      const cache = loadSavedCache();
+      savedArticleIds = new Set(Object.keys(cache).map(Number));
+    }
+
+    function loadShareCounts() {
+      return safeJsonParse(localStorage.getItem("tor_share_counts") || "{}", {});
+    }
+
+    function getShareCount(articleId) {
+      const counts = loadShareCounts();
+      return counts[articleId] || 0;
+    }
+
+    function incrementShareCount(articleId) {
+      const counts = loadShareCounts();
+      counts[articleId] = (counts[articleId] || 0) + 1;
+      localStorage.setItem("tor_share_counts", JSON.stringify(counts));
+      updateShareCountText(articleId);
+        }
+    function updateShareCountText(articleId) {
+      const el = document.getElementById("shareCountText");
+      if (el) el.textContent = `Shared ${getShareCount(articleId)} times`;
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      if (!toast) return;
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    function updateTime() {
+      const target = document.getElementById("updatedTime");
+      if (target) {
+        target.textContent = new Intl.DateTimeFormat("en", { dateStyle: "medium", timeStyle: "short" }).format(new Date());
+      }
+    }
+
+    function updateReadingProgress() {
+      const doc = document.documentElement;
+      const scrollTop = doc.scrollTop || document.body.scrollTop;
+      const scrollHeight = doc.scrollHeight - doc.clientHeight;
+      const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      const bar = document.getElementById("readingProgress");
+      if (bar) bar.style.width = progress + "%";
+    }
+
+    function onScrollOptimized() {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      requestAnimationFrame(() => {
+        updateReadingProgress();
+        scrollTicking = false;
+      });
+    }
+
+    function formatDate(value) {
+      const date = value ? new Date(value) : new Date();
+      if (Number.isNaN(date.getTime())) return "Unknown date";
+      return new Intl.DateTimeFormat("en", { dateStyle: "medium", timeStyle: "short" }).format(date);
+    }
+
+    function escapeHtml(text) {
+      return String(text || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function loadPrefs() {
+      const saved = safeJsonParse(localStorage.getItem("tor_reader_prefs") || "null", null);
+      if (saved) Object.assign(uiPrefs, saved);
+      applyPrefs();
+    }
+
+    function savePrefs() {
+      localStorage.setItem("tor_reader_prefs", JSON.stringify(uiPrefs));
+    }
+
+    function applyPrefs() {
+      document.body.dataset.theme = uiPrefs.theme;
+      document.body.classList.toggle("reader-mode", uiPrefs.readerMode);
+      document.documentElement.style.setProperty("--reader-font-size", uiPrefs.fontSize + "px");
+      document.documentElement.style.setProperty("--reader-line-height", String(uiPrefs.lineHeight));
+      document.documentElement.style.setProperty("--reader-width", uiPrefs.width);
+      updateToolButtons();
+    }
+
+    function updateToolButtons() {
+      const themeMap = { dark: "themeDarkBtn", sepia: "themeSepiaBtn", "soft-light": "themeSoftBtn" };
+      ["themeDarkBtn", "themeSepiaBtn", "themeSoftBtn", "widthNarrowBtn", "widthNormalBtn", "widthWideBtn", "readerModeBtn", "accessibilityBtn"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove("active");
+      });
+
+      const themeBtn = document.getElementById(themeMap[uiPrefs.theme]);
+      if (themeBtn) themeBtn.classList.add("active");
+
+      const widthBtn = uiPrefs.width === "720px" ? "widthNarrowBtn" : uiPrefs.width === "980px" ? "widthWideBtn" : "widthNormalBtn";
+      const widthEl = document.getElementById(widthBtn);
+      if (widthEl) widthEl.classList.add("active");
+
+      if (uiPrefs.readerMode) {
+        const r = document.getElementById("readerModeBtn");
+        if (r) r.classList.add("active");
+      }
+
+      if (accessibilityOpen) {
+        const a = document.getElementById("accessibilityBtn");
+        if (a) a.classList.add("active");
+      }
+    }
+
+    function toggleAccessibilityPanel() {
+      accessibilityOpen = !accessibilityOpen;
+      document.getElementById("accessibilityPanel").classList.toggle("show", accessibilityOpen);
+      updateToolButtons();
+    }
+
+    function setTheme(theme) { uiPrefs.theme = theme; savePrefs(); applyPrefs(); }
+    function setReaderWidth(width) { uiPrefs.width = width; savePrefs(); applyPrefs(); }
+    function changeFontSize(delta) { uiPrefs.fontSize = Math.max(14, Math.min(24, uiPrefs.fontSize + delta)); savePrefs(); applyPrefs(); }
+    function changeLineSpacing(delta) { uiPrefs.lineHeight = Math.max(1.5, Math.min(2.4, +(uiPrefs.lineHeight + delta).toFixed(1))); savePrefs(); applyPrefs(); }
+    function toggleReaderMode() { uiPrefs.readerMode = !uiPrefs.readerMode; savePrefs(); applyPrefs(); }
+    function resetReadingSettings() { uiPrefs.theme = "dark"; uiPrefs.fontSize = 17; uiPrefs.lineHeight = 1.9; uiPrefs.width = "860px"; uiPrefs.readerMode = false; savePrefs(); applyPrefs(); }
+    function getCountryFlagUrl(country) {
+      const map = {
+        Bangladesh: "https://flagcdn.com/w40/bd.png",
+        India: "https://flagcdn.com/w40/in.png",
+        China: "https://flagcdn.com/w40/cn.png",
+        USA: "https://flagcdn.com/w40/us.png",
+        Russia: "https://flagcdn.com/w40/ru.png",
+        Iran: "https://flagcdn.com/w40/ir.png",
+        Israel: "https://flagcdn.com/w40/il.png"
+      };
+      return map[country] || "";
+    }
+
+    function getCountryIcon(country) {
+      const url = getCountryFlagUrl(country);
+      if (url) return `<img src="${url}" alt="${escapeHtml(country)} flag" class="chip-flag">`;
+      return `<span class="chip-svg"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a15 15 0 0 1 0 18"></path><path d="M12 3a15 15 0 0 0 0 18"></path></svg></span>`;
+    }
+
+    function getTopicIcon(topic) {
+      return `<span class="chip-svg"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg></span>`;
+    }
+
+    function getTypeIcon(type) {
+      if (type === "real") return `<span class="chip-svg"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M8 12l2.5 2.5L16 9"></path></svg></span>`;
+      if (type === "rumor") return `<span class="chip-svg"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l9 16H3L12 3z"></path><path d="M12 9v4"></path><circle cx="12" cy="16.5" r="0.8" fill="currentColor" stroke="none"></circle></svg></span>`;
+      return `<span class="chip-svg"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="14" rx="2"></rect><path d="M8 9h8"></path><path d="M8 13h8"></path></svg></span>`;
+    }
+
+    function resetSpeechButton(button) {
+      if (!button) return;
+      button.textContent = "Tap To Listen";
+      button.dataset.speaking = "false";
+    }
+
+    function resetAllSpeechButtons() {
+      document.querySelectorAll('[data-speaking="true"]').forEach(resetSpeechButton);
+    }
+
+    function stopAllSpeech() {
+      if (speechStartTimer) clearTimeout(speechStartTimer);
+      speechStartTimer = null;
+      try { window.speechSynthesis.cancel(); } catch {}
+      resetAllSpeechButtons();
+      currentSpeech = null;
+      currentSpeechButton = null;
+    }
+
+    function toggleSpeech(text, button) {
+      if (!text || !text.trim()) return;
+
+      const isSame = currentSpeechButton === button && button && button.dataset.speaking === "true";
+      if (isSame) {
+        stopAllSpeech();
+        return;
+      }
+
+      stopAllSpeech();
+
+      speechStartTimer = setTimeout(() => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "en-US";
+        currentSpeech = utterance;
+        currentSpeechButton = button;
+
+        if (button) {
+          button.textContent = "Tap To Stop Listening";
+          button.dataset.speaking = "true";
+        }
+
+        utterance.onend = () => { if (currentSpeech === utterance) stopAllSpeech(); };
+        utterance.onerror = () => { if (currentSpeech === utterance) stopAllSpeech(); };
+
+        try { window.speechSynthesis.speak(utterance); } catch { stopAllSpeech(); }
+        speechStartTimer = null;
+      }, 60);
+    }
+
+    function togglePageAudio(button) {
+      toggleSpeech(document.getElementById("app")?.innerText || "", button);
+    }
+
+    function toggleArticleAudio(id, button) {
+      const article = getArticleById(id);
+      if (!article) return;
+      learnFromArticle(article, "audio");
+      toggleSpeech(`${article.text.title}. ${article.text.summary}. ${article.text.content}`, button);
+    }
+
+    function signupNewsletter() {
+      const email = document.getElementById("newsletterEmail").value.trim();
+      if (!email) { alert("Enter your email first."); return; }
+      const subject = encodeURIComponent("TruthOrRumor Newsletter Signup");
+      const body = encodeURIComponent(`Please add this email to the newsletter list: ${email}`);
+      location.href = `mailto:hello@truthorrumor.com?subject=${subject}&body=${body}`;
+    }
+    function getArticleById(id) {
+      return articles.find(item => item.id === Number(id)) || getSavedArticles().find(item => item.id === Number(id)) || null;
+    }
+
+    function getSavedArticles() {
+      return Object.values(loadSavedCache()).map((item, index) => normalizeArticle(item, index)).filter(Boolean);
+    }
+
+    function normalizeArticle(item, index) {
+      const rawText = item?.text?.en || item?.text || {};
+      const article = {
+        id: Number.isInteger(item?.id) ? item.id : index + 1,
+        country: typeof item?.country === "string" ? item.country : "World",
+        topic: typeof item?.topic === "string" ? item.topic : "World News",
+        type: item?.type === "rumor" ? "rumor" : "real",
+        page: item?.page === "old" ? "old" : "today",
+        popular: Boolean(item?.popular),
+        publishedAt: typeof item?.publishedAt === "string" ? item.publishedAt : (typeof item?.published_at === "string" ? item.published_at : new Date().toISOString()),
+        updatedAt: typeof item?.updatedAt === "string" ? item.updatedAt : new Date().toISOString(),
+        sourceUrl: item?.sourceUrl || item?.source_url || "",
+        imageUrl: item?.imageUrl || item?.image_url || "",
+        text: {
+          title: typeof rawText?.title === "string" ? rawText.title : "",
+          summary: typeof rawText?.summary === "string" ? rawText.summary : "",
+          content: typeof rawText?.content === "string" ? rawText.content : ""
+        }
+      };
+      if (!article.text.title) return null;
+      return article;
+    }
+
+    function setNewsData(data) {
+      articles = Array.isArray(data) ? data.map((item, index) => normalizeArticle(item, index)).filter(Boolean) : [];
+      renderTicker();
+      renderRoute();
+    }
+
+    function renderTicker() {
+      const latest = articles.filter(item => item.page === "today").sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 8);
+      const ticker = document.getElementById("headlineTicker");
+      if (!ticker) return;
+      if (!latest.length) {
+        ticker.innerHTML = `<span class="ticker-item">Latest headlines will appear here.</span><span class="ticker-item">Latest headlines will appear here.</span>`;
+        return;
+      }
+      const row = latest.map(item => `<span class="ticker-item">${escapeHtml(item.text.title)}</span>`).join("");
+      ticker.innerHTML = row + row;
+    }
+
+    function toggleSaveArticle(id) {
+      const article = getArticleById(id);
+      if (!article) return;
+      const cache = loadSavedCache();
+      if (savedArticleIds.has(Number(id))) {
+        delete cache[id];
+      } else {
+        cache[id] = article;
+        learnFromArticle(article, "save");
+      }
+      saveSavedCache(cache);
+      renderRoute();
+    }
+
+    function buildArticleLink(article, source = "direct") {
+      const url = new URL(window.location.origin + window.location.pathname);
+      url.searchParams.set("article", article.id);
+      url.searchParams.set("utm_source", source);
+      url.searchParams.set("utm_medium", "social");
+      url.searchParams.set("utm_campaign", "share");
+      return url.toString();
+    }
+
+    function openShareMenu(id) {
+      const article = getArticleById(id);
+      if (!article) return;
+      activeShareArticleId = Number(id);
+      const preview = document.getElementById("sharePreview");
+      const row = document.getElementById("storyModeRow");
+      const grid = document.getElementById("shareGrid");
+      const note = document.getElementById("shareNote");
+      const qrWrap = document.getElementById("qrWrap");
+
+      preview.innerHTML = `<div class="share-preview-head"><img src="${article.imageUrl || "logo.png"}" alt="${escapeHtml(article.text.title)}" onerror="this.src='logo.png'"><div><h4>${escapeHtml(article.text.title)}</h4><p>${escapeHtml(article.text.summary)}</p></div></div>`;
+      row.innerHTML = ["full","headline","summary","quote"].map(mode => `<button class="story-mode-btn ${shareMode === mode ? "active" : ""}" onclick="shareMode='${mode}'; openShareMenu(${article.id})">${mode === "full" ? "Full Article" : mode === "headline" ? "Headline Only" : mode === "summary" ? "Short Summary" : "Quote Card"}</button>`).join("");
+
+      const url = buildArticleLink(article, "share");
+      const text = encodeURIComponent(article.text.title + "\n\n" + article.text.summary + "\n\n" + url);
+      const title = encodeURIComponent(article.text.title);
+
+      grid.innerHTML = `
+        <button class="share-option" onclick="navigator.share ? navigator.share({ title: '${escapeHtml(article.text.title)}', text: '${escapeHtml(article.text.summary)}', url: '${url}' }).then(()=>{ incrementShareCount(${article.id}); learnFromArticle(getArticleById(${article.id}), 'share'); }) : navigator.clipboard.writeText('${url}').then(()=>showToast('Link copied'))"><span class="icon-wrap">📱</span><span>Device Share</span></button>
+        <button class="share-option" onclick="navigator.clipboard.writeText('${url}').then(()=>{ incrementShareCount(${article.id}); showToast('Link copied'); })"><span class="icon-wrap">🔗</span><span>Copy Link</span></button>
+        <button class="share-option" onclick="window.open('https://wa.me/?text=${text}','_blank'); incrementShareCount(${article.id}); learnFromArticle(getArticleById(${article.id}), 'share');"><span class="icon-wrap">🟢</span><span>WhatsApp</span></button>
+        <button class="share-option" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}','_blank'); incrementShareCount(${article.id}); learnFromArticle(getArticleById(${article.id}), 'share');"><span class="icon-wrap">📘</span><span>Facebook</span></button>
+        <button class="share-option" onclick="window.open('https://twitter.com/intent/tweet?text=${text}','_blank'); incrementShareCount(${article.id}); learnFromArticle(getArticleById(${article.id}), 'share');"><span class="icon-wrap">✖️</span><span>X</span></button>
+        <button class="share-option" onclick="window.open('https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(article.text.title)}','_blank'); incrementShareCount(${article.id}); learnFromArticle(getArticleById(${article.id}), 'share');"><span class="icon-wrap">📨</span><span>Telegram</span></button>
+        <button class="share-option" onclick="location.href='mailto:?subject=${title}&body=${text}'; incrementShareCount(${article.id}); learnFromArticle(getArticleById(${article.id}), 'share');"><span class="icon-wrap">✉️</span><span>Email</span></button>
+        <button class="share-option" onclick="toggleSaveArticle(${article.id})"><span class="icon-wrap">💾</span><span>${savedArticleIds.has(article.id) ? "Saved" : "Save For Later"}</span></button>
+        <button class="share-option" onclick="document.getElementById('qrImage').src='https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(url)}'; document.getElementById('qrWrap').classList.toggle('show');"><span class="icon-wrap">🔳</span><span>QR Code</span></button>
+      `;
+
+      note.innerHTML = `One tap share, copy link, native share, QR code, save for later, and share tracking are ready.<br>Share URL: ${escapeHtml(url)}`;
+      document.getElementById("shareCountText").textContent = `Shared ${getShareCount(article.id)} times`;
+      qrWrap.classList.remove("show");
+      document.getElementById("shareModalBackdrop").classList.add("show");
+    }
+
+    function openShareMenuFromCurrentArticle() {
+      const params = new URLSearchParams(window.location.search);
+      const articleId = params.get("article");
+      if (articleId) openShareMenu(Number(articleId));
+    }
+
+    function closeShareMenu(event) {
+      if (event && event.target && event.target.id !== "shareModalBackdrop") return;
+      document.getElementById("shareModalBackdrop").classList.remove("show");
+    }
+
+    function renderNav() {
+      const nav = [
+        { hash: "#home", label: "Home" },
+        { hash: "#today", label: "Today" },
+        { hash: "#old", label: "Old News" },
+        { hash: "#rumors", label: "Rumor" },
+        { hash: "#real", label: "Truth" },
+        { hash: "#popular", label: "Popular" },
+        { hash: "#saved", label: "Saved" }
+      ];
+      const activeHash = location.hash || "#home";
+      document.getElementById("navRow").innerHTML = nav.map(item => `<button class="nav-btn ${activeHash === item.hash ? "active" : ""}" onclick="goTo('${item.hash}')">${item.label}</button>`).join("");
+    }
+
+    function renderCountryFilters() {
+      document.getElementById("countryFilters").innerHTML = countryOptions.map(item => `<button class="chip ${currentCountry === item.value ? "active" : ""}" onclick="currentCountry='${item.value}'; renderCountryFilters(); location.hash='#results'; renderRoute();">${getCountryIcon(item.value)} ${item.label}</button>`).join("");
+    }
+
+    function renderTopicFilters() {
+      document.getElementById("topicFilters").innerHTML = topicOptions.map(item => `<button class="chip ${currentTopic === item.value ? "active" : ""}" onclick="currentTopic='${item.value}'; renderTopicFilters(); location.hash='#results'; renderRoute();">${getTopicIcon(item.value)} ${item.label}</button>`).join("");
+    }
+
+    function renderTypeFilters() {
+      document.getElementById("typeFilters").innerHTML = typeOptions.map(item => `<button class="chip ${currentType === item.value ? "active" : ""}" onclick="currentType='${item.value}'; renderTypeFilters(); location.hash='#results'; renderRoute();">${getTypeIcon(item.value)} ${item.label}</button>`).join("") + `<button class="chip" onclick="clearFilters()">Clear Filters</button>`;
+    }
+
+    function toggleFilters() { filtersOpen = !filtersOpen; document.getElementById("filterPanel").classList.toggle("show", filtersOpen); }
+    function clearFilters() { currentCountry = "All"; currentTopic = "All"; currentType = "all"; currentSearch = ""; document.getElementById("searchInput").value = ""; renderCountryFilters(); renderTopicFilters(); renderTypeFilters(); goTo('#home'); }
+    function runSearch() { currentSearch = document.getElementById("searchInput").value.trim().toLowerCase(); goTo('#results'); }
+    function goTo(hash) { history.replaceState({}, "", window.location.pathname + hash); renderRoute(); }
+
+    function matchesFilters(article) {
+      const text = `${article.text.title} ${article.text.summary} ${article.text.content} ${article.country} ${article.topic}`.toLowerCase();
+      const countryOk = currentCountry === "All" || article.country === currentCountry || (currentCountry === "World" && article.topic === "World News");
+      const topicOk = currentTopic === "All" || article.topic === currentTopic;
+      const typeOk = currentType === "all" || article.type === currentType;
+      const searchOk = currentSearch === "" || text.includes(currentSearch);
+      return countryOk && topicOk && typeOk && searchOk;
+    }
+
+    function getArticlesForPage(page) {
+      if (page === "saved") return getSavedArticles();
+      return articles.filter(article => {
+        if (!matchesFilters(article)) return false;
+        if (page === "today") return article.page === "today";
+        if (page === "old") return article.page === "old";
+        if (page === "rumors") return article.type === "rumor";
+        if (page === "real") return article.type === "real";
+        if (page === "popular") return article.popular === true;
+        return true;
+      });
+    }
+
+    function renderNewsPhoto(article, className = "card-photo") {
+      const imageUrl = article.imageUrl || "";
+      if (!imageUrl) return "";
+      const wrapClass = className === "slider-photo" ? "slider-photo-wrap" : className === "article-photo" ? "article-photo-wrap" : "card-photo-wrap";
+      return `<div class="photo-wrap ${wrapClass}"><img src="${imageUrl}" alt="${escapeHtml(article.text.title)}" class="${className}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.style.display='none'"></div>`;
+    }
+
+    function renderMetaLine(article) {
+      return `${escapeHtml(article.country)} • ${escapeHtml(article.topic)} • ${article.page === "old" ? "Old News" : "Today"} • Published ${formatDate(article.publishedAt)} • Updated ${formatDate(article.updatedAt)}`;
+    }
+
+    function renderSourceButton(article) {
+      return article.sourceUrl ? `<a class="mini-btn" href="${article.sourceUrl}" target="_blank" rel="noopener noreferrer">Source</a>` : "";
+    }
+
+    function renderShareButton(article) {
+      return `<button class="share-round-btn" onclick="openShareMenu(${article.id})"><span>Share</span></button>`;
+    }
+
+    function renderSaveButton(article) {
+      return `<button class="mini-btn" onclick="toggleSaveArticle(${article.id})">${savedArticleIds.has(Number(article.id)) ? "Saved" : "Save"}</button>`;
+    }
+
+    function renderCard(article) {
+      return `<article class="card glass">${renderNewsPhoto(article, "card-photo")}<span class="badge ${article.type === "real" ? "real" : "rumor"}">${article.type === "real" ? "Truth" : "Rumor"}</span><h4>${escapeHtml(article.text.title)}</h4><p>${escapeHtml(article.text.summary)}</p><div class="meta">${renderMetaLine(article)}</div><div class="share-count">Shared ${getShareCount(article.id)} times</div><div class="card-actions"><button class="mini-btn" onclick="openArticle(${article.id})">Read More</button><button class="mini-btn" onclick="toggleArticleAudio(${article.id}, this)" data-speaking="false">Tap To Listen</button>${renderShareButton(article)}${renderSaveButton(article)}${renderSourceButton(article)}</div></article>`;
+    }
+
+    function renderGrid(list) {
+      if (!list.length) return `<div class="empty-state glass">No posts yet.</div>`;
+      return `<div class="grid">${list.map(renderCard).join("")}</div>`;
+    }
+
+    function renderSliderCard(article) {
+      return `<article class="slider-card">${renderNewsPhoto(article, "slider-photo")}<span class="badge ${article.type === "real" ? "real" : "rumor"}">${article.type === "real" ? "Truth" : "Rumor"}</span><h4>${escapeHtml(article.text.title)}</h4><p>${escapeHtml(article.text.summary)}</p><div class="slider-meta">${renderMetaLine(article)}</div><div class="share-count">Shared ${getShareCount(article.id)} times</div><div class="slider-actions"><button class="mini-btn" onclick="openArticle(${article.id})">Read More</button>${renderShareButton(article)}${renderSaveButton(article)}</div></article>`;
+    }
+
+    function renderNewsSlider(list) {
+      if (!list.length) return `<section class="slider-section"><div class="slider-head"><h3>Top Stories</h3><span>Latest headlines</span></div><div class="empty-state glass">No slider news yet.</div></section>`;
+      return `<section class="slider-section"><div class="slider-head"><h3>Top Stories</h3><div class="slider-nav"><button onclick="moveSlider('newsSlider', -1)">‹</button><button onclick="moveSlider('newsSlider', 1)">›</button></div></div><div class="slider-track" id="newsSlider">${list.map(renderSliderCard).join("")}</div></section>`;
+    }
+
+    function moveSlider(id, direction) {
+      const slider = document.getElementById(id);
+      if (!slider) return;
+      slider.scrollBy({ left: direction * slider.clientWidth * 0.9, behavior: "smooth" });
+    }
+
+    function startAutoSlider() {
+      const slider = document.getElementById("newsSlider");
+      if (!slider) return;
+      clearInterval(window.newsSliderTimer);
+      window.newsSliderTimer = setInterval(() => {
+        const maxScroll = slider.scrollWidth - slider.clientWidth;
+        const next = slider.scrollLeft + slider.clientWidth * 0.9;
+        if (next >= maxScroll - 5) slider.scrollTo({ left: 0, behavior: "smooth" });
+        else slider.scrollBy({ left: slider.clientWidth * 0.9, behavior: "smooth" });
+      }, 5000);
+    }
+
+    function renderHome() {
+      const latest = getArticlesForPage("today").sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+      const personalized = getPersonalizedArticles();
+      const popular = getArticlesForPage("popular").slice(0, 3);
+
+      setTimeout(startAutoSlider, 100);
+
+      return `
+        <section class="hero glass">
+          <div class="eyebrow">Facts Or Fiction?</div>
+          <h2>Find the Facts. Filter the Rumors.</h2>
+          <p>TruthOrRumor helps readers understand what is true, what is misleading, and what needs caution. This website also learns your reading interests on your device, so you see more stories that match your choices.</p>
+          <div class="hero-actions">
+            <button class="btn primary" onclick="goTo('#today')">Browse News</button>
+            <button class="btn secondary" onclick="togglePageAudio(this)" data-speaking="false">Tap To Listen</button>
+          </div>
+        </section>
+
+        ${renderNewsSlider(latest.slice(0, 6))}
+
+        <section class="page-block">
+          <div class="section-head">
+            <h3>Recommended For You</h3>
+            <span>Built in learning from your reading choices</span>
+          </div>
+          ${renderGrid(personalized)}
+        </section>
+
+        <section class="page-block">
+          <div class="section-head">
+            <h3>Popular</h3>
+            <span>Trending stories</span>
+          </div>
+          ${renderGrid(popular)}
+        </section>
+
+        <section class="page-block">
+          <div class="section-head">
+            <h3>Latest News</h3>
+            <span>Newest headlines</span>
+          </div>
+          ${renderGrid(latest.slice(0, 6))}
+        </section>
+      `;
+    }
+
+    function renderListPage(page) {
+      const list = getArticlesForPage(page);
+      const titleMap = {
+        today: "Today News",
+        old: "Old News Archive",
+        rumors: "Rumor",
+        real: "Truth",
+        popular: "Popular",
+        saved: "Saved Articles",
+        results: "Filtered Results"
+      };
+      return `<section class="page-block"><div class="section-head"><h3>${titleMap[page] || "News"}</h3><span>Updated stories</span></div>${renderGrid(list)}</section>`;
+    }
+
+    function renderArticlePage(id) {
+      const article = getArticleById(id);
+      if (!article) return `<div class="empty-state glass">Article not found.</div>`;
+
+      learnFromArticle(article, "read");
+
+      return `
+        <article class="article-page glass">
+          <div class="article-top">
+            <span class="badge ${article.type === "real" ? "real" : "rumor"}">${article.type === "real" ? "Truth" : "Rumor"}</span>
+            <div class="meta">${renderMetaLine(article)}</div>
+          </div>
+
+          <h2>${escapeHtml(article.text.title)}</h2>
+          ${renderNewsPhoto(article, "article-photo")}
+          <div class="quick-summary"><strong>Quick Summary:</strong> ${escapeHtml(article.text.summary)}</div>
+          <div class="article-body">${escapeHtml(article.text.content)}</div>
+          <div class="share-count">Shared ${getShareCount(article.id)} times</div>
+
+          <div class="article-actions">
+            <button class="btn primary" onclick="goTo('#home')">Back To Home</button>
+            <button class="btn secondary" onclick="toggleArticleAudio(${article.id}, this)" data-speaking="false">Tap To Listen</button>
+            <button class="btn secondary" onclick="toggleReaderMode()">Reader Mode</button>
+            <button class="btn secondary" onclick="toggleSaveArticle(${article.id})">${savedArticleIds.has(Number(article.id)) ? "Saved" : "Save"}</button>
+            ${renderShareButton(article)}
+            ${renderSourceButton(article)}
+          </div>
+        </article>
+      `;
+    }
+
+    function openArticle(id) {
+      const article = getArticleById(id);
+      if (article) learnFromArticle(article, "view");
+      history.pushState({}, "", `${window.location.pathname}?article=${id}`);
+      renderRoute();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderRoute() {
+      renderNav();
+      renderCountryFilters();
+      renderTopicFilters();
+      renderTypeFilters();
+      updateToolButtons();
+
+      const app = document.getElementById("app");
+      const floatingShareBtn = document.getElementById("floatingShareBtn");
+      if (!app) return;
+
+      const params = new URLSearchParams(window.location.search);
+      const articleId = params.get("article");
+
+      if (articleId) {
+        app.innerHTML = renderArticlePage(Number(articleId));
+        floatingShareBtn.classList.add("show");
+        return;
+      }
+
+      floatingShareBtn.classList.remove("show");
+
+      const hash = location.hash || "#home";
+      if (hash === "#home" || hash === "") return void (app.innerHTML = renderHome());
+      if (hash === "#today") return void (app.innerHTML = renderListPage("today"));
+      if (hash === "#old") return void (app.innerHTML = renderListPage("old"));
+      if (hash === "#rumors") return void (app.innerHTML = renderListPage("rumors"));
+      if (hash === "#real") return void (app.innerHTML = renderListPage("real"));
+      if (hash === "#popular") return void (app.innerHTML = renderListPage("popular"));
+      if (hash === "#saved") return void (app.innerHTML = renderListPage("saved"));
+      if (hash === "#results") return void (app.innerHTML = renderListPage("results"));
+
+      app.innerHTML = renderHome();
+    }
+
+    async function loadAllNews() {
+      try {
+        const [todayResponse, archiveResponse] = await Promise.all([fetch(API_TODAY), fetch(API_ARCHIVE)]);
+        const todayData = await todayResponse.json();
+        const archiveData = await archiveResponse.json();
+        const todayNews = Array.isArray(todayData) ? todayData : [];
+        const oldNews = Array.isArray(archiveData) ? archiveData : [];
+        setNewsData([...todayNews, ...oldNews]);
+      } catch {
+        const savedOnly = getSavedArticles();
+        setNewsData(savedOnly.length ? savedOnly : []);
+      }
+    }
+
+    document.getElementById("searchInput").addEventListener("keydown", event => {
+      if (event.key === "Enter") runSearch();
+    });
+
+    window.addEventListener("popstate", () => { stopAllSpeech(); renderRoute(); });
+    window.addEventListener("hashchange", () => { stopAllSpeech(); renderRoute(); });
+    window.addEventListener("scroll", onScrollOptimized, { passive: true });
+    window.addEventListener("keydown", event => { if (event.key === "Escape") closeShareMenu(); });
+
+    loadUserProfile();
+    initSavedArticles();
+    loadPrefs();
+    updateTime();
+    updateReadingProgress();
+
+    setInterval(updateTime, 60000);
+    renderNav();
+    renderCountryFilters();
+    renderTopicFilters();
+    renderTypeFilters();
+    renderRoute();
+
+    loadAllNews();
+    setInterval(loadAllNews, 300000);
+  </script>
+</body>
+</html>
