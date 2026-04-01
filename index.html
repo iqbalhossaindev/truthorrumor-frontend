@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="google-adsense-account" content="ca-pub-2944530159971400">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-adsense-account" content="ca-pub-2944530159971400" />
   <title>TruthOrRumor</title>
   <meta name="description" content="TruthOrRumor helps readers separate facts from rumors with clear, trusted, and readable reporting." />
   <meta property="og:title" content="TruthOrRumor" />
@@ -18,23 +18,22 @@
     }
 
     :root {
-      --text: #ffffff;
-      --muted: rgba(255,255,255,0.74);
-      --card: rgba(255,255,255,0.03);
-      --card-2: rgba(255,255,255,0.045);
-      --border: rgba(255,255,255,0.09);
-      --soft: rgba(255,255,255,0.05);
-      --input: rgba(255,255,255,0.06);
-      --shadow: 0 16px 40px rgba(0,0,0,0.28);
-
-      --green: #33c45d;
-      --green-soft: rgba(51,196,93,0.14);
-      --red: #df4a4a;
-      --red-soft: rgba(223,74,74,0.14);
+      --bg-1: #070b14;
+      --bg-2: #111827;
+      --bg-3: #0b1220;
+      --text: #f8fafc;
+      --muted: rgba(248,250,252,0.72);
+      --line: rgba(255,255,255,0.14);
+      --glass: rgba(255,255,255,0.08);
+      --glass-2: rgba(255,255,255,0.06);
+      --glass-3: rgba(255,255,255,0.11);
+      --shadow: 0 18px 55px rgba(0,0,0,0.30);
       --gold: #f2b53a;
-      --gold-2: #ff8d3a;
-      --gold-soft: rgba(242,181,58,0.14);
-
+      --orange: #ff8d3a;
+      --red: #df4a4a;
+      --green: #22c55e;
+      --cyan: #4fd1ff;
+      --purple: #c084fc;
       --reader-font-size: 17px;
       --reader-line-height: 1.9;
       --reader-width: 860px;
@@ -46,157 +45,140 @@
 
     body {
       margin: 0;
-      min-height: 100vh;
       color: var(--text);
-      font-family: Arial, sans-serif;
-      overflow-x: hidden;
-      padding-top: 86px;
+      font-family: Arial, Helvetica, sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(51,196,93,0.12), transparent 30%),
-        radial-gradient(circle at top right, rgba(242,181,58,0.10), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(223,74,74,0.10), transparent 28%),
-        linear-gradient(135deg, #050505, #0d0d0d 46%, #151515);
+        radial-gradient(circle at 15% 12%, rgba(255,255,255,0.10), transparent 24%),
+        radial-gradient(circle at 82% 18%, rgba(192,132,252,0.26), transparent 22%),
+        radial-gradient(circle at 70% 66%, rgba(79,209,255,0.24), transparent 24%),
+        radial-gradient(circle at 52% 72%, rgba(242,181,58,0.18), transparent 20%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2) 48%, var(--bg-3));
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding-top: 90px;
     }
 
     body[data-theme="sepia"] {
-      --text: #2b2118;
-      --muted: rgba(59,46,35,0.76);
-      --card: rgba(255,248,238,0.58);
-      --card-2: rgba(255,248,238,0.72);
-      --border: rgba(109,82,49,0.12);
-      --soft: rgba(130,96,55,0.08);
-      --input: rgba(255,252,246,0.78);
-      --shadow: 0 16px 32px rgba(74,49,18,0.12);
+      --text: #241d16;
+      --muted: rgba(36,29,22,0.70);
+      --line: rgba(60,40,20,0.12);
+      --glass: rgba(255,248,240,0.40);
+      --glass-2: rgba(255,248,240,0.28);
+      --glass-3: rgba(255,248,240,0.52);
       background:
-        radial-gradient(circle at top left, rgba(201,151,72,0.12), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(180,101,82,0.10), transparent 30%),
-        linear-gradient(135deg, #f4eadb, #ebddca 46%, #e1d0ba);
+        radial-gradient(circle at 15% 12%, rgba(255,255,255,0.25), transparent 24%),
+        radial-gradient(circle at 82% 18%, rgba(192,132,252,0.15), transparent 22%),
+        radial-gradient(circle at 70% 66%, rgba(79,209,255,0.12), transparent 24%),
+        radial-gradient(circle at 52% 72%, rgba(242,181,58,0.14), transparent 20%),
+        linear-gradient(135deg, #f7efe3, #eee0cc 48%, #e5d7c5);
     }
 
     body[data-theme="soft-light"] {
-      --text: #21201d;
-      --muted: rgba(52,50,46,0.72);
-      --card: rgba(255,255,255,0.58);
-      --card-2: rgba(255,255,255,0.72);
-      --border: rgba(61,58,52,0.10);
-      --soft: rgba(0,0,0,0.04);
-      --input: rgba(255,255,255,0.80);
-      --shadow: 0 16px 32px rgba(0,0,0,0.08);
+      --text: #151b24;
+      --muted: rgba(21,27,36,0.68);
+      --line: rgba(21,27,36,0.10);
+      --glass: rgba(255,255,255,0.48);
+      --glass-2: rgba(255,255,255,0.34);
+      --glass-3: rgba(255,255,255,0.60);
       background:
-        radial-gradient(circle at top left, rgba(51,196,93,0.08), transparent 28%),
-        radial-gradient(circle at top right, rgba(242,181,58,0.08), transparent 28%),
-        radial-gradient(circle at bottom right, rgba(223,74,74,0.07), transparent 28%),
-        linear-gradient(135deg, #f3f3f1, #eceae5 46%, #e2e0da);
+        radial-gradient(circle at 15% 12%, rgba(255,255,255,0.45), transparent 24%),
+        radial-gradient(circle at 82% 18%, rgba(192,132,252,0.20), transparent 22%),
+        radial-gradient(circle at 70% 66%, rgba(79,209,255,0.18), transparent 24%),
+        radial-gradient(circle at 52% 72%, rgba(242,181,58,0.16), transparent 20%),
+        linear-gradient(135deg, #eef3f9, #e7edf5 48%, #dde7f2);
     }
 
     body.reader-mode {
-      padding-top: 14px;
+      padding-top: 20px;
     }
 
-    body.reader-mode .floating-headline,
     body.reader-mode .header,
+    body.reader-mode .top-ticker,
+    body.reader-mode .nav-row,
+    body.reader-mode .filter-panel,
     body.reader-mode .quick-links,
-    body.reader-mode .reading-tools,
-    body.reader-mode .info-sections,
-    body.reader-mode .newsletter-card,
-    body.reader-mode .footer,
-    body.reader-mode #filterPanel,
-    body.reader-mode #navRow {
+    body.reader-mode .home-only,
+    body.reader-mode .footer {
       display: none !important;
     }
 
-    .progress-wrap {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      z-index: 300;
-      background: rgba(255,255,255,0.04);
-    }
-
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, #33c45d 0%, #f2b53a 55%, #df4a4a 100%);
-      transition: none;
-    }
-
-    .orb {
+    .bg-orb {
       position: fixed;
       border-radius: 50%;
-      filter: blur(90px);
-      opacity: 0.18;
       pointer-events: none;
+      filter: blur(50px);
       z-index: 0;
+      opacity: 0.9;
     }
 
-    .orb.one {
-      top: 10px;
-      left: -100px;
-      width: 280px;
-      height: 280px;
-      background: #29c84b;
+    .bg-orb.one {
+      top: -80px;
+      left: -70px;
+      width: 300px;
+      height: 300px;
+      background: rgba(255,255,255,0.18);
     }
 
-    .orb.two {
+    .bg-orb.two {
+      top: 100px;
       right: -90px;
-      bottom: 100px;
-      width: 280px;
-      height: 280px;
-      background: #d64a4a;
+      width: 270px;
+      height: 270px;
+      background: rgba(192,132,252,0.42);
     }
 
-    .orb.three {
-      top: 260px;
-      right: 12%;
-      width: 220px;
-      height: 220px;
-      background: #f2b53a;
-      opacity: 0.12;
+    .bg-orb.three {
+      bottom: 110px;
+      right: 20px;
+      width: 300px;
+      height: 300px;
+      background: rgba(79,209,255,0.30);
     }
 
-    .floating-headline {
+    .bg-orb.four {
+      top: 330px;
+      left: 45%;
+      width: 230px;
+      height: 230px;
+      background: rgba(242,181,58,0.22);
+    }
+
+    .glass {
+      background: linear-gradient(180deg, var(--glass-3), var(--glass));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(24px) saturate(150%);
+      -webkit-backdrop-filter: blur(24px) saturate(150%);
+    }
+
+    .top-ticker {
       position: fixed;
       top: 12px;
       left: 50%;
       transform: translateX(-50%);
-      width: min(1120px, calc(100% - 20px));
-      z-index: 220;
-      pointer-events: none;
+      width: min(1180px, calc(100% - 20px));
+      z-index: 90;
     }
 
     .ticker-wrap {
-      border-radius: 18px;
+      border-radius: 22px;
       overflow: hidden;
-      background: rgba(18,18,18,0.60);
-      border: 1px solid rgba(255,255,255,0.09);
+      min-height: 58px;
       display: flex;
       align-items: center;
-      min-height: 60px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      pointer-events: auto;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.24);
-    }
-
-    body[data-theme="sepia"] .ticker-wrap,
-    body[data-theme="soft-light"] .ticker-wrap {
-      background: var(--card-2);
-      border-color: var(--border);
     }
 
     .live-pill {
+      min-height: 58px;
       display: flex;
       align-items: center;
       gap: 10px;
-      min-height: 60px;
-      padding: 0 14px;
-      background: rgba(255,255,255,0.04);
-      border-right: 1px solid rgba(255,255,255,0.08);
+      padding: 0 16px;
+      border-right: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
       white-space: nowrap;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 14px;
     }
 
     .live-dot {
@@ -204,46 +186,44 @@
       height: 10px;
       border-radius: 50%;
       background: var(--red);
-      box-shadow: 0 0 0 rgba(223,74,74,0.70);
-      animation: pulse 2.2s infinite;
+      box-shadow: 0 0 0 rgba(223,74,74,0.65);
+      animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
-      0% { transform: scale(.9); box-shadow: 0 0 0 0 rgba(223,74,74,.6); }
+      0% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(223,74,74,.5); }
       70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(223,74,74,0); }
-      100% { transform: scale(.9); box-shadow: 0 0 0 0 rgba(223,74,74,0); }
+      100% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(223,74,74,0); }
     }
 
     .ticker {
-      position: relative;
       overflow: hidden;
       flex: 1;
-      min-height: 60px;
       display: flex;
       align-items: center;
+      min-height: 58px;
     }
 
     .ticker-track {
       display: inline-flex;
       gap: 42px;
-      white-space: nowrap;
-      will-change: transform;
-      animation: tickerMove 85s linear infinite;
       padding-left: 100%;
-      color: var(--text);
-      font-size: 15px;
+      white-space: nowrap;
+      animation: tickerMove 90s linear infinite;
+      will-change: transform;
+      font-size: 14px;
     }
 
     .ticker-item {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .ticker-item::before {
       content: "";
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: var(--gold);
       flex: 0 0 auto;
@@ -255,215 +235,148 @@
     }
 
     .wrap {
+      position: relative;
+      z-index: 1;
       width: min(1240px, 100%);
       margin: 0 auto;
       padding: 16px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .glass {
-      background: var(--card);
-      border: 1px solid var(--border);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: var(--shadow);
     }
 
     .header {
-      border-radius: 28px;
-      padding: 22px 18px 18px;
+      border-radius: 32px;
+      padding: 22px;
       margin-bottom: 18px;
-      background: var(--card);
+      position: relative;
+      overflow: hidden;
     }
 
-    .topbar {
+    .header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 14% 18%, rgba(255,255,255,0.16), transparent 18%),
+        radial-gradient(circle at 82% 20%, rgba(192,132,252,0.18), transparent 22%),
+        radial-gradient(circle at 75% 70%, rgba(79,209,255,0.18), transparent 24%),
+        radial-gradient(circle at 55% 70%, rgba(242,181,58,0.10), transparent 18%);
+      pointer-events: none;
+    }
+
+    .brand-row {
+      position: relative;
+      z-index: 1;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: flex-start;
       gap: 16px;
       flex-wrap: wrap;
     }
 
-    .brand-top {
+    .brand-left {
       display: flex;
       align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
+      gap: 16px;
+      min-width: 0;
     }
 
     .site-logo {
-      width: 66px;
-      height: 66px;
+      width: 78px;
+      height: 78px;
       object-fit: contain;
-      border-radius: 16px;
-      padding: 6px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03);
+      border-radius: 22px;
+      padding: 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
     }
 
-    .brand h1 {
+    .brand-text h1 {
       margin: 0;
-      font-size: 30px;
-      line-height: 1.08;
-      background: linear-gradient(90deg, #ffffff 0%, #ffffff 34%, var(--gold) 48%, #f4b33f 54%, #ff7b44 72%, var(--red) 100%);
+      font-size: clamp(32px, 6vw, 60px);
+      line-height: 1;
+      background: linear-gradient(90deg, #ffffff 0%, #ffffff 28%, #f2d07a 46%, #f2b53a 56%, #ff8d3a 73%, #df4a4a 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-    }
-
-    body[data-theme="sepia"] .brand h1,
-    body[data-theme="soft-light"] .brand h1 {
-      background: linear-gradient(90deg, #2a2119 0%, #2a2119 34%, #d7941f 48%, #dc7d2e 72%, #c24949 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      letter-spacing: -0.8px;
     }
 
     .tagline {
-      margin-top: 8px;
+      margin-top: 10px;
       color: var(--muted);
-      line-height: 1.6;
-      font-size: 15px;
-      max-width: 760px;
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: 720px;
     }
 
     .updated {
+      position: relative;
+      z-index: 1;
+      white-space: nowrap;
       color: var(--muted);
       font-size: 14px;
-      white-space: nowrap;
     }
 
-    .search-panel {
-      margin-top: 18px;
-      border-radius: 22px;
-      padding: 18px;
-      background: var(--card-2);
-      border: 1px solid var(--border);
-    }
-
-    .search-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 14px;
-      margin-bottom: 14px;
-      background: var(--gold-soft);
-      border: 1px solid rgba(242,181,58,0.22);
-      box-shadow: 0 0 18px rgba(242,181,58,0.08);
-    }
-
-    .search-label::before {
-      content: "";
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold), var(--gold-2));
-    }
-
-    .search-row,
-    .card-actions,
-    .slider-actions,
-    .article-actions,
-    .newsletter-row,
-    .tool-row {
+    .nav-row {
       display: flex;
       gap: 10px;
-      flex-wrap: wrap;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin: 0 0 14px 0;
+      scrollbar-width: none;
     }
 
-    .search-input,
-    .newsletter-input {
-      flex: 1;
-      min-width: 180px;
-      border: 1px solid var(--border);
-      background: var(--input);
-      color: var(--text);
-      outline: none;
-      border-radius: 16px;
-      padding: 14px 16px;
-      font-size: 15px;
+    .nav-row::-webkit-scrollbar {
+      display: none;
     }
 
-    .search-input::placeholder,
-    .newsletter-input::placeholder {
-      color: var(--muted);
-    }
-
-    button,
-    input,
-    textarea,
-    select {
+    .nav-btn,
+    .chip,
+    .small-btn,
+    .story-mode-btn,
+    .share-option,
+    .quick-link-btn {
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: .22s ease;
       font-family: inherit;
     }
 
-    .btn,
-    .nav-btn,
-    .chip,
-    .mini-btn,
-    .slider-nav button,
-    .quick-link-btn,
-    .tool-btn,
-    .story-mode-btn,
-    .share-option,
-    .share-round-btn {
-      border: none;
-      cursor: pointer;
-      transition: .22s ease;
-    }
-
-    .btn:active,
     .nav-btn:active,
     .chip:active,
-    .mini-btn:active,
-    .slider-nav button:active,
-    .quick-link-btn:active,
-    .tool-btn:active,
+    .small-btn:active,
     .story-mode-btn:active,
     .share-option:active,
-    .share-round-btn:active {
+    .quick-link-btn:active {
       transform: scale(.98);
     }
 
-    .btn,
-    .mini-btn,
-    .quick-link-btn,
-    .tool-btn,
     .nav-btn,
-    .chip {
+    .chip,
+    .small-btn,
+    .quick-link-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      text-decoration: none;
       color: var(--text);
+      background: rgba(255,255,255,0.06);
+      border-radius: 999px;
+      padding: 11px 15px;
+      font-size: 14px;
+      text-decoration: none;
+      white-space: nowrap;
     }
 
-    .btn {
-      padding: 14px 18px;
-      border-radius: 16px;
-      font-weight: 700;
+    .nav-btn.active,
+    .chip.active,
+    .small-btn.active,
+    .quick-link-btn.active,
+    .story-mode-btn.active {
+      background: rgba(242,181,58,0.18);
+      border-color: rgba(242,181,58,0.24);
     }
 
-    .btn.primary {
-      background: linear-gradient(135deg, var(--gold), var(--gold-2));
-      color: #180d00;
-    }
-
-    .btn.secondary,
-    .mini-btn,
-    .quick-link-btn,
-    .tool-btn,
-    .nav-btn,
-    .chip {
-      background: var(--soft);
-    }
-
-    .nav-row,
-    .chip-row,
     .quick-links {
       display: flex;
       gap: 10px;
@@ -473,123 +386,229 @@
       scrollbar-width: none;
     }
 
-    .nav-row::-webkit-scrollbar,
-    .chip-row::-webkit-scrollbar,
     .quick-links::-webkit-scrollbar {
       display: none;
     }
 
-    .nav-btn,
-    .chip,
-    .quick-link-btn,
-    .tool-btn {
-      white-space: nowrap;
-      padding: 11px 15px;
-      border-radius: 999px;
-      font-size: 14px;
-      border: 1px solid transparent;
+    .search-panel {
+      margin-bottom: 18px;
+      padding: 18px;
+      border-radius: 28px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .nav-btn.active,
-    .chip.active,
-    .tool-btn.active,
-    .quick-link-btn.active,
-    .story-mode-btn.active {
-      background: var(--gold-soft);
-      border-color: rgba(242,181,58,0.20);
+    .search-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,0.14), transparent 20%),
+        radial-gradient(circle at 78% 82%, rgba(79,209,255,0.16), transparent 18%);
+      pointer-events: none;
     }
 
-    .chip-flag {
-      width: 18px;
-      height: 14px;
-      object-fit: cover;
-      border-radius: 3px;
-      flex: 0 0 auto;
+    .search-inner {
+      position: relative;
+      z-index: 1;
     }
 
-    .chip-svg {
+    .search-title {
       display: inline-flex;
-      width: 18px;
-      height: 18px;
       align-items: center;
-      justify-content: center;
-      flex: 0 0 auto;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(242,181,58,0.14);
+      border: 1px solid rgba(242,181,58,0.18);
+    }
+
+    .search-title::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+    }
+
+    .search-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      outline: none;
+      padding: 15px 16px;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      font-size: 15px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .search-input::placeholder {
+      color: var(--muted);
+    }
+
+    .primary-btn {
+      border: none;
+      border-radius: 18px;
+      padding: 14px 18px;
+      cursor: pointer;
+      color: #180d00;
+      font-weight: 700;
+      font-size: 15px;
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      box-shadow: 0 10px 26px rgba(242,181,58,0.18);
+    }
+
+    .secondary-btn {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px 18px;
+      cursor: pointer;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 15px;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
     .filter-panel,
-    .reading-tools {
-      border-radius: 22px;
-      padding: 16px;
-      margin-bottom: 18px;
-      background: var(--card);
+    .accessibility-panel {
       display: none;
-      animation: fadeUp .25s ease;
+      margin-bottom: 18px;
+      padding: 18px;
+      border-radius: 28px;
     }
 
     .filter-panel.show,
-    .reading-tools.show {
+    .accessibility-panel.show {
       display: block;
     }
 
     .filter-title,
-    .tools-title,
-    .share-section-title {
+    .tools-title {
       margin: 0 0 10px 0;
       font-size: 15px;
       color: var(--muted);
     }
 
-    .tools-grid,
-    .info-sections,
-    .grid {
+    .chip-row {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+      scrollbar-width: none;
+    }
+
+    .chip-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip-flag {
+      width: 18px;
+      height: 14px;
+      border-radius: 3px;
+      object-fit: cover;
+      flex: 0 0 auto;
+    }
+
+    .chip-svg {
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .tools-grid {
       display: grid;
-      gap: 16px;
+      gap: 14px;
       grid-template-columns: 1fr;
     }
 
-    .tool-group,
-    .card,
-    .slider-card,
-    .article-page,
-    .info-card,
-    .newsletter-card {
-      background: var(--card);
-      border: 1px solid var(--border);
+    .tool-group {
+      padding: 14px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
     }
 
-    .tool-group {
-      padding: 12px;
-      border-radius: 18px;
+    .tool-group strong {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .tool-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .hero {
-      border-radius: 28px;
       padding: 26px;
-      margin-bottom: 24px;
-      background: var(--card);
+      border-radius: 32px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 12% 16%, rgba(255,255,255,0.16), transparent 18%),
+        radial-gradient(circle at 82% 18%, rgba(192,132,252,0.16), transparent 22%),
+        radial-gradient(circle at 74% 72%, rgba(79,209,255,0.16), transparent 24%),
+        radial-gradient(circle at 55% 80%, rgba(242,181,58,0.12), transparent 18%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
     }
 
     .eyebrow {
-      color: #ffd47e;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       font-size: 12px;
       letter-spacing: 1px;
       text-transform: uppercase;
+      color: #ffe2a2;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(242,181,58,0.12);
+      border: 1px solid rgba(242,181,58,0.16);
     }
 
     .hero h2 {
-      margin: 10px 0 12px;
-      font-size: 38px;
-      line-height: 1.18;
+      margin: 16px 0 12px;
+      font-size: clamp(38px, 8vw, 76px);
+      line-height: 1.04;
+      letter-spacing: -1px;
     }
 
-    .hero p,
-    .card p,
-    .slider-card p,
-    .info-card p,
-    .newsletter-card p {
+    .hero p {
       margin: 0;
       color: var(--muted);
-      line-height: 1.75;
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 800px;
     }
 
     .hero-actions {
@@ -610,18 +629,15 @@
       flex-wrap: wrap;
     }
 
-    .section-head,
-    .slider-head {
+    .section-head {
       margin-bottom: 12px;
     }
 
     .section-head h3,
     .slider-head h3,
-    .info-card h3,
-    .newsletter-card h3,
     .share-top h3 {
       margin: 0;
-      font-size: 26px;
+      font-size: 28px;
     }
 
     .section-head span,
@@ -631,28 +647,25 @@
     .share-count {
       color: var(--muted);
       font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .slider-section {
+      margin-bottom: 22px;
     }
 
     .slider-track {
       display: flex;
       gap: 14px;
       overflow-x: auto;
-      scroll-snap-type: x mandatory;
       padding: 4px 4px 10px;
+      scroll-snap-type: x mandatory;
       scrollbar-width: none;
       scroll-behavior: smooth;
     }
 
     .slider-track::-webkit-scrollbar {
       display: none;
-    }
-
-    .slider-card {
-      min-width: 86%;
-      scroll-snap-align: start;
-      border-radius: 24px;
-      padding: 18px;
-      box-shadow: 0 10px 26px rgba(0,0,0,0.18);
     }
 
     .slider-nav {
@@ -664,53 +677,81 @@
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: var(--soft);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.08);
       color: var(--text);
+      cursor: pointer;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .slider-card,
+    .card,
+    .article-page,
+    .footer-card {
+      border-radius: 28px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .slider-card::before,
+    .card::before,
+    .article-page::before,
+    .footer-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 12%, rgba(255,255,255,0.10), transparent 16%),
+        radial-gradient(circle at 85% 82%, rgba(79,209,255,0.08), transparent 14%);
+      pointer-events: none;
+    }
+
+    .slider-card,
     .card {
-      border-radius: 22px;
       padding: 18px;
-      animation: fadeUp .35s ease;
+      min-width: 86%;
     }
 
     .photo-wrap {
       width: 100%;
       overflow: hidden;
-      background: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
     }
 
-    .card-photo-wrap {
-      margin: -18px -18px 16px;
-      border-radius: 22px 22px 18px 18px;
-    }
-
+    .card-photo-wrap,
     .slider-photo-wrap {
       margin: -18px -18px 16px;
-      border-radius: 24px 24px 18px 18px;
+      border-radius: 28px 28px 20px 20px;
     }
 
     .article-photo-wrap {
       margin: 16px 0 18px;
-      border-radius: 20px;
+      border-radius: 24px;
     }
 
     .card-photo,
     .slider-photo,
     .article-photo {
       width: 100%;
-      display: block;
       object-fit: cover;
-      background: #0a0a0a;
+      display: block;
+      background: #050505;
     }
 
-    .card-photo { height: 210px; }
-    .slider-photo { height: 230px; }
-    .article-photo { height: 260px; border-radius: 20px; }
+    .card-photo { height: 220px; }
+    .slider-photo { height: 240px; }
+    .article-photo { height: 280px; border-radius: 24px; }
 
     .badge {
       display: inline-block;
-      width: fit-content;
       padding: 8px 12px;
       border-radius: 999px;
       font-size: 12px;
@@ -718,177 +759,112 @@
     }
 
     .badge.real {
-      background: var(--green-soft);
-      color: #c1ffd1;
+      background: rgba(34,197,94,0.14);
+      color: #b7ffd0;
+      border: 1px solid rgba(34,197,94,0.18);
     }
 
     .badge.rumor {
-      background: var(--red-soft);
-      color: #ffc1c1;
-    }
-
-    body[data-theme="sepia"] .badge.real,
-    body[data-theme="soft-light"] .badge.real {
-      color: #146c37;
-    }
-
-    body[data-theme="sepia"] .badge.rumor,
-    body[data-theme="soft-light"] .badge.rumor {
-      color: #b44444;
+      background: rgba(223,74,74,0.14);
+      color: #ffd1d1;
+      border: 1px solid rgba(223,74,74,0.18);
     }
 
     .card h4,
     .slider-card h4 {
       margin: 12px 0 10px;
-      font-size: 21px;
-      line-height: 1.38;
+      font-size: 22px;
+      line-height: 1.35;
     }
 
-    .mini-btn {
+    .card p,
+    .slider-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .card-actions,
+    .slider-actions,
+    .article-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .small-btn {
       padding: 10px 14px;
-      border-radius: 14px;
-      color: var(--text);
+      border-radius: 16px;
     }
 
-    .share-round-btn {
+    .share-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       padding: 10px 16px;
       border-radius: 999px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-2));
-      color: #180d00;
       font-weight: 700;
-      border: 1px solid rgba(242,181,58,0.25);
+      color: #180d00;
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      border: 1px solid rgba(242,181,58,0.22);
+      box-shadow: 0 10px 22px rgba(242,181,58,0.16);
+      cursor: pointer;
     }
 
     .article-page {
-      border-radius: 28px;
       padding: 24px;
       max-width: var(--reader-width);
       margin: 0 auto;
-      animation: fadeUp .35s ease;
     }
 
     .article-page h2 {
       margin: 14px 0 10px;
-      font-size: 34px;
-      line-height: 1.22;
+      font-size: clamp(30px, 6vw, 48px);
+      line-height: 1.16;
+      letter-spacing: -0.6px;
+      position: relative;
+      z-index: 1;
     }
 
     .quick-summary {
       padding: 14px 16px;
-      border-radius: 18px;
-      background: var(--gold-soft);
-      border: 1px solid rgba(242,181,58,0.20);
+      border-radius: 22px;
+      background: rgba(242,181,58,0.12);
+      border: 1px solid rgba(242,181,58,0.16);
       margin: 16px 0;
       line-height: 1.8;
+      position: relative;
+      z-index: 1;
     }
 
     .article-body {
-      color: var(--text);
-      line-height: var(--reader-line-height);
-      font-size: var(--reader-font-size);
       white-space: pre-line;
-    }
-
-    .floating-share-btn {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 250;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--gold), var(--gold-2));
-      color: #180d00;
-      border: 1px solid rgba(242,181,58,0.24);
-      box-shadow: 0 10px 26px rgba(0,0,0,0.28);
-    }
-
-    .floating-share-btn.show {
-      display: inline-flex;
+      font-size: var(--reader-font-size);
+      line-height: var(--reader-line-height);
+      position: relative;
+      z-index: 1;
     }
 
     .empty-state {
-      border-radius: 22px;
-      padding: 30px 18px;
+      padding: 28px 18px;
       text-align: center;
+      border-radius: 28px;
       color: var(--muted);
-      background: var(--card);
-      border: 1px solid var(--border);
-    }
-
-    .info-card,
-    .newsletter-card {
-      border-radius: 24px;
-      padding: 22px;
-    }
-
-    .contact-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: var(--card-2);
-      text-decoration: none;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .contact-icon,
-    .icon-wrap {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--gold-soft);
-      flex: 0 0 auto;
-    }
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 20px;
-      transform: translateX(-50%);
-      background: rgba(12,12,12,0.9);
-      color: #fff;
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 14px;
-      z-index: 500;
-      opacity: 0;
-      pointer-events: none;
-      transition: .22s ease;
-      border: 1px solid rgba(255,255,255,0.10);
-    }
-
-    .toast.show {
-      opacity: 1;
     }
 
     .share-modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.52);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 450;
       padding: 14px;
+      background: rgba(0,0,0,0.58);
+      z-index: 130;
     }
 
     .share-modal-backdrop.show {
@@ -896,41 +872,57 @@
     }
 
     .share-modal {
-      width: min(560px, 100%);
+      width: min(620px, 100%);
       max-height: 92vh;
       overflow-y: auto;
-      border-radius: 24px;
       padding: 18px;
-      background: var(--card-2);
-      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08));
+      border: 1px solid var(--line);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(26px) saturate(160%);
+      -webkit-backdrop-filter: blur(26px) saturate(160%);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .share-modal::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 16%, rgba(255,255,255,0.12), transparent 18%),
+        radial-gradient(circle at 18% 72%, rgba(242,181,58,0.18), transparent 18%),
+        radial-gradient(circle at 74% 26%, rgba(79,209,255,0.14), transparent 18%),
+        radial-gradient(circle at 82% 82%, rgba(242,181,58,0.18), transparent 18%);
+      pointer-events: none;
+    }
+
+    .share-modal > * {
+      position: relative;
+      z-index: 1;
     }
 
     .share-close {
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: var(--soft);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
       color: var(--text);
-      border: none;
       cursor: pointer;
       font-size: 20px;
     }
 
     .share-preview,
-    .qr-wrap,
-    .tool-group {
-      background: var(--card-2);
-    }
-
-    .share-preview,
     .qr-wrap {
       padding: 14px;
-      border-radius: 18px;
-      border: 1px solid var(--border);
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
       margin-bottom: 14px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
     .share-preview-head {
@@ -942,8 +934,8 @@
     .share-preview img {
       width: 72px;
       height: 72px;
+      border-radius: 16px;
       object-fit: cover;
-      border-radius: 14px;
       flex: 0 0 auto;
     }
 
@@ -956,9 +948,15 @@
     .share-preview p,
     .share-note {
       margin: 0;
-      font-size: 14px;
       color: var(--muted);
       line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .share-section-title {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 15px;
     }
 
     .story-mode-row {
@@ -971,9 +969,8 @@
     .story-mode-btn {
       padding: 10px 12px;
       border-radius: 999px;
-      background: var(--soft);
+      background: rgba(255,255,255,0.08);
       color: var(--text);
-      border: 1px solid transparent;
       font-size: 13px;
     }
 
@@ -989,13 +986,26 @@
       align-items: center;
       gap: 12px;
       padding: 12px 14px;
-      border-radius: 16px;
-      background: var(--card);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.07);
       color: var(--text);
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       text-align: left;
-      font-size: 14px;
       min-height: 84px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(242,181,58,0.12);
+      flex: 0 0 auto;
+      border: 1px solid rgba(242,181,58,0.12);
     }
 
     .icon-wrap svg {
@@ -1015,8 +1025,8 @@
     .icon-wrap.qr { color: #f8fafc; }
 
     .qr-wrap {
-      display: block;
       text-align: center;
+      display: block;
     }
 
     .qr-wrap img {
@@ -1035,39 +1045,186 @@
       line-height: 1.6;
     }
 
-    .footer {
-      text-align: center;
-      padding: 18px 8px 8px;
-      color: var(--muted);
-      font-size: 14px;
+    .floating-share-btn {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 95;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(242,181,58,0.20);
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      color: #180d00;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.26);
+      cursor: pointer;
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to { opacity: 1; transform: translateY(0); }
+    .floating-share-btn.show {
+      display: inline-flex;
+    }
+
+    .floating-accessibility-btn {
+      position: fixed;
+      left: 14px;
+      bottom: 18px;
+      z-index: 95;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.82);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .floating-accessibility-btn svg.main {
+      width: 34px;
+      height: 34px;
+      color: #1f2937;
+    }
+
+    .floating-accessibility-btn .check-badge {
+      position: absolute;
+      right: 4px;
+      bottom: 4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #22c55e;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    .floating-accessibility-btn .check-badge svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .footer {
+      margin-top: 30px;
+      padding-bottom: 30px;
+    }
+
+    .footer-card {
+      padding: 24px;
+      border-radius: 32px;
+    }
+
+    .footer-line {
+      height: 1px;
+      background: rgba(255,255,255,0.22);
+      margin-bottom: 24px;
+    }
+
+    .footer-copy {
+      font-size: clamp(24px, 5vw, 42px);
+      line-height: 1.45;
+      color: var(--text);
+      margin-bottom: 26px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+
+    .footer-social a {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      text-decoration: none;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: .22s ease;
+    }
+
+    .footer-social a:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.10);
+    }
+
+    .footer-social svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 90px;
+      transform: translateX(-50%);
+      z-index: 160;
+      padding: 12px 16px;
+      border-radius: 14px;
+      color: #fff;
+      background: rgba(15,23,42,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      opacity: 0;
+      pointer-events: none;
+      transition: .22s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
     }
 
     @media (min-width: 768px) {
-      .grid { grid-template-columns: repeat(2, 1fr); }
-      .tools-grid { grid-template-columns: 1fr 1fr; }
-      .info-sections { grid-template-columns: 1fr 1fr; }
-      .slider-card { min-width: 48%; }
-      .hero h2 { font-size: 48px; }
-      .article-page h2 { font-size: 42px; }
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .slider-card {
+        min-width: 48%;
+      }
+
+      .share-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
 
     @media (min-width: 1024px) {
-      .grid { grid-template-columns: repeat(3, 1fr); }
-      .slider-card { min-width: 32%; }
-      .share-grid { grid-template-columns: repeat(3, 1fr); }
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .slider-card {
+        min-width: 32%;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="progress-wrap"><div id="readingProgress" class="progress-bar"></div></div>
+  <div class="bg-orb one"></div>
+  <div class="bg-orb two"></div>
+  <div class="bg-orb three"></div>
+  <div class="bg-orb four"></div>
 
-  <div class="floating-headline">
-    <div class="ticker-wrap">
+  <div class="top-ticker">
+    <div class="ticker-wrap glass">
       <div class="live-pill">
         <span class="live-dot"></span>
         <span>Live Now</span>
@@ -1081,10 +1238,6 @@
     </div>
   </div>
 
-  <div class="orb one"></div>
-  <div class="orb two"></div>
-  <div class="orb three"></div>
-
   <button id="floatingShareBtn" class="floating-share-btn" onclick="openShareMenuFromCurrentArticle()" aria-label="Open share menu">
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9">
       <circle cx="18" cy="5" r="3"></circle>
@@ -1093,6 +1246,21 @@
       <path d="M8.6 10.7l6.8-4.1"></path>
       <path d="M8.6 13.3l6.8 4.1"></path>
     </svg>
+  </button>
+
+  <button class="floating-accessibility-btn" onclick="toggleAccessibilityPanel()" aria-label="Open accessibility tools">
+    <svg class="main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="4.5" r="1.8" fill="currentColor" stroke="none"></circle>
+      <path d="M5 8.5h14"></path>
+      <path d="M12 8.5v10"></path>
+      <path d="M8.5 21l3.5-6"></path>
+      <path d="M15.5 21L12 15"></path>
+    </svg>
+    <span class="check-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 13l4 4L19 7"></path>
+      </svg>
+    </span>
   </button>
 
   <div id="shareModalBackdrop" class="share-modal-backdrop" onclick="closeShareMenu(event)">
@@ -1127,89 +1295,45 @@
 
   <div class="wrap">
     <header class="header glass">
-      <div class="topbar">
-        <div class="brand">
-          <div class="brand-top">
-            <img src="logo.png" alt="TruthOrRumor logo" class="site-logo" onerror="this.style.display='none'">
-            <div>
-              <h1>TruthOrRumor</h1>
-              <div class="tagline">Separating Facts from Rumors</div>
-            </div>
+      <div class="brand-row">
+        <div class="brand-left">
+          <img src="logo.png" alt="TruthOrRumor logo" class="site-logo" onerror="this.style.display='none'">
+          <div class="brand-text">
+            <h1>TruthOrRumor</h1>
+            <div class="tagline">Separating Facts from Rumors</div>
           </div>
         </div>
         <div class="updated">Updated: <span id="updatedTime">Loading...</span></div>
       </div>
-
-      <div class="search-panel">
-        <div class="search-label">Truth Or Rumor Search</div>
-        <div class="search-row">
-          <input id="searchInput" class="search-input" type="text" placeholder="Search news, country, topic..." />
-          <button class="btn primary" onclick="runSearch()">Search</button>
-          <button class="btn secondary" onclick="toggleFilters()">Filters</button>
-          <button class="btn secondary" onclick="togglePageAudio(this)" data-speaking="false">Tap To Listen</button>
-        </div>
-      </div>
     </header>
 
-    <nav class="nav-row" id="navRow"></nav>
+    <nav class="nav-row">
+      <a class="nav-btn active" href="/">Home</a>
+      <a class="nav-btn" href="/about">About</a>
+      <a class="nav-btn" href="/contact">Contact</a>
+      <button class="nav-btn" onclick="goTo('#today')">Today</button>
+      <button class="nav-btn" onclick="goTo('#old')">Old News</button>
+      <button class="nav-btn" onclick="goTo('#rumors')">Rumor</button>
+      <button class="nav-btn" onclick="goTo('#real')">Truth</button>
+      <button class="nav-btn" onclick="goTo('#popular')">Popular</button>
+      <button class="nav-btn" onclick="goTo('#saved')">Saved</button>
+    </nav>
 
     <div class="quick-links">
-      <button class="quick-link-btn" onclick="document.getElementById('about-us').scrollIntoView({ behavior: 'smooth' })">About Us</button>
-      <button class="quick-link-btn" onclick="document.getElementById('contact-us').scrollIntoView({ behavior: 'smooth' })">Contact Us</button>
+      <a class="quick-link-btn" href="/about">About Page</a>
+      <a class="quick-link-btn" href="/contact">Contact Page</a>
       <button class="quick-link-btn" onclick="goTo('#saved')">Saved</button>
-      <button class="quick-link-btn" id="accessibilityBtn" onclick="toggleAccessibilityPanel()">Accessibility</button>
+      <button class="quick-link-btn" onclick="toggleAccessibilityPanel()">Accessibility</button>
     </div>
 
-    <section id="accessibilityPanel" class="reading-tools glass">
-      <p class="tools-title">Accessibility Settings</p>
-
-      <div class="tools-grid">
-        <div class="tool-group">
-          <strong>Theme</strong>
-          <div class="tool-row">
-            <button class="tool-btn" id="themeDarkBtn" onclick="setTheme('dark')">Dark</button>
-            <button class="tool-btn" id="themeSepiaBtn" onclick="setTheme('sepia')">Sepia</button>
-            <button class="tool-btn" id="themeSoftBtn" onclick="setTheme('soft-light')">Soft Light</button>
-          </div>
-        </div>
-
-        <div class="tool-group">
-          <strong>Reader Width</strong>
-          <div class="tool-row">
-            <button class="tool-btn" id="widthNarrowBtn" onclick="setReaderWidth('720px')">Narrow</button>
-            <button class="tool-btn" id="widthNormalBtn" onclick="setReaderWidth('860px')">Normal</button>
-            <button class="tool-btn" id="widthWideBtn" onclick="setReaderWidth('980px')">Wide</button>
-          </div>
-        </div>
-
-        <div class="tool-group">
-          <strong>Font Size</strong>
-          <div class="tool-row">
-            <button class="tool-btn" onclick="changeFontSize(-1)">A-</button>
-            <button class="tool-btn" onclick="changeFontSize(1)">A+</button>
-          </div>
-        </div>
-
-        <div class="tool-group">
-          <strong>Line Spacing</strong>
-          <div class="tool-row">
-            <button class="tool-btn" onclick="changeLineSpacing(-0.1)">Tight</button>
-            <button class="tool-btn" onclick="changeLineSpacing(0.1)">Relaxed</button>
-          </div>
-        </div>
-
-        <div class="tool-group">
-          <strong>Reader Mode</strong>
-          <div class="tool-row">
-            <button class="tool-btn" id="readerModeBtn" onclick="toggleReaderMode()">Toggle Reader Mode</button>
-          </div>
-        </div>
-
-        <div class="tool-group">
-          <strong>Preferences</strong>
-          <div class="tool-row">
-            <button class="tool-btn" onclick="resetReadingSettings()">Reset</button>
-          </div>
+    <section class="search-panel glass">
+      <div class="search-inner">
+        <div class="search-title">Truth Or Rumor Search</div>
+        <div class="search-row">
+          <input id="searchInput" class="search-input" type="text" placeholder="Search news, country, topic..." />
+          <button class="primary-btn" onclick="runSearch()">Search</button>
+          <button class="secondary-btn" onclick="toggleFilters()">Filters</button>
+          <button class="secondary-btn" onclick="togglePageAudio(this)" data-speaking="false">Tap To Listen</button>
         </div>
       </div>
     </section>
@@ -1225,53 +1349,96 @@
       <div class="chip-row" id="typeFilters"></div>
     </section>
 
-    <main id="app"></main>
+    <section id="accessibilityPanel" class="accessibility-panel glass">
+      <p class="tools-title">Accessibility Settings</p>
 
-    <section class="info-sections">
-      <section id="about-us" class="info-card glass">
-        <h3>About Us</h3>
-        <p><strong>TruthOrRumor</strong> is a professional news and fact checking platform dedicated to helping people separate real facts from false claims, misleading stories, and online rumors.</p>
-        <p>In today’s fast moving digital world, information spreads quickly, but not all of it is true. Our mission is to verify trending news, investigate viral claims, and present clear, reliable, and easy to understand reports that people can trust.</p>
-        <p>At <strong>TruthOrRumor</strong>, we focus on accuracy, transparency, and responsibility. We review sources carefully, compare facts, and highlight what is true, what is misleading, and what is only rumor.</p>
-        <p><strong>Find the Facts. Filter the Rumors.</strong></p>
-      </section>
-
-      <section id="contact-us" class="info-card glass">
-        <h3>Contact Us</h3>
-
-        <div class="contact-list">
-          <a class="contact-item" href="tel:+15798995633">
-            <span class="contact-icon">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6.4 6.4l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6A2 2 0 0 1 22 16.9z"></path>
-              </svg>
-            </span>
-            <span>+1 579 899 5633</span>
-          </a>
-
-          <a class="contact-item" href="mailto:hello@truthorrumor.com">
-            <span class="contact-icon">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
-                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-                <path d="M3 7l9 6 9-6"></path>
-              </svg>
-            </span>
-            <span>hello@truthorrumor.com</span>
-          </a>
+      <div class="tools-grid">
+        <div class="tool-group">
+          <strong>Theme</strong>
+          <div class="tool-row">
+            <button class="small-btn" id="themeDarkBtn" onclick="setTheme('dark')">Dark</button>
+            <button class="small-btn" id="themeSepiaBtn" onclick="setTheme('sepia')">Sepia</button>
+            <button class="small-btn" id="themeSoftBtn" onclick="setTheme('soft-light')">Soft Light</button>
+          </div>
         </div>
-      </section>
-    </section>
 
-    <section class="newsletter-card glass">
-      <h3>Newsletter Signup</h3>
-      <p>Get your trusted daily or weekly update.</p>
-      <div class="newsletter-row">
-        <input class="newsletter-input" id="newsletterEmail" type="email" placeholder="Enter your email" />
-        <button class="btn primary" onclick="signupNewsletter()">Sign Up</button>
+        <div class="tool-group">
+          <strong>Reader Width</strong>
+          <div class="tool-row">
+            <button class="small-btn" id="widthNarrowBtn" onclick="setReaderWidth('720px')">Narrow</button>
+            <button class="small-btn" id="widthNormalBtn" onclick="setReaderWidth('860px')">Normal</button>
+            <button class="small-btn" id="widthWideBtn" onclick="setReaderWidth('980px')">Wide</button>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <strong>Font Size</strong>
+          <div class="tool-row">
+            <button class="small-btn" onclick="changeFontSize(-1)">A-</button>
+            <button class="small-btn" onclick="changeFontSize(1)">A+</button>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <strong>Line Spacing</strong>
+          <div class="tool-row">
+            <button class="small-btn" onclick="changeLineSpacing(-0.1)">Tight</button>
+            <button class="small-btn" onclick="changeLineSpacing(0.1)">Relaxed</button>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <strong>Reader Mode</strong>
+          <div class="tool-row">
+            <button class="small-btn" id="readerModeBtn" onclick="toggleReaderMode()">Toggle Reader Mode</button>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <strong>Preferences</strong>
+          <div class="tool-row">
+            <button class="small-btn" onclick="resetReadingSettings()">Reset</button>
+          </div>
+        </div>
       </div>
     </section>
 
-    <div class="footer">TruthOrRumor</div>
+    <main id="app"></main>
+
+    <footer class="footer">
+      <div class="footer-card glass">
+        <div class="footer-line"></div>
+        <div class="footer-copy">Copyright 2026 TruthOrRumor. All Rights Reserved.</div>
+
+        <div class="footer-social">
+          <a href="https://x.com/truthorrumor.news" target="_blank" rel="noopener noreferrer" aria-label="X">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.9 2H22l-6.8 7.8L23 22h-6.1l-4.8-6.3L6.6 22H3.5l7.2-8.3L1 2h6.2l4.3 5.7L18.9 2Zm-1.1 18h1.7L6.3 3.9H4.5L17.8 20Z"/>
+            </svg>
+          </a>
+
+          <a href="https://www.instagram.com/truthorrumor.news" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+              <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+              <circle cx="12" cy="12" r="4.2"></circle>
+              <circle cx="17.3" cy="6.7" r="1"></circle>
+            </svg>
+          </a>
+
+          <a href="https://www.facebook.com/truthorrumor.news" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12Z"/>
+            </svg>
+          </a>
+
+          <a href="https://t.me/truthorrumor" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21.5 4.6c.3-1.2-.4-1.7-1.5-1.3L3.4 9.7c-1.1.4-1.1 1 .2 1.4l4.3 1.3 10-6.3c.5-.3 1-.1.6.2l-8.1 7.3-.3 4.5c.5 0 .7-.2 1-.5l2.1-2 4.4 3.2c.8.4 1.4.2 1.6-.8l2.3-13.4Z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </footer>
   </div>
 
   <script>
@@ -1302,11 +1469,7 @@
       { value: "Finance", label: "Finance" },
       { value: "Technology", label: "Tech" },
       { value: "Sports", label: "Sports" },
-      { value: "Entertainment", label: "Entertainment" },
-      { value: "Apple", label: "Apple" },
-      { value: "Samsung", label: "Samsung" },
-      { value: "Phone Launch", label: "Phone Launch" },
-      { value: "New Popular Tech Product", label: "Popular Product" }
+      { value: "Entertainment", label: "Entertainment" }
     ];
 
     const typeOptions = [
@@ -1322,14 +1485,11 @@
     let currentSearch = "";
     let filtersOpen = false;
     let accessibilityOpen = false;
-
     let currentSpeech = null;
     let currentSpeechButton = null;
     let speechStartTimer = null;
-    let scrollTicking = false;
     let toastTimer = null;
-
-    let activeShareArticleId = null;
+    let scrollTicking = false;
     let shareMode = "full";
     let savedArticleIds = new Set();
 
@@ -1356,9 +1516,7 @@
     }
 
     function tapFeedback(pattern = 10) {
-      if ("vibrate" in navigator) {
-        navigator.vibrate(pattern);
-      }
+      if ("vibrate" in navigator) navigator.vibrate(pattern);
     }
 
     document.addEventListener("click", event => {
@@ -1380,20 +1538,12 @@
     function learnFromArticle(article, action = "view") {
       if (!article) return;
 
-      const weights = {
-        view: 3,
-        read: 4,
-        save: 5,
-        share: 4,
-        audio: 3
-      };
-
+      const weights = { view: 3, read: 4, save: 5, share: 4, audio: 3 };
       const amount = weights[action] || 1;
 
       userProfile.topicScores[article.topic] = (userProfile.topicScores[article.topic] || 0) + amount;
       userProfile.countryScores[article.country] = (userProfile.countryScores[article.country] || 0) + amount;
       userProfile.articleScores[article.id] = (userProfile.articleScores[article.id] || 0) + amount;
-
       saveUserProfile();
     }
 
@@ -1468,30 +1618,11 @@
     }
 
     function updateReadingProgress() {
-      const doc = document.documentElement;
-      const scrollTop = doc.scrollTop || document.body.scrollTop;
-      const scrollHeight = doc.scrollHeight - doc.clientHeight;
-      const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-      const bar = document.getElementById("readingProgress");
-      if (bar) bar.style.width = progress + "%";
-    }
-
-    function onScrollOptimized() {
       if (scrollTicking) return;
       scrollTicking = true;
       requestAnimationFrame(() => {
-        updateReadingProgress();
         scrollTicking = false;
       });
-    }
-
-    function formatDate(value) {
-      const date = value ? new Date(value) : new Date();
-      if (Number.isNaN(date.getTime())) return "Unknown date";
-      return new Intl.DateTimeFormat("en", {
-        dateStyle: "medium",
-        timeStyle: "short"
-      }).format(date);
     }
 
     function escapeHtml(text) {
@@ -1501,6 +1632,15 @@
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+    }
+
+    function formatDate(value) {
+      const date = value ? new Date(value) : new Date();
+      if (Number.isNaN(date.getTime())) return "Unknown date";
+      return new Intl.DateTimeFormat("en", {
+        dateStyle: "medium",
+        timeStyle: "short"
+      }).format(date);
     }
 
     function loadPrefs() {
@@ -1523,12 +1663,12 @@
     }
 
     function updateToolButtons() {
-      const themeMap = { dark: "themeDarkBtn", sepia: "themeSepiaBtn", "soft-light": "themeSoftBtn" };
-      ["themeDarkBtn", "themeSepiaBtn", "themeSoftBtn", "widthNarrowBtn", "widthNormalBtn", "widthWideBtn", "readerModeBtn", "accessibilityBtn"].forEach(id => {
+      ["themeDarkBtn", "themeSepiaBtn", "themeSoftBtn", "widthNarrowBtn", "widthNormalBtn", "widthWideBtn", "readerModeBtn"].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.remove("active");
       });
 
+      const themeMap = { dark: "themeDarkBtn", sepia: "themeSepiaBtn", "soft-light": "themeSoftBtn" };
       const themeBtn = document.getElementById(themeMap[uiPrefs.theme]);
       if (themeBtn) themeBtn.classList.add("active");
 
@@ -1540,17 +1680,11 @@
         const r = document.getElementById("readerModeBtn");
         if (r) r.classList.add("active");
       }
-
-      if (accessibilityOpen) {
-        const a = document.getElementById("accessibilityBtn");
-        if (a) a.classList.add("active");
-      }
     }
 
     function toggleAccessibilityPanel() {
       accessibilityOpen = !accessibilityOpen;
       document.getElementById("accessibilityPanel").classList.toggle("show", accessibilityOpen);
-      updateToolButtons();
     }
 
     function setTheme(theme) {
@@ -1608,9 +1742,7 @@
 
     function getCountryIcon(country) {
       const url = getCountryFlagUrl(country);
-      if (url) {
-        return `<img src="${url}" alt="${escapeHtml(country)} flag" class="chip-flag">`;
-      }
+      if (url) return `<img src="${url}" alt="${escapeHtml(country)} flag" class="chip-flag">`;
       return `<span class="chip-svg"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a15 15 0 0 1 0 18"></path><path d="M12 3a15 15 0 0 0 0 18"></path></svg></span>`;
     }
 
@@ -1700,17 +1832,6 @@
       toggleSpeech(`${article.text.title}. ${article.text.summary}. ${article.text.content}`, button);
     }
 
-    function signupNewsletter() {
-      const email = document.getElementById("newsletterEmail").value.trim();
-      if (!email) {
-        alert("Enter your email first.");
-        return;
-      }
-      const subject = encodeURIComponent("TruthOrRumor Newsletter Signup");
-      const body = encodeURIComponent(`Please add this email to the newsletter list: ${email}`);
-      location.href = `mailto:hello@truthorrumor.com?subject=${subject}&body=${body}`;
-    }
-
     function getArticleKey(article) {
       return String(article.slug || article.id || "");
     }
@@ -1725,16 +1846,14 @@
     }
 
     function normalizeArticle(item, index) {
-      const createdAt = item?.created_at || item?.published_at || item?.publishedAt || new Date().toISOString();
-      const updatedAt = item?.updated_at || item?.updatedAt || createdAt;
-      const rawTitle = item?.title || item?.text?.title || item?.text?.en?.title || "";
-      const rawSummary = item?.excerpt || item?.summary || item?.text?.summary || item?.text?.en?.summary || "";
-      const rawContent = item?.content || item?.text?.content || item?.text?.en?.content || rawSummary || "";
+      const createdAt = item?.created_at || new Date().toISOString();
+      const updatedAt = item?.updated_at || createdAt;
+      const rawTitle = item?.title || "";
+      const rawSummary = item?.excerpt || "";
+      const rawContent = item?.content || rawSummary || "";
       const country = typeof item?.country === "string" && item.country.trim() ? item.country.trim() : "World";
-      const topic = typeof item?.category === "string" && item.category.trim()
-        ? item.category.trim()
-        : (typeof item?.topic === "string" && item.topic.trim() ? item.topic.trim() : "World News");
-      const type = String(item?.verdict || item?.type || "truth").toLowerCase() === "rumor" ? "rumor" : "real";
+      const topic = typeof item?.category === "string" && item.category.trim() ? item.category.trim() : "World News";
+      const type = String(item?.verdict || "truth").toLowerCase() === "rumor" ? "rumor" : "real";
       const slug = String(item?.slug || item?.id || index + 1);
       const ageInDays = Math.max(0, (Date.now() - new Date(createdAt).getTime()) / 86400000);
       const page = ageInDays > 7 ? "old" : "today";
@@ -1751,8 +1870,8 @@
         popular: false,
         publishedAt: createdAt,
         updatedAt: updatedAt,
-        sourceUrl: item?.source_url || item?.sourceUrl || "",
-        imageUrl: item?.image_url || item?.imageUrl || "",
+        sourceUrl: item?.source_url || "",
+        imageUrl: item?.image_url || "",
         text: {
           title: rawTitle,
           summary: rawSummary,
@@ -1762,15 +1881,11 @@
     }
 
     function setNewsData(data) {
-      const normalized = Array.isArray(data)
-        ? data.map((item, index) => normalizeArticle(item, index)).filter(Boolean)
-        : [];
-
+      const normalized = Array.isArray(data) ? data.map((item, index) => normalizeArticle(item, index)).filter(Boolean) : [];
       normalized.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
       normalized.forEach((article, index) => {
         article.popular = index < 6;
       });
-
       articles = normalized;
       renderTicker();
       renderRoute();
@@ -1827,17 +1942,9 @@
       const content = article.text?.content || "";
       const quote = (content || summary || title).split(/(?<=[.!?])\s+/)[0] || title;
 
-      if (mode === "headline") {
-        return { title, text: title, url };
-      }
-
-      if (mode === "summary") {
-        return { title, text: summary || title, url };
-      }
-
-      if (mode === "quote") {
-        return { title, text: quote, url };
-      }
+      if (mode === "headline") return { title, text: title, url };
+      if (mode === "summary") return { title, text: summary || title, url };
+      if (mode === "quote") return { title, text: quote, url };
 
       return {
         title,
@@ -1848,76 +1955,16 @@
 
     function getShareIcon(type) {
       const icons = {
-        device: `
-          <span class="icon-wrap device">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="7" y="2.5" width="10" height="19" rx="2.5"></rect>
-              <path d="M11 18h2"></path>
-            </svg>
-          </span>
-        `,
-        link: `
-          <span class="icon-wrap link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M10 13a5 5 0 0 0 7.07 0l2.12-2.12a5 5 0 1 0-7.07-7.07L10.7 5.2"></path>
-              <path d="M14 11a5 5 0 0 0-7.07 0L4.81 13.12a5 5 0 1 0 7.07 7.07L13.3 18.8"></path>
-            </svg>
-          </span>
-        `,
-        whatsapp: `
-          <span class="icon-wrap whatsapp">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19.1 4.9A9.9 9.9 0 0 0 3.8 16.7L2.5 21.5l4.9-1.3a9.9 9.9 0 0 0 4.7 1.2h.1A9.9 9.9 0 0 0 19.1 4.9Zm-6.9 14.8a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-2.9.8.8-2.8-.2-.3a8.2 8.2 0 1 1 6.8 3.6Zm4.5-6.1c-.2-.1-1.3-.6-1.5-.7s-.3-.1-.5.1-.6.7-.8.9-.3.2-.6.1a6.7 6.7 0 0 1-2-1.2 7.6 7.6 0 0 1-1.4-1.8c-.2-.3 0-.4.1-.6l.3-.3.2-.4c.1-.1.1-.3 0-.4l-.7-1.7c-.2-.4-.3-.4-.5-.4h-.4a.8.8 0 0 0-.6.3 2.6 2.6 0 0 0-.8 1.9c0 1.1.8 2.1.9 2.3.1.1 1.7 2.7 4.2 3.7.6.3 1.1.5 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.3-.6 1.5-1.1.2-.5.2-1 .1-1.1 0-.2-.2-.2-.4-.3Z"/>
-            </svg>
-          </span>
-        `,
-        facebook: `
-          <span class="icon-wrap facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12Z"/>
-            </svg>
-          </span>
-        `,
-        x: `
-          <span class="icon-wrap x">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.9 2H22l-6.8 7.8L23 22h-6.1l-4.8-6.3L6.6 22H3.5l7.2-8.3L1 2h6.2l4.3 5.7L18.9 2Zm-1.1 18h1.7L6.3 3.9H4.5L17.8 20Z"/>
-            </svg>
-          </span>
-        `,
-        telegram: `
-          <span class="icon-wrap telegram">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M21.5 4.6c.3-1.2-.4-1.7-1.5-1.3L3.4 9.7c-1.1.4-1.1 1 .2 1.4l4.3 1.3 10-6.3c.5-.3 1-.1.6.2l-8.1 7.3-.3 4.5c.5 0 .7-.2 1-.5l2.1-2 4.4 3.2c.8.4 1.4.2 1.6-.8l2.3-13.4Z"/>
-            </svg>
-          </span>
-        `,
-        email: `
-          <span class="icon-wrap email">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-              <path d="M3 7l9 6 9-6"></path>
-            </svg>
-          </span>
-        `,
-        save: `
-          <span class="icon-wrap save">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 3h11l3 3v15H5z"></path>
-              <path d="M9 3v6h6V3"></path>
-              <path d="M9 21v-6h6v6"></path>
-            </svg>
-          </span>
-        `,
-        qr: `
-          <span class="icon-wrap qr">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M3 3h8v8H3V3Zm2 2v4h4V5H5Zm8-2h8v8h-8V3Zm2 2v4h4V5h-4ZM3 13h8v8H3v-8Zm2 2v4h4v-4H5Zm10-2h2v2h-2v-2Zm2 2h2v2h-2v-2Zm-4 2h2v2h-2v-2Zm2 2h2v2h-2v-2Zm4-2h2v4h-2v-4Z"/>
-            </svg>
-          </span>
-        `
+        device: `<span class="icon-wrap device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"></rect><path d="M11 18h2"></path></svg></span>`,
+        link: `<span class="icon-wrap link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l2.12-2.12a5 5 0 1 0-7.07-7.07L10.7 5.2"></path><path d="M14 11a5 5 0 0 0-7.07 0L4.81 13.12a5 5 0 1 0 7.07 7.07L13.3 18.8"></path></svg></span>`,
+        whatsapp: `<span class="icon-wrap whatsapp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.1 4.9A9.9 9.9 0 0 0 3.8 16.7L2.5 21.5l4.9-1.3a9.9 9.9 0 0 0 4.7 1.2h.1A9.9 9.9 0 0 0 19.1 4.9Zm-6.9 14.8a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-2.9.8.8-2.8-.2-.3a8.2 8.2 0 1 1 6.8 3.6Zm4.5-6.1c-.2-.1-1.3-.6-1.5-.7s-.3-.1-.5.1-.6.7-.8.9-.3.2-.6.1a6.7 6.7 0 0 1-2-1.2 7.6 7.6 0 0 1-1.4-1.8c-.2-.3 0-.4.1-.6l.3-.3.2-.4c.1-.1.1-.3 0-.4l-.7-1.7c-.2-.4-.3-.4-.5-.4h-.4a.8.8 0 0 0-.6.3 2.6 2.6 0 0 0-.8 1.9c0 1.1.8 2.1.9 2.3.1.1 1.7 2.7 4.2 3.7.6.3 1.1.5 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.3-.6 1.5-1.1.2-.5.2-1 .1-1.1 0-.2-.2-.2-.4-.3Z"/></svg></span>`,
+        facebook: `<span class="icon-wrap facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12Z"/></svg></span>`,
+        x: `<span class="icon-wrap x"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-6.8 7.8L23 22h-6.1l-4.8-6.3L6.6 22H3.5l7.2-8.3L1 2h6.2l4.3 5.7L18.9 2Zm-1.1 18h1.7L6.3 3.9H4.5L17.8 20Z"/></svg></span>`,
+        telegram: `<span class="icon-wrap telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 4.6c.3-1.2-.4-1.7-1.5-1.3L3.4 9.7c-1.1.4-1.1 1 .2 1.4l4.3 1.3 10-6.3c.5-.3 1-.1.6.2l-8.1 7.3-.3 4.5c.5 0 .7-.2 1-.5l2.1-2 4.4 3.2c.8.4 1.4.2 1.6-.8l2.3-13.4Z"/></svg></span>`,
+        email: `<span class="icon-wrap email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>`,
+        save: `<span class="icon-wrap save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v15H5z"></path><path d="M9 3v6h6V3"></path><path d="M9 21v-6h6v6"></path></svg></span>`,
+        qr: `<span class="icon-wrap qr"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3Zm2 2v4h4V5H5Zm8-2h8v8h-8V3Zm2 2v4h4V5h-4ZM3 13h8v8H3v-8Zm2 2v4h4v-4H5Zm10-2h2v2h-2v-2Zm2 2h2v2h-2v-2Zm-4 2h2v2h-2v-2Zm2 2h2v2h-2v-2Zm4-2h2v4h-2v-4Z"/></svg></span>`
       };
-
       return icons[type] || icons.link;
     }
 
@@ -1926,20 +1973,15 @@
       if (!article) return;
 
       const articleKey = getArticleKey(article);
-      activeShareArticleId = articleKey;
-
       const preview = document.getElementById("sharePreview");
       const row = document.getElementById("storyModeRow");
       const grid = document.getElementById("shareGrid");
       const note = document.getElementById("shareNote");
-      const qrWrap = document.getElementById("qrWrap");
       const qrImage = document.getElementById("qrImage");
-
       const url = buildArticleLink(article, "share");
       const payload = getSharePayload(article, shareMode, url);
       const shareTextEncoded = encodeURIComponent((payload.text || "") + "\n\n" + url);
       const titleEncoded = encodeURIComponent(payload.title || article.text.title || "");
-
       const qrPrimary = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(url);
       const qrFallback = "https://quickchart.io/qr?size=220&text=" + encodeURIComponent(url);
 
@@ -1961,48 +2003,39 @@
 
       grid.innerHTML = `
         <button class="share-option" onclick='if(navigator.share){navigator.share({title:${JSON.stringify(payload.title)},text:${JSON.stringify(payload.text)},url:${JSON.stringify(url)}}).then(()=>{incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");});}else{navigator.clipboard.writeText(${JSON.stringify(url)}).then(()=>showToast("Link copied"));}'>
-          ${getShareIcon("device")}
-          <span>Device Share</span>
+          ${getShareIcon("device")} <span>Device Share</span>
         </button>
 
         <button class="share-option" onclick='navigator.clipboard.writeText(${JSON.stringify(url)}).then(()=>{incrementShareCount(${JSON.stringify(articleKey)});showToast("Link copied");});'>
-          ${getShareIcon("link")}
-          <span>Copy Link</span>
+          ${getShareIcon("link")} <span>Copy Link</span>
         </button>
 
         <button class="share-option" onclick='window.open("https://wa.me/?text=${shareTextEncoded}","_blank");incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");'>
-          ${getShareIcon("whatsapp")}
-          <span>WhatsApp</span>
+          ${getShareIcon("whatsapp")} <span>WhatsApp</span>
         </button>
 
         <button class="share-option" onclick='window.open("https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}","_blank");incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");'>
-          ${getShareIcon("facebook")}
-          <span>Facebook</span>
+          ${getShareIcon("facebook")} <span>Facebook</span>
         </button>
 
         <button class="share-option" onclick='window.open("https://twitter.com/intent/tweet?text=${shareTextEncoded}","_blank");incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");'>
-          ${getShareIcon("x")}
-          <span>X</span>
+          ${getShareIcon("x")} <span>X</span>
         </button>
 
         <button class="share-option" onclick='window.open("https://t.me/share/url?url=${encodeURIComponent(url)}&text=${titleEncoded}","_blank");incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");'>
-          ${getShareIcon("telegram")}
-          <span>Telegram</span>
+          ${getShareIcon("telegram")} <span>Telegram</span>
         </button>
 
         <button class="share-option" onclick='location.href="mailto:?subject=${titleEncoded}&body=${shareTextEncoded}";incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");'>
-          ${getShareIcon("email")}
-          <span>Email</span>
+          ${getShareIcon("email")} <span>Email</span>
         </button>
 
         <button class="share-option" onclick='toggleSaveArticle(${JSON.stringify(articleKey)})'>
-          ${getShareIcon("save")}
-          <span>${savedArticleIds.has(articleKey) ? "Saved" : "Save For Later"}</span>
+          ${getShareIcon("save")} <span>${savedArticleIds.has(articleKey) ? "Saved" : "Save For Later"}</span>
         </button>
 
         <button class="share-option" onclick='const a=document.createElement("a");a.href=document.getElementById("qrImage").src;a.download="truth-or-rumor-qr.png";a.click();'>
-          ${getShareIcon("qr")}
-          <span>Download QR</span>
+          ${getShareIcon("qr")} <span>Download QR</span>
         </button>
       `;
 
@@ -2014,7 +2047,6 @@
 
       qrImage.dataset.fallbackUsed = "no";
       qrImage.src = qrPrimary;
-      qrWrap.classList.add("show");
 
       note.innerHTML = `QR code is created automatically below.<br>Share URL: ${escapeHtml(url)}`;
       document.getElementById("shareCountText").textContent = `Shared ${getShareCount(articleKey)} times`;
@@ -2032,23 +2064,6 @@
       document.getElementById("shareModalBackdrop").classList.remove("show");
     }
 
-    function renderNav() {
-      const nav = [
-        { hash: "#home", label: "Home" },
-        { hash: "#today", label: "Today" },
-        { hash: "#old", label: "Old News" },
-        { hash: "#rumors", label: "Rumor" },
-        { hash: "#real", label: "Truth" },
-        { hash: "#popular", label: "Popular" },
-        { hash: "#saved", label: "Saved" }
-      ];
-
-      const activeHash = location.hash || "#home";
-      document.getElementById("navRow").innerHTML = nav.map(item => {
-        return `<button class="nav-btn ${activeHash === item.hash ? "active" : ""}" onclick="goTo('${item.hash}')">${item.label}</button>`;
-      }).join("");
-    }
-
     function renderCountryFilters() {
       document.getElementById("countryFilters").innerHTML = countryOptions.map(item => {
         return `<button class="chip ${currentCountry === item.value ? "active" : ""}" onclick="currentCountry='${item.value}'; renderCountryFilters(); location.hash='#results'; renderRoute();">${getCountryIcon(item.value)} ${item.label}</button>`;
@@ -2057,7 +2072,7 @@
 
     function renderTopicFilters() {
       document.getElementById("topicFilters").innerHTML = topicOptions.map(item => {
-        return `<button class="chip ${currentTopic === item.value ? "active" : ""}" onclick="currentTopic='${item.value}'; renderTopicFilters(); location.hash='#results'; renderRoute();">${getTopicIcon(item.value)} ${item.label}</button>`;
+        return `<button class="chip ${currentTopic === item.value ? "active" : ""}" onclick="currentTopic='${item.value}'; renderTopicFilters(); location.hash='#results'; renderRoute();">${getTopicIcon()} ${item.label}</button>`;
       }).join("");
     }
 
@@ -2105,7 +2120,6 @@
       const topicOk = currentTopic === "All" || article.topic === currentTopic;
       const typeOk = currentType === "all" || article.type === currentType;
       const searchOk = currentSearch === "" || text.includes(currentSearch);
-
       return countryOk && topicOk && typeOk && searchOk;
     }
 
@@ -2136,16 +2150,16 @@
 
     function renderSourceButton(article) {
       return article.sourceUrl
-        ? `<a class="mini-btn" href="${escapeHtml(article.sourceUrl)}" target="_blank" rel="noopener noreferrer">Source</a>`
+        ? `<a class="small-btn" href="${escapeHtml(article.sourceUrl)}" target="_blank" rel="noopener noreferrer">Source</a>`
         : "";
     }
 
     function renderShareButton(article) {
-      return `<button class="share-round-btn" onclick='openShareMenu(${JSON.stringify(getArticleKey(article))})'><span>Share</span></button>`;
+      return `<button class="share-btn" onclick='openShareMenu(${JSON.stringify(getArticleKey(article))})'>Share</button>`;
     }
 
     function renderSaveButton(article) {
-      return `<button class="mini-btn" onclick='toggleSaveArticle(${JSON.stringify(getArticleKey(article))})'>${savedArticleIds.has(getArticleKey(article)) ? "Saved" : "Save"}</button>`;
+      return `<button class="small-btn" onclick='toggleSaveArticle(${JSON.stringify(getArticleKey(article))})'>${savedArticleIds.has(getArticleKey(article)) ? "Saved" : "Save"}</button>`;
     }
 
     function renderCard(article) {
@@ -2157,8 +2171,8 @@
         <div class="meta">${renderMetaLine(article)}</div>
         <div class="share-count">Shared ${getShareCount(getArticleKey(article))} times</div>
         <div class="card-actions">
-          <button class="mini-btn" onclick='openArticle(${JSON.stringify(getArticleKey(article))})'>Read More</button>
-          <button class="mini-btn" onclick='toggleArticleAudio(${JSON.stringify(getArticleKey(article))}, this)' data-speaking="false">Tap To Listen</button>
+          <button class="small-btn" onclick='openArticle(${JSON.stringify(getArticleKey(article))})'>Read More</button>
+          <button class="small-btn" onclick='toggleArticleAudio(${JSON.stringify(getArticleKey(article))}, this)' data-speaking="false">Tap To Listen</button>
           ${renderShareButton(article)}
           ${renderSaveButton(article)}
           ${renderSourceButton(article)}
@@ -2172,7 +2186,7 @@
     }
 
     function renderSliderCard(article) {
-      return `<article class="slider-card">
+      return `<article class="slider-card glass">
         ${renderNewsPhoto(article, "slider-photo")}
         <span class="badge ${article.type === "real" ? "real" : "rumor"}">${article.type === "real" ? "Truth" : "Rumor"}</span>
         <h4>${escapeHtml(article.text.title)}</h4>
@@ -2180,7 +2194,7 @@
         <div class="slider-meta">${renderMetaLine(article)}</div>
         <div class="share-count">Shared ${getShareCount(getArticleKey(article))} times</div>
         <div class="slider-actions">
-          <button class="mini-btn" onclick='openArticle(${JSON.stringify(getArticleKey(article))})'>Read More</button>
+          <button class="small-btn" onclick='openArticle(${JSON.stringify(getArticleKey(article))})'>Read More</button>
           ${renderShareButton(article)}
           ${renderSaveButton(article)}
         </div>
@@ -2189,7 +2203,7 @@
 
     function renderNewsSlider(list) {
       if (!list.length) {
-        return `<section class="slider-section"><div class="slider-head"><h3>Top Stories</h3><span>Latest headlines</span></div><div class="empty-state glass">No slider news yet.</div></section>`;
+        return `<section class="slider-section"><div class="section-head"><h3>Top Stories</h3><span>Latest headlines</span></div><div class="empty-state glass">No slider news yet.</div></section>`;
       }
 
       return `<section class="slider-section">
@@ -2235,18 +2249,22 @@
 
       return `
         <section class="hero glass">
-          <div class="eyebrow">Facts Or Fiction?</div>
-          <h2>Find the Facts. Filter the Rumors.</h2>
-          <p>TruthOrRumor helps readers understand what is true, what is misleading, and what needs caution. This website also learns your reading interests on your device, so you see more stories that match your choices.</p>
-          <div class="hero-actions">
-            <button class="btn primary" onclick="goTo('#today')">Browse News</button>
-            <button class="btn secondary" onclick="togglePageAudio(this)" data-speaking="false">Tap To Listen</button>
+          <div class="hero-inner">
+            <div class="eyebrow">Facts Or Fiction?</div>
+            <h2>Find the Facts. Filter the Rumors.</h2>
+            <p>TruthOrRumor helps readers understand what is true, what is misleading, and what needs caution. This website also learns your reading interests on your device, so you see more stories that match your choices.</p>
+            <div class="hero-actions">
+              <button class="primary-btn" onclick="goTo('#today')">Browse News</button>
+              <button class="secondary-btn" onclick="togglePageAudio(this)" data-speaking="false">Tap To Listen</button>
+            </div>
           </div>
         </section>
 
-        ${renderNewsSlider(latest.slice(0, 6))}
+        <div class="home-only">
+          ${renderNewsSlider(latest.slice(0, 6))}
+        </div>
 
-        <section class="page-block">
+        <section class="home-only">
           <div class="section-head">
             <h3>Recommended For You</h3>
             <span>Built in learning from your reading choices</span>
@@ -2254,7 +2272,7 @@
           ${renderGrid(personalized)}
         </section>
 
-        <section class="page-block">
+        <section class="home-only" style="margin-top:22px;">
           <div class="section-head">
             <h3>Popular</h3>
             <span>Trending stories</span>
@@ -2262,7 +2280,7 @@
           ${renderGrid(popular)}
         </section>
 
-        <section class="page-block">
+        <section style="margin-top:22px;">
           <div class="section-head">
             <h3>Latest News</h3>
             <span>Newest headlines</span>
@@ -2284,7 +2302,7 @@
         results: "Filtered Results"
       };
 
-      return `<section class="page-block"><div class="section-head"><h3>${titleMap[page] || "News"}</h3><span>Updated stories</span></div>${renderGrid(list)}</section>`;
+      return `<section><div class="section-head"><h3>${titleMap[page] || "News"}</h3><span>Updated stories</span></div>${renderGrid(list)}</section>`;
     }
 
     function renderArticlePage(id) {
@@ -2307,10 +2325,10 @@
           <div class="share-count">Shared ${getShareCount(getArticleKey(article))} times</div>
 
           <div class="article-actions">
-            <button class="btn primary" onclick="goTo('#home')">Back To Home</button>
-            <button class="btn secondary" onclick='toggleArticleAudio(${JSON.stringify(getArticleKey(article))}, this)' data-speaking="false">Tap To Listen</button>
-            <button class="btn secondary" onclick="toggleReaderMode()">Reader Mode</button>
-            <button class="btn secondary" onclick='toggleSaveArticle(${JSON.stringify(getArticleKey(article))})'>${savedArticleIds.has(getArticleKey(article)) ? "Saved" : "Save"}</button>
+            <button class="primary-btn" onclick="goTo('#home')">Back To Home</button>
+            <button class="secondary-btn" onclick='toggleArticleAudio(${JSON.stringify(getArticleKey(article))}, this)' data-speaking="false">Tap To Listen</button>
+            <button class="secondary-btn" onclick="toggleReaderMode()">Reader Mode</button>
+            <button class="secondary-btn" onclick='toggleSaveArticle(${JSON.stringify(getArticleKey(article))})'>${savedArticleIds.has(getArticleKey(article)) ? "Saved" : "Save"}</button>
             ${renderShareButton(article)}
             ${renderSourceButton(article)}
           </div>
@@ -2333,15 +2351,14 @@
     }
 
     function renderRoute() {
-      renderNav();
+      const app = document.getElementById("app");
+      const floatingShareBtn = document.getElementById("floatingShareBtn");
+      if (!app) return;
+
       renderCountryFilters();
       renderTopicFilters();
       renderTypeFilters();
       updateToolButtons();
-
-      const app = document.getElementById("app");
-      const floatingShareBtn = document.getElementById("floatingShareBtn");
-      if (!app) return;
 
       const params = new URLSearchParams(window.location.search);
       const articleId = params.get("article");
@@ -2401,7 +2418,7 @@
       renderRoute();
     });
 
-    window.addEventListener("scroll", onScrollOptimized, { passive: true });
+    window.addEventListener("scroll", updateReadingProgress, { passive: true });
 
     window.addEventListener("keydown", event => {
       if (event.key === "Escape") closeShareMenu();
@@ -2411,15 +2428,9 @@
     initSavedArticles();
     loadPrefs();
     updateTime();
-    updateReadingProgress();
-
-    setInterval(updateTime, 60000);
-    renderNav();
-    renderCountryFilters();
-    renderTopicFilters();
-    renderTypeFilters();
     renderRoute();
 
+    setInterval(updateTime, 60000);
     loadAllNews();
     setInterval(loadAllNews, 300000);
   </script>
