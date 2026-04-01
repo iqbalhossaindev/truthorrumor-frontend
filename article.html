@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TruthOrRumor Article</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div id="article">Loading...</div>
+
+  <script>
+    const SUPABASE_URL = "YOUR_SUPABASE_URL";
+    const SUPABASE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    function getSlugFromPath() {
+      const parts = window.location.pathname.split("/").filter(Boolean);
+      return parts[1] || "";
+    }
+
+    async function loadArticle() {
+      const slug = getSlugFromPath();
+
+      const { data, error } = await supabaseClient
+        .from("posts")
+        .select("*")
+        .eq("slug", slug)
+        .eq("published", true)
+        .single();
+
+      const root = document.getElementById("article");
+
+      if (error || !data) {
+        root.innerHTML = "<h1>Article not found</h1>";
+        return;
+      }
+
+      document.title = data.title + " | TruthOrRumor";
+
+      root.innerHTML = `
+        <h1>${data.title || ""}</h1>
+        ${data.image_url ? `<img src="${data.image_url}" alt="${data.title || ""}" style="max-width:100%;border-radius:12px;">` : ""}
+        <p><strong>Country:</strong> ${data.country || ""}</p>
+        <p><strong>Category:</strong> ${data.category || ""}</p>
+        <p><strong>Verdict:</strong> ${data.verdict || ""}</p>
+        <p>${data.excerpt || ""}</p>
+        <div>${(data.content || "").replace(/\n/g, "<br>")}</div>
+      `;
+    }
+
+    loadArticle();
+  </script>
+</body>
+</html>
