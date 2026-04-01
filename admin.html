@@ -4,23 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TruthOrRumor Admin</title>
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     :root {
-      --bg-1: #050505;
-      --bg-2: #111111;
+      --bg1: #050505;
+      --bg2: #101010;
       --text: #ffffff;
       --muted: rgba(255,255,255,0.72);
       --card: rgba(255,255,255,0.05);
       --border: rgba(255,255,255,0.10);
       --gold: #f2b53a;
-      --gold-2: #ff8d3a;
+      --gold2: #ff8d3a;
       --green: #33c45d;
       --red: #df4a4a;
     }
@@ -29,13 +25,13 @@
       margin: 0;
       font-family: Arial, sans-serif;
       color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
       background:
         radial-gradient(circle at top left, rgba(51,196,93,0.12), transparent 28%),
         radial-gradient(circle at top right, rgba(242,181,58,0.10), transparent 30%),
         radial-gradient(circle at bottom right, rgba(223,74,74,0.10), transparent 28%),
-        linear-gradient(135deg, var(--bg-1), var(--bg-2));
-      min-height: 100vh;
-      padding: 20px;
+        linear-gradient(135deg, var(--bg1), var(--bg2));
     }
 
     .wrap {
@@ -48,20 +44,15 @@
       border: 1px solid var(--border);
       border-radius: 24px;
       padding: 20px;
+      margin-bottom: 18px;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      margin-bottom: 18px;
-    }
-
-    h1, h2, h3 {
-      margin-top: 0;
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 14px;
-      margin-bottom: 18px;
     }
 
     .brand img {
@@ -70,14 +61,15 @@
       object-fit: contain;
       border-radius: 14px;
       background: rgba(255,255,255,0.04);
-      padding: 6px;
       border: 1px solid var(--border);
+      padding: 6px;
     }
 
     .brand h1 {
       margin: 0;
       font-size: 32px;
-      background: linear-gradient(90deg, #ffffff 0%, #ffffff 38%, var(--gold) 52%, var(--gold-2) 72%, #df4a4a 100%);
+      line-height: 1.05;
+      background: linear-gradient(90deg, #ffffff 0%, #ffffff 38%, var(--gold) 52%, var(--gold2) 72%, var(--red) 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -87,10 +79,9 @@
       color: var(--muted);
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
+    h2 {
+      margin-top: 0;
+      font-size: 24px;
     }
 
     label {
@@ -103,31 +94,32 @@
     textarea,
     select {
       width: 100%;
+      padding: 14px;
       border-radius: 16px;
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.06);
       color: white;
-      padding: 14px 14px;
       font-size: 15px;
       outline: none;
     }
 
     textarea {
-      min-height: 140px;
+      min-height: 150px;
       resize: vertical;
     }
 
+    .grid,
     .row {
       display: grid;
-      grid-template-columns: 1fr;
       gap: 14px;
+      grid-template-columns: 1fr;
     }
 
     .btn-row {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-top: 12px;
+      margin-top: 14px;
     }
 
     button {
@@ -140,7 +132,7 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
       color: #1a1000;
     }
 
@@ -151,39 +143,47 @@
 
     .btn-danger {
       background: rgba(223,74,74,0.18);
-      color: #ffd1d1;
+      color: #ffd5d5;
     }
 
     .status-box {
+      margin-top: 14px;
       padding: 14px 16px;
       border-radius: 16px;
-      font-size: 14px;
-      line-height: 1.6;
-      margin-top: 14px;
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.04);
+      line-height: 1.6;
+      font-size: 14px;
     }
 
     .success {
-      border-color: rgba(51,196,93,0.28);
       background: rgba(51,196,93,0.12);
+      border-color: rgba(51,196,93,0.28);
       color: #d7ffe2;
     }
 
     .error {
-      border-color: rgba(223,74,74,0.30);
       background: rgba(223,74,74,0.12);
+      border-color: rgba(223,74,74,0.30);
       color: #ffd8d8;
     }
 
     .hidden {
-      display: none;
+      display: none !important;
+    }
+
+    .preview-img {
+      width: 100%;
+      max-width: 260px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      margin-top: 12px;
     }
 
     .post-item {
       padding: 14px;
-      border: 1px solid var(--border);
       border-radius: 18px;
+      border: 1px solid var(--border);
       background: rgba(255,255,255,0.04);
       margin-top: 12px;
     }
@@ -196,6 +196,7 @@
       font-size: 13px;
       color: var(--muted);
       margin-bottom: 10px;
+      line-height: 1.6;
     }
 
     .badge {
@@ -205,40 +206,16 @@
       font-size: 12px;
       font-weight: 700;
       margin-right: 8px;
+      margin-bottom: 6px;
     }
 
-    .badge.real {
-      background: rgba(51,196,93,0.18);
-      color: #c9ffd8;
-    }
-
-    .badge.rumor {
-      background: rgba(223,74,74,0.18);
-      color: #ffd0d0;
-    }
-
-    .badge.draft {
-      background: rgba(255,255,255,0.10);
-      color: white;
-    }
-
-    .badge.published {
-      background: rgba(242,181,58,0.18);
-      color: #ffe0a3;
-    }
-
-    .preview-img {
-      width: 100%;
-      max-width: 260px;
-      border-radius: 16px;
-      margin-top: 12px;
-      border: 1px solid var(--border);
-    }
+    .badge.real { background: rgba(51,196,93,0.18); color: #cbffd8; }
+    .badge.rumor { background: rgba(223,74,74,0.18); color: #ffd2d2; }
+    .badge.draft { background: rgba(255,255,255,0.10); color: white; }
+    .badge.published { background: rgba(242,181,58,0.18); color: #ffe4a6; }
 
     @media (min-width: 768px) {
-      .row {
-        grid-template-columns: 1fr 1fr;
-      }
+      .row { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -253,22 +230,24 @@
         </div>
       </div>
     </div>
+
     <div id="loginCard" class="card">
       <h2>Admin Login</h2>
+
       <div class="grid">
         <div>
           <label for="loginEmail">Email</label>
-          <input id="loginEmail" type="email" placeholder="Enter admin email" />
+          <input id="loginEmail" type="email" placeholder="Enter admin email">
         </div>
 
         <div>
           <label for="loginPassword">Password</label>
-          <input id="loginPassword" type="password" placeholder="Enter password" />
+          <input id="loginPassword" type="password" placeholder="Enter password">
         </div>
       </div>
 
       <div class="btn-row">
-        <button class="btn-primary" onclick="loginAdmin()">Login</button>
+        <button id="loginBtn" class="btn-primary" type="button">Login</button>
       </div>
 
       <div id="loginStatus" class="status-box hidden"></div>
@@ -281,12 +260,12 @@
         <div class="grid">
           <div>
             <label for="newsTitle">Title</label>
-            <input id="newsTitle" type="text" placeholder="News title" />
+            <input id="newsTitle" type="text" placeholder="News title">
           </div>
 
           <div>
             <label for="newsSummary">Summary</label>
-            <input id="newsSummary" type="text" placeholder="Short summary" />
+            <input id="newsSummary" type="text" placeholder="Short summary">
           </div>
         </div>
 
@@ -328,7 +307,6 @@
             </select>
           </div>
         </div>
-
         <div class="row" style="margin-top: 14px;">
           <div>
             <label for="newsType">Truth or Rumor</label>
@@ -358,22 +336,22 @@
 
           <div>
             <label for="newsSourceUrl">Source URL</label>
-            <input id="newsSourceUrl" type="text" placeholder="https://source-link.com" />
+            <input id="newsSourceUrl" type="text" placeholder="https://source-link.com">
           </div>
         </div>
 
         <div style="margin-top: 14px;">
           <label for="newsImage">Upload Image</label>
-          <input id="newsImage" type="file" accept="image/*" />
+          <input id="newsImage" type="file" accept="image/*">
         </div>
 
         <img id="imagePreview" class="preview-img hidden" alt="Preview">
 
         <div class="btn-row">
-          <button class="btn-secondary" onclick="saveNews('draft')">Save Draft</button>
-          <button class="btn-primary" onclick="saveNews('published')">Publish News</button>
-          <button class="btn-secondary" onclick="loadPosts()">Refresh Posts</button>
-          <button class="btn-danger" onclick="logoutAdmin()">Logout</button>
+          <button id="saveDraftBtn" class="btn-secondary" type="button">Save Draft</button>
+          <button id="publishBtn" class="btn-primary" type="button">Publish News</button>
+          <button id="refreshBtn" class="btn-secondary" type="button">Refresh Posts</button>
+          <button id="logoutBtn" class="btn-danger" type="button">Logout</button>
         </div>
 
         <div id="publishStatus" class="status-box hidden"></div>
@@ -385,226 +363,27 @@
       </div>
     </div>
   </div>
+
   <script>
     const SUPABASE_URL = "PASTE_YOUR_SUPABASE_URL_HERE";
     const SUPABASE_PUBLISHABLE_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
 
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
+    let supabaseClient = null;
 
-    const loginCard = document.getElementById("loginCard");
-    const adminPanel = document.getElementById("adminPanel");
-    const loginStatus = document.getElementById("loginStatus");
-    const publishStatus = document.getElementById("publishStatus");
-    const postsList = document.getElementById("postsList");
-    const imageInput = document.getElementById("newsImage");
-    const imagePreview = document.getElementById("imagePreview");
+    function byId(id) {
+      return document.getElementById(id);
+    }
 
-    imageInput.addEventListener("change", () => {
-      const file = imageInput.files[0];
-      if (!file) {
-        imagePreview.classList.add("hidden");
-        imagePreview.src = "";
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = e => {
-        imagePreview.src = e.target.result;
-        imagePreview.classList.remove("hidden");
-      };
-      reader.readAsDataURL(file);
-    });
-
-    function showBox(target, message, type = "success") {
+    function showBox(target, message, type) {
       target.classList.remove("hidden", "success", "error");
-      target.classList.add(type);
+      target.classList.add(type || "success");
       target.innerHTML = message;
     }
 
-    function clearBox(target) {
+    function hideBox(target) {
       target.classList.add("hidden");
       target.innerHTML = "";
-    }
-
-    async function checkSession() {
-      const { data } = await supabaseClient.auth.getSession();
-      const session = data?.session;
-
-      if (session) {
-        loginCard.classList.add("hidden");
-        adminPanel.classList.remove("hidden");
-        loadPosts();
-      } else {
-        loginCard.classList.remove("hidden");
-        adminPanel.classList.add("hidden");
-      }
-    }
-
-    async function loginAdmin() {
-      clearBox(loginStatus);
-
-      const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPassword").value.trim();
-
-      if (!email || !password) {
-        showBox(loginStatus, "Please enter email and password.", "error");
-        return;
-      }
-
-      const { error } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      if (error) {
-        showBox(loginStatus, error.message, "error");
-        return;
-      }
-
-      showBox(loginStatus, "Login successful.");
-      loginCard.classList.add("hidden");
-      adminPanel.classList.remove("hidden");
-      loadPosts();
-    }
-
-    async function logoutAdmin() {
-      await supabaseClient.auth.signOut();
-      adminPanel.classList.add("hidden");
-      loginCard.classList.remove("hidden");
-      showBox(loginStatus, "Logged out successfully.");
-    }
-
-    async function uploadImageIfNeeded() {
-      const file = imageInput.files[0];
-      if (!file) return "";
-
-      const fileExt = file.name.split(".").pop();
-      const fileName = `news-${Date.now()}.${fileExt}`;
-      const filePath = fileName;
-
-      const { error: uploadError } = await supabaseClient.storage
-        .from("news-images")
-        .upload(filePath, file, {
-          upsert: true
-        });
-
-      if (uploadError) {
-        throw uploadError;
-      }
-
-      const { data } = supabaseClient.storage
-        .from("news-images")
-        .getPublicUrl(filePath);
-
-      return data.publicUrl;
-    }
-    async function saveNews(statusValue) {
-      clearBox(publishStatus);
-
-      const title = document.getElementById("newsTitle").value.trim();
-      const summary = document.getElementById("newsSummary").value.trim();
-      const content = document.getElementById("newsContent").value.trim();
-      const country = document.getElementById("newsCountry").value;
-      const topic = document.getElementById("newsTopic").value;
-      const type = document.getElementById("newsType").value;
-      const page = document.getElementById("newsPage").value;
-      const popular = document.getElementById("newsPopular").value === "true";
-      const source_url = document.getElementById("newsSourceUrl").value.trim();
-
-      if (!title || !summary || !content) {
-        showBox(publishStatus, "Please fill title, summary, and content.", "error");
-        return;
-      }
-
-      try {
-        showBox(publishStatus, "Uploading and saving news... Please wait.");
-
-        const image_url = await uploadImageIfNeeded();
-
-        const payload = {
-          title,
-          summary,
-          content,
-          country,
-          topic,
-          type,
-          page,
-          popular,
-          source_url: source_url || null,
-          image_url: image_url || null,
-          status: statusValue,
-          published_at: statusValue === "published" ? new Date().toISOString() : null
-        };
-
-        const { error } = await supabaseClient
-          .from("news")
-          .insert([payload]);
-
-        if (error) {
-          showBox(publishStatus, error.message, "error");
-          return;
-        }
-
-        showBox(
-          publishStatus,
-          statusValue === "published"
-            ? "News published successfully."
-            : "Draft saved successfully."
-        );
-
-        document.getElementById("newsTitle").value = "";
-        document.getElementById("newsSummary").value = "";
-        document.getElementById("newsContent").value = "";
-        document.getElementById("newsSourceUrl").value = "";
-        document.getElementById("newsPopular").value = "false";
-        document.getElementById("newsType").value = "real";
-        document.getElementById("newsPage").value = "today";
-        imageInput.value = "";
-        imagePreview.src = "";
-        imagePreview.classList.add("hidden");
-
-        loadPosts();
-      } catch (error) {
-        showBox(publishStatus, error.message || "Something went wrong.", "error");
-      }
-    }
-
-    async function loadPosts() {
-      postsList.innerHTML = "Loading posts...";
-
-      const { data, error } = await supabaseClient
-        .from("news")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) {
-        postsList.innerHTML = `<div class="status-box error">${error.message}</div>`;
-        return;
-      }
-
-      if (!data || !data.length) {
-        postsList.innerHTML = `<div class="muted">No posts yet.</div>`;
-        return;
-      }
-
-      postsList.innerHTML = data.map(post => `
-        <div class="post-item">
-          <h4>${escapeHtml(post.title)}</h4>
-          <div class="post-meta">
-            <span class="badge ${post.type === "real" ? "real" : "rumor"}">
-              ${post.type === "real" ? "Truth" : "Rumor"}
-            </span>
-            <span class="badge ${post.status === "published" ? "published" : "draft"}">
-              ${post.status}
-            </span>
-            ${escapeHtml(post.country)} • ${escapeHtml(post.topic)} • ${escapeHtml(post.page)}
-          </div>
-          <div class="muted">${escapeHtml(post.summary || "")}</div>
-        </div>
-      `).join("");
+      target.classList.remove("success", "error");
     }
 
     function escapeHtml(text) {
@@ -616,7 +395,294 @@
         .replaceAll("'", "&#039;");
     }
 
-    checkSession();
+    function setLoggedIn(isLoggedIn) {
+      byId("loginCard").classList.toggle("hidden", isLoggedIn);
+      byId("adminPanel").classList.toggle("hidden", !isLoggedIn);
+    }
+
+    function resetForm() {
+      byId("newsTitle").value = "";
+      byId("newsSummary").value = "";
+      byId("newsContent").value = "";
+      byId("newsCountry").value = "World";
+      byId("newsTopic").value = "World News";
+      byId("newsType").value = "real";
+      byId("newsPage").value = "today";
+      byId("newsPopular").value = "false";
+      byId("newsSourceUrl").value = "";
+      byId("newsImage").value = "";
+      byId("imagePreview").src = "";
+      byId("imagePreview").classList.add("hidden");
+    }
+
+    function bindUI() {
+      byId("loginBtn").addEventListener("click", loginAdmin);
+      byId("saveDraftBtn").addEventListener("click", () => saveNews("draft"));
+      byId("publishBtn").addEventListener("click", () => saveNews("published"));
+      byId("refreshBtn").addEventListener("click", loadPosts);
+      byId("logoutBtn").addEventListener("click", logoutAdmin);
+
+      byId("newsImage").addEventListener("change", () => {
+        const file = byId("newsImage").files[0];
+        if (!file) {
+          byId("imagePreview").classList.add("hidden");
+          byId("imagePreview").src = "";
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          byId("imagePreview").src = e.target.result;
+          byId("imagePreview").classList.remove("hidden");
+        };
+        reader.readAsDataURL(file);
+      });
+
+      window.addEventListener("error", function (event) {
+        showBox(byId("loginStatus"), "JavaScript error: " + escapeHtml(event.message), "error");
+      });
+    }
+
+    async function initSupabase() {
+      try {
+        if (!window.supabase || !window.supabase.createClient) {
+          throw new Error("Supabase library did not load.");
+        }
+
+        if (!SUPABASE_URL || SUPABASE_URL.indexOf("supabase.co") === -1) {
+          throw new Error("SUPABASE_URL is missing or invalid.");
+        }
+
+        if (!SUPABASE_PUBLISHABLE_KEY || SUPABASE_PUBLISHABLE_KEY.length < 20) {
+          throw new Error("SUPABASE_PUBLISHABLE_KEY is missing or invalid.");
+        }
+
+        const createClient = window.supabase.createClient;
+        supabaseClient = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+        const sessionResult = await supabaseClient.auth.getSession();
+        if (sessionResult.error) {
+          throw sessionResult.error;
+        }
+
+        if (sessionResult.data && sessionResult.data.session) {
+          setLoggedIn(true);
+          await loadPosts();
+        } else {
+          setLoggedIn(false);
+        }
+
+        supabaseClient.auth.onAuthStateChange(async function (_, session) {
+          if (session) {
+            setLoggedIn(true);
+            await loadPosts();
+          } else {
+            setLoggedIn(false);
+          }
+        });
+      } catch (error) {
+        showBox(byId("loginStatus"), "Startup error: " + escapeHtml(error.message || String(error)), "error");
+      }
+    }
+    async function loginAdmin() {
+      hideBox(byId("loginStatus"));
+
+      const email = byId("loginEmail").value.trim();
+      const password = byId("loginPassword").value.trim();
+
+      if (!email || !password) {
+        showBox(byId("loginStatus"), "Please enter email and password.", "error");
+        return;
+      }
+
+      if (!supabaseClient) {
+        showBox(byId("loginStatus"), "Supabase is not ready. Check your URL and key.", "error");
+        return;
+      }
+
+      const btn = byId("loginBtn");
+      btn.disabled = true;
+      btn.textContent = "Logging in...";
+
+      try {
+        const result = await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+        if (result.error) {
+          throw result.error;
+        }
+
+        if (!result.data || !result.data.session) {
+          throw new Error("Login failed. No session returned.");
+        }
+
+        showBox(byId("loginStatus"), "Login successful.", "success");
+        setLoggedIn(true);
+        await loadPosts();
+      } catch (error) {
+        showBox(byId("loginStatus"), escapeHtml(error.message || String(error)), "error");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Login";
+      }
+    }
+
+    async function logoutAdmin() {
+      if (!supabaseClient) return;
+      await supabaseClient.auth.signOut();
+      setLoggedIn(false);
+      showBox(byId("loginStatus"), "Logged out successfully.", "success");
+    }
+
+    async function uploadImageIfNeeded() {
+      const file = byId("newsImage").files[0];
+      if (!file) return "";
+
+      const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+      const fileName = "uploads/" + Date.now() + "-" + Math.random().toString(36).slice(2) + "." + ext;
+
+      const uploadResult = await supabaseClient.storage
+        .from("news-images")
+        .upload(fileName, file, {
+          cacheControl: "3600",
+          upsert: false,
+          contentType: file.type || undefined
+        });
+
+      if (uploadResult.error) {
+        throw uploadResult.error;
+      }
+
+      const publicResult = supabaseClient.storage
+        .from("news-images")
+        .getPublicUrl(fileName);
+
+      return publicResult.data.publicUrl;
+    }
+
+    async function saveNews(statusValue) {
+      hideBox(byId("publishStatus"));
+
+      if (!supabaseClient) {
+        showBox(byId("publishStatus"), "Supabase is not ready.", "error");
+        return;
+      }
+
+      const title = byId("newsTitle").value.trim();
+      const summary = byId("newsSummary").value.trim();
+      const content = byId("newsContent").value.trim();
+      const country = byId("newsCountry").value;
+      const topic = byId("newsTopic").value;
+      const type = byId("newsType").value;
+      const page = byId("newsPage").value;
+      const popular = byId("newsPopular").value === "true";
+      const source_url = byId("newsSourceUrl").value.trim();
+
+      if (!title || !summary || !content) {
+        showBox(byId("publishStatus"), "Please fill title, summary, and content.", "error");
+        return;
+      }
+
+      try {
+        showBox(byId("publishStatus"), "Saving... Please wait.", "success");
+
+        const image_url = await uploadImageIfNeeded();
+
+        const insertResult = await supabaseClient
+          .from("news")
+          .insert([{
+            title: title,
+            summary: summary,
+            content: content,
+            country: country,
+            topic: topic,
+            type: type,
+            page: page,
+            popular: popular,
+            source_url: source_url || null,
+            image_url: image_url || null,
+            status: statusValue,
+            published_at: statusValue === "published" ? new Date().toISOString() : null
+          }]);
+
+        if (insertResult.error) {
+          throw insertResult.error;
+        }
+
+        showBox(
+          byId("publishStatus"),
+          statusValue === "published" ? "News published successfully." : "Draft saved successfully.",
+          "success"
+        );
+
+        resetForm();
+        await loadPosts();
+      } catch (error) {
+        showBox(byId("publishStatus"), escapeHtml(error.message || String(error)), "error");
+      }
+    }
+
+    async function loadPosts() {
+      if (!supabaseClient) return;
+
+      byId("postsList").innerHTML = "Loading posts...";
+
+      const result = await supabaseClient
+        .from("news")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (result.error) {
+        byId("postsList").innerHTML = '<div class="status-box error">' + escapeHtml(result.error.message) + '</div>';
+        return;
+      }
+
+      if (!result.data || !result.data.length) {
+        byId("postsList").innerHTML = '<div class="muted">No posts yet.</div>';
+        return;
+      }
+
+      byId("postsList").innerHTML = result.data.map(function (post) {
+        return `
+          <div class="post-item">
+            <h4>${escapeHtml(post.title)}</h4>
+            <div class="post-meta">
+              <span class="badge ${post.type === "real" ? "real" : "rumor"}">${post.type === "real" ? "Truth" : "Rumor"}</span>
+              <span class="badge ${post.status === "published" ? "published" : "draft"}">${escapeHtml(post.status)}</span>
+              ${escapeHtml(post.country)} • ${escapeHtml(post.topic)} • ${escapeHtml(post.page)}
+            </div>
+            <div class="muted">${escapeHtml(post.summary || "")}</div>
+            <div class="btn-row">
+              <button class="btn-danger" onclick="deletePost(${post.id})" type="button">Delete</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    async function deletePost(id) {
+      const ok = confirm("Are you sure you want to delete this post?");
+      if (!ok) return;
+
+      const result = await supabaseClient
+        .from("news")
+        .delete()
+        .eq("id", id);
+
+      if (result.error) {
+        showBox(byId("publishStatus"), escapeHtml(result.error.message), "error");
+        return;
+      }
+
+      showBox(byId("publishStatus"), "Post deleted successfully.", "success");
+      await loadPosts();
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      bindUI();
+      initSupabase();
+    });
   </script>
 </body>
 </html>
