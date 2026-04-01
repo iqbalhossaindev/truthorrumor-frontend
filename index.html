@@ -1910,7 +1910,6 @@
     function goTo(hash) {
       const url = new URL(window.location.href);
       url.hash = hash;
-      url.searchParams.delete("article");
       history.replaceState({}, "", url.toString());
       renderRoute();
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1978,7 +1977,7 @@
         <div class="meta">${renderMetaLine(article)}</div>
         <div class="share-count">Shared ${getShareCount(getArticleKey(article))} times</div>
         <div class="card-actions">
-          <button class="tiny-btn" onclick='openArticle(${JSON.stringify(getArticleKey(article))})'>Read More</button>
+          <button class="tiny-btn" onclick='openArticle(${JSON.stringify(article.slug)})'>Read More</button>
           <button class="tiny-btn" onclick='toggleArticleAudio(${JSON.stringify(getArticleKey(article))}, this)' data-speaking="false">Tap To Listen</button>
           ${renderShareButton(article)}
           ${renderSaveButton(article)}
@@ -2001,7 +2000,7 @@
         <div class="slider-meta">${renderMetaLine(article)}</div>
         <div class="share-count">Shared ${getShareCount(getArticleKey(article))} times</div>
         <div class="slider-actions">
-          <button class="tiny-btn" onclick='openArticle(${JSON.stringify(getArticleKey(article))})'>Read More</button>
+          <button class="tiny-btn" onclick='openArticle(${JSON.stringify(article.slug)})'>Read More</button>
           ${renderShareButton(article)}
           ${renderSaveButton(article)}
         </div>
@@ -2142,18 +2141,9 @@
       `;
     }
 
-    function openArticle(id) {
-      const article = getArticleById(id);
-      if (!article) return;
-
-      learnFromArticle(article, "view");
-
-      const url = new URL(window.location.href);
-      url.searchParams.set("article", getArticleKey(article));
-      history.pushState({}, "", url.toString());
-
-      renderRoute();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    function openArticle(slug) {
+      if (!slug) return;
+      window.location.href = "/article/" + encodeURIComponent(slug);
     }
 
     function toggleSaveArticle(id) {
@@ -2175,8 +2165,7 @@
     }
 
     function buildArticleLink(article, source = "direct") {
-      const url = new URL(window.location.origin + window.location.pathname);
-      url.searchParams.set("article", getArticleKey(article));
+      const url = new URL(window.location.origin + "/article/" + encodeURIComponent(article.slug));
       url.searchParams.set("utm_source", source);
       url.searchParams.set("utm_medium", "social");
       url.searchParams.set("utm_campaign", "share");
@@ -2270,7 +2259,6 @@
       const shareTextForLink = [payload.text, payload.url].filter(Boolean).join("\n\n");
       const encodedText = encodeURIComponent(shareTextForLink);
       const encodedUrl = encodeURIComponent(payload.url);
-      const encodedTitle = encodeURIComponent(payload.title);
 
       preview.innerHTML = `
         <div class="share-preview-head">
@@ -2396,11 +2384,7 @@
       a.click();
     }
 
-    function openShareMenuFromCurrentArticle() {
-      const params = new URLSearchParams(window.location.search);
-      const articleId = params.get("article");
-      if (articleId) openShareMenu(articleId);
-    }
+    function openShareMenuFromCurrentArticle() {}
 
     function closeShareMenu(event) {
       if (event && event.target && event.target.id !== "shareModalBackdrop") return;
@@ -2417,15 +2401,6 @@
       renderTopicFilters();
       renderTypeFilters();
       updateAccessibilityButtons();
-
-      const params = new URLSearchParams(window.location.search);
-      const articleId = params.get("article");
-
-      if (articleId) {
-        app.innerHTML = renderArticlePage(articleId);
-        floatingShareBtn.classList.add("show");
-        return;
-      }
 
       floatingShareBtn.classList.remove("show");
 
