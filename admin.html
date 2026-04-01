@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TruthOrRumor Admin</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-1: #050505;
+      --bg-2: #111111;
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.72);
+      --card: rgba(255,255,255,0.05);
+      --border: rgba(255,255,255,0.10);
+      --gold: #f2b53a;
+      --gold-2: #ff8d3a;
+      --green: #33c45d;
+      --red: #df4a4a;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(51,196,93,0.12), transparent 28%),
+        radial-gradient(circle at top right, rgba(242,181,58,0.10), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(223,74,74,0.10), transparent 28%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .wrap {
+      width: min(980px, 100%);
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .brand img {
+      width: 62px;
+      height: 62px;
+      object-fit: contain;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      padding: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 32px;
+      background: linear-gradient(90deg, #ffffff 0%, #ffffff 38%, var(--gold) 52%, var(--gold-2) 72%, #df4a4a 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: white;
+      padding: 14px 14px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    button {
+      border: none;
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #1a1000;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      color: white;
+    }
+
+    .btn-danger {
+      background: rgba(223,74,74,0.18);
+      color: #ffd1d1;
+    }
+
+    .status-box {
+      padding: 14px 16px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-top: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .success {
+      border-color: rgba(51,196,93,0.28);
+      background: rgba(51,196,93,0.12);
+      color: #d7ffe2;
+    }
+
+    .error {
+      border-color: rgba(223,74,74,0.30);
+      background: rgba(223,74,74,0.12);
+      color: #ffd8d8;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .post-item {
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      margin-top: 12px;
+    }
+
+    .post-item h4 {
+      margin: 0 0 8px;
+    }
+
+    .post-meta {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+
+    .badge.real {
+      background: rgba(51,196,93,0.18);
+      color: #c9ffd8;
+    }
+
+    .badge.rumor {
+      background: rgba(223,74,74,0.18);
+      color: #ffd0d0;
+    }
+
+    .badge.draft {
+      background: rgba(255,255,255,0.10);
+      color: white;
+    }
+
+    .badge.published {
+      background: rgba(242,181,58,0.18);
+      color: #ffe0a3;
+    }
+
+    .preview-img {
+      width: 100%;
+      max-width: 260px;
+      border-radius: 16px;
+      margin-top: 12px;
+      border: 1px solid var(--border);
+    }
+
+    @media (min-width: 768px) {
+      .row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="brand">
+        <img src="logo.png" alt="TruthOrRumor Logo" onerror="this.style.display='none'">
+        <div>
+          <h1>TruthOrRumor Admin</h1>
+          <div class="muted">Login and publish your own news</div>
+        </div>
+      </div>
+    </div>
+    <div id="loginCard" class="card">
+      <h2>Admin Login</h2>
+      <div class="grid">
+        <div>
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" type="email" placeholder="Enter admin email" />
+        </div>
+
+        <div>
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" placeholder="Enter password" />
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-primary" onclick="loginAdmin()">Login</button>
+      </div>
+
+      <div id="loginStatus" class="status-box hidden"></div>
+    </div>
+
+    <div id="adminPanel" class="hidden">
+      <div class="card">
+        <h2>Publish News</h2>
+
+        <div class="grid">
+          <div>
+            <label for="newsTitle">Title</label>
+            <input id="newsTitle" type="text" placeholder="News title" />
+          </div>
+
+          <div>
+            <label for="newsSummary">Summary</label>
+            <input id="newsSummary" type="text" placeholder="Short summary" />
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <label for="newsContent">Full Content</label>
+          <textarea id="newsContent" placeholder="Write the full article here"></textarea>
+        </div>
+
+        <div class="row" style="margin-top: 14px;">
+          <div>
+            <label for="newsCountry">Country</label>
+            <select id="newsCountry">
+              <option>World</option>
+              <option>Bangladesh</option>
+              <option>India</option>
+              <option>China</option>
+              <option>USA</option>
+              <option>Russia</option>
+              <option>Iran</option>
+              <option>Israel</option>
+              <option>Middle East</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="newsTopic">Topic</label>
+            <select id="newsTopic">
+              <option>World News</option>
+              <option>Politics</option>
+              <option>Business</option>
+              <option>Finance</option>
+              <option>Technology</option>
+              <option>Sports</option>
+              <option>Entertainment</option>
+              <option>Apple</option>
+              <option>Samsung</option>
+              <option>Phone Launch</option>
+              <option>New Popular Tech Product</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 14px;">
+          <div>
+            <label for="newsType">Truth or Rumor</label>
+            <select id="newsType">
+              <option value="real">Truth</option>
+              <option value="rumor">Rumor</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="newsPage">Page</label>
+            <select id="newsPage">
+              <option value="today">Today</option>
+              <option value="old">Old</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 14px;">
+          <div>
+            <label for="newsPopular">Popular</label>
+            <select id="newsPopular">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="newsSourceUrl">Source URL</label>
+            <input id="newsSourceUrl" type="text" placeholder="https://source-link.com" />
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <label for="newsImage">Upload Image</label>
+          <input id="newsImage" type="file" accept="image/*" />
+        </div>
+
+        <img id="imagePreview" class="preview-img hidden" alt="Preview">
+
+        <div class="btn-row">
+          <button class="btn-secondary" onclick="saveNews('draft')">Save Draft</button>
+          <button class="btn-primary" onclick="saveNews('published')">Publish News</button>
+          <button class="btn-secondary" onclick="loadPosts()">Refresh Posts</button>
+          <button class="btn-danger" onclick="logoutAdmin()">Logout</button>
+        </div>
+
+        <div id="publishStatus" class="status-box hidden"></div>
+      </div>
+
+      <div class="card">
+        <h2>Your Posts</h2>
+        <div id="postsList" class="muted">Loading posts...</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const SUPABASE_URL = "PASTE_YOUR_SUPABASE_URL_HERE";
+    const SUPABASE_PUBLISHABLE_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const loginCard = document.getElementById("loginCard");
+    const adminPanel = document.getElementById("adminPanel");
+    const loginStatus = document.getElementById("loginStatus");
+    const publishStatus = document.getElementById("publishStatus");
+    const postsList = document.getElementById("postsList");
+    const imageInput = document.getElementById("newsImage");
+    const imagePreview = document.getElementById("imagePreview");
+
+    imageInput.addEventListener("change", () => {
+      const file = imageInput.files[0];
+      if (!file) {
+        imagePreview.classList.add("hidden");
+        imagePreview.src = "";
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = e => {
+        imagePreview.src = e.target.result;
+        imagePreview.classList.remove("hidden");
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function showBox(target, message, type = "success") {
+      target.classList.remove("hidden", "success", "error");
+      target.classList.add(type);
+      target.innerHTML = message;
+    }
+
+    function clearBox(target) {
+      target.classList.add("hidden");
+      target.innerHTML = "";
+    }
+
+    async function checkSession() {
+      const { data } = await supabaseClient.auth.getSession();
+      const session = data?.session;
+
+      if (session) {
+        loginCard.classList.add("hidden");
+        adminPanel.classList.remove("hidden");
+        loadPosts();
+      } else {
+        loginCard.classList.remove("hidden");
+        adminPanel.classList.add("hidden");
+      }
+    }
+
+    async function loginAdmin() {
+      clearBox(loginStatus);
+
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      if (!email || !password) {
+        showBox(loginStatus, "Please enter email and password.", "error");
+        return;
+      }
+
+      const { error } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        showBox(loginStatus, error.message, "error");
+        return;
+      }
+
+      showBox(loginStatus, "Login successful.");
+      loginCard.classList.add("hidden");
+      adminPanel.classList.remove("hidden");
+      loadPosts();
+    }
+
+    async function logoutAdmin() {
+      await supabaseClient.auth.signOut();
+      adminPanel.classList.add("hidden");
+      loginCard.classList.remove("hidden");
+      showBox(loginStatus, "Logged out successfully.");
+    }
+
+    async function uploadImageIfNeeded() {
+      const file = imageInput.files[0];
+      if (!file) return "";
+
+      const fileExt = file.name.split(".").pop();
+      const fileName = `news-${Date.now()}.${fileExt}`;
+      const filePath = fileName;
+
+      const { error: uploadError } = await supabaseClient.storage
+        .from("news-images")
+        .upload(filePath, file, {
+          upsert: true
+        });
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data } = supabaseClient.storage
+        .from("news-images")
+        .getPublicUrl(filePath);
+
+      return data.publicUrl;
+    }
+    async function saveNews(statusValue) {
+      clearBox(publishStatus);
+
+      const title = document.getElementById("newsTitle").value.trim();
+      const summary = document.getElementById("newsSummary").value.trim();
+      const content = document.getElementById("newsContent").value.trim();
+      const country = document.getElementById("newsCountry").value;
+      const topic = document.getElementById("newsTopic").value;
+      const type = document.getElementById("newsType").value;
+      const page = document.getElementById("newsPage").value;
+      const popular = document.getElementById("newsPopular").value === "true";
+      const source_url = document.getElementById("newsSourceUrl").value.trim();
+
+      if (!title || !summary || !content) {
+        showBox(publishStatus, "Please fill title, summary, and content.", "error");
+        return;
+      }
+
+      try {
+        showBox(publishStatus, "Uploading and saving news... Please wait.");
+
+        const image_url = await uploadImageIfNeeded();
+
+        const payload = {
+          title,
+          summary,
+          content,
+          country,
+          topic,
+          type,
+          page,
+          popular,
+          source_url: source_url || null,
+          image_url: image_url || null,
+          status: statusValue,
+          published_at: statusValue === "published" ? new Date().toISOString() : null
+        };
+
+        const { error } = await supabaseClient
+          .from("news")
+          .insert([payload]);
+
+        if (error) {
+          showBox(publishStatus, error.message, "error");
+          return;
+        }
+
+        showBox(
+          publishStatus,
+          statusValue === "published"
+            ? "News published successfully."
+            : "Draft saved successfully."
+        );
+
+        document.getElementById("newsTitle").value = "";
+        document.getElementById("newsSummary").value = "";
+        document.getElementById("newsContent").value = "";
+        document.getElementById("newsSourceUrl").value = "";
+        document.getElementById("newsPopular").value = "false";
+        document.getElementById("newsType").value = "real";
+        document.getElementById("newsPage").value = "today";
+        imageInput.value = "";
+        imagePreview.src = "";
+        imagePreview.classList.add("hidden");
+
+        loadPosts();
+      } catch (error) {
+        showBox(publishStatus, error.message || "Something went wrong.", "error");
+      }
+    }
+
+    async function loadPosts() {
+      postsList.innerHTML = "Loading posts...";
+
+      const { data, error } = await supabaseClient
+        .from("news")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        postsList.innerHTML = `<div class="status-box error">${error.message}</div>`;
+        return;
+      }
+
+      if (!data || !data.length) {
+        postsList.innerHTML = `<div class="muted">No posts yet.</div>`;
+        return;
+      }
+
+      postsList.innerHTML = data.map(post => `
+        <div class="post-item">
+          <h4>${escapeHtml(post.title)}</h4>
+          <div class="post-meta">
+            <span class="badge ${post.type === "real" ? "real" : "rumor"}">
+              ${post.type === "real" ? "Truth" : "Rumor"}
+            </span>
+            <span class="badge ${post.status === "published" ? "published" : "draft"}">
+              ${post.status}
+            </span>
+            ${escapeHtml(post.country)} • ${escapeHtml(post.topic)} • ${escapeHtml(post.page)}
+          </div>
+          <div class="muted">${escapeHtml(post.summary || "")}</div>
+        </div>
+      `).join("");
+    }
+
+    function escapeHtml(text) {
+      return String(text || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    checkSession();
+  </script>
+</body>
+</html>
