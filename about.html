@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-adsense-account" content="ca-pub-2944530159971400" />
+  <title>About | TruthOrRumor</title>
+  <meta name="description" content="About TruthOrRumor" />
+
+  <style>
+    * { box-sizing: border-box; }
+
+    :root {
+      --bg-1: #070b14;
+      --bg-2: #111827;
+      --bg-3: #0b1220;
+      --text: #f8fafc;
+      --muted: rgba(248,250,252,0.72);
+      --line: rgba(255,255,255,0.14);
+      --glass: rgba(255,255,255,0.08);
+      --glass-2: rgba(255,255,255,0.11);
+      --shadow: 0 18px 55px rgba(0,0,0,0.30);
+      --gold: #f2b53a;
+      --orange: #ff8d3a;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 15% 12%, rgba(255,255,255,0.10), transparent 24%),
+        radial-gradient(circle at 82% 18%, rgba(192,132,252,0.26), transparent 22%),
+        radial-gradient(circle at 70% 66%, rgba(79,209,255,0.24), transparent 24%),
+        radial-gradient(circle at 52% 72%, rgba(242,181,58,0.18), transparent 20%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2) 48%, var(--bg-3));
+      overflow-x: hidden;
+      padding: 20px 0 40px;
+    }
+
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(50px);
+      z-index: 0;
+    }
+
+    .bg-orb.one {
+      top: -80px;
+      left: -70px;
+      width: 300px;
+      height: 300px;
+      background: rgba(255,255,255,0.18);
+    }
+
+    .bg-orb.two {
+      top: 100px;
+      right: -90px;
+      width: 270px;
+      height: 270px;
+      background: rgba(192,132,252,0.42);
+    }
+
+    .bg-orb.three {
+      bottom: 110px;
+      right: 20px;
+      width: 300px;
+      height: 300px;
+      background: rgba(79,209,255,0.30);
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .glass {
+      background: linear-gradient(180deg, var(--glass-2), var(--glass));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(24px) saturate(150%);
+      -webkit-backdrop-filter: blur(24px) saturate(150%);
+    }
+
+    .header,
+    .section,
+    .footer-card {
+      border-radius: 30px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .header::before,
+    .section::before,
+    .footer-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 12%, rgba(255,255,255,0.10), transparent 16%),
+        radial-gradient(circle at 85% 82%, rgba(79,209,255,0.08), transparent 14%);
+      pointer-events: none;
+    }
+
+    .header {
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    .brand-row {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .site-logo {
+      width: 78px;
+      height: 78px;
+      object-fit: contain;
+      border-radius: 22px;
+      padding: 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 6vw, 60px);
+      line-height: 1;
+      background: linear-gradient(90deg, #ffffff 0%, #ffffff 28%, #f2d07a 46%, #f2b53a 56%, #ff8d3a 73%, #df4a4a 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .tagline {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .nav-row {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin: 0 0 18px 0;
+      scrollbar-width: none;
+    }
+
+    .nav-row::-webkit-scrollbar { display: none; }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      border-radius: 999px;
+      padding: 11px 15px;
+      font-size: 14px;
+      text-decoration: none;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .nav-btn.active {
+      background: rgba(242,181,58,0.18);
+      border-color: rgba(242,181,58,0.24);
+    }
+
+    .section {
+      padding: 26px;
+      margin-bottom: 20px;
+    }
+
+    .section h2 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 14px;
+      font-size: clamp(30px, 6vw, 48px);
+      letter-spacing: -0.6px;
+    }
+
+    .section p {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+    .footer-card {
+      padding: 24px;
+      margin-top: 24px;
+    }
+
+    .footer-line {
+      height: 1px;
+      background: rgba(255,255,255,0.22);
+      margin-bottom: 24px;
+    }
+
+    .footer-copy {
+      font-size: clamp(24px, 5vw, 42px);
+      line-height: 1.45;
+      margin-bottom: 26px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+
+    .footer-social a {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .footer-social svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .floating-accessibility-btn {
+      position: fixed;
+      left: 14px;
+      bottom: 18px;
+      z-index: 95;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.82);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .floating-accessibility-btn svg.main {
+      width: 34px;
+      height: 34px;
+      color: #1f2937;
+    }
+
+    .floating-accessibility-btn .check-badge {
+      position: absolute;
+      right: 4px;
+      bottom: 4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #22c55e;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+    }
+
+    .floating-accessibility-btn .check-badge svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .accessibility-panel {
+      display: none;
+      position: fixed;
+      left: 16px;
+      bottom: 92px;
+      width: min(360px, calc(100% - 32px));
+      z-index: 100;
+      border-radius: 24px;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    .accessibility-panel.show {
+      display: block;
+    }
+
+    .accessibility-panel h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+
+    .tool-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .tool-btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    @media (max-width: 767px) {
+      .brand-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orb one"></div>
+  <div class="bg-orb two"></div>
+  <div class="bg-orb three"></div>
+
+  <button class="floating-accessibility-btn" onclick="toggleAccessibilityPanel()" aria-label="Open accessibility tools">
+    <svg class="main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="4.5" r="1.8" fill="currentColor" stroke="none"></circle>
+      <path d="M5 8.5h14"></path>
+      <path d="M12 8.5v10"></path>
+      <path d="M8.5 21l3.5-6"></path>
+      <path d="M15.5 21L12 15"></path>
+    </svg>
+    <span class="check-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 13l4 4L19 7"></path>
+      </svg>
+    </span>
+  </button>
+
+  <div id="accessibilityPanel" class="accessibility-panel">
+    <h3>Accessibility</h3>
+
+    <div class="tool-row">
+      <button class="tool-btn" onclick="setTheme('dark')">Dark</button>
+      <button class="tool-btn" onclick="setTheme('soft')">Soft</button>
+    </div>
+
+    <div class="tool-row">
+      <button class="tool-btn" onclick="changeFont(1)">A+</button>
+      <button class="tool-btn" onclick="changeFont(-1)">A-</button>
+    </div>
+
+    <div class="tool-row">
+      <button class="tool-btn" onclick="changeSpacing(0.1)">Spacing +</button>
+      <button class="tool-btn" onclick="changeSpacing(-0.1)">Spacing -</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <header class="header glass">
+      <div class="brand-row">
+        <div class="brand-left">
+          <img src="logo.png" alt="TruthOrRumor logo" class="site-logo" onerror="this.style.display='none'">
+          <div>
+            <h1>TruthOrRumor</h1>
+            <div class="tagline">Separating Facts from Rumors</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="nav-row">
+      <a class="nav-btn" href="/">Home</a>
+      <a class="nav-btn active" href="/about">About</a>
+      <a class="nav-btn" href="/contact">Contact</a>
+    </nav>
+
+    <section class="section glass">
+      <h2>About TruthOrRumor</h2>
+      <p><strong>TruthOrRumor</strong> is a professional news and fact checking platform dedicated to helping people separate real facts from false claims, misleading stories, and online rumors.</p>
+      <p>In today’s fast moving digital world, information spreads quickly, but not all of it is true. Our mission is to verify trending news, investigate viral claims, and present clear, reliable, and easy to understand reports that people can trust.</p>
+      <p>At <strong>TruthOrRumor</strong>, we focus on accuracy, transparency, and responsibility. We review sources carefully, compare facts, and highlight what is true, what is misleading, and what is only rumor.</p>
+      <p><strong>Find the Facts. Filter the Rumors.</strong></p>
+    </section>
+
+    <section class="section glass">
+      <h2>What We Do</h2>
+      <p>We publish clear reports, summaries, and deep analysis to help readers understand breaking stories, political claims, viral social media content, and world events.</p>
+      <p>Our platform is designed to make reading easier with filters, saved stories, accessibility options, and a clean experience that helps people focus on verified information.</p>
+    </section>
+
+    <footer class="footer-card glass">
+      <div class="footer-line"></div>
+      <div class="footer-copy">Copyright 2026 TruthOrRumor. All Rights Reserved.</div>
+
+      <div class="footer-social">
+        <a href="https://x.com/truthorrumor.news" target="_blank" rel="noopener noreferrer" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.9 2H22l-6.8 7.8L23 22h-6.1l-4.8-6.3L6.6 22H3.5l7.2-8.3L1 2h6.2l4.3 5.7L18.9 2Zm-1.1 18h1.7L6.3 3.9H4.5L17.8 20Z"/>
+          </svg>
+        </a>
+
+        <a href="https://www.instagram.com/truthorrumor.news" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <circle cx="12" cy="12" r="4.2"></circle>
+            <circle cx="17.3" cy="6.7" r="1"></circle>
+          </svg>
+        </a>
+
+        <a href="https://www.facebook.com/truthorrumor.news" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12Z"/>
+          </svg>
+        </a>
+
+        <a href="https://t.me/truthorrumor" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21.5 4.6c.3-1.2-.4-1.7-1.5-1.3L3.4 9.7c-1.1.4-1.1 1 .2 1.4l4.3 1.3 10-6.3c.5-.3 1-.1.6.2l-8.1 7.3-.3 4.5c.5 0 .7-.2 1-.5l2.1-2 4.4 3.2c.8.4 1.4.2 1.6-.8l2.3-13.4Z"/>
+          </svg>
+        </a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    let currentTheme = localStorage.getItem("tor_simple_theme") || "dark";
+    let currentFont = Number(localStorage.getItem("tor_simple_font") || 17);
+    let currentSpacing = Number(localStorage.getItem("tor_simple_spacing") || 1.8);
+
+    function applyPrefs() {
+      if (currentTheme === "soft") {
+        document.body.style.background =
+          "radial-gradient(circle at 15% 12%, rgba(255,255,255,0.45), transparent 24%), radial-gradient(circle at 82% 18%, rgba(192,132,252,0.20), transparent 22%), radial-gradient(circle at 70% 66%, rgba(79,209,255,0.18), transparent 24%), radial-gradient(circle at 52% 72%, rgba(242,181,58,0.16), transparent 20%), linear-gradient(135deg, #eef3f9, #e7edf5 48%, #dde7f2)";
+        document.documentElement.style.setProperty("--text", "#151b24");
+        document.documentElement.style.setProperty("--muted", "rgba(21,27,36,0.68)");
+      } else {
+        document.body.style.background =
+          "radial-gradient(circle at 15% 12%, rgba(255,255,255,0.10), transparent 24%), radial-gradient(circle at 82% 18%, rgba(192,132,252,0.26), transparent 22%), radial-gradient(circle at 70% 66%, rgba(79,209,255,0.24), transparent 24%), radial-gradient(circle at 52% 72%, rgba(242,181,58,0.18), transparent 20%), linear-gradient(135deg, #070b14, #111827 48%, #0b1220)";
+        document.documentElement.style.setProperty("--text", "#f8fafc");
+        document.documentElement.style.setProperty("--muted", "rgba(248,250,252,0.72)");
+      }
+
+      document.querySelectorAll(".section p").forEach(el => {
+        el.style.fontSize = currentFont + "px";
+        el.style.lineHeight = currentSpacing;
+      });
+
+      localStorage.setItem("tor_simple_theme", currentTheme);
+      localStorage.setItem("tor_simple_font", currentFont);
+      localStorage.setItem("tor_simple_spacing", currentSpacing);
+    }
+
+    function toggleAccessibilityPanel() {
+      document.getElementById("accessibilityPanel").classList.toggle("show");
+    }
+
+    function setTheme(theme) {
+      currentTheme = theme;
+      applyPrefs();
+    }
+
+    function changeFont(delta) {
+      currentFont = Math.max(14, Math.min(24, currentFont + delta));
+      applyPrefs();
+    }
+
+    function changeSpacing(delta) {
+      currentSpacing = Math.max(1.5, Math.min(2.4, +(currentSpacing + delta).toFixed(1)));
+      applyPrefs();
+    }
+
+    applyPrefs();
+  </script>
+</body>
+</html>
