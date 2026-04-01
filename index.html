@@ -1,4 +1,4 @@
-</script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -828,15 +828,13 @@
       padding: 22px;
     }
 
-    .contact-list,
-    .social-list {
+    .contact-list {
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
 
-    .contact-item,
-    .social-item {
+    .contact-item {
       display: flex;
       align-items: center;
       gap: 12px;
@@ -849,7 +847,6 @@
     }
 
     .contact-icon,
-    .social-icon,
     .icon-wrap {
       width: 42px;
       height: 42px;
@@ -989,7 +986,7 @@
     .share-option {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       padding: 12px 14px;
       border-radius: 16px;
       background: var(--card);
@@ -997,23 +994,44 @@
       border: 1px solid var(--border);
       text-align: left;
       font-size: 14px;
+      min-height: 84px;
     }
 
-    .qr-wrap {
-      display: none;
-      text-align: center;
-    }
-
-    .qr-wrap.show {
+    .icon-wrap svg {
+      width: 22px;
+      height: 22px;
       display: block;
     }
 
+    .icon-wrap.device { color: #7dd3fc; }
+    .icon-wrap.link { color: #f8fafc; }
+    .icon-wrap.whatsapp { color: #25d366; }
+    .icon-wrap.facebook { color: #1877f2; }
+    .icon-wrap.x { color: #f8fafc; }
+    .icon-wrap.telegram { color: #2aabee; }
+    .icon-wrap.email { color: #f59e0b; }
+    .icon-wrap.save { color: #c084fc; }
+    .icon-wrap.qr { color: #f8fafc; }
+
+    .qr-wrap {
+      display: block;
+      text-align: center;
+    }
+
     .qr-wrap img {
-      width: 160px;
-      height: 160px;
+      width: 190px;
+      height: 190px;
       border-radius: 16px;
       background: #fff;
       padding: 8px;
+      object-fit: contain;
+    }
+
+    .qr-help {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
     }
 
     .footer {
@@ -1098,7 +1116,8 @@
 
       <div class="qr-wrap" id="qrWrap">
         <p class="share-section-title">QR Code</p>
-        <img id="qrImage" alt="QR Code">
+        <img id="qrImage" alt="QR Code" />
+        <div class="qr-help">QR code is generated automatically when you open the share box.</div>
       </div>
     </div>
   </div>
@@ -1594,7 +1613,7 @@
       return `<span class="chip-svg"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a15 15 0 0 1 0 18"></path><path d="M12 3a15 15 0 0 0 0 18"></path></svg></span>`;
     }
 
-    function getTopicIcon(topic) {
+    function getTopicIcon() {
       return `<span class="chip-svg"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg></span>`;
     }
 
@@ -1801,6 +1820,106 @@
       return url.toString();
     }
 
+    function getSharePayload(article, mode, url) {
+      const title = article.text?.title || "";
+      const summary = article.text?.summary || "";
+      const content = article.text?.content || "";
+      const quote = (content || summary || title).split(/(?<=[.!?])\s+/)[0] || title;
+
+      if (mode === "headline") {
+        return { title, text: title, url };
+      }
+
+      if (mode === "summary") {
+        return { title, text: summary || title, url };
+      }
+
+      if (mode === "quote") {
+        return { title, text: quote, url };
+      }
+
+      return {
+        title,
+        text: [title, summary].filter(Boolean).join("\n\n"),
+        url
+      };
+    }
+
+    function getShareIcon(type) {
+      const icons = {
+        device: `
+          <span class="icon-wrap device">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="7" y="2.5" width="10" height="19" rx="2.5"></rect>
+              <path d="M11 18h2"></path>
+            </svg>
+          </span>
+        `,
+        link: `
+          <span class="icon-wrap link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.07 0l2.12-2.12a5 5 0 1 0-7.07-7.07L10.7 5.2"></path>
+              <path d="M14 11a5 5 0 0 0-7.07 0L4.81 13.12a5 5 0 1 0 7.07 7.07L13.3 18.8"></path>
+            </svg>
+          </span>
+        `,
+        whatsapp: `
+          <span class="icon-wrap whatsapp">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.1 4.9A9.9 9.9 0 0 0 3.8 16.7L2.5 21.5l4.9-1.3a9.9 9.9 0 0 0 4.7 1.2h.1A9.9 9.9 0 0 0 19.1 4.9Zm-6.9 14.8a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-2.9.8.8-2.8-.2-.3a8.2 8.2 0 1 1 6.8 3.6Zm4.5-6.1c-.2-.1-1.3-.6-1.5-.7s-.3-.1-.5.1-.6.7-.8.9-.3.2-.6.1a6.7 6.7 0 0 1-2-1.2 7.6 7.6 0 0 1-1.4-1.8c-.2-.3 0-.4.1-.6l.3-.3.2-.4c.1-.1.1-.3 0-.4l-.7-1.7c-.2-.4-.3-.4-.5-.4h-.4a.8.8 0 0 0-.6.3 2.6 2.6 0 0 0-.8 1.9c0 1.1.8 2.1.9 2.3.1.1 1.7 2.7 4.2 3.7.6.3 1.1.5 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.3-.6 1.5-1.1.2-.5.2-1 .1-1.1 0-.2-.2-.2-.4-.3Z"/>
+            </svg>
+          </span>
+        `,
+        facebook: `
+          <span class="icon-wrap facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12Z"/>
+            </svg>
+          </span>
+        `,
+        x: `
+          <span class="icon-wrap x">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.9 2H22l-6.8 7.8L23 22h-6.1l-4.8-6.3L6.6 22H3.5l7.2-8.3L1 2h6.2l4.3 5.7L18.9 2Zm-1.1 18h1.7L6.3 3.9H4.5L17.8 20Z"/>
+            </svg>
+          </span>
+        `,
+        telegram: `
+          <span class="icon-wrap telegram">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21.5 4.6c.3-1.2-.4-1.7-1.5-1.3L3.4 9.7c-1.1.4-1.1 1 .2 1.4l4.3 1.3 10-6.3c.5-.3 1-.1.6.2l-8.1 7.3-.3 4.5c.5 0 .7-.2 1-.5l2.1-2 4.4 3.2c.8.4 1.4.2 1.6-.8l2.3-13.4Z"/>
+            </svg>
+          </span>
+        `,
+        email: `
+          <span class="icon-wrap email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <path d="M3 7l9 6 9-6"></path>
+            </svg>
+          </span>
+        `,
+        save: `
+          <span class="icon-wrap save">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 3h11l3 3v15H5z"></path>
+              <path d="M9 3v6h6V3"></path>
+              <path d="M9 21v-6h6v6"></path>
+            </svg>
+          </span>
+        `,
+        qr: `
+          <span class="icon-wrap qr">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 3h8v8H3V3Zm2 2v4h4V5H5Zm8-2h8v8h-8V3Zm2 2v4h4V5h-4ZM3 13h8v8H3v-8Zm2 2v4h4v-4H5Zm10-2h2v2h-2v-2Zm2 2h2v2h-2v-2Zm-4 2h2v2h-2v-2Zm2 2h2v2h-2v-2Zm4-2h2v4h-2v-4Z"/>
+            </svg>
+          </span>
+        `
+      };
+
+      return icons[type] || icons.link;
+    }
+
     function openShareMenu(id) {
       const article = getArticleById(id);
       if (!article) return;
@@ -1813,59 +1932,91 @@
       const grid = document.getElementById("shareGrid");
       const note = document.getElementById("shareNote");
       const qrWrap = document.getElementById("qrWrap");
-
-      preview.innerHTML = `<div class="share-preview-head"><img src="${escapeHtml(article.imageUrl || "logo.png")}" alt="${escapeHtml(article.text.title)}" onerror="this.src='logo.png'"><div><h4>${escapeHtml(article.text.title)}</h4><p>${escapeHtml(article.text.summary)}</p></div></div>`;
-
-      row.innerHTML = ["full", "headline", "summary", "quote"].map(mode => {
-        return `<button class="story-mode-btn ${shareMode === mode ? "active" : ""}" onclick="shareMode='${mode}'; openShareMenu(${JSON.stringify(articleKey)})">${mode === "full" ? "Full Article" : mode === "headline" ? "Headline Only" : mode === "summary" ? "Short Summary" : "Quote Card"}</button>`;
-      }).join("");
+      const qrImage = document.getElementById("qrImage");
 
       const url = buildArticleLink(article, "share");
-      const titleText = article.text.title || "";
-      const summaryText = article.text.summary || "";
-      const encodedShareText = encodeURIComponent(titleText + "\n\n" + summaryText + "\n\n" + url);
+      const payload = getSharePayload(article, shareMode, url);
+      const shareTextEncoded = encodeURIComponent((payload.text || "") + "\n\n" + url);
+      const titleEncoded = encodeURIComponent(payload.title || article.text.title || "");
+
+      const qrPrimary = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(url);
+      const qrFallback = "https://quickchart.io/qr?size=220&text=" + encodeURIComponent(url);
+
+      preview.innerHTML = `
+        <div class="share-preview-head">
+          <img src="${article.imageUrl || "logo.png"}" alt="${escapeHtml(article.text.title)}" onerror="this.src='logo.png'">
+          <div>
+            <h4>${escapeHtml(article.text.title)}</h4>
+            <p>${escapeHtml(article.text.summary || "Open and share this story.")}</p>
+          </div>
+        </div>
+      `;
+
+      row.innerHTML = ["full", "headline", "summary", "quote"].map(mode => `
+        <button class="story-mode-btn ${shareMode === mode ? "active" : ""}" onclick="shareMode='${mode}'; openShareMenu(${JSON.stringify(articleKey)})">
+          ${mode === "full" ? "Full Article" : mode === "headline" ? "Headline Only" : mode === "summary" ? "Short Summary" : "Quote Card"}
+        </button>
+      `).join("");
 
       grid.innerHTML = `
-        <button class="share-option" onclick='if(navigator.share){navigator.share({title:${JSON.stringify(titleText)},text:${JSON.stringify(summaryText)},url:${JSON.stringify(url)}}).then(()=>{incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");});}else{navigator.clipboard.writeText(${JSON.stringify(url)}).then(()=>showToast("Link copied"));}'>
-          <span class="icon-wrap">📱</span><span>Device Share</span>
+        <button class="share-option" onclick='if(navigator.share){navigator.share({title:${JSON.stringify(payload.title)},text:${JSON.stringify(payload.text)},url:${JSON.stringify(url)}}).then(()=>{incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");});}else{navigator.clipboard.writeText(${JSON.stringify(url)}).then(()=>showToast("Link copied"));}'>
+          ${getShareIcon("device")}
+          <span>Device Share</span>
         </button>
 
         <button class="share-option" onclick='navigator.clipboard.writeText(${JSON.stringify(url)}).then(()=>{incrementShareCount(${JSON.stringify(articleKey)});showToast("Link copied");});'>
-          <span class="icon-wrap">🔗</span><span>Copy Link</span>
+          ${getShareIcon("link")}
+          <span>Copy Link</span>
         </button>
 
-        <button class="share-option" onclick='window.open("https://wa.me/?text=${encodedShareText}","_blank");incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");'>
-          <span class="icon-wrap">🟢</span><span>WhatsApp</span>
+        <button class="share-option" onclick='window.open("https://wa.me/?text=${shareTextEncoded}","_blank");incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");'>
+          ${getShareIcon("whatsapp")}
+          <span>WhatsApp</span>
         </button>
 
         <button class="share-option" onclick='window.open("https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}","_blank");incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");'>
-          <span class="icon-wrap">📘</span><span>Facebook</span>
+          ${getShareIcon("facebook")}
+          <span>Facebook</span>
         </button>
 
-        <button class="share-option" onclick='window.open("https://twitter.com/intent/tweet?text=${encodedShareText}","_blank");incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");'>
-          <span class="icon-wrap">✖️</span><span>X</span>
+        <button class="share-option" onclick='window.open("https://twitter.com/intent/tweet?text=${shareTextEncoded}","_blank");incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");'>
+          ${getShareIcon("x")}
+          <span>X</span>
         </button>
 
-        <button class="share-option" onclick='window.open("https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(titleText)}","_blank");incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");'>
-          <span class="icon-wrap">📨</span><span>Telegram</span>
+        <button class="share-option" onclick='window.open("https://t.me/share/url?url=${encodeURIComponent(url)}&text=${titleEncoded}","_blank");incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");'>
+          ${getShareIcon("telegram")}
+          <span>Telegram</span>
         </button>
 
-        <button class="share-option" onclick='location.href="mailto:?subject=${encodeURIComponent(titleText)}&body=${encodedShareText}";incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");'>
-          <span class="icon-wrap">✉️</span><span>Email</span>
+        <button class="share-option" onclick='location.href="mailto:?subject=${titleEncoded}&body=${shareTextEncoded}";incrementShareCount(${JSON.stringify(articleKey)});learnFromArticle(getArticleById(${JSON.stringify(articleKey)}),"share");'>
+          ${getShareIcon("email")}
+          <span>Email</span>
         </button>
 
         <button class="share-option" onclick='toggleSaveArticle(${JSON.stringify(articleKey)})'>
-          <span class="icon-wrap">💾</span><span>${savedArticleIds.has(articleKey) ? "Saved" : "Save For Later"}</span>
+          ${getShareIcon("save")}
+          <span>${savedArticleIds.has(articleKey) ? "Saved" : "Save For Later"}</span>
         </button>
 
-        <button class="share-option" onclick='document.getElementById("qrImage").src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(url)}";document.getElementById("qrWrap").classList.toggle("show");'>
-          <span class="icon-wrap">🔳</span><span>QR Code</span>
+        <button class="share-option" onclick='const a=document.createElement("a");a.href=document.getElementById("qrImage").src;a.download="truth-or-rumor-qr.png";a.click();'>
+          ${getShareIcon("qr")}
+          <span>Download QR</span>
         </button>
       `;
 
-      note.innerHTML = `One tap share, copy link, native share, QR code, save for later, and share tracking are ready.<br>Share URL: ${escapeHtml(url)}`;
+      qrImage.onerror = function () {
+        if (qrImage.dataset.fallbackUsed === "yes") return;
+        qrImage.dataset.fallbackUsed = "yes";
+        qrImage.src = qrFallback;
+      };
+
+      qrImage.dataset.fallbackUsed = "no";
+      qrImage.src = qrPrimary;
+      qrWrap.classList.add("show");
+
+      note.innerHTML = `QR code is created automatically below.<br>Share URL: ${escapeHtml(url)}`;
       document.getElementById("shareCountText").textContent = `Shared ${getShareCount(articleKey)} times`;
-      qrWrap.classList.remove("show");
       document.getElementById("shareModalBackdrop").classList.add("show");
     }
 
