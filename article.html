@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google-adsense-account" content="ca-pub-2944530159971400" />
   <title>Loading Article | TruthOrRumor</title>
-  <meta name="description" content="TruthOrRumor article page" />
+  <meta name="description" content="Read the full article on TruthOrRumor." />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="TruthOrRumor Article" />
   <meta property="og:description" content="Read the full article on TruthOrRumor." />
@@ -20,44 +20,44 @@
     :root {
       --bg: #07111d;
       --bg-2: #101b2c;
-      --bg-3: #15263a;
+      --bg-3: #152235;
       --text: #f8fafc;
-      --muted: rgba(248,250,252,0.74);
-      --line: rgba(255,255,255,0.12);
-      --glass: rgba(255,255,255,0.08);
-      --glass-2: rgba(255,255,255,0.12);
+      --muted: rgba(248, 250, 252, 0.74);
+      --line: rgba(255, 255, 255, 0.12);
+      --glass: rgba(255, 255, 255, 0.08);
+      --glass-2: rgba(255, 255, 255, 0.11);
       --gold: #f2b53a;
       --orange: #ff8d3a;
       --green: #22c55e;
       --red: #ef4444;
-      --shadow: 0 16px 40px rgba(0,0,0,0.28);
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
       --reader-font-size: 18px;
       --reader-line-height: 1.9;
       --reader-width: 860px;
     }
 
     body[data-theme="sepia"] {
-      --bg: #f4ecdf;
-      --bg-2: #eadcc9;
-      --bg-3: #dfd0be;
-      --text: #2b2118;
-      --muted: rgba(43,33,24,0.72);
-      --line: rgba(58,43,30,0.12);
-      --glass: rgba(255,248,240,0.44);
-      --glass-2: rgba(255,248,240,0.56);
-      --shadow: 0 16px 36px rgba(63,48,28,0.12);
+      --bg: #f5eddf;
+      --bg-2: #eadcc7;
+      --bg-3: #dfd0bb;
+      --text: #2a2118;
+      --muted: rgba(42, 33, 24, 0.72);
+      --line: rgba(75, 58, 36, 0.12);
+      --glass: rgba(255, 248, 240, 0.42);
+      --glass-2: rgba(255, 248, 240, 0.56);
+      --shadow: 0 16px 36px rgba(73, 52, 26, 0.12);
     }
 
     body[data-theme="soft-light"] {
-      --bg: #eef4fb;
-      --bg-2: #e3edf8;
-      --bg-3: #d8e6f5;
-      --text: #172130;
-      --muted: rgba(23,33,48,0.72);
-      --line: rgba(23,33,48,0.12);
-      --glass: rgba(255,255,255,0.46);
-      --glass-2: rgba(255,255,255,0.6);
-      --shadow: 0 16px 36px rgba(19,28,43,0.10);
+      --bg: #eef3fb;
+      --bg-2: #e6edf7;
+      --bg-3: #dce7f2;
+      --text: #17212d;
+      --muted: rgba(23, 33, 45, 0.70);
+      --line: rgba(23, 33, 45, 0.12);
+      --glass: rgba(255, 255, 255, 0.46);
+      --glass-2: rgba(255, 255, 255, 0.60);
+      --shadow: 0 16px 36px rgba(19, 28, 43, 0.10);
     }
 
     html {
@@ -74,7 +74,7 @@
       background:
         radial-gradient(circle at 12% 10%, rgba(255,255,255,0.08), transparent 18%),
         radial-gradient(circle at 86% 16%, rgba(183,132,255,0.16), transparent 18%),
-        radial-gradient(circle at 76% 72%, rgba(83,214,255,0.12), transparent 18%),
+        radial-gradient(circle at 76% 72%, rgba(79,209,255,0.14), transparent 18%),
         radial-gradient(circle at 52% 82%, rgba(242,181,58,0.10), transparent 14%),
         linear-gradient(135deg, var(--bg), var(--bg-2) 48%, var(--bg-3));
       background-color: var(--bg);
@@ -99,21 +99,27 @@
 
     .back-btn,
     .tool-btn,
-    .source-btn {
+    .action-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       padding: 12px 16px;
       border-radius: 999px;
-      border: 1px solid rgba(242,181,58,0.22);
-      background: rgba(242,181,58,0.12);
+      border: 1px solid rgba(242, 181, 58, 0.22);
+      background: rgba(242, 181, 58, 0.12);
       color: var(--text);
       text-decoration: none;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
       font-family: inherit;
+    }
+
+    .action-btn.primary {
+      border: none;
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      color: #180d00;
     }
 
     .brand {
@@ -125,7 +131,7 @@
       color: transparent;
     }
 
-    .card,
+    .article-card,
     .modal-card {
       background: linear-gradient(180deg, var(--glass-2), var(--glass));
       border: 1px solid var(--line);
@@ -138,18 +144,18 @@
       overflow: hidden;
     }
 
-    .card::before,
+    .article-card::before,
     .modal-card::before {
       content: "";
       position: absolute;
       inset: 0;
       background:
         radial-gradient(circle at 16% 14%, rgba(255,255,255,0.08), transparent 14%),
-        radial-gradient(circle at 84% 82%, rgba(83,214,255,0.06), transparent 14%);
+        radial-gradient(circle at 84% 82%, rgba(79,209,255,0.06), transparent 14%);
       pointer-events: none;
     }
 
-    .card > *,
+    .article-card > *,
     .modal-card > * {
       position: relative;
       z-index: 1;
@@ -168,14 +174,14 @@
 
     .status-badge.truth {
       color: #b7ffd0;
-      background: rgba(34,197,94,0.14);
-      border: 1px solid rgba(34,197,94,0.18);
+      background: rgba(34, 197, 94, 0.14);
+      border: 1px solid rgba(34, 197, 94, 0.18);
     }
 
     .status-badge.rumor {
       color: #ffd1d1;
-      background: rgba(239,68,68,0.14);
-      border: 1px solid rgba(239,68,68,0.18);
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(239, 68, 68, 0.18);
     }
 
     .status-badge svg {
@@ -200,8 +206,8 @@
     .summary {
       padding: 14px 16px;
       border-radius: 20px;
-      background: rgba(242,181,58,0.12);
-      border: 1px solid rgba(242,181,58,0.16);
+      background: rgba(242, 181, 58, 0.12);
+      border: 1px solid rgba(242, 181, 58, 0.16);
       margin-bottom: 18px;
       line-height: 1.8;
     }
@@ -222,17 +228,11 @@
       white-space: pre-line;
     }
 
-    .source-row {
+    .actions {
       margin-top: 22px;
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
-    }
-
-    .source-btn.primary {
-      border: none;
-      background: linear-gradient(135deg, var(--gold), var(--orange));
-      color: #180d00;
     }
 
     .state {
@@ -309,7 +309,7 @@
       overflow-y: auto;
     }
 
-    .share-top {
+    .modal-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -318,7 +318,7 @@
       margin-bottom: 12px;
     }
 
-    .share-top h3 {
+    .modal-top h3 {
       margin: 0;
       font-size: 28px;
     }
@@ -339,6 +339,7 @@
       color: var(--text);
       font-size: 20px;
       cursor: pointer;
+      font-family: inherit;
     }
 
     .access-group {
@@ -381,7 +382,7 @@
     }
 
     @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-      .card,
+      .article-card,
       .modal-card,
       .floating-accessibility-btn {
         background: rgba(16,24,38,0.92);
@@ -407,7 +408,7 @@
 
   <div id="accessibilityBackdrop" class="modal-backdrop" onclick="closeAccessibilityModal(event)">
     <div class="modal-card" onclick="event.stopPropagation()">
-      <div class="share-top">
+      <div class="modal-top">
         <div>
           <h3>Accessibility</h3>
           <p class="modal-note">Adjust reading and display settings</p>
@@ -466,7 +467,7 @@
       <div class="brand">TruthOrRumor</div>
     </div>
 
-    <div id="articleRoot" class="card">
+    <div id="articleRoot" class="article-card">
       <div class="state">Loading article...</div>
     </div>
   </div>
@@ -484,6 +485,8 @@
     };
 
     let toastTimer = null;
+    let currentUtterance = null;
+    let listenButtonActive = false;
 
     function safeJsonParse(value, fallback) {
       try {
@@ -510,7 +513,7 @@
       toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
     }
 
-    function getReaderPrefs() {
+    function loadReaderPrefs() {
       const saved = safeJsonParse(localStorage.getItem("tor_reader_prefs"), null);
       if (saved) {
         if (saved.theme) readerPrefs.theme = saved.theme;
@@ -639,6 +642,44 @@
       return decodeURIComponent(parts[1] || "").trim().toLowerCase();
     }
 
+    function stopAudio() {
+      if (currentUtterance) {
+        window.speechSynthesis.cancel();
+        currentUtterance = null;
+      }
+      const btn = document.getElementById("listenBtn");
+      if (btn) btn.textContent = "Tap To Listen";
+      listenButtonActive = false;
+    }
+
+    function toggleAudio(text) {
+      if (!text || !text.trim()) return;
+
+      if (listenButtonActive) {
+        stopAudio();
+        return;
+      }
+
+      stopAudio();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      currentUtterance = utterance;
+      listenButtonActive = true;
+
+      const btn = document.getElementById("listenBtn");
+      if (btn) btn.textContent = "Tap To Stop Listening";
+
+      utterance.onend = stopAudio;
+      utterance.onerror = stopAudio;
+
+      try {
+        window.speechSynthesis.speak(utterance);
+      } catch {
+        stopAudio();
+      }
+    }
+
     async function loadArticle() {
       const slug = getSlugFromPath();
       const root = document.getElementById("articleRoot");
@@ -654,6 +695,7 @@
         .from("posts")
         .select("*")
         .eq("slug", slug)
+        .eq("published", true)
         .limit(1);
 
       if (Array.isArray(exactResult.data) && exactResult.data.length > 0) {
@@ -665,6 +707,7 @@
           .from("posts")
           .select("*")
           .ilike("slug", slug)
+          .eq("published", true)
           .limit(1);
 
         if (Array.isArray(fallbackResult.data) && fallbackResult.data.length > 0) {
@@ -674,11 +717,6 @@
 
       if (!article) {
         root.innerHTML = `<div class="state">Article not found.<br><br>Slug: ${escapeHtml(slug)}</div>`;
-        return;
-      }
-
-      if (article.published !== true) {
-        root.innerHTML = `<div class="state">This article exists but is not published yet.</div>`;
         return;
       }
 
@@ -696,9 +734,7 @@
       document.title = title + " | TruthOrRumor";
 
       const descriptionTag = document.querySelector('meta[name="description"]');
-      if (descriptionTag) {
-        descriptionTag.setAttribute("content", summary || title);
-      }
+      if (descriptionTag) descriptionTag.setAttribute("content", summary || title);
 
       const ogTitle = document.querySelector('meta[property="og:title"]');
       if (ogTitle) ogTitle.setAttribute("content", title);
@@ -710,7 +746,7 @@
       if (ogImage && imageUrl) ogImage.setAttribute("content", imageUrl);
 
       root.innerHTML = `
-        ${renderStatusBadge(verdict)}
+        ${renderStatusBadge(String(verdict).toLowerCase() === "rumor" ? "rumor" : "real")}
         <h1>${escapeHtml(title)}</h1>
         <div class="meta">
           ${escapeHtml(country)} • ${escapeHtml(category)} • Published ${formatDate(publishedAt)} • Updated ${formatDate(updatedAt)}
@@ -718,11 +754,19 @@
         ${summary ? `<div class="summary"><strong>Quick Summary:</strong> ${escapeHtml(summary)}</div>` : ""}
         ${imageUrl ? `<img class="hero-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(title)}" onerror="this.style.display='none'">` : ""}
         <div class="content">${escapeHtml(content)}</div>
-        <div class="source-row">
-          <a class="source-btn primary" href="/">Home</a>
-          ${sourceUrl ? `<a class="source-btn" href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">Source</a>` : ""}
+        <div class="actions">
+          <a class="action-btn primary" href="/">Home</a>
+          <button id="listenBtn" class="action-btn" onclick=${JSON.stringify("")}>Tap To Listen</button>
+          ${sourceUrl ? `<a class="action-btn" href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">Source</a>` : ""}
         </div>
       `;
+
+      const listenBtn = document.getElementById("listenBtn");
+      if (listenBtn) {
+        listenBtn.onclick = function () {
+          toggleAudio([title, summary, content].filter(Boolean).join(". "));
+        };
+      }
     }
 
     window.addEventListener("keydown", function (event) {
@@ -731,7 +775,9 @@
       }
     });
 
-    getReaderPrefs();
+    window.addEventListener("beforeunload", stopAudio);
+
+    loadReaderPrefs();
     applyReaderPrefs();
     loadArticle();
   </script>
