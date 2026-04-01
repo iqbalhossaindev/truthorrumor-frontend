@@ -7,24 +7,24 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
-      --bg: #0b1220;
-      --panel: #111827;
-      --panel-2: #1f2937;
+      --bg: #081224;
+      --panel: #0f1b31;
+      --panel-2: #13233f;
       --line: rgba(255, 255, 255, 0.08);
       --text: #f3f4f6;
       --muted: #9ca3af;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
       --success: #16a34a;
-      --success-bg: rgba(22, 163, 74, 0.15);
+      --success-bg: rgba(22, 163, 74, 0.16);
       --danger: #dc2626;
       --danger-hover: #b91c1c;
-      --danger-bg: rgba(220, 38, 38, 0.15);
+      --danger-bg: rgba(220, 38, 38, 0.16);
       --info: #0284c7;
-      --info-bg: rgba(2, 132, 199, 0.15);
-      --input: #0f172a;
-      --radius: 16px;
-      --shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      --info-bg: rgba(2, 132, 199, 0.16);
+      --input: #0b1630;
+      --radius: 18px;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
     }
 
     * {
@@ -35,29 +35,49 @@
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(180deg, #09101d 0%, #0f172a 100%);
-      color: var(--text);
+      min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
+      background: linear-gradient(180deg, #06101f 0%, #081224 100%);
+      color: var(--text);
     }
 
     .hidden {
       display: none !important;
     }
 
-    .container {
+    .page {
       width: min(1180px, calc(100% - 32px));
       margin: 32px auto;
     }
 
     .card {
-      background: rgba(17, 24, 39, 0.96);
+      background: rgba(15, 27, 49, 0.96);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
+    }
+
+    .login-wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+    }
+
+    .login-card {
+      width: min(460px, 100%);
+      padding: 28px;
+    }
+
+    .login-card h1 {
+      margin: 0 0 12px;
+      font-size: 28px;
+    }
+
+    .login-card p {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 15px;
     }
 
     .header {
@@ -69,13 +89,12 @@
       margin-bottom: 20px;
     }
 
-    .brand h1 {
+    .header h1 {
       margin: 0;
       font-size: 28px;
-      line-height: 1.2;
     }
 
-    .brand p {
+    .header p {
       margin: 8px 0 0;
       color: var(--muted);
       font-size: 14px;
@@ -94,35 +113,12 @@
     }
 
     .panel {
-      padding: 20px;
+      padding: 22px;
     }
 
     .panel h2 {
       margin: 0 0 18px;
       font-size: 22px;
-    }
-
-    .login-wrap {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 16px;
-    }
-
-    .login-card {
-      width: min(460px, 100%);
-      padding: 24px;
-    }
-
-    .login-card h2 {
-      margin: 0 0 8px;
-      font-size: 28px;
-    }
-
-    .login-card p {
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size: 14px;
     }
 
     .form-group {
@@ -146,11 +142,11 @@
     textarea,
     select {
       width: 100%;
+      padding: 13px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
       background: var(--input);
       color: var(--text);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 12px 14px;
       font-size: 15px;
       outline: none;
     }
@@ -159,7 +155,7 @@
     textarea:focus,
     select:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.16);
     }
 
     textarea {
@@ -204,7 +200,12 @@
     }
 
     .btn-secondary:hover {
-      background: #273449;
+      background: #1a2f52;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
     }
 
     .btn-danger {
@@ -216,16 +217,11 @@
       background: var(--danger-hover);
     }
 
-    .btn-success {
-      background: var(--success);
-      color: white;
-    }
-
     .btn-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 6px;
+      margin-top: 4px;
     }
 
     .status-box {
@@ -259,16 +255,28 @@
       color: #e0f2fe;
     }
 
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 8px 0 12px;
+    }
+
+    .checkbox-row input {
+      width: auto;
+      margin: 0;
+    }
+
     .toolbar {
       display: flex;
       gap: 10px;
-      flex-wrap: wrap;
       margin-bottom: 14px;
+      flex-wrap: wrap;
     }
 
     .toolbar input {
       flex: 1;
-      min-width: 180px;
+      min-width: 200px;
     }
 
     .posts-list {
@@ -280,7 +288,7 @@
       padding: 16px;
       border: 1px solid var(--line);
       border-radius: 14px;
-      background: rgba(31, 41, 55, 0.65);
+      background: rgba(19, 35, 63, 0.78);
     }
 
     .post-card h3 {
@@ -291,8 +299,8 @@
 
     .meta {
       display: flex;
-      gap: 8px;
       flex-wrap: wrap;
+      gap: 8px;
       margin-bottom: 12px;
     }
 
@@ -306,25 +314,25 @@
     }
 
     .badge-truth {
-      background: rgba(22, 163, 74, 0.15);
+      background: rgba(22, 163, 74, 0.16);
       border-color: rgba(22, 163, 74, 0.35);
       color: #dcfce7;
     }
 
     .badge-rumor {
-      background: rgba(220, 38, 38, 0.15);
+      background: rgba(220, 38, 38, 0.16);
       border-color: rgba(220, 38, 38, 0.35);
       color: #fee2e2;
     }
 
     .badge-category {
-      background: rgba(37, 99, 235, 0.15);
+      background: rgba(37, 99, 235, 0.16);
       border-color: rgba(37, 99, 235, 0.35);
       color: #dbeafe;
     }
 
     .badge-draft {
-      background: rgba(245, 158, 11, 0.15);
+      background: rgba(245, 158, 11, 0.16);
       border-color: rgba(245, 158, 11, 0.35);
       color: #fef3c7;
     }
@@ -340,8 +348,8 @@
     .post-meta-line {
       color: var(--muted);
       font-size: 12px;
-      margin-bottom: 12px;
       line-height: 1.6;
+      margin-bottom: 12px;
       word-break: break-word;
     }
 
@@ -349,19 +357,6 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-    }
-
-    .checkbox-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 2px;
-      margin-bottom: 10px;
-    }
-
-    .checkbox-row input {
-      width: auto;
-      margin: 0;
     }
 
     .preview-img {
@@ -375,8 +370,8 @@
 
     .empty {
       color: var(--muted);
-      padding: 8px 0;
       font-size: 14px;
+      padding: 8px 0;
     }
 
     @media (max-width: 980px) {
@@ -400,7 +395,7 @@
 <body>
   <div id="loginView" class="login-wrap">
     <div class="card login-card">
-      <h2>Admin Login</h2>
+      <h1>Admin Login</h1>
       <p>Login with your Supabase admin email and password.</p>
 
       <div class="form-group">
@@ -418,9 +413,9 @@
     </div>
   </div>
 
-  <div id="adminView" class="container hidden">
+  <div id="adminView" class="page hidden">
     <div class="card header">
-      <div class="brand">
+      <div>
         <h1>Truth or Rumor Admin</h1>
         <p>Create, edit, search, and delete posts.</p>
       </div>
@@ -518,12 +513,13 @@
   </div>
 
   <script>
-    const SUPABASE_URL = "YOUR_SUPABASE_URL";
-    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+    const SUPABASE_URL = "https://bsnezcbmsbsememwqsjs.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_HTgjJsMcfGgIJaUSAzXTfw_yQ2dD_Uy";
     const STORAGE_BUCKET = "news-images";
     const TABLE_NAME = "posts";
 
-    let supabaseClient = null;
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     let editingId = null;
     let allPosts = [];
     let slugTouched = false;
@@ -568,14 +564,6 @@
       element.textContent = "";
     }
 
-    function setButtonsDisabled(disabled) {
-      loginBtn.disabled = disabled;
-      saveBtn.disabled = disabled;
-      refreshBtn.disabled = disabled;
-      logoutBtn.disabled = disabled;
-      resetBtn.disabled = disabled;
-    }
-
     function escapeHtml(value) {
       return String(value ?? "")
         .replace(/&/g, "&amp;")
@@ -589,8 +577,8 @@
       return String(text || "")
         .toLowerCase()
         .trim()
-        .replace(/[^a-z0-9\s-]/g, "")
-        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9\\s-]/g, "")
+        .replace(/\\s+/g, "-")
         .replace(/-+/g, "-")
         .replace(/^-+|-+$/g, "");
     }
@@ -616,7 +604,6 @@
     function resetForm() {
       editingId = null;
       slugTouched = false;
-
       formTitle.textContent = "Create Post";
       titleInput.value = "";
       slugInput.value = "";
@@ -635,8 +622,8 @@
     function fillForm(post) {
       editingId = post.id;
       slugTouched = true;
-
       formTitle.textContent = "Edit Post";
+
       titleInput.value = post.title || "";
       slugInput.value = post.slug || "";
       categoryInput.value = post.category || "";
@@ -647,9 +634,10 @@
       imageUrlInput.value = post.image_url || "";
       publishedInput.checked = Boolean(post.published);
       imageFileInput.value = "";
-      previewImage(post.image_url || "");
 
+      previewImage(post.image_url || "");
       hideStatus(formStatus);
+
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
@@ -659,7 +647,7 @@
         return;
       }
 
-      const html = posts.map(function(post) {
+      postsList.innerHTML = posts.map(function(post) {
         const verdictClass = post.verdict === "rumor" ? "badge-rumor" : "badge-truth";
         const verdictText = post.verdict === "rumor" ? "Rumor" : "Truth";
         const publishBadge = post.published
@@ -676,8 +664,8 @@
             </div>
             <div class="post-excerpt">${escapeHtml(post.excerpt || "")}</div>
             <div class="post-meta-line">
-              Slug: ${escapeHtml(post.slug || "")}<br />
-              Created: ${escapeHtml(formatDate(post.created_at))}<br />
+              Slug: ${escapeHtml(post.slug || "")}<br>
+              Created: ${escapeHtml(formatDate(post.created_at))}<br>
               Updated: ${escapeHtml(formatDate(post.updated_at))}
             </div>
             <div class="post-actions">
@@ -687,8 +675,6 @@
           </article>
         `;
       }).join("");
-
-      postsList.innerHTML = html;
     }
 
     async function uploadImage(file) {
@@ -724,8 +710,6 @@
     }
 
     async function fetchPosts() {
-      if (!supabaseClient) return;
-
       postsList.innerHTML = '<div class="empty">Loading posts...</div>';
 
       const result = await supabaseClient
@@ -743,12 +727,10 @@
     }
 
     async function savePost() {
-      if (!supabaseClient) return;
-
       hideStatus(formStatus);
 
       const title = titleInput.value.trim();
-      const slug = (slugInput.value.trim() || slugify(title));
+      const slug = slugInput.value.trim() || slugify(title);
       const category = categoryInput.value.trim();
       const verdict = verdictInput.value;
       const excerpt = excerptInput.value.trim();
@@ -814,8 +796,6 @@
     }
 
     async function deletePost(id) {
-      if (!supabaseClient) return;
-
       const confirmed = window.confirm("Are you sure you want to delete this post?");
       if (!confirmed) return;
 
@@ -866,8 +846,6 @@
     }
 
     async function login() {
-      if (!supabaseClient) return;
-
       hideStatus(loginStatus);
 
       const email = loginEmail.value.trim();
@@ -902,9 +880,8 @@
     }
 
     async function logout() {
-      if (!supabaseClient) return;
-
       const result = await supabaseClient.auth.signOut();
+
       if (result.error) {
         window.alert("Logout failed: " + result.error.message);
         return;
@@ -917,8 +894,6 @@
     }
 
     async function checkSession() {
-      if (!supabaseClient) return;
-
       const result = await supabaseClient.auth.getSession();
 
       if (result.error) {
@@ -933,45 +908,6 @@
       if (session) {
         await fetchPosts();
       }
-    }
-
-    function validateConfig() {
-      if (!window.supabase) {
-        return "Supabase library could not load.";
-      }
-
-      if (!SUPABASE_URL || SUPABASE_URL.indexOf("YOUR_SUPABASE_URL") !== -1) {
-        return "Add your real SUPABASE_URL first.";
-      }
-
-      if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.indexOf("YOUR_SUPABASE_ANON_KEY") !== -1) {
-        return "Add your real SUPABASE_ANON_KEY first.";
-      }
-
-      return "";
-    }
-
-    async function initApp() {
-      const configError = validateConfig();
-
-      if (configError) {
-        setButtonsDisabled(true);
-        setViewForSession(null);
-        showStatus(loginStatus, configError, "error");
-        return;
-      }
-
-      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-      supabaseClient.auth.onAuthStateChange(async function(event, session) {
-        setViewForSession(session);
-        if (session) {
-          await fetchPosts();
-        }
-      });
-
-      setButtonsDisabled(false);
-      await checkSession();
     }
 
     titleInput.addEventListener("input", function() {
@@ -1010,15 +946,11 @@
     searchInput.addEventListener("input", filterPosts);
 
     loginEmail.addEventListener("keydown", function(event) {
-      if (event.key === "Enter") {
-        login();
-      }
+      if (event.key === "Enter") login();
     });
 
     loginPassword.addEventListener("keydown", function(event) {
-      if (event.key === "Enter") {
-        login();
-      }
+      if (event.key === "Enter") login();
     });
 
     postsList.addEventListener("click", function(event) {
@@ -1030,9 +962,7 @@
         const post = allPosts.find(function(item) {
           return String(item.id) === String(id);
         });
-        if (post) {
-          fillForm(post);
-        }
+        if (post) fillForm(post);
       }
 
       if (deleteButton) {
@@ -1041,7 +971,14 @@
       }
     });
 
-    initApp();
+    supabaseClient.auth.onAuthStateChange(function(event, session) {
+      setViewForSession(session);
+      if (session) {
+        fetchPosts();
+      }
+    });
+
+    checkSession();
   </script>
 </body>
 </html>
