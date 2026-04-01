@@ -3,200 +3,268 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TruthOrRumor Admin</title>
+  <title>Truth or Rumor Admin</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    * { box-sizing: border-box; }
-
     :root {
-      --bg1: #050505;
-      --bg2: #101010;
-      --text: #ffffff;
-      --muted: rgba(255,255,255,0.72);
-      --card: rgba(255,255,255,0.05);
-      --border: rgba(255,255,255,0.10);
-      --gold: #f2b53a;
-      --gold2: #ff8d3a;
-      --green: #33c45d;
-      --red: #df4a4a;
+      --bg: #0b1220;
+      --panel: #121a2b;
+      --panel-2: #182235;
+      --border: #27324a;
+      --text: #e8eefc;
+      --muted: #9fb0d0;
+      --primary: #4f8cff;
+      --primary-hover: #3f79e0;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --input: #0f172a;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #09101d 0%, #0f172a 100%);
       color: var(--text);
-      min-height: 100vh;
-      padding: 20px;
-      background:
-        radial-gradient(circle at top left, rgba(51,196,93,0.12), transparent 28%),
-        radial-gradient(circle at top right, rgba(242,181,58,0.10), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(223,74,74,0.10), transparent 28%),
-        linear-gradient(135deg, var(--bg1), var(--bg2));
     }
 
-    .wrap {
-      width: min(980px, 100%);
-      margin: 0 auto;
+    .container {
+      width: min(1100px, calc(100% - 32px));
+      margin: 32px auto;
     }
 
     .card {
-      background: var(--card);
+      background: rgba(18, 26, 43, 0.95);
       border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 20px;
-      margin-bottom: 18px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
     }
 
-    .brand {
+    .header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 14px;
-    }
-
-    .brand img {
-      width: 62px;
-      height: 62px;
-      object-fit: contain;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      padding: 6px;
+      gap: 16px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
     }
 
     .brand h1 {
       margin: 0;
-      font-size: 32px;
-      line-height: 1.05;
-      background: linear-gradient(90deg, #ffffff 0%, #ffffff 38%, var(--gold) 52%, var(--gold2) 72%, var(--red) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      font-size: 28px;
     }
 
-    .muted {
+    .brand p {
+      margin: 6px 0 0;
       color: var(--muted);
-    }
-
-    h2 {
-      margin-top: 0;
-      font-size: 24px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 700;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      padding: 14px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.06);
-      color: white;
-      font-size: 15px;
-      outline: none;
-    }
-
-    textarea {
-      min-height: 150px;
-      resize: vertical;
-    }
-
-    .grid,
-    .row {
-      display: grid;
-      gap: 14px;
-      grid-template-columns: 1fr;
-    }
-
-    .btn-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
-
-    button {
-      border: none;
-      border-radius: 16px;
-      padding: 14px 18px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--gold), var(--gold2));
-      color: #1a1000;
-    }
-
-    .btn-secondary {
-      background: rgba(255,255,255,0.08);
-      color: white;
-    }
-
-    .btn-danger {
-      background: rgba(223,74,74,0.18);
-      color: #ffd5d5;
-    }
-
-    .status-box {
-      margin-top: 14px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      line-height: 1.6;
       font-size: 14px;
-    }
-
-    .success {
-      background: rgba(51,196,93,0.12);
-      border-color: rgba(51,196,93,0.28);
-      color: #d7ffe2;
-    }
-
-    .error {
-      background: rgba(223,74,74,0.12);
-      border-color: rgba(223,74,74,0.30);
-      color: #ffd8d8;
     }
 
     .hidden {
       display: none !important;
     }
 
-    .preview-img {
-      width: 100%;
-      max-width: 260px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      margin-top: 12px;
+    .login-wrap {
+      min-height: calc(100vh - 64px);
+      display: grid;
+      place-items: center;
     }
 
-    .post-item {
-      padding: 14px;
-      border-radius: 18px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      margin-top: 12px;
+    .login-card {
+      width: min(460px, calc(100% - 32px));
+      padding: 24px;
     }
 
-    .post-item h4 {
+    .login-card h2 {
       margin: 0 0 8px;
+      font-size: 28px;
     }
 
-    .post-meta {
-      font-size: 13px;
+    .login-card p {
+      margin: 0 0 20px;
       color: var(--muted);
-      margin-bottom: 10px;
-      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      background: var(--input);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 140, 255, 0.15);
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #202d46;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: var(--danger-hover);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 920px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      padding: 20px;
+    }
+
+    .panel h3 {
+      margin: 0 0 16px;
+      font-size: 22px;
+    }
+
+    .help-text {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .status-box {
+      margin: 14px 0 0;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .status-box.show {
+      display: block;
+    }
+
+    .status-success {
+      background: rgba(22, 163, 74, 0.15);
+      border: 1px solid rgba(22, 163, 74, 0.35);
+      color: #b9f6ca;
+    }
+
+    .status-error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fecaca;
+    }
+
+    .status-info {
+      background: rgba(79, 140, 255, 0.15);
+      border: 1px solid rgba(79, 140, 255, 0.35);
+      color: #dbeafe;
+    }
+
+    .posts-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .post-card {
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(24, 34, 53, 0.7);
+    }
+
+    .post-card h4 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
     }
 
     .badge {
@@ -205,484 +273,587 @@
       border-radius: 999px;
       font-size: 12px;
       font-weight: 700;
-      margin-right: 8px;
-      margin-bottom: 6px;
+      border: 1px solid transparent;
     }
 
-    .badge.real { background: rgba(51,196,93,0.18); color: #cbffd8; }
-    .badge.rumor { background: rgba(223,74,74,0.18); color: #ffd2d2; }
-    .badge.draft { background: rgba(255,255,255,0.10); color: white; }
-    .badge.published { background: rgba(242,181,58,0.18); color: #ffe4a6; }
+    .badge-truth {
+      background: rgba(22, 163, 74, 0.15);
+      color: #bbf7d0;
+      border-color: rgba(22, 163, 74, 0.35);
+    }
 
-    @media (min-width: 768px) {
-      .row { grid-template-columns: 1fr 1fr; }
+    .badge-rumor {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fecaca;
+      border-color: rgba(239, 68, 68, 0.35);
+    }
+
+    .badge-category {
+      background: rgba(79, 140, 255, 0.15);
+      color: #dbeafe;
+      border-color: rgba(79, 140, 255, 0.35);
+    }
+
+    .post-excerpt {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .preview-img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-top: 10px;
+    }
+
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .empty {
+      color: var(--muted);
+      padding: 8px 2px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .toolbar input {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: auto;
+      transform: scale(1.15);
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <div class="brand">
-        <img src="logo.png" alt="TruthOrRumor Logo" onerror="this.style.display='none'">
-        <div>
-          <h1>TruthOrRumor Admin</h1>
-          <div class="muted">Login and publish your own news</div>
-        </div>
-      </div>
-    </div>
-
-    <div id="loginCard" class="card">
+  <div id="loginView" class="login-wrap">
+    <div class="card login-card">
       <h2>Admin Login</h2>
+      <p>Login with your Supabase admin email and password.</p>
 
-      <div class="grid">
-        <div>
-          <label for="loginEmail">Email</label>
-          <input id="loginEmail" type="email" placeholder="Enter admin email">
-        </div>
-
-        <div>
-          <label for="loginPassword">Password</label>
-          <input id="loginPassword" type="password" placeholder="Enter password">
-        </div>
+      <div class="form-group">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" placeholder="admin@example.com" />
       </div>
 
-      <div class="btn-row">
-        <button id="loginBtn" class="btn-primary" type="button">Login</button>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter password" />
       </div>
 
-      <div id="loginStatus" class="status-box hidden"></div>
+      <button class="btn btn-primary" id="loginBtn">Login</button>
+
+      <div id="loginStatus" class="status-box"></div>
+    </div>
+  </div>
+
+  <div id="adminView" class="container hidden">
+    <div class="card header">
+      <div class="brand">
+        <h1>Truth or Rumor Admin</h1>
+        <p>Manage posts, upload images, edit content, and delete posts.</p>
+      </div>
+      <div class="top-actions">
+        <button class="btn btn-secondary" id="refreshBtn">Refresh Posts</button>
+        <button class="btn btn-danger" id="logoutBtn">Logout</button>
+      </div>
     </div>
 
-    <div id="adminPanel" class="hidden">
-      <div class="card">
-        <h2>Publish News</h2>
+    <div class="dashboard">
+      <div class="card panel">
+        <h3 id="formTitle">Create Post</h3>
 
-        <div class="grid">
-          <div>
-            <label for="newsTitle">Title</label>
-            <input id="newsTitle" type="text" placeholder="News title">
-          </div>
-
-          <div>
-            <label for="newsSummary">Summary</label>
-            <input id="newsSummary" type="text" placeholder="Short summary">
-          </div>
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" id="title" placeholder="Write the post title" />
         </div>
 
-        <div style="margin-top: 14px;">
-          <label for="newsContent">Full Content</label>
-          <textarea id="newsContent" placeholder="Write the full article here"></textarea>
+        <div class="form-group">
+          <label for="slug">Slug</label>
+          <input type="text" id="slug" placeholder="example-post-title" />
+          <div class="help-text">Leave it empty and it will be generated from title.</div>
         </div>
 
-        <div class="row" style="margin-top: 14px;">
-          <div>
-            <label for="newsCountry">Country</label>
-            <select id="newsCountry">
-              <option>World</option>
-              <option>Bangladesh</option>
-              <option>India</option>
-              <option>China</option>
-              <option>USA</option>
-              <option>Russia</option>
-              <option>Iran</option>
-              <option>Israel</option>
-              <option>Middle East</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="newsTopic">Topic</label>
-            <select id="newsTopic">
-              <option>World News</option>
-              <option>Politics</option>
-              <option>Business</option>
-              <option>Finance</option>
-              <option>Technology</option>
-              <option>Sports</option>
-              <option>Entertainment</option>
-              <option>Apple</option>
-              <option>Samsung</option>
-              <option>Phone Launch</option>
-              <option>New Popular Tech Product</option>
-            </select>
-          </div>
-        </div>
-        <div class="row" style="margin-top: 14px;">
-          <div>
-            <label for="newsType">Truth or Rumor</label>
-            <select id="newsType">
-              <option value="real">Truth</option>
-              <option value="rumor">Rumor</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="newsPage">Page</label>
-            <select id="newsPage">
-              <option value="today">Today</option>
-              <option value="old">Old</option>
-            </select>
-          </div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <input type="text" id="category" placeholder="Politics, Tech, World, Sports..." />
         </div>
 
-        <div class="row" style="margin-top: 14px;">
-          <div>
-            <label for="newsPopular">Popular</label>
-            <select id="newsPopular">
-              <option value="false">No</option>
-              <option value="true">Yes</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="newsSourceUrl">Source URL</label>
-            <input id="newsSourceUrl" type="text" placeholder="https://source-link.com">
-          </div>
+        <div class="form-group">
+          <label for="verdict">Verdict</label>
+          <select id="verdict">
+            <option value="truth">Truth</option>
+            <option value="rumor">Rumor</option>
+          </select>
         </div>
 
-        <div style="margin-top: 14px;">
-          <label for="newsImage">Upload Image</label>
-          <input id="newsImage" type="file" accept="image/*">
+        <div class="form-group">
+          <label for="excerpt">Short Summary</label>
+          <textarea id="excerpt" placeholder="Write a short summary"></textarea>
         </div>
 
-        <img id="imagePreview" class="preview-img hidden" alt="Preview">
+        <div class="form-group">
+          <label for="content">Full Content</label>
+          <textarea id="content" placeholder="Write the full article"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="sourceUrl">Source URL</label>
+          <input type="url" id="sourceUrl" placeholder="https://example.com/source" />
+        </div>
+
+        <div class="form-group">
+          <label for="imageFile">Upload Image</label>
+          <input type="file" id="imageFile" accept="image/*" />
+          <div class="help-text">If you do not upload a new image, the old image stays.</div>
+          <img id="imagePreview" class="preview-img hidden" alt="Preview" />
+        </div>
+
+        <div class="form-group">
+          <label for="imageUrl">Image URL</label>
+          <input type="text" id="imageUrl" placeholder="Uploaded image URL will appear here" />
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="published" checked />
+          <label for="published" style="margin:0;">Published</label>
+        </div>
+
+        <div style="height: 14px;"></div>
 
         <div class="btn-row">
-          <button id="saveDraftBtn" class="btn-secondary" type="button">Save Draft</button>
-          <button id="publishBtn" class="btn-primary" type="button">Publish News</button>
-          <button id="refreshBtn" class="btn-secondary" type="button">Refresh Posts</button>
-          <button id="logoutBtn" class="btn-danger" type="button">Logout</button>
+          <button class="btn btn-success" id="saveBtn">Save Post</button>
+          <button class="btn btn-secondary" id="resetBtn">Clear Form</button>
         </div>
 
-        <div id="publishStatus" class="status-box hidden"></div>
+        <div id="formStatus" class="status-box"></div>
       </div>
 
-      <div class="card">
-        <h2>Your Posts</h2>
-        <div id="postsList" class="muted">Loading posts...</div>
+      <div class="card panel">
+        <h3>All Posts</h3>
+
+        <div class="toolbar">
+          <input type="text" id="searchInput" placeholder="Search posts by title..." />
+        </div>
+
+        <div id="postsList" class="posts-list">
+          <div class="empty">Loading posts...</div>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    const SUPABASE_URL = "PASTE_YOUR_SUPABASE_URL_HERE";
-    const SUPABASE_PUBLISHABLE_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+    const SUPABASE_URL = "YOUR_SUPABASE_URL";
+    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+    const STORAGE_BUCKET = "news-images";
+    const TABLE_NAME = "posts";
 
-    let supabaseClient = null;
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    function byId(id) {
-      return document.getElementById(id);
+    let editingId = null;
+    let allPosts = [];
+
+    const loginView = document.getElementById("loginView");
+    const adminView = document.getElementById("adminView");
+
+    const loginEmail = document.getElementById("loginEmail");
+    const loginPassword = document.getElementById("loginPassword");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginStatus = document.getElementById("loginStatus");
+
+    const logoutBtn = document.getElementById("logoutBtn");
+    const refreshBtn = document.getElementById("refreshBtn");
+
+    const formTitle = document.getElementById("formTitle");
+    const titleInput = document.getElementById("title");
+    const slugInput = document.getElementById("slug");
+    const categoryInput = document.getElementById("category");
+    const verdictInput = document.getElementById("verdict");
+    const excerptInput = document.getElementById("excerpt");
+    const contentInput = document.getElementById("content");
+    const sourceUrlInput = document.getElementById("sourceUrl");
+    const imageFileInput = document.getElementById("imageFile");
+    const imageUrlInput = document.getElementById("imageUrl");
+    const imagePreview = document.getElementById("imagePreview");
+    const publishedInput = document.getElementById("published");
+    const saveBtn = document.getElementById("saveBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const formStatus = document.getElementById("formStatus");
+
+    const postsList = document.getElementById("postsList");
+    const searchInput = document.getElementById("searchInput");
+
+    function showStatus(el, message, type = "info") {
+      el.className = `status-box show status-${type}`;
+      el.textContent = message;
     }
 
-    function showBox(target, message, type) {
-      target.classList.remove("hidden", "success", "error");
-      target.classList.add(type || "success");
-      target.innerHTML = message;
+    function hideStatus(el) {
+      el.className = "status-box";
+      el.textContent = "";
     }
 
-    function hideBox(target) {
-      target.classList.add("hidden");
-      target.innerHTML = "";
-      target.classList.remove("success", "error");
+    function slugify(text) {
+      return (text || "")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-");
     }
 
-    function escapeHtml(text) {
-      return String(text || "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+    function formatDate(dateString) {
+      if (!dateString) return "";
+      const d = new Date(dateString);
+      return d.toLocaleString();
     }
 
-    function setLoggedIn(isLoggedIn) {
-      byId("loginCard").classList.toggle("hidden", isLoggedIn);
-      byId("adminPanel").classList.toggle("hidden", !isLoggedIn);
+    function escapeHtml(str = "") {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
     function resetForm() {
-      byId("newsTitle").value = "";
-      byId("newsSummary").value = "";
-      byId("newsContent").value = "";
-      byId("newsCountry").value = "World";
-      byId("newsTopic").value = "World News";
-      byId("newsType").value = "real";
-      byId("newsPage").value = "today";
-      byId("newsPopular").value = "false";
-      byId("newsSourceUrl").value = "";
-      byId("newsImage").value = "";
-      byId("imagePreview").src = "";
-      byId("imagePreview").classList.add("hidden");
+      editingId = null;
+      formTitle.textContent = "Create Post";
+      titleInput.value = "";
+      slugInput.value = "";
+      categoryInput.value = "";
+      verdictInput.value = "truth";
+      excerptInput.value = "";
+      contentInput.value = "";
+      sourceUrlInput.value = "";
+      imageFileInput.value = "";
+      imageUrlInput.value = "";
+      publishedInput.checked = true;
+      imagePreview.src = "";
+      imagePreview.classList.add("hidden");
+      hideStatus(formStatus);
     }
 
-    function bindUI() {
-      byId("loginBtn").addEventListener("click", loginAdmin);
-      byId("saveDraftBtn").addEventListener("click", () => saveNews("draft"));
-      byId("publishBtn").addEventListener("click", () => saveNews("published"));
-      byId("refreshBtn").addEventListener("click", loadPosts);
-      byId("logoutBtn").addEventListener("click", logoutAdmin);
+    function fillForm(post) {
+      editingId = post.id;
+      formTitle.textContent = "Edit Post";
+      titleInput.value = post.title || "";
+      slugInput.value = post.slug || "";
+      categoryInput.value = post.category || "";
+      verdictInput.value = post.verdict || "truth";
+      excerptInput.value = post.excerpt || "";
+      contentInput.value = post.content || "";
+      sourceUrlInput.value = post.source_url || "";
+      imageUrlInput.value = post.image_url || "";
+      publishedInput.checked = !!post.published;
 
-      byId("newsImage").addEventListener("change", () => {
-        const file = byId("newsImage").files[0];
-        if (!file) {
-          byId("imagePreview").classList.add("hidden");
-          byId("imagePreview").src = "";
-          return;
-        }
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          byId("imagePreview").src = e.target.result;
-          byId("imagePreview").classList.remove("hidden");
-        };
-        reader.readAsDataURL(file);
-      });
-
-      window.addEventListener("error", function (event) {
-        showBox(byId("loginStatus"), "JavaScript error: " + escapeHtml(event.message), "error");
-      });
-    }
-
-    async function initSupabase() {
-      try {
-        if (!window.supabase || !window.supabase.createClient) {
-          throw new Error("Supabase library did not load.");
-        }
-
-        if (!SUPABASE_URL || SUPABASE_URL.indexOf("supabase.co") === -1) {
-          throw new Error("SUPABASE_URL is missing or invalid.");
-        }
-
-        if (!SUPABASE_PUBLISHABLE_KEY || SUPABASE_PUBLISHABLE_KEY.length < 20) {
-          throw new Error("SUPABASE_PUBLISHABLE_KEY is missing or invalid.");
-        }
-
-        const createClient = window.supabase.createClient;
-        supabaseClient = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-
-        const sessionResult = await supabaseClient.auth.getSession();
-        if (sessionResult.error) {
-          throw sessionResult.error;
-        }
-
-        if (sessionResult.data && sessionResult.data.session) {
-          setLoggedIn(true);
-          await loadPosts();
-        } else {
-          setLoggedIn(false);
-        }
-
-        supabaseClient.auth.onAuthStateChange(async function (_, session) {
-          if (session) {
-            setLoggedIn(true);
-            await loadPosts();
-          } else {
-            setLoggedIn(false);
-          }
-        });
-      } catch (error) {
-        showBox(byId("loginStatus"), "Startup error: " + escapeHtml(error.message || String(error)), "error");
-      }
-    }
-    async function loginAdmin() {
-      hideBox(byId("loginStatus"));
-
-      const email = byId("loginEmail").value.trim();
-      const password = byId("loginPassword").value.trim();
-
-      if (!email || !password) {
-        showBox(byId("loginStatus"), "Please enter email and password.", "error");
-        return;
+      if (post.image_url) {
+        imagePreview.src = post.image_url;
+        imagePreview.classList.remove("hidden");
+      } else {
+        imagePreview.src = "";
+        imagePreview.classList.add("hidden");
       }
 
-      if (!supabaseClient) {
-        showBox(byId("loginStatus"), "Supabase is not ready. Check your URL and key.", "error");
-        return;
-      }
-
-      const btn = byId("loginBtn");
-      btn.disabled = true;
-      btn.textContent = "Logging in...";
-
-      try {
-        const result = await supabaseClient.auth.signInWithPassword({
-          email: email,
-          password: password
-        });
-
-        if (result.error) {
-          throw result.error;
-        }
-
-        if (!result.data || !result.data.session) {
-          throw new Error("Login failed. No session returned.");
-        }
-
-        showBox(byId("loginStatus"), "Login successful.", "success");
-        setLoggedIn(true);
-        await loadPosts();
-      } catch (error) {
-        showBox(byId("loginStatus"), escapeHtml(error.message || String(error)), "error");
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "Login";
-      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    async function logoutAdmin() {
-      if (!supabaseClient) return;
-      await supabaseClient.auth.signOut();
-      setLoggedIn(false);
-      showBox(byId("loginStatus"), "Logged out successfully.", "success");
-    }
+    async function uploadImage(file) {
+      if (!file) return imageUrlInput.value.trim() || null;
 
-    async function uploadImageIfNeeded() {
-      const file = byId("newsImage").files[0];
-      if (!file) return "";
+      const ext = file.name.split(".").pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const filePath = `posts/${fileName}`;
 
-      const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
-      const fileName = "uploads/" + Date.now() + "-" + Math.random().toString(36).slice(2) + "." + ext;
-
-      const uploadResult = await supabaseClient.storage
-        .from("news-images")
-        .upload(fileName, file, {
+      const { error: uploadError } = await supabaseClient.storage
+        .from(STORAGE_BUCKET)
+        .upload(filePath, file, {
           cacheControl: "3600",
-          upsert: false,
-          contentType: file.type || undefined
+          upsert: false
         });
 
-      if (uploadResult.error) {
-        throw uploadResult.error;
+      if (uploadError) {
+        throw uploadError;
       }
 
-      const publicResult = supabaseClient.storage
-        .from("news-images")
-        .getPublicUrl(fileName);
+      const { data } = supabaseClient.storage
+        .from(STORAGE_BUCKET)
+        .getPublicUrl(filePath);
 
-      return publicResult.data.publicUrl;
+      return data.publicUrl;
     }
 
-    async function saveNews(statusValue) {
-      hideBox(byId("publishStatus"));
+    async function fetchPosts() {
+      postsList.innerHTML = '<div class="empty">Loading posts...</div>';
 
-      if (!supabaseClient) {
-        showBox(byId("publishStatus"), "Supabase is not ready.", "error");
-        return;
-      }
-
-      const title = byId("newsTitle").value.trim();
-      const summary = byId("newsSummary").value.trim();
-      const content = byId("newsContent").value.trim();
-      const country = byId("newsCountry").value;
-      const topic = byId("newsTopic").value;
-      const type = byId("newsType").value;
-      const page = byId("newsPage").value;
-      const popular = byId("newsPopular").value === "true";
-      const source_url = byId("newsSourceUrl").value.trim();
-
-      if (!title || !summary || !content) {
-        showBox(byId("publishStatus"), "Please fill title, summary, and content.", "error");
-        return;
-      }
-
-      try {
-        showBox(byId("publishStatus"), "Saving... Please wait.", "success");
-
-        const image_url = await uploadImageIfNeeded();
-
-        const insertResult = await supabaseClient
-          .from("news")
-          .insert([{
-            title: title,
-            summary: summary,
-            content: content,
-            country: country,
-            topic: topic,
-            type: type,
-            page: page,
-            popular: popular,
-            source_url: source_url || null,
-            image_url: image_url || null,
-            status: statusValue,
-            published_at: statusValue === "published" ? new Date().toISOString() : null
-          }]);
-
-        if (insertResult.error) {
-          throw insertResult.error;
-        }
-
-        showBox(
-          byId("publishStatus"),
-          statusValue === "published" ? "News published successfully." : "Draft saved successfully.",
-          "success"
-        );
-
-        resetForm();
-        await loadPosts();
-      } catch (error) {
-        showBox(byId("publishStatus"), escapeHtml(error.message || String(error)), "error");
-      }
-    }
-
-    async function loadPosts() {
-      if (!supabaseClient) return;
-
-      byId("postsList").innerHTML = "Loading posts...";
-
-      const result = await supabaseClient
-        .from("news")
+      const { data, error } = await supabaseClient
+        .from(TABLE_NAME)
         .select("*")
         .order("created_at", { ascending: false });
 
-      if (result.error) {
-        byId("postsList").innerHTML = '<div class="status-box error">' + escapeHtml(result.error.message) + '</div>';
+      if (error) {
+        postsList.innerHTML = `<div class="empty">Could not load posts: ${escapeHtml(error.message)}</div>`;
         return;
       }
 
-      if (!result.data || !result.data.length) {
-        byId("postsList").innerHTML = '<div class="muted">No posts yet.</div>';
+      allPosts = data || [];
+      renderPosts(allPosts);
+    }
+
+    function renderPosts(posts) {
+      if (!posts.length) {
+        postsList.innerHTML = '<div class="empty">No posts found.</div>';
         return;
       }
 
-      byId("postsList").innerHTML = result.data.map(function (post) {
+      postsList.innerHTML = posts.map(post => {
+        const verdictClass = post.verdict === "rumor" ? "badge-rumor" : "badge-truth";
+        const verdictText = post.verdict === "rumor" ? "Rumor" : "Truth";
+
         return `
-          <div class="post-item">
-            <h4>${escapeHtml(post.title)}</h4>
-            <div class="post-meta">
-              <span class="badge ${post.type === "real" ? "real" : "rumor"}">${post.type === "real" ? "Truth" : "Rumor"}</span>
-              <span class="badge ${post.status === "published" ? "published" : "draft"}">${escapeHtml(post.status)}</span>
-              ${escapeHtml(post.country)} • ${escapeHtml(post.topic)} • ${escapeHtml(post.page)}
+          <div class="post-card">
+            <h4>${escapeHtml(post.title || "Untitled")}</h4>
+            <div class="meta">
+              <span class="badge ${verdictClass}">${verdictText}</span>
+              <span class="badge badge-category">${escapeHtml(post.category || "General")}</span>
+              <span class="badge badge-category">${post.published ? "Published" : "Draft"}</span>
             </div>
-            <div class="muted">${escapeHtml(post.summary || "")}</div>
-            <div class="btn-row">
-              <button class="btn-danger" onclick="deletePost(${post.id})" type="button">Delete</button>
+            <div class="post-excerpt">${escapeHtml(post.excerpt || "")}</div>
+            <div class="small">Created: ${escapeHtml(formatDate(post.created_at))}</div>
+            <div class="small">Slug: ${escapeHtml(post.slug || "")}</div>
+            <div style="height: 12px;"></div>
+            <div class="post-actions">
+              <button class="btn btn-secondary" onclick="handleEdit('${post.id}')">Edit</button>
+              <button class="btn btn-danger" onclick="handleDelete('${post.id}')">Delete</button>
             </div>
           </div>
         `;
       }).join("");
     }
 
+    async function savePost() {
+      hideStatus(formStatus);
+
+      const title = titleInput.value.trim();
+      const slug = (slugInput.value.trim() || slugify(title));
+      const category = categoryInput.value.trim();
+      const verdict = verdictInput.value;
+      const excerpt = excerptInput.value.trim();
+      const content = contentInput.value.trim();
+      const source_url = sourceUrlInput.value.trim();
+      const published = publishedInput.checked;
+
+      if (!title) {
+        showStatus(formStatus, "Title is required.", "error");
+        return;
+      }
+
+      if (!slug) {
+        showStatus(formStatus, "Slug is required.", "error");
+        return;
+      }
+
+      try {
+        showStatus(formStatus, "Saving post...", "info");
+
+        const uploadedImageUrl = await uploadImage(imageFileInput.files[0]);
+
+        const payload = {
+          title,
+          slug,
+          category,
+          verdict,
+          excerpt,
+          content,
+          source_url,
+          image_url: uploadedImageUrl || imageUrlInput.value.trim() || null,
+          published,
+          updated_at: new Date().toISOString()
+        };
+
+        let response;
+
+        if (editingId) {
+          response = await supabaseClient
+            .from(TABLE_NAME)
+            .update(payload)
+            .eq("id", editingId);
+        } else {
+          payload.created_at = new Date().toISOString();
+          response = await supabaseClient
+            .from(TABLE_NAME)
+            .insert([payload]);
+        }
+
+        if (response.error) {
+          throw response.error;
+        }
+
+        showStatus(formStatus, editingId ? "Post updated successfully." : "Post created successfully.", "success");
+        resetForm();
+        await fetchPosts();
+      } catch (error) {
+        showStatus(formStatus, error.message || "Something went wrong while saving.", "error");
+      }
+    }
+
     async function deletePost(id) {
       const ok = confirm("Are you sure you want to delete this post?");
       if (!ok) return;
 
-      const result = await supabaseClient
-        .from("news")
+      const { error } = await supabaseClient
+        .from(TABLE_NAME)
         .delete()
         .eq("id", id);
 
-      if (result.error) {
-        showBox(byId("publishStatus"), escapeHtml(result.error.message), "error");
+      if (error) {
+        alert("Delete failed: " + error.message);
         return;
       }
 
-      showBox(byId("publishStatus"), "Post deleted successfully.", "success");
-      await loadPosts();
+      if (editingId === id) {
+        resetForm();
+      }
+
+      await fetchPosts();
+      alert("Post deleted successfully.");
     }
 
-    document.addEventListener("DOMContentLoaded", function () {
-      bindUI();
-      initSupabase();
+    function filterPosts() {
+      const keyword = searchInput.value.trim().toLowerCase();
+      if (!keyword) {
+        renderPosts(allPosts);
+        return;
+      }
+
+      const filtered = allPosts.filter(post =>
+        (post.title || "").toLowerCase().includes(keyword)
+      );
+
+      renderPosts(filtered);
+    }
+
+    async function login() {
+      hideStatus(loginStatus);
+
+      const email = loginEmail.value.trim();
+      const password = loginPassword.value;
+
+      if (!email || !password) {
+        showStatus(loginStatus, "Email and password are required.", "error");
+        return;
+      }
+
+      showStatus(loginStatus, "Signing in...", "info");
+
+      const { error } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        showStatus(loginStatus, error.message || "Login failed.", "error");
+        return;
+      }
+
+      showStatus(loginStatus, "Login successful.", "success");
+      await checkSession();
+    }
+
+    async function logout() {
+      await supabaseClient.auth.signOut();
+      loginView.classList.remove("hidden");
+      adminView.classList.add("hidden");
+      loginPassword.value = "";
+      hideStatus(loginStatus);
+      resetForm();
+    }
+
+    async function checkSession() {
+      const { data, error } = await supabaseClient.auth.getSession();
+
+      if (error || !data.session) {
+        loginView.classList.remove("hidden");
+        adminView.classList.add("hidden");
+        return;
+      }
+
+      loginView.classList.add("hidden");
+      adminView.classList.remove("hidden");
+      await fetchPosts();
+    }
+
+    imageFileInput.addEventListener("change", () => {
+      const file = imageFileInput.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        imagePreview.src = e.target.result;
+        imagePreview.classList.remove("hidden");
+      };
+      reader.readAsDataURL(file);
     });
+
+    titleInput.addEventListener("input", () => {
+      if (!slugInput.dataset.editedManually) {
+        slugInput.value = slugify(titleInput.value);
+      }
+    });
+
+    slugInput.addEventListener("input", () => {
+      slugInput.dataset.editedManually = slugInput.value.trim() ? "true" : "";
+    });
+
+    loginBtn.addEventListener("click", login);
+    logoutBtn.addEventListener("click", logout);
+    refreshBtn.addEventListener("click", fetchPosts);
+    saveBtn.addEventListener("click", savePost);
+    resetBtn.addEventListener("click", resetForm);
+    searchInput.addEventListener("input", filterPosts);
+
+    loginPassword.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") login();
+    });
+
+    window.handleEdit = function(id) {
+      const post = allPosts.find(item => item.id === id);
+      if (post) fillForm(post);
+    };
+
+    window.handleDelete = function(id) {
+      deletePost(id);
+    };
+
+    checkSession();
   </script>
 </body>
 </html>
