@@ -7,6 +7,14 @@
     {
       "source": "/contact",
       "destination": "/contact.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/article/:slug",
+      "destination": "/article.html"
     }
   ]
 }
