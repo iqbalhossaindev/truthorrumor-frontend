@@ -109,8 +109,7 @@
 
     .liquid-card,
     .footer-card,
-    .modal-card,
-    .article-card {
+    .modal-card {
       background: linear-gradient(180deg, var(--glass-3), var(--glass));
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
@@ -403,8 +402,7 @@
     .search-row,
     .tool-row,
     .card-actions,
-    .slider-actions,
-    .article-actions {
+    .slider-actions {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
@@ -554,7 +552,6 @@
 
     .section-head,
     .slider-head,
-    .article-top,
     .share-top {
       display: flex;
       justify-content: space-between;
@@ -634,7 +631,6 @@
 
     .card::before,
     .slider-card::before,
-    .article-card::before,
     .footer-card::before,
     .modal-card::before {
       content: "";
@@ -663,14 +659,8 @@
       border-radius: 28px 28px 20px 20px;
     }
 
-    .article-photo-wrap {
-      margin: 16px 0 18px;
-      border-radius: 24px;
-    }
-
     .card-photo,
-    .slider-photo,
-    .article-photo {
+    .slider-photo {
       width: 100%;
       object-fit: cover;
       background: #060606;
@@ -678,7 +668,6 @@
 
     .card-photo { height: 220px; }
     .slider-photo { height: 240px; }
-    .article-photo { height: 280px; border-radius: 24px; }
 
     .status-badge {
       display: inline-flex;
@@ -758,43 +747,6 @@
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 10px 22px rgba(242,181,58,0.16);
-    }
-
-    .article-card {
-      max-width: var(--reader-width);
-      margin: 0 auto;
-      border-radius: 28px;
-      overflow: hidden;
-      position: relative;
-      padding: 24px;
-    }
-
-    .article-card h2 {
-      margin: 14px 0 10px;
-      font-size: clamp(30px, 6vw, 48px);
-      line-height: 1.16;
-      letter-spacing: -0.6px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .quick-summary {
-      padding: 14px 16px;
-      border-radius: 22px;
-      background: rgba(242,181,58,0.12);
-      border: 1px solid rgba(242,181,58,0.16);
-      margin: 16px 0;
-      line-height: 1.8;
-      position: relative;
-      z-index: 1;
-    }
-
-    .article-body {
-      white-space: pre-line;
-      font-size: var(--reader-font-size);
-      line-height: var(--reader-line-height);
-      position: relative;
-      z-index: 1;
     }
 
     .empty-state {
@@ -968,28 +920,6 @@
       line-height: 1.6;
     }
 
-    .floating-share-btn {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 95;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(242,181,58,0.20);
-      background: linear-gradient(135deg, var(--gold), var(--orange));
-      color: #180d00;
-      box-shadow: 0 10px 26px rgba(0,0,0,0.26);
-      cursor: pointer;
-    }
-
-    .floating-share-btn.show {
-      display: inline-flex;
-    }
-
     .floating-accessibility-btn {
       position: fixed;
       left: 14px;
@@ -1114,7 +1044,6 @@
       .liquid-card,
       .footer-card,
       .modal-card,
-      .article-card,
       .floating-accessibility-btn {
         background: rgba(16, 24, 38, 0.92);
       }
@@ -1160,16 +1089,6 @@
       </div>
     </div>
   </div>
-
-  <button id="floatingShareBtn" class="floating-share-btn" onclick="openShareMenuFromCurrentArticle()" aria-label="Open share menu">
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9">
-      <circle cx="18" cy="5" r="3"></circle>
-      <circle cx="6" cy="12" r="3"></circle>
-      <circle cx="18" cy="19" r="3"></circle>
-      <path d="M8.6 10.7l6.8-4.1"></path>
-      <path d="M8.6 13.3l6.8 4.1"></path>
-    </svg>
-  </button>
 
   <button class="floating-accessibility-btn" onclick="openAccessibilityModal()" aria-label="Accessibility">
     <svg class="main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -1673,10 +1592,6 @@
       return `<span class="chip-svg"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg></span>`;
     }
 
-    function getTypeIcon(type) {
-      return `<span class="chip-svg">${getVerifiedIcon(type === "real" ? "#22c55e" : "#ef4444")}</span>`;
-    }
-
     function getVerifiedIcon(color) {
       return `
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="${color}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -1684,6 +1599,10 @@
           <path d="M9.3 11.8l1.8 1.8 3.7-3.8"></path>
         </svg>
       `;
+    }
+
+    function getTypeIcon(type) {
+      return `<span class="chip-svg">${getVerifiedIcon(type === "real" ? "#22c55e" : "#ef4444")}</span>`;
     }
 
     function renderStatusBadge(type) {
@@ -1760,8 +1679,7 @@
       toggleSpeech(appText, button);
     }
 
-    function toggleArticleAudio(id, button) {
-      const article = getArticleById(id);
+    function toggleArticleAudio(article, button) {
       if (!article) return;
       learnFromArticle(article, "audio");
       toggleSpeech(`${article.text.title}. ${article.text.summary}. ${article.text.content}`, button);
@@ -1797,7 +1715,7 @@
 
       return {
         id: slug,
-        slug,
+        slug: slug,
         country,
         topic,
         type,
@@ -1910,7 +1828,6 @@
     function goTo(hash) {
       const url = new URL(window.location.href);
       url.hash = hash;
-      url.searchParams.delete("article");
       history.replaceState({}, "", url.toString());
       renderRoute();
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1943,10 +1860,7 @@
       const imageUrl = article.imageUrl || "";
       if (!imageUrl) return "";
 
-      const wrapClass =
-        className === "slider-photo" ? "slider-photo-wrap" :
-        className === "article-photo" ? "article-photo-wrap" :
-        "card-photo-wrap";
+      const wrapClass = className === "slider-photo" ? "slider-photo-wrap" : "card-photo-wrap";
 
       return `<div class="photo-wrap ${wrapClass}"><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(article.text.title)}" class="${className}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.style.display='none'"></div>`;
     }
@@ -1969,6 +1883,11 @@
       return `<button class="share-btn" onclick='openShareMenu(${JSON.stringify(getArticleKey(article))})'>Share</button>`;
     }
 
+    function openArticle(slug) {
+      if (!slug) return;
+      window.location.href = "/article/" + encodeURIComponent(slug);
+    }
+
     function renderCard(article) {
       return `<article class="card liquid-card">
         ${renderNewsPhoto(article, "card-photo")}
@@ -1978,8 +1897,8 @@
         <div class="meta">${renderMetaLine(article)}</div>
         <div class="share-count">Shared ${getShareCount(getArticleKey(article))} times</div>
         <div class="card-actions">
-          <button class="tiny-btn" onclick='openArticle(${JSON.stringify(getArticleKey(article))})'>Read More</button>
-          <button class="tiny-btn" onclick='toggleArticleAudio(${JSON.stringify(getArticleKey(article))}, this)' data-speaking="false">Tap To Listen</button>
+          <button class="tiny-btn" onclick='openArticle(${JSON.stringify(article.slug)})'>Read More</button>
+          <button class="tiny-btn" onclick='toggleArticleAudio(getArticleById(${JSON.stringify(getArticleKey(article))}), this)' data-speaking="false">Tap To Listen</button>
           ${renderShareButton(article)}
           ${renderSaveButton(article)}
           ${renderSourceButton(article)}
@@ -2001,7 +1920,7 @@
         <div class="slider-meta">${renderMetaLine(article)}</div>
         <div class="share-count">Shared ${getShareCount(getArticleKey(article))} times</div>
         <div class="slider-actions">
-          <button class="tiny-btn" onclick='openArticle(${JSON.stringify(getArticleKey(article))})'>Read More</button>
+          <button class="tiny-btn" onclick='openArticle(${JSON.stringify(article.slug)})'>Read More</button>
           ${renderShareButton(article)}
           ${renderSaveButton(article)}
         </div>
@@ -2111,72 +2030,8 @@
       return `<section><div class="section-head"><h3>${titleMap[page] || "News"}</h3><span>Updated stories</span></div>${renderGrid(list)}</section>`;
     }
 
-    function renderArticlePage(id) {
-      const article = getArticleById(id);
-      if (!article) return `<div class="empty-state liquid-card">Article not found.</div>`;
-
-      learnFromArticle(article, "read");
-
-      return `
-        <article class="article-card">
-          <div class="article-top">
-            ${renderStatusBadge(article.type)}
-            <div class="meta">${renderMetaLine(article)}</div>
-          </div>
-
-          <h2>${escapeHtml(article.text.title)}</h2>
-          ${renderNewsPhoto(article, "article-photo")}
-          <div class="quick-summary"><strong>Quick Summary:</strong> ${escapeHtml(article.text.summary)}</div>
-          <div class="article-body">${escapeHtml(article.text.content)}</div>
-          <div class="share-count">Shared ${getShareCount(getArticleKey(article))} times</div>
-
-          <div class="article-actions">
-            <button class="primary-btn" onclick="goTo('#home')">Back To Home</button>
-            <button class="secondary-btn" onclick='toggleArticleAudio(${JSON.stringify(getArticleKey(article))}, this)' data-speaking="false">Tap To Listen</button>
-            <button class="secondary-btn" onclick="toggleReaderMode()">Reader Mode</button>
-            <button class="secondary-btn" onclick='toggleSaveArticle(${JSON.stringify(getArticleKey(article))})'>${savedArticleIds.has(getArticleKey(article)) ? "Saved" : "Save"}</button>
-            ${renderShareButton(article)}
-            ${renderSourceButton(article)}
-          </div>
-        </article>
-      `;
-    }
-
-    function openArticle(id) {
-      const article = getArticleById(id);
-      if (!article) return;
-
-      learnFromArticle(article, "view");
-
-      const url = new URL(window.location.href);
-      url.searchParams.set("article", getArticleKey(article));
-      history.pushState({}, "", url.toString());
-
-      renderRoute();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function toggleSaveArticle(id) {
-      const article = getArticleById(id);
-      if (!article) return;
-
-      const key = getArticleKey(article);
-      const cache = loadSavedCache();
-
-      if (savedArticleIds.has(key)) {
-        delete cache[key];
-      } else {
-        cache[key] = article;
-        learnFromArticle(article, "save");
-      }
-
-      saveSavedCache(cache);
-      renderRoute();
-    }
-
     function buildArticleLink(article, source = "direct") {
-      const url = new URL(window.location.origin + window.location.pathname);
-      url.searchParams.set("article", getArticleKey(article));
+      const url = new URL(window.location.origin + "/article/" + article.slug);
       url.searchParams.set("utm_source", source);
       url.searchParams.set("utm_medium", "social");
       url.searchParams.set("utm_campaign", "share");
@@ -2396,12 +2251,6 @@
       a.click();
     }
 
-    function openShareMenuFromCurrentArticle() {
-      const params = new URLSearchParams(window.location.search);
-      const articleId = params.get("article");
-      if (articleId) openShareMenu(articleId);
-    }
-
     function closeShareMenu(event) {
       if (event && event.target && event.target.id !== "shareModalBackdrop") return;
       document.getElementById("shareModalBackdrop").classList.remove("show");
@@ -2409,7 +2258,6 @@
 
     function renderRoute() {
       const app = document.getElementById("app");
-      const floatingShareBtn = document.getElementById("floatingShareBtn");
       if (!app) return;
 
       renderNav();
@@ -2417,17 +2265,6 @@
       renderTopicFilters();
       renderTypeFilters();
       updateAccessibilityButtons();
-
-      const params = new URLSearchParams(window.location.search);
-      const articleId = params.get("article");
-
-      if (articleId) {
-        app.innerHTML = renderArticlePage(articleId);
-        floatingShareBtn.classList.add("show");
-        return;
-      }
-
-      floatingShareBtn.classList.remove("show");
 
       const hash = location.hash || "#home";
       if (hash === "#home" || hash === "") return void(app.innerHTML = renderHome());
@@ -2460,21 +2297,6 @@
         setNewsData(savedOnly.length ? savedOnly : []);
         showToast("Could not load live news");
       }
-    }
-
-    function setNewsData(data) {
-      const normalized = Array.isArray(data)
-        ? data.map((item, index) => normalizeArticle(item, index)).filter(Boolean)
-        : [];
-
-      normalized.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-      normalized.forEach((article, index) => {
-        article.popular = index < 6;
-      });
-
-      articles = normalized;
-      renderTicker();
-      renderRoute();
     }
 
     document.getElementById("searchInput").addEventListener("keydown", event => {
