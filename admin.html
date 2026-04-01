@@ -3,28 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Truth or Rumor Admin</title>
+  <title>Truth Or Rumor Admin</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
-      --bg: #081224;
-      --panel: #0f1b31;
-      --panel-2: #13233f;
-      --line: rgba(255, 255, 255, 0.08);
-      --text: #f3f4f6;
-      --muted: #9ca3af;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
+      --fb-bg: #f0f2f5;
+      --fb-card: #ffffff;
+      --fb-line: #d8dbe1;
+      --fb-text: #1c1e21;
+      --fb-muted: #65676b;
+      --fb-blue: #1877f2;
+      --fb-blue-dark: #1666d8;
+      --fb-soft: #e7f3ff;
+      --fb-soft-2: #eef3f8;
       --success: #16a34a;
-      --success-bg: rgba(22, 163, 74, 0.16);
       --danger: #dc2626;
-      --danger-hover: #b91c1c;
-      --danger-bg: rgba(220, 38, 38, 0.16);
-      --info: #0284c7;
-      --info-bg: rgba(2, 132, 199, 0.16);
-      --input: #0b1630;
       --radius: 18px;
-      --shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+      --shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
     }
 
     * {
@@ -37,8 +32,8 @@
       padding: 0;
       min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(180deg, #06101f 0%, #081224 100%);
-      color: var(--text);
+      background: var(--fb-bg);
+      color: var(--fb-text);
     }
 
     .hidden {
@@ -46,57 +41,124 @@
     }
 
     .page {
-      width: min(1180px, calc(100% - 32px));
-      margin: 32px auto;
+      width: min(1180px, calc(100% - 24px));
+      margin: 18px auto 32px;
     }
 
     .card {
-      background: rgba(15, 27, 49, 0.96);
-      border: 1px solid var(--line);
+      background: var(--fb-card);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
+      border: 1px solid rgba(0, 0, 0, 0.04);
     }
 
     .login-wrap {
       min-height: 100vh;
       display: grid;
       place-items: center;
-      padding: 16px;
+      padding: 20px;
+      background:
+        radial-gradient(circle at top, rgba(24, 119, 242, 0.15), transparent 35%),
+        linear-gradient(180deg, #f7f9fc 0%, #eef2f7 100%);
+    }
+
+    .login-stack {
+      width: min(560px, 100%);
+      text-align: center;
+    }
+
+    .brand-badge {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 64px;
+      font-weight: 900;
+      color: #1761b0;
+      background: linear-gradient(135deg, #8dd9ee, #7cc9df);
+      box-shadow:
+        0 0 0 10px rgba(24, 119, 242, 0.06),
+        0 0 28px rgba(24, 119, 242, 0.18);
+      animation: floatBadge 3s ease-in-out infinite;
+    }
+
+    .glow-title {
+      margin: 0;
+      font-size: clamp(38px, 7vw, 64px);
+      line-height: 1.05;
+      font-weight: 900;
+      color: #0f172a;
+      animation: glowPulse 2.4s ease-in-out infinite;
+    }
+
+    .brand-subtitle {
+      margin: 12px 0 24px;
+      font-size: 18px;
+      color: var(--fb-muted);
     }
 
     .login-card {
-      width: min(460px, 100%);
-      padding: 28px;
+      width: 100%;
+      max-width: 460px;
+      margin: 0 auto;
+      padding: 26px;
+      text-align: left;
     }
 
-    .login-card h1 {
-      margin: 0 0 12px;
-      font-size: 28px;
+    .login-card h2 {
+      margin: 0 0 8px;
+      font-size: 30px;
     }
 
     .login-card p {
-      margin: 0 0 20px;
-      color: var(--muted);
-      font-size: 15px;
+      margin: 0 0 18px;
+      color: var(--fb-muted);
+      font-size: 16px;
     }
 
-    .header {
+    .site-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 16px;
-      padding: 20px 24px;
-      margin-bottom: 20px;
+      padding: 18px 22px;
+      margin-bottom: 18px;
+      position: sticky;
+      top: 8px;
+      z-index: 10;
     }
 
-    .header h1 {
+    .site-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .site-brand-mark {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 32px;
+      font-weight: 900;
+      color: #1761b0;
+      background: linear-gradient(135deg, #8dd9ee, #7cc9df);
+      box-shadow: 0 6px 18px rgba(24, 119, 242, 0.18);
+    }
+
+    .site-brand h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 38px;
+      line-height: 1.1;
+      font-weight: 900;
     }
 
-    .header p {
-      margin: 8px 0 0;
-      color: var(--muted);
+    .site-brand p {
+      margin: 5px 0 0;
+      color: var(--fb-muted);
       font-size: 14px;
     }
 
@@ -108,17 +170,143 @@
 
     .dashboard {
       display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 20px;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 18px;
+      align-items: start;
     }
 
     .panel {
-      padding: 22px;
+      padding: 18px;
     }
 
-    .panel h2 {
-      margin: 0 0 18px;
-      font-size: 22px;
+    .composer-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .composer-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 36px;
+      font-weight: 900;
+      color: #1761b0;
+      background: linear-gradient(135deg, #8dd9ee, #7cc9df);
+      flex: 0 0 auto;
+    }
+
+    .composer-head h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .composer-head p {
+      margin: 6px 0 0;
+      color: var(--fb-muted);
+      font-size: 14px;
+    }
+
+    .prompt-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--fb-soft-2);
+      border-radius: 999px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      border: 1px solid #e3e7ed;
+    }
+
+    .prompt-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      font-weight: 900;
+      color: #1761b0;
+      background: linear-gradient(135deg, #8dd9ee, #7cc9df);
+      flex: 0 0 auto;
+    }
+
+    .prompt-input {
+      border: 0;
+      background: transparent;
+      width: 100%;
+      font-size: 34px;
+      line-height: 1.2;
+      color: #7a7d83;
+      outline: none;
+      padding: 4px 0;
+    }
+
+    .option-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .option-pill {
+      background: #eef3f8;
+      border-radius: 18px;
+      border: 1px solid #dde5ef;
+      padding: 12px 14px;
+    }
+
+    .option-pill .option-label {
+      display: block;
+      font-size: 12px;
+      color: var(--fb-muted);
+      margin-bottom: 6px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .option-pill select,
+    .option-pill input {
+      border: 0;
+      background: transparent;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f5fc5;
+      outline: none;
+      padding: 0;
+    }
+
+    .details-box {
+      border: 1px solid #e1e6ed;
+      background: #f9fbfd;
+      border-radius: 18px;
+      padding: 0;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .details-box summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 16px 18px;
+      font-weight: 800;
+      color: var(--fb-text);
+      background: #ffffff;
+      border-bottom: 1px solid #eef2f7;
+    }
+
+    .details-box summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .details-content {
+      padding: 16px;
     }
 
     .form-group {
@@ -136,47 +324,62 @@
       margin-bottom: 8px;
       font-size: 14px;
       font-weight: 700;
+      color: #1c1e21;
     }
 
     input,
     textarea,
-    select {
+    select,
+    button {
+      font-family: inherit;
+    }
+
+    .text-input,
+    .text-area,
+    .file-input {
       width: 100%;
       padding: 13px 14px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: var(--input);
-      color: var(--text);
+      border-radius: 14px;
+      border: 1px solid #d7dde6;
+      background: #ffffff;
+      color: var(--fb-text);
       font-size: 15px;
       outline: none;
     }
 
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.16);
+    .text-input:focus,
+    .text-area:focus,
+    .file-input:focus {
+      border-color: var(--fb-blue);
+      box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.12);
     }
 
-    textarea {
+    .text-area {
       resize: vertical;
       min-height: 120px;
     }
 
     .small-text {
       margin-top: 6px;
+      color: var(--fb-muted);
       font-size: 12px;
-      color: var(--muted);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
     }
 
     .btn {
       border: 0;
       border-radius: 12px;
-      padding: 12px 16px;
-      font-size: 14px;
-      font-weight: 700;
+      padding: 12px 18px;
       cursor: pointer;
-      transition: 0.2s ease;
+      font-size: 15px;
+      font-weight: 800;
+      transition: 0.18s ease;
     }
 
     .btn:disabled {
@@ -185,22 +388,21 @@
     }
 
     .btn-primary {
-      background: var(--primary);
+      background: var(--fb-blue);
       color: white;
     }
 
     .btn-primary:hover {
-      background: var(--primary-hover);
+      background: var(--fb-blue-dark);
     }
 
     .btn-secondary {
-      background: var(--panel-2);
-      color: var(--text);
-      border: 1px solid var(--line);
+      background: #e4e6eb;
+      color: #050505;
     }
 
     .btn-secondary:hover {
-      background: #1a2f52;
+      background: #d8dce3;
     }
 
     .btn-success {
@@ -213,70 +415,23 @@
       color: white;
     }
 
-    .btn-danger:hover {
-      background: var(--danger-hover);
-    }
-
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .status-box {
-      display: none;
-      margin-top: 14px;
-      padding: 12px 14px;
-      border-radius: 12px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .status-box.show {
-      display: block;
-    }
-
-    .status-success {
-      background: var(--success-bg);
-      border: 1px solid rgba(22, 163, 74, 0.35);
-      color: #dcfce7;
-    }
-
-    .status-error {
-      background: var(--danger-bg);
-      border: 1px solid rgba(220, 38, 38, 0.35);
-      color: #fee2e2;
-    }
-
-    .status-info {
-      background: var(--info-bg);
-      border: 1px solid rgba(2, 132, 199, 0.35);
-      color: #e0f2fe;
-    }
-
-    .checkbox-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 8px 0 12px;
-    }
-
-    .checkbox-row input {
-      width: auto;
-      margin: 0;
-    }
-
     .toolbar {
-      display: flex;
-      gap: 10px;
       margin-bottom: 14px;
-      flex-wrap: wrap;
     }
 
-    .toolbar input {
-      flex: 1;
-      min-width: 200px;
+    .search-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #d7dde6;
+      border-radius: 999px;
+      background: #f0f2f5;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--fb-blue);
+      background: #ffffff;
     }
 
     .posts-list {
@@ -286,15 +441,41 @@
 
     .post-card {
       padding: 16px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: rgba(19, 35, 63, 0.78);
+      border: 1px solid #e6ebf1;
+      border-radius: 18px;
+      background: #ffffff;
     }
 
-    .post-card h3 {
-      margin: 0 0 10px;
+    .post-top {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .post-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      font-weight: 900;
+      color: #1761b0;
+      background: linear-gradient(135deg, #8dd9ee, #7cc9df);
+      flex: 0 0 auto;
+    }
+
+    .post-title-wrap h3 {
+      margin: 0 0 6px;
       font-size: 18px;
-      line-height: 1.4;
+      line-height: 1.35;
+    }
+
+    .post-time {
+      color: var(--fb-muted);
+      font-size: 12px;
+      line-height: 1.5;
     }
 
     .meta {
@@ -309,44 +490,39 @@
       padding: 6px 10px;
       border-radius: 999px;
       font-size: 12px;
-      font-weight: 700;
-      border: 1px solid transparent;
+      font-weight: 800;
     }
 
     .badge-truth {
-      background: rgba(22, 163, 74, 0.16);
-      border-color: rgba(22, 163, 74, 0.35);
-      color: #dcfce7;
+      background: rgba(22, 163, 74, 0.12);
+      color: #15803d;
     }
 
     .badge-rumor {
-      background: rgba(220, 38, 38, 0.16);
-      border-color: rgba(220, 38, 38, 0.35);
-      color: #fee2e2;
+      background: rgba(220, 38, 38, 0.12);
+      color: #b91c1c;
     }
 
     .badge-category {
-      background: rgba(37, 99, 235, 0.16);
-      border-color: rgba(37, 99, 235, 0.35);
-      color: #dbeafe;
+      background: #e7f3ff;
+      color: #0f5fc5;
     }
 
     .badge-draft {
-      background: rgba(245, 158, 11, 0.16);
-      border-color: rgba(245, 158, 11, 0.35);
-      color: #fef3c7;
+      background: #fff4d6;
+      color: #a16207;
     }
 
     .post-excerpt {
-      color: var(--muted);
+      color: #444950;
       font-size: 14px;
       line-height: 1.6;
-      margin-bottom: 12px;
       white-space: pre-wrap;
+      margin-bottom: 12px;
     }
 
     .post-meta-line {
-      color: var(--muted);
+      color: var(--fb-muted);
       font-size: 12px;
       line-height: 1.6;
       margin-bottom: 12px;
@@ -363,61 +539,151 @@
       width: 100%;
       max-height: 240px;
       object-fit: cover;
-      border-radius: 12px;
-      border: 1px solid var(--line);
+      border-radius: 16px;
+      border: 1px solid #dde5ef;
       margin-top: 10px;
     }
 
+    .status-box {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .status-box.show {
+      display: block;
+    }
+
+    .status-success {
+      background: rgba(22, 163, 74, 0.12);
+      color: #166534;
+      border: 1px solid rgba(22, 163, 74, 0.18);
+    }
+
+    .status-error {
+      background: rgba(220, 38, 38, 0.12);
+      color: #991b1b;
+      border: 1px solid rgba(220, 38, 38, 0.18);
+    }
+
+    .status-info {
+      background: rgba(24, 119, 242, 0.12);
+      color: #0f5fc5;
+      border: 1px solid rgba(24, 119, 242, 0.18);
+    }
+
     .empty {
-      color: var(--muted);
+      color: var(--fb-muted);
       font-size: 14px;
       padding: 8px 0;
+    }
+
+    .hidden-checkbox {
+      display: none;
+    }
+
+    @keyframes glowPulse {
+      0% {
+        text-shadow:
+          0 0 0 rgba(24, 119, 242, 0.00),
+          0 0 0 rgba(24, 119, 242, 0.00);
+        transform: scale(1);
+      }
+      50% {
+        text-shadow:
+          0 0 16px rgba(24, 119, 242, 0.28),
+          0 0 34px rgba(24, 119, 242, 0.18);
+        transform: scale(1.01);
+      }
+      100% {
+        text-shadow:
+          0 0 0 rgba(24, 119, 242, 0.00),
+          0 0 0 rgba(24, 119, 242, 0.00);
+        transform: scale(1);
+      }
+    }
+
+    @keyframes floatBadge {
+      0% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
     }
 
     @media (max-width: 980px) {
       .dashboard {
         grid-template-columns: 1fr;
       }
+
+      .option-row {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 640px) {
+      .site-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
       .form-row {
         grid-template-columns: 1fr;
       }
 
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
+      .prompt-input {
+        font-size: 24px;
+      }
+
+      .site-brand h1 {
+        font-size: 30px;
       }
     }
   </style>
 </head>
 <body>
   <div id="loginView" class="login-wrap">
-    <div class="card login-card">
-      <h1>Admin Login</h1>
-      <p>Login with your Supabase admin email and password.</p>
+    <div class="login-stack">
+      <div class="brand-badge">T</div>
+      <h1 class="glow-title">Truth Or Rumor</h1>
+      <p class="brand-subtitle">Admin Studio</p>
 
-      <div class="form-group">
-        <label for="loginEmail">Email</label>
-        <input type="email" id="loginEmail" placeholder="admin@example.com" />
+      <div class="card login-card">
+        <h2>Admin Login</h2>
+        <p>Login with your Supabase admin email and password.</p>
+
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input class="text-input" type="email" id="loginEmail" placeholder="admin@example.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input class="text-input" type="password" id="loginPassword" placeholder="Enter password" />
+        </div>
+
+        <button type="button" class="btn btn-primary" id="loginBtn">Login</button>
+        <div id="loginStatus" class="status-box"></div>
       </div>
-
-      <div class="form-group">
-        <label for="loginPassword">Password</label>
-        <input type="password" id="loginPassword" placeholder="Enter password" />
-      </div>
-
-      <button type="button" class="btn btn-primary" id="loginBtn">Login</button>
-      <div id="loginStatus" class="status-box"></div>
     </div>
   </div>
 
   <div id="adminView" class="page hidden">
-    <div class="card header">
-      <div>
-        <h1>Truth or Rumor Admin</h1>
-        <p>Create, edit, search, and delete posts.</p>
+    <div class="card site-header">
+      <div class="site-brand">
+        <div class="site-brand-mark">T</div>
+        <div>
+          <h1>Truth Or Rumor</h1>
+          <p>Facebook style admin post composer</p>
+        </div>
       </div>
 
       <div class="top-actions">
@@ -428,81 +694,95 @@
 
     <div class="dashboard">
       <section class="card panel">
-        <h2 id="formTitle">Create Post</h2>
-
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" id="title" placeholder="Write the post title" />
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="slug">Slug</label>
-            <input type="text" id="slug" placeholder="example-post-title" />
-            <div class="small-text">If empty, slug will be created from title.</div>
-          </div>
-
-          <div class="form-group">
-            <label for="category">Category</label>
-            <input type="text" id="category" placeholder="World, Politics, Tech, Sports" />
+        <div class="composer-head">
+          <div class="composer-avatar">T</div>
+          <div>
+            <h2 id="formTitle">Create Post</h2>
+            <p>Same admin system, now with a Facebook inspired design.</p>
           </div>
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="verdict">Verdict</label>
+        <div class="prompt-box">
+          <div class="prompt-avatar">T</div>
+          <input type="text" id="title" class="prompt-input" placeholder="What's on your mind?" />
+        </div>
+
+        <div class="option-row">
+          <div class="option-pill">
+            <span class="option-label">Visibility</span>
+            <select id="visibilitySelect">
+              <option value="published">Public</option>
+              <option value="draft">Draft</option>
+            </select>
+          </div>
+
+          <div class="option-pill">
+            <span class="option-label">Category</span>
+            <input type="text" id="category" placeholder="World / Tech / Politics" />
+          </div>
+
+          <div class="option-pill">
+            <span class="option-label">Verdict</span>
             <select id="verdict">
               <option value="truth">Truth</option>
               <option value="rumor">Rumor</option>
             </select>
           </div>
+        </div>
 
-          <div class="form-group">
-            <label for="sourceUrl">Source URL</label>
-            <input type="url" id="sourceUrl" placeholder="https://example.com/source" />
+        <details class="details-box" open>
+          <summary>More post options</summary>
+          <div class="details-content">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="slug">Slug</label>
+                <input class="text-input" type="text" id="slug" placeholder="example-post-title" />
+                <div class="small-text">If empty, slug will be created from title.</div>
+              </div>
+
+              <div class="form-group">
+                <label for="sourceUrl">Source URL</label>
+                <input class="text-input" type="url" id="sourceUrl" placeholder="https://example.com/source" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="excerpt">Short Summary</label>
+              <textarea class="text-area" id="excerpt" placeholder="Write a short summary"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="content">Full Content</label>
+              <textarea class="text-area" id="content" placeholder="Write the full article"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="imageFile">Upload Image</label>
+              <input class="file-input" type="file" id="imageFile" accept="image/*" />
+              <div class="small-text">If you do not upload a new image, the old image stays.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="imageUrl">Image URL</label>
+              <input class="text-input" type="text" id="imageUrl" placeholder="Uploaded image URL will appear here" />
+              <img id="imagePreview" class="preview-img hidden" alt="Image preview" />
+            </div>
           </div>
-        </div>
+        </details>
 
-        <div class="form-group">
-          <label for="excerpt">Short Summary</label>
-          <textarea id="excerpt" placeholder="Write a short summary"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="content">Full Content</label>
-          <textarea id="content" placeholder="Write the full article"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="imageFile">Upload Image</label>
-          <input type="file" id="imageFile" accept="image/*" />
-          <div class="small-text">If you do not upload a new image, the old image stays.</div>
-        </div>
-
-        <div class="form-group">
-          <label for="imageUrl">Image URL</label>
-          <input type="text" id="imageUrl" placeholder="Uploaded image URL will appear here" />
-          <img id="imagePreview" class="preview-img hidden" alt="Image preview" />
-        </div>
-
-        <div class="checkbox-row">
-          <input type="checkbox" id="published" checked />
-          <label for="published" style="margin:0;">Published</label>
-        </div>
+        <input type="checkbox" id="published" class="hidden-checkbox" checked />
 
         <div class="btn-row">
-          <button type="button" class="btn btn-success" id="saveBtn">Save Post</button>
-          <button type="button" class="btn btn-secondary" id="resetBtn">Clear Form</button>
+          <button type="button" class="btn btn-primary" id="saveBtn">Post</button>
+          <button type="button" class="btn btn-secondary" id="resetBtn">Clear</button>
         </div>
 
         <div id="formStatus" class="status-box"></div>
       </section>
 
       <section class="card panel">
-        <h2>All Posts</h2>
-
         <div class="toolbar">
-          <input type="text" id="searchInput" placeholder="Search posts by title or category" />
+          <input class="search-input" type="text" id="searchInput" placeholder="Search posts by title or category" />
         </div>
 
         <div id="postsList" class="posts-list">
@@ -540,13 +820,15 @@
     const slugInput = document.getElementById("slug");
     const categoryInput = document.getElementById("category");
     const verdictInput = document.getElementById("verdict");
+    const sourceUrlInput = document.getElementById("sourceUrl");
     const excerptInput = document.getElementById("excerpt");
     const contentInput = document.getElementById("content");
-    const sourceUrlInput = document.getElementById("sourceUrl");
     const imageFileInput = document.getElementById("imageFile");
     const imageUrlInput = document.getElementById("imageUrl");
     const imagePreview = document.getElementById("imagePreview");
     const publishedInput = document.getElementById("published");
+    const visibilitySelect = document.getElementById("visibilitySelect");
+
     const saveBtn = document.getElementById("saveBtn");
     const resetBtn = document.getElementById("resetBtn");
     const formStatus = document.getElementById("formStatus");
@@ -577,8 +859,8 @@
       return String(text || "")
         .toLowerCase()
         .trim()
-        .replace(/[^a-z0-9\\s-]/g, "")
-        .replace(/\\s+/g, "-")
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
         .replace(/-+/g, "-")
         .replace(/^-+|-+$/g, "");
     }
@@ -601,20 +883,30 @@
       imagePreview.classList.remove("hidden");
     }
 
+    function syncVisibilityFromCheckbox() {
+      visibilitySelect.value = publishedInput.checked ? "published" : "draft";
+    }
+
+    function syncCheckboxFromVisibility() {
+      publishedInput.checked = visibilitySelect.value === "published";
+    }
+
     function resetForm() {
       editingId = null;
       slugTouched = false;
+
       formTitle.textContent = "Create Post";
       titleInput.value = "";
       slugInput.value = "";
       categoryInput.value = "";
       verdictInput.value = "truth";
+      sourceUrlInput.value = "";
       excerptInput.value = "";
       contentInput.value = "";
-      sourceUrlInput.value = "";
       imageFileInput.value = "";
       imageUrlInput.value = "";
       publishedInput.checked = true;
+      syncVisibilityFromCheckbox();
       previewImage("");
       hideStatus(formStatus);
     }
@@ -622,19 +914,19 @@
     function fillForm(post) {
       editingId = post.id;
       slugTouched = true;
-      formTitle.textContent = "Edit Post";
 
+      formTitle.textContent = "Edit Post";
       titleInput.value = post.title || "";
       slugInput.value = post.slug || "";
       categoryInput.value = post.category || "";
       verdictInput.value = post.verdict || "truth";
+      sourceUrlInput.value = post.source_url || "";
       excerptInput.value = post.excerpt || "";
       contentInput.value = post.content || "";
-      sourceUrlInput.value = post.source_url || "";
       imageUrlInput.value = post.image_url || "";
       publishedInput.checked = Boolean(post.published);
+      syncVisibilityFromCheckbox();
       imageFileInput.value = "";
-
       previewImage(post.image_url || "");
       hideStatus(formStatus);
 
@@ -651,23 +943,32 @@
         const verdictClass = post.verdict === "rumor" ? "badge-rumor" : "badge-truth";
         const verdictText = post.verdict === "rumor" ? "Rumor" : "Truth";
         const publishBadge = post.published
-          ? '<span class="badge badge-category">Published</span>'
+          ? '<span class="badge badge-category">Public</span>'
           : '<span class="badge badge-draft">Draft</span>';
 
         return `
           <article class="post-card">
-            <h3>${escapeHtml(post.title || "Untitled")}</h3>
+            <div class="post-top">
+              <div class="post-avatar">T</div>
+              <div class="post-title-wrap">
+                <h3>${escapeHtml(post.title || "Untitled")}</h3>
+                <div class="post-time">Created: ${escapeHtml(formatDate(post.created_at))}</div>
+              </div>
+            </div>
+
             <div class="meta">
               <span class="badge ${verdictClass}">${verdictText}</span>
               <span class="badge badge-category">${escapeHtml(post.category || "General")}</span>
               ${publishBadge}
             </div>
+
             <div class="post-excerpt">${escapeHtml(post.excerpt || "")}</div>
+
             <div class="post-meta-line">
               Slug: ${escapeHtml(post.slug || "")}<br>
-              Created: ${escapeHtml(formatDate(post.created_at))}<br>
               Updated: ${escapeHtml(formatDate(post.updated_at))}
             </div>
+
             <div class="post-actions">
               <button type="button" class="btn btn-secondary edit-post-btn" data-id="${escapeHtml(post.id)}">Edit</button>
               <button type="button" class="btn btn-danger delete-post-btn" data-id="${escapeHtml(post.id)}">Delete</button>
@@ -728,14 +1029,15 @@
 
     async function savePost() {
       hideStatus(formStatus);
+      syncCheckboxFromVisibility();
 
       const title = titleInput.value.trim();
       const slug = slugInput.value.trim() || slugify(title);
       const category = categoryInput.value.trim();
       const verdict = verdictInput.value;
+      const sourceUrl = sourceUrlInput.value.trim();
       const excerpt = excerptInput.value.trim();
       const content = contentInput.value.trim();
-      const sourceUrl = sourceUrlInput.value.trim();
       const published = publishedInput.checked;
 
       if (!title) {
@@ -759,9 +1061,9 @@
           slug: slug,
           category: category || null,
           verdict: verdict,
+          source_url: sourceUrl || null,
           excerpt: excerpt || null,
           content: content || null,
-          source_url: sourceUrl || null,
           image_url: finalImageUrl || null,
           published: published,
           updated_at: new Date().toISOString()
@@ -920,6 +1222,10 @@
       slugTouched = slugInput.value.trim() !== "";
     });
 
+    visibilitySelect.addEventListener("change", function() {
+      syncCheckboxFromVisibility();
+    });
+
     imageFileInput.addEventListener("change", function() {
       const file = imageFileInput.files[0];
       if (!file) return;
@@ -978,6 +1284,7 @@
       }
     });
 
+    syncVisibilityFromCheckbox();
     checkSession();
   </script>
 </body>
