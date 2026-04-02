@@ -4,12 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google-adsense-account" content="ca-pub-2944530159971400" />
-  <title>TruthOrRumor</title>
+  <title>TruthOrRumor | Fact Check and Real News</title>
   <meta name="description" content="TruthOrRumor helps readers separate facts from rumors with clear, trusted, and readable reporting." />
-  <meta property="og:title" content="TruthOrRumor" />
-  <meta property="og:description" content="Separating Facts from Rumors" />
+  <meta property="og:title" content="TruthOrRumor | Fact Check and Real News" />
+  <meta property="og:description" content="Separating facts from rumors with clear, trusted, and readable reporting." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="logo.png" />
+  <meta property="og:image" content="/logo.png" />
+  <meta property="og:url" content="https://www.truthorrumor.com/" />
+  <link rel="canonical" href="https://www.truthorrumor.com/" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "TruthOrRumor",
+    "alternateName": "Truth Or Rumor",
+    "url": "https://www.truthorrumor.com/"
+  }
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -554,7 +567,6 @@
 
     .section-head,
     .slider-head,
-    .article-top,
     .share-top {
       display: flex;
       justify-content: space-between;
@@ -663,14 +675,8 @@
       border-radius: 28px 28px 20px 20px;
     }
 
-    .article-photo-wrap {
-      margin: 16px 0 18px;
-      border-radius: 24px;
-    }
-
     .card-photo,
-    .slider-photo,
-    .article-photo {
+    .slider-photo {
       width: 100%;
       object-fit: cover;
       background: #060606;
@@ -678,7 +684,6 @@
 
     .card-photo { height: 220px; }
     .slider-photo { height: 240px; }
-    .article-photo { height: 280px; border-radius: 24px; }
 
     .status-badge {
       display: inline-flex;
@@ -758,43 +763,6 @@
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 10px 22px rgba(242,181,58,0.16);
-    }
-
-    .article-card {
-      max-width: var(--reader-width);
-      margin: 0 auto;
-      border-radius: 28px;
-      overflow: hidden;
-      position: relative;
-      padding: 24px;
-    }
-
-    .article-card h2 {
-      margin: 14px 0 10px;
-      font-size: clamp(30px, 6vw, 48px);
-      line-height: 1.16;
-      letter-spacing: -0.6px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .quick-summary {
-      padding: 14px 16px;
-      border-radius: 22px;
-      background: rgba(242,181,58,0.12);
-      border: 1px solid rgba(242,181,58,0.16);
-      margin: 16px 0;
-      line-height: 1.8;
-      position: relative;
-      z-index: 1;
-    }
-
-    .article-body {
-      white-space: pre-line;
-      font-size: var(--reader-font-size);
-      line-height: var(--reader-line-height);
-      position: relative;
-      z-index: 1;
     }
 
     .empty-state {
@@ -968,28 +936,6 @@
       line-height: 1.6;
     }
 
-    .floating-share-btn {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 95;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(242,181,58,0.20);
-      background: linear-gradient(135deg, var(--gold), var(--orange));
-      color: #180d00;
-      box-shadow: 0 10px 26px rgba(0,0,0,0.26);
-      cursor: pointer;
-    }
-
-    .floating-share-btn.show {
-      display: inline-flex;
-    }
-
     .floating-accessibility-btn {
       position: fixed;
       left: 14px;
@@ -1160,16 +1106,6 @@
       </div>
     </div>
   </div>
-
-  <button id="floatingShareBtn" class="floating-share-btn" onclick="openShareMenuFromCurrentArticle()" aria-label="Open share menu">
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9">
-      <circle cx="18" cy="5" r="3"></circle>
-      <circle cx="6" cy="12" r="3"></circle>
-      <circle cx="18" cy="19" r="3"></circle>
-      <path d="M8.6 10.7l6.8-4.1"></path>
-      <path d="M8.6 13.3l6.8 4.1"></path>
-    </svg>
-  </button>
 
   <button class="floating-accessibility-btn" onclick="openAccessibilityModal()" aria-label="Accessibility">
     <svg class="main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -1944,7 +1880,6 @@
 
       const wrapClass =
         className === "slider-photo" ? "slider-photo-wrap" :
-        className === "article-photo" ? "article-photo-wrap" :
         "card-photo-wrap";
 
       return `<div class="photo-wrap ${wrapClass}"><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(article.text.title)}" class="${className}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.style.display='none'"></div>`;
@@ -2108,37 +2043,6 @@
       };
 
       return `<section><div class="section-head"><h3>${titleMap[page] || "News"}</h3><span>Updated stories</span></div>${renderGrid(list)}</section>`;
-    }
-
-    function renderArticlePage(id) {
-      const article = getArticleById(id);
-      if (!article) return `<div class="empty-state liquid-card">Article not found.</div>`;
-
-      learnFromArticle(article, "read");
-
-      return `
-        <article class="article-card">
-          <div class="article-top">
-            ${renderStatusBadge(article.type)}
-            <div class="meta">${renderMetaLine(article)}</div>
-          </div>
-
-          <h2>${escapeHtml(article.text.title)}</h2>
-          ${renderNewsPhoto(article, "article-photo")}
-          <div class="quick-summary"><strong>Quick Summary:</strong> ${escapeHtml(article.text.summary)}</div>
-          <div class="article-body">${escapeHtml(article.text.content)}</div>
-          <div class="share-count">Shared ${getShareCount(getArticleKey(article))} times</div>
-
-          <div class="article-actions">
-            <button class="primary-btn" onclick="goTo('#home')">Back To Home</button>
-            <button class="secondary-btn" onclick='toggleArticleAudio(${JSON.stringify(getArticleKey(article))}, this)' data-speaking="false">Tap To Listen</button>
-            <button class="secondary-btn" onclick="toggleReaderMode()">Reader Mode</button>
-            <button class="secondary-btn" onclick='toggleSaveArticle(${JSON.stringify(getArticleKey(article))})'>${savedArticleIds.has(getArticleKey(article)) ? "Saved" : "Save"}</button>
-            ${renderShareButton(article)}
-            ${renderSourceButton(article)}
-          </div>
-        </article>
-      `;
     }
 
     function openArticle(slug) {
@@ -2384,8 +2288,6 @@
       a.click();
     }
 
-    function openShareMenuFromCurrentArticle() {}
-
     function closeShareMenu(event) {
       if (event && event.target && event.target.id !== "shareModalBackdrop") return;
       document.getElementById("shareModalBackdrop").classList.remove("show");
@@ -2393,7 +2295,6 @@
 
     function renderRoute() {
       const app = document.getElementById("app");
-      const floatingShareBtn = document.getElementById("floatingShareBtn");
       if (!app) return;
 
       renderNav();
@@ -2401,8 +2302,6 @@
       renderTopicFilters();
       renderTypeFilters();
       updateAccessibilityButtons();
-
-      floatingShareBtn.classList.remove("show");
 
       const hash = location.hash || "#home";
       if (hash === "#home" || hash === "") return void(app.innerHTML = renderHome());
@@ -2435,21 +2334,6 @@
         setNewsData(savedOnly.length ? savedOnly : []);
         showToast("Could not load live news");
       }
-    }
-
-    function setNewsData(data) {
-      const normalized = Array.isArray(data)
-        ? data.map((item, index) => normalizeArticle(item, index)).filter(Boolean)
-        : [];
-
-      normalized.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-      normalized.forEach((article, index) => {
-        article.popular = index < 6;
-      });
-
-      articles = normalized;
-      renderTicker();
-      renderRoute();
     }
 
     document.getElementById("searchInput").addEventListener("keydown", event => {
