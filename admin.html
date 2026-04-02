@@ -249,7 +249,7 @@
 
     .option-row {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
       margin-bottom: 14px;
     }
@@ -531,6 +531,11 @@
       color: #ffffff;
     }
 
+    .badge-site {
+      background: rgba(76, 175, 80, 0.16);
+      color: #c8facc;
+    }
+
     .post-excerpt {
       color: #e5ece4;
       font-size: 14px;
@@ -619,7 +624,7 @@
       }
 
       .option-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
       }
     }
 
@@ -639,6 +644,10 @@
 
       .brand-title-wrap {
         text-align: center;
+      }
+
+      .option-row {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -680,7 +689,7 @@
         <img src="/logo.png" alt="TruthOrRumor Logo" class="site-brand-logo" data-logo />
         <div>
           <h1>TruthOrRumor</h1>
-          <p>Write and manage your website news</p>
+          <p>Write and manage Bangla and International English news</p>
         </div>
       </div>
 
@@ -695,8 +704,8 @@
         <div class="editor-head">
           <img src="/logo.png" alt="TruthOrRumor Logo" class="editor-logo" data-logo />
           <div>
-            <h2 id="formTitle">Write News</h2>
-            <p>Write news or provisional updates for your website.</p>
+            <h2 id="formTitle">Write International English News</h2>
+            <p id="editorDescription">Write and manage International English news for your website.</p>
           </div>
         </div>
 
@@ -705,11 +714,19 @@
             type="text"
             id="title"
             class="headline-input"
-            placeholder="News Title"
+            placeholder="International English News Title"
           />
         </div>
 
         <div class="option-row">
+          <div class="option-card">
+            <span class="option-label">Site</span>
+            <select id="siteSelect">
+              <option value="english">International English</option>
+              <option value="bangla">Bangla</option>
+            </select>
+          </div>
+
           <div class="option-card">
             <span class="option-label">Status</span>
             <select id="visibilitySelect">
@@ -739,7 +756,7 @@
               <div class="form-group">
                 <label for="slug">Slug</label>
                 <input class="text-input" type="text" id="slug" placeholder="example-news-title" />
-                <div class="small-text">If empty, slug will be created from title.</div>
+                <div class="small-text" id="slugHelp">If empty, slug will be created from title.</div>
               </div>
 
               <div class="form-group">
@@ -755,7 +772,7 @@
 
             <div class="form-group">
               <label for="content">Full News Content</label>
-              <textarea class="text-area" id="content" placeholder="Write news or provisional update here"></textarea>
+              <textarea class="text-area" id="content" placeholder="Write news content here"></textarea>
             </div>
 
             <div class="form-group">
@@ -775,7 +792,7 @@
         <input type="checkbox" id="published" class="hidden-checkbox" checked />
 
         <div class="btn-row">
-          <button type="button" class="btn btn-primary" id="saveBtn">Publish News</button>
+          <button type="button" class="btn btn-primary" id="saveBtn">Publish International English News</button>
           <button type="button" class="btn btn-secondary" id="resetBtn">Clear</button>
         </div>
 
@@ -783,10 +800,10 @@
       </section>
 
       <section class="card panel">
-        <h2 class="feed-title">All News Posts</h2>
+        <h2 class="feed-title" id="feedTitle">All International English Posts</h2>
 
         <div class="toolbar">
-          <input class="search-input" type="text" id="searchInput" placeholder="Search news by title or category" />
+          <input class="search-input" type="text" id="searchInput" placeholder="Search posts by title or category" />
         </div>
 
         <div id="postsList" class="posts-list">
@@ -801,7 +818,11 @@
     const SUPABASE_URL = "https://bsnezcbmsbsememwqsjs.supabase.co";
     const SUPABASE_KEY = "sb_publishable_HTgjJsMcfGgIJaUSAzXTfw_yQ2dD_Uy";
     const STORAGE_BUCKET = "news-images";
-    const TABLE_NAME = "posts";
+
+    const TABLES = {
+      english: "posts",
+      bangla: "posts_bd"
+    };
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -821,8 +842,13 @@
     const logoutBtn = document.getElementById("logoutBtn");
 
     const formTitle = document.getElementById("formTitle");
+    const editorDescription = document.getElementById("editorDescription");
+    const feedTitle = document.getElementById("feedTitle");
+
+    const siteSelect = document.getElementById("siteSelect");
     const titleInput = document.getElementById("title");
     const slugInput = document.getElementById("slug");
+    const slugHelp = document.getElementById("slugHelp");
     const categoryInput = document.getElementById("category");
     const verdictInput = document.getElementById("verdict");
     const sourceUrlInput = document.getElementById("sourceUrl");
@@ -864,12 +890,24 @@
         .replace(/'/g, "&#039;");
     }
 
+    function getCurrentSite() {
+      return siteSelect.value === "bangla" ? "bangla" : "english";
+    }
+
+    function getCurrentTable() {
+      return TABLES[getCurrentSite()];
+    }
+
+    function getSiteLabel() {
+      return getCurrentSite() === "bangla" ? "Bangla" : "International English";
+    }
+
     function slugify(text) {
       return String(text || "")
         .toLowerCase()
         .trim()
-        .replace(/[^a-z0-9\s-]/g, "")
-        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9\\s-]/g, "")
+        .replace(/\\s+/g, "-")
         .replace(/-+/g, "-")
         .replace(/^-+|-+$/g, "");
     }
@@ -900,12 +938,42 @@
       publishedInput.checked = visibilitySelect.value === "published";
     }
 
+    function updateSiteUi() {
+      const isBangla = getCurrentSite() === "bangla";
+
+      if (editingId) {
+        formTitle.textContent = isBangla ? "Edit Bangla News" : "Edit International English News";
+        saveBtn.textContent = isBangla ? "Update Bangla News" : "Update International English News";
+      } else {
+        formTitle.textContent = isBangla ? "Write Bangla News" : "Write International English News";
+        saveBtn.textContent = isBangla ? "Publish Bangla News" : "Publish International English News";
+      }
+
+      editorDescription.textContent = isBangla
+        ? "Write and manage Bangla news for your website."
+        : "Write and manage International English news for your website.";
+
+      feedTitle.textContent = isBangla ? "All Bangla Posts" : "All International English Posts";
+
+      titleInput.placeholder = isBangla ? "Bangla News Title" : "International English News Title";
+      categoryInput.placeholder = isBangla ? "Bangla / Politics / World" : "World / Tech / Politics";
+      excerptInput.placeholder = isBangla ? "Write a short Bangla summary" : "Write a short summary";
+      contentInput.placeholder = isBangla ? "Write Bangla news content here" : "Write news content here";
+      searchInput.placeholder = isBangla ? "Search Bangla posts by title or category" : "Search posts by title or category";
+
+      if (isBangla) {
+        slugInput.placeholder = "ajker-gujob-ki-sotto";
+        slugHelp.textContent = "For Bangla titles, write the slug manually in English letters.";
+      } else {
+        slugInput.placeholder = "example-news-title";
+        slugHelp.textContent = "If empty, slug will be created from title.";
+      }
+    }
+
     function resetForm() {
       editingId = null;
       slugTouched = false;
 
-      formTitle.textContent = "Write News";
-      saveBtn.textContent = "Publish News";
       titleInput.value = "";
       slugInput.value = "";
       categoryInput.value = "";
@@ -919,14 +987,19 @@
       syncVisibilityFromCheckbox();
       previewImage("");
       hideStatus(formStatus);
+      updateSiteUi();
     }
 
     function fillForm(post) {
       editingId = post.id;
       slugTouched = true;
 
-      formTitle.textContent = "Edit News";
-      saveBtn.textContent = "Update News";
+      if (post.__site === "bangla") {
+        siteSelect.value = "bangla";
+      } else {
+        siteSelect.value = "english";
+      }
+
       titleInput.value = post.title || "";
       slugInput.value = post.slug || "";
       categoryInput.value = post.category || "";
@@ -940,6 +1013,7 @@
       imageFileInput.value = "";
       previewImage(post.image_url || "");
       hideStatus(formStatus);
+      updateSiteUi();
 
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -957,6 +1031,10 @@
           ? '<span class="badge badge-category">Published</span>'
           : '<span class="badge badge-draft">Draft</span>';
 
+        const siteBadge = post.__site === "bangla"
+          ? '<span class="badge badge-site">Bangla</span>'
+          : '<span class="badge badge-site">International English</span>';
+
         return `
           <article class="post-card">
             <div class="post-top">
@@ -968,6 +1046,7 @@
             </div>
 
             <div class="meta">
+              ${siteBadge}
               <span class="badge ${verdictClass}">${verdictText}</span>
               <span class="badge badge-category">${escapeHtml(post.category || "General")}</span>
               ${publishBadge}
@@ -1024,8 +1103,10 @@
     async function fetchPosts() {
       postsList.innerHTML = '<div class="empty">Loading posts...</div>';
 
+      const currentSite = getCurrentSite();
+
       const result = await supabaseClient
-        .from(TABLE_NAME)
+        .from(getCurrentTable())
         .select("*")
         .order("created_at", { ascending: false });
 
@@ -1034,13 +1115,24 @@
         return;
       }
 
-      allPosts = Array.isArray(result.data) ? result.data : [];
+      allPosts = Array.isArray(result.data)
+        ? result.data.map(function(post) {
+            return {
+              ...post,
+              __site: currentSite
+            };
+          })
+        : [];
+
       renderPosts(allPosts);
     }
 
     async function savePost() {
       hideStatus(formStatus);
       syncCheckboxFromVisibility();
+
+      const currentSite = getCurrentSite();
+      const siteLabel = getSiteLabel();
 
       const title = titleInput.value.trim();
       const slug = slugInput.value.trim() || slugify(title);
@@ -1052,7 +1144,7 @@
       const published = publishedInput.checked;
 
       if (!title) {
-        showStatus(formStatus, "News title is required.", "error");
+        showStatus(formStatus, siteLabel + " news title is required.", "error");
         return;
       }
 
@@ -1063,7 +1155,7 @@
 
       try {
         saveBtn.disabled = true;
-        showStatus(formStatus, "Saving news...", "info");
+        showStatus(formStatus, "Saving " + siteLabel + " news...", "info");
 
         const finalImageUrl = await uploadImage(imageFileInput.files[0]);
 
@@ -1084,13 +1176,13 @@
 
         if (editingId) {
           result = await supabaseClient
-            .from(TABLE_NAME)
+            .from(getCurrentTable())
             .update(payload)
             .eq("id", editingId);
         } else {
           payload.created_at = new Date().toISOString();
           result = await supabaseClient
-            .from(TABLE_NAME)
+            .from(getCurrentTable())
             .insert([payload]);
         }
 
@@ -1098,7 +1190,12 @@
           throw result.error;
         }
 
-        showStatus(formStatus, editingId ? "News updated successfully." : "News published successfully.", "success");
+        showStatus(
+          formStatus,
+          editingId ? siteLabel + " news updated successfully." : siteLabel + " news published successfully.",
+          "success"
+        );
+
         resetForm();
         await fetchPosts();
       } catch (error) {
@@ -1109,11 +1206,12 @@
     }
 
     async function deletePost(id) {
-      const confirmed = window.confirm("Are you sure you want to delete this news post?");
+      const siteLabel = getSiteLabel();
+      const confirmed = window.confirm("Are you sure you want to delete this " + siteLabel + " news post?");
       if (!confirmed) return;
 
       const result = await supabaseClient
-        .from(TABLE_NAME)
+        .from(getCurrentTable())
         .delete()
         .eq("id", id);
 
@@ -1127,7 +1225,7 @@
       }
 
       await fetchPosts();
-      window.alert("News deleted successfully.");
+      window.alert(siteLabel + " news deleted successfully.");
     }
 
     function filterPosts() {
@@ -1237,6 +1335,11 @@
       syncCheckboxFromVisibility();
     });
 
+    siteSelect.addEventListener("change", function() {
+      resetForm();
+      fetchPosts();
+    });
+
     imageFileInput.addEventListener("change", function() {
       const file = imageFileInput.files[0];
       if (!file) return;
@@ -1296,6 +1399,7 @@
     });
 
     syncVisibilityFromCheckbox();
+    updateSiteUi();
     checkSession();
   </script>
 </body>
