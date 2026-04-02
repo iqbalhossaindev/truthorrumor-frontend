@@ -13,10 +13,6 @@
       "destination": "/admin.html"
     },
     {
-      "source": "/adminbd",
-      "destination": "/adminbd.html"
-    },
-    {
       "source": "/bd",
       "destination": "/bangla.html"
     },
