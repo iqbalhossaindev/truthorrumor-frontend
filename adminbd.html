@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TruthOrRumor Bangla Admin</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg-1: #132b12;
+      --bg-2: #1b3818;
+      --panel: rgba(20, 35, 18, 0.94);
+      --panel-2: rgba(31, 53, 28, 0.96);
+      --line: rgba(255, 255, 255, 0.08);
+      --text: #f8fafc;
+      --muted: #c7d2c4;
+      --gold: #f7d774;
+      --orange: #ff9b3d;
+      --red: #ff5e57;
+      --green-soft: #274425;
+      --input: rgba(10, 20, 10, 0.72);
+      --button: linear-gradient(90deg, #f7d774 0%, #ff9b3d 55%, #ff5e57 100%);
+      --radius: 22px;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(247, 215, 116, 0.10), transparent 30%),
+        linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 24px));
+      margin: 18px auto 32px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .login-wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+    }
+
+    .login-stack {
+      width: min(760px, 100%);
+      text-align: center;
+    }
+
+    .brand-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .brand-logo {
+      width: 92px;
+      height: 92px;
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: 0 0 25px rgba(247, 215, 116, 0.14);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .brand-title-wrap {
+      text-align: left;
+    }
+
+    .glow-title {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 74px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -1px;
+      background: linear-gradient(90deg, #ffffff 0%, #f7d774 35%, #ff9b3d 68%, #ff5e57 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: glowPulse 2.8s ease-in-out infinite;
+    }
+
+    .brand-subtitle {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .login-card {
+      width: min(460px, 100%);
+      margin: 0 auto;
+      padding: 28px;
+      text-align: left;
+    }
+
+    .login-card h2 {
+      margin: 0 0 8px;
+      font-size: 30px;
+    }
+
+    .login-card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 22px;
+      margin-bottom: 18px;
+    }
+
+    .site-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .site-brand-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      object-fit: cover;
+      flex: 0 0 auto;
+      box-shadow: 0 0 20px rgba(247, 215, 116, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .site-brand h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.05;
+      font-weight: 900;
+      letter-spacing: -0.6px;
+      background: linear-gradient(90deg, #ffffff 0%, #f7d774 36%, #ff9b3d 68%, #ff5e57 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 20px rgba(255, 162, 67, 0.15);
+      animation: glowPulse 2.8s ease-in-out infinite;
+    }
+
+    .site-brand p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 20px;
+    }
+
+    .editor-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .editor-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      object-fit: cover;
+      flex: 0 0 auto;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .editor-head h2 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .editor-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .headline-box {
+      margin-bottom: 16px;
+    }
+
+    .headline-input {
+      width: 100%;
+      padding: 18px 20px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--panel-2);
+      color: #ffffff;
+      font-size: clamp(24px, 4vw, 34px);
+      font-weight: 700;
+      outline: none;
+    }
+
+    .headline-input::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .headline-input:focus {
+      border-color: rgba(247, 215, 116, 0.45);
+      box-shadow: 0 0 0 4px rgba(247, 215, 116, 0.08);
+    }
+
+    .option-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .option-card {
+      background: var(--panel-2);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 14px 14px 12px;
+    }
+
+    .option-card .option-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+    }
+
+    .option-card input,
+    .option-card select {
+      width: 100%;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      padding: 0;
+    }
+
+    .details-box {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(31, 53, 28, 0.65);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .details-box summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 16px 18px;
+      font-size: 24px;
+      font-weight: 900;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .details-box summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .details-content {
+      padding: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    input,
+    textarea,
+    select,
+    button {
+      font-family: inherit;
+    }
+
+    .text-input,
+    .text-area,
+    .file-input {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--input);
+      color: #ffffff;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .text-input::placeholder,
+    .text-area::placeholder {
+      color: rgba(255, 255, 255, 0.40);
+    }
+
+    .text-input:focus,
+    .text-area:focus,
+    .file-input:focus {
+      border-color: rgba(247, 215, 116, 0.45);
+      box-shadow: 0 0 0 3px rgba(247, 215, 116, 0.08);
+    }
+
+    .text-area {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.6;
+    }
+
+    .small-text {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 800;
+      transition: 0.18s ease;
+    }
+
+    .btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--button);
+      color: #111827;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.10);
+      color: #ffffff;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .btn-danger {
+      background: rgba(255, 94, 87, 0.92);
+      color: #ffffff;
+    }
+
+    .btn-danger:hover {
+      background: rgba(255, 94, 87, 1);
+    }
+
+    .hidden-checkbox {
+      display: none;
+    }
+
+    .toolbar {
+      margin-bottom: 14px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      background: var(--panel-2);
+      color: #ffffff;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.40);
+    }
+
+    .search-input:focus {
+      border-color: rgba(247, 215, 116, 0.45);
+    }
+
+    .posts-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .feed-title {
+      margin: 0 0 14px;
+      font-size: 24px;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .post-card {
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      background: rgba(31, 53, 28, 0.82);
+    }
+
+    .post-top {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .post-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex: 0 0 auto;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .post-title-wrap h3 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      line-height: 1.35;
+      color: #ffffff;
+    }
+
+    .post-time {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .badge-truth {
+      background: rgba(247, 215, 116, 0.18);
+      color: #ffe9a0;
+    }
+
+    .badge-rumor {
+      background: rgba(255, 94, 87, 0.18);
+      color: #ffb0ab;
+    }
+
+    .badge-category {
+      background: rgba(255, 155, 61, 0.16);
+      color: #ffd1a4;
+    }
+
+    .badge-draft {
+      background: rgba(255, 255, 255, 0.10);
+      color: #ffffff;
+    }
+
+    .post-excerpt {
+      color: #e5ece4;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      margin-bottom: 12px;
+    }
+
+    .post-meta-line {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+      word-break: break-word;
+    }
+
+    .post-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .preview-img {
+      width: 100%;
+      max-height: 240px;
+      object-fit: cover;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 10px;
+    }
+
+    .status-box {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .status-box.show {
+      display: block;
+    }
+
+    .status-success {
+      background: rgba(76, 175, 80, 0.14);
+      color: #c8facc;
+      border: 1px solid rgba(76, 175, 80, 0.18);
+    }
+
+    .status-error {
+      background: rgba(255, 94, 87, 0.14);
+      color: #ffd3d1;
+      border: 1px solid rgba(255, 94, 87, 0.18);
+    }
+
+    .status-info {
+      background: rgba(247, 215, 116, 0.14);
+      color: #ffe9a0;
+      border: 1px solid rgba(247, 215, 116, 0.18);
+    }
+
+    .empty {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 8px 0;
+    }
+
+    @keyframes glowPulse {
+      0% {
+        filter: drop-shadow(0 0 0 rgba(255, 155, 61, 0));
+      }
+      50% {
+        filter: drop-shadow(0 0 10px rgba(255, 155, 61, 0.30))
+                drop-shadow(0 0 22px rgba(255, 94, 87, 0.16));
+      }
+      100% {
+        filter: drop-shadow(0 0 0 rgba(255, 155, 61, 0));
+      }
+    }
+
+    @media (max-width: 980px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+
+      .option-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .site-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-top {
+        flex-direction: column;
+      }
+
+      .brand-title-wrap {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="loginView" class="login-wrap">
+    <div class="login-stack">
+      <div class="brand-top">
+        <img src="/logo.png" alt="TruthOrRumor Logo" class="brand-logo" data-logo />
+        <div class="brand-title-wrap">
+          <h1 class="glow-title">TruthOrRumor Bangla</h1>
+          <p class="brand-subtitle">Bangla Admin Panel</p>
+        </div>
+      </div>
+
+      <div class="card login-card">
+        <h2>Bangla Admin Login</h2>
+        <p>Login with your Supabase admin email and password to manage Bangla articles.</p>
+
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input class="text-input" type="email" id="loginEmail" placeholder="admin@example.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input class="text-input" type="password" id="loginPassword" placeholder="Enter password" />
+        </div>
+
+        <button type="button" class="btn btn-primary" id="loginBtn">Login</button>
+        <div id="loginStatus" class="status-box"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="adminView" class="page hidden">
+    <div class="card site-header">
+      <div class="site-brand">
+        <img src="/logo.png" alt="TruthOrRumor Logo" class="site-brand-logo" data-logo />
+        <div>
+          <h1>TruthOrRumor Bangla</h1>
+          <p>Write and manage Bangla news for your website</p>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button type="button" class="btn btn-secondary" id="refreshBtn">Refresh Bangla Posts</button>
+        <button type="button" class="btn btn-danger" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+
+    <div class="dashboard">
+      <section class="card panel">
+        <div class="editor-head">
+          <img src="/logo.png" alt="TruthOrRumor Logo" class="editor-logo" data-logo />
+          <div>
+            <h2 id="formTitle">Write Bangla News</h2>
+            <p>Write Bangla news, fact checks, or rumor updates for your website.</p>
+          </div>
+        </div>
+
+        <div class="headline-box">
+          <input
+            type="text"
+            id="title"
+            class="headline-input"
+            placeholder="Bangla News Title"
+          />
+        </div>
+
+        <div class="option-row">
+          <div class="option-card">
+            <span class="option-label">Status</span>
+            <select id="visibilitySelect">
+              <option value="published">Published</option>
+              <option value="draft">Draft</option>
+            </select>
+          </div>
+
+          <div class="option-card">
+            <span class="option-label">Category</span>
+            <input type="text" id="category" placeholder="Bangla / World / Politics" />
+          </div>
+
+          <div class="option-card">
+            <span class="option-label">Verdict</span>
+            <select id="verdict">
+              <option value="truth">Truth</option>
+              <option value="rumor">Rumor</option>
+            </select>
+          </div>
+        </div>
+
+        <details class="details-box" open>
+          <summary>More Bangla News Options</summary>
+          <div class="details-content">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="slug">Slug</label>
+                <input class="text-input" type="text" id="slug" placeholder="ajker-gujob-sotto-ki" />
+                <div class="small-text">Use an English slug manually for Bangla posts. Example: ajker-gujob-sotto-ki</div>
+              </div>
+
+              <div class="form-group">
+                <label for="sourceUrl">Source URL</label>
+                <input class="text-input" type="url" id="sourceUrl" placeholder="https://example.com/source" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="excerpt">Short Bangla Summary</label>
+              <textarea class="text-area" id="excerpt" placeholder="Write a short Bangla summary"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="content">Full Bangla News Content</label>
+              <textarea class="text-area" id="content" placeholder="Write full Bangla news here"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="imageFile">Upload Image</label>
+              <input class="file-input" type="file" id="imageFile" accept="image/*" />
+              <div class="small-text">If you do not upload a new image, the old image stays.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="imageUrl">Image URL</label>
+              <input class="text-input" type="text" id="imageUrl" placeholder="Uploaded image URL will appear here" />
+              <img id="imagePreview" class="preview-img hidden" alt="Image preview" />
+            </div>
+          </div>
+        </details>
+
+        <input type="checkbox" id="published" class="hidden-checkbox" checked />
+
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary" id="saveBtn">Publish Bangla News</button>
+          <button type="button" class="btn btn-secondary" id="resetBtn">Clear</button>
+        </div>
+
+        <div id="formStatus" class="status-box"></div>
+      </section>
+
+      <section class="card panel">
+        <h2 class="feed-title">All Bangla News Posts</h2>
+
+        <div class="toolbar">
+          <input class="search-input" type="text" id="searchInput" placeholder="Search Bangla news by title or category" />
+        </div>
+
+        <div id="postsList" class="posts-list">
+          <div class="empty">Loading Bangla posts...</div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const LOGO_URL = "/logo.png";
+    const SUPABASE_URL = "https://bsnezcbmsbsememwqsjs.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_HTgjJsMcfGgIJaUSAzXTfw_yQ2dD_Uy";
+    const STORAGE_BUCKET = "news-images";
+    const TABLE_NAME = "posts_bd";
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let editingId = null;
+    let allPosts = [];
+    let slugTouched = false;
+
+    const loginView = document.getElementById("loginView");
+    const adminView = document.getElementById("adminView");
+
+    const loginEmail = document.getElementById("loginEmail");
+    const loginPassword = document.getElementById("loginPassword");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginStatus = document.getElementById("loginStatus");
+
+    const refreshBtn = document.getElementById("refreshBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    const formTitle = document.getElementById("formTitle");
+    const titleInput = document.getElementById("title");
+    const slugInput = document.getElementById("slug");
+    const categoryInput = document.getElementById("category");
+    const verdictInput = document.getElementById("verdict");
+    const sourceUrlInput = document.getElementById("sourceUrl");
+    const excerptInput = document.getElementById("excerpt");
+    const contentInput = document.getElementById("content");
+    const imageFileInput = document.getElementById("imageFile");
+    const imageUrlInput = document.getElementById("imageUrl");
+    const imagePreview = document.getElementById("imagePreview");
+    const publishedInput = document.getElementById("published");
+    const visibilitySelect = document.getElementById("visibilitySelect");
+
+    const saveBtn = document.getElementById("saveBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const formStatus = document.getElementById("formStatus");
+
+    const searchInput = document.getElementById("searchInput");
+    const postsList = document.getElementById("postsList");
+
+    document.querySelectorAll("[data-logo]").forEach(function(img) {
+      img.src = LOGO_URL;
+    });
+
+    function showStatus(element, message, type) {
+      element.className = "status-box show status-" + type;
+      element.textContent = message;
+    }
+
+    function hideStatus(element) {
+      element.className = "status-box";
+      element.textContent = "";
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function slugify(text) {
+      return String(text || "")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    function formatDate(value) {
+      if (!value) return "";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "";
+      return date.toLocaleString();
+    }
+
+    function previewImage(url) {
+      const cleanUrl = String(url || "").trim();
+      if (!cleanUrl) {
+        imagePreview.src = "";
+        imagePreview.classList.add("hidden");
+        return;
+      }
+      imagePreview.src = cleanUrl;
+      imagePreview.classList.remove("hidden");
+    }
+
+    function syncVisibilityFromCheckbox() {
+      visibilitySelect.value = publishedInput.checked ? "published" : "draft";
+    }
+
+    function syncCheckboxFromVisibility() {
+      publishedInput.checked = visibilitySelect.value === "published";
+    }
+
+    function resetForm() {
+      editingId = null;
+      slugTouched = false;
+
+      formTitle.textContent = "Write Bangla News";
+      saveBtn.textContent = "Publish Bangla News";
+      titleInput.value = "";
+      slugInput.value = "";
+      categoryInput.value = "";
+      verdictInput.value = "truth";
+      sourceUrlInput.value = "";
+      excerptInput.value = "";
+      contentInput.value = "";
+      imageFileInput.value = "";
+      imageUrlInput.value = "";
+      publishedInput.checked = true;
+      syncVisibilityFromCheckbox();
+      previewImage("");
+      hideStatus(formStatus);
+    }
+
+    function fillForm(post) {
+      editingId = post.id;
+      slugTouched = true;
+
+      formTitle.textContent = "Edit Bangla News";
+      saveBtn.textContent = "Update Bangla News";
+      titleInput.value = post.title || "";
+      slugInput.value = post.slug || "";
+      categoryInput.value = post.category || "";
+      verdictInput.value = post.verdict || "truth";
+      sourceUrlInput.value = post.source_url || "";
+      excerptInput.value = post.excerpt || "";
+      contentInput.value = post.content || "";
+      imageUrlInput.value = post.image_url || "";
+      publishedInput.checked = Boolean(post.published);
+      syncVisibilityFromCheckbox();
+      imageFileInput.value = "";
+      previewImage(post.image_url || "");
+      hideStatus(formStatus);
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderPosts(posts) {
+      if (!Array.isArray(posts) || posts.length === 0) {
+        postsList.innerHTML = '<div class="empty">No Bangla posts found.</div>';
+        return;
+      }
+
+      postsList.innerHTML = posts.map(function(post) {
+        const verdictClass = post.verdict === "rumor" ? "badge-rumor" : "badge-truth";
+        const verdictText = post.verdict === "rumor" ? "Rumor / গুজব" : "Truth / সত্য";
+        const publishBadge = post.published
+          ? '<span class="badge badge-category">Published</span>'
+          : '<span class="badge badge-draft">Draft</span>';
+
+        return `
+          <article class="post-card">
+            <div class="post-top">
+              <img src="${escapeHtml(LOGO_URL)}" alt="Logo" class="post-logo" />
+              <div class="post-title-wrap">
+                <h3>${escapeHtml(post.title || "Untitled")}</h3>
+                <div class="post-time">Created: ${escapeHtml(formatDate(post.created_at))}</div>
+              </div>
+            </div>
+
+            <div class="meta">
+              <span class="badge ${verdictClass}">${verdictText}</span>
+              <span class="badge badge-category">${escapeHtml(post.category || "General")}</span>
+              ${publishBadge}
+            </div>
+
+            <div class="post-excerpt">${escapeHtml(post.excerpt || "")}</div>
+
+            <div class="post-meta-line">
+              Slug: ${escapeHtml(post.slug || "")}<br>
+              Updated: ${escapeHtml(formatDate(post.updated_at))}
+            </div>
+
+            <div class="post-actions">
+              <button type="button" class="btn btn-secondary edit-post-btn" data-id="${escapeHtml(post.id)}">Edit</button>
+              <button type="button" class="btn btn-danger delete-post-btn" data-id="${escapeHtml(post.id)}">Delete</button>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    async function uploadImage(file) {
+      if (!file) {
+        return String(imageUrlInput.value || "").trim() || null;
+      }
+
+      const extension = file.name.includes(".") ? file.name.split(".").pop() : "jpg";
+      const fileName = Date.now() + "-" + Math.random().toString(36).slice(2) + "." + extension;
+      const filePath = "posts/" + fileName;
+
+      const uploadResult = await supabaseClient.storage
+        .from(STORAGE_BUCKET)
+        .upload(filePath, file, {
+          cacheControl: "3600",
+          upsert: false
+        });
+
+      if (uploadResult.error) {
+        throw uploadResult.error;
+      }
+
+      const publicUrlResult = supabaseClient.storage
+        .from(STORAGE_BUCKET)
+        .getPublicUrl(filePath);
+
+      const publicUrl = publicUrlResult?.data?.publicUrl || "";
+      if (!publicUrl) {
+        throw new Error("Image uploaded, but public URL could not be created.");
+      }
+
+      return publicUrl;
+    }
+
+    async function fetchPosts() {
+      postsList.innerHTML = '<div class="empty">Loading Bangla posts...</div>';
+
+      const result = await supabaseClient
+        .from(TABLE_NAME)
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (result.error) {
+        postsList.innerHTML = '<div class="empty">Could not load posts: ' + escapeHtml(result.error.message) + '</div>';
+        return;
+      }
+
+      allPosts = Array.isArray(result.data) ? result.data : [];
+      renderPosts(allPosts);
+    }
+
+    async function savePost() {
+      hideStatus(formStatus);
+      syncCheckboxFromVisibility();
+
+      const title = titleInput.value.trim();
+      const manualSlug = slugInput.value.trim();
+      const generatedSlug = slugify(title);
+      const slug = manualSlug || generatedSlug;
+      const category = categoryInput.value.trim();
+      const verdict = verdictInput.value;
+      const sourceUrl = sourceUrlInput.value.trim();
+      const excerpt = excerptInput.value.trim();
+      const content = contentInput.value.trim();
+      const published = publishedInput.checked;
+
+      if (!title) {
+        showStatus(formStatus, "Bangla news title is required.", "error");
+        return;
+      }
+
+      if (!slug) {
+        showStatus(formStatus, "Please enter the slug manually in English. Example: ajker-gujob-sotto-ki", "error");
+        return;
+      }
+
+      try {
+        saveBtn.disabled = true;
+        showStatus(formStatus, "Saving Bangla news...", "info");
+
+        const finalImageUrl = await uploadImage(imageFileInput.files[0]);
+
+        const payload = {
+          title: title,
+          slug: slug,
+          category: category || null,
+          verdict: verdict,
+          source_url: sourceUrl || null,
+          excerpt: excerpt || null,
+          content: content || null,
+          image_url: finalImageUrl || null,
+          published: published,
+          updated_at: new Date().toISOString()
+        };
+
+        let result;
+
+        if (editingId) {
+          result = await supabaseClient
+            .from(TABLE_NAME)
+            .update(payload)
+            .eq("id", editingId);
+        } else {
+          payload.created_at = new Date().toISOString();
+          result = await supabaseClient
+            .from(TABLE_NAME)
+            .insert([payload]);
+        }
+
+        if (result.error) {
+          throw result.error;
+        }
+
+        showStatus(formStatus, editingId ? "Bangla news updated successfully." : "Bangla news published successfully.", "success");
+        resetForm();
+        await fetchPosts();
+      } catch (error) {
+        showStatus(formStatus, error.message || "Could not save the Bangla news.", "error");
+      } finally {
+        saveBtn.disabled = false;
+      }
+    }
+
+    async function deletePost(id) {
+      const confirmed = window.confirm("Are you sure you want to delete this Bangla post?");
+      if (!confirmed) return;
+
+      const result = await supabaseClient
+        .from(TABLE_NAME)
+        .delete()
+        .eq("id", id);
+
+      if (result.error) {
+        window.alert("Delete failed: " + result.error.message);
+        return;
+      }
+
+      if (editingId === id) {
+        resetForm();
+      }
+
+      await fetchPosts();
+      window.alert("Bangla post deleted successfully.");
+    }
+
+    function filterPosts() {
+      const keyword = searchInput.value.trim().toLowerCase();
+
+      if (!keyword) {
+        renderPosts(allPosts);
+        return;
+      }
+
+      const filtered = allPosts.filter(function(post) {
+        const title = String(post.title || "").toLowerCase();
+        const category = String(post.category || "").toLowerCase();
+        const excerpt = String(post.excerpt || "").toLowerCase();
+        return title.includes(keyword) || category.includes(keyword) || excerpt.includes(keyword);
+      });
+
+      renderPosts(filtered);
+    }
+
+    function setViewForSession(session) {
+      if (session) {
+        loginView.classList.add("hidden");
+        adminView.classList.remove("hidden");
+      } else {
+        loginView.classList.remove("hidden");
+        adminView.classList.add("hidden");
+      }
+    }
+
+    async function login() {
+      hideStatus(loginStatus);
+
+      const email = loginEmail.value.trim();
+      const password = loginPassword.value;
+
+      if (!email || !password) {
+        showStatus(loginStatus, "Email and password are required.", "error");
+        return;
+      }
+
+      try {
+        loginBtn.disabled = true;
+        showStatus(loginStatus, "Signing in...", "info");
+
+        const result = await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+        if (result.error) {
+          throw result.error;
+        }
+
+        showStatus(loginStatus, "Bangla admin login successful.", "success");
+        setViewForSession(result.data.session);
+        await fetchPosts();
+      } catch (error) {
+        showStatus(loginStatus, error.message || "Login failed.", "error");
+      } finally {
+        loginBtn.disabled = false;
+      }
+    }
+
+    async function logout() {
+      const result = await supabaseClient.auth.signOut();
+
+      if (result.error) {
+        window.alert("Logout failed: " + result.error.message);
+        return;
+      }
+
+      setViewForSession(null);
+      loginPassword.value = "";
+      hideStatus(loginStatus);
+      resetForm();
+    }
+
+    async function checkSession() {
+      const result = await supabaseClient.auth.getSession();
+
+      if (result.error) {
+        setViewForSession(null);
+        showStatus(loginStatus, result.error.message || "Could not check session.", "error");
+        return;
+      }
+
+      const session = result.data.session;
+      setViewForSession(session);
+
+      if (session) {
+        await fetchPosts();
+      }
+    }
+
+    titleInput.addEventListener("input", function() {
+      if (!slugTouched) {
+        const autoSlug = slugify(titleInput.value);
+        slugInput.value = autoSlug;
+      }
+    });
+
+    slugInput.addEventListener("input", function() {
+      slugTouched = slugInput.value.trim() !== "";
+    });
+
+    visibilitySelect.addEventListener("change", function() {
+      syncCheckboxFromVisibility();
+    });
+
+    imageFileInput.addEventListener("change", function() {
+      const file = imageFileInput.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        imagePreview.src = event.target.result;
+        imagePreview.classList.remove("hidden");
+      };
+      reader.readAsDataURL(file);
+    });
+
+    imageUrlInput.addEventListener("input", function() {
+      if (imageFileInput.files.length === 0) {
+        previewImage(imageUrlInput.value);
+      }
+    });
+
+    loginBtn.addEventListener("click", login);
+    saveBtn.addEventListener("click", savePost);
+    resetBtn.addEventListener("click", resetForm);
+    refreshBtn.addEventListener("click", fetchPosts);
+    logoutBtn.addEventListener("click", logout);
+    searchInput.addEventListener("input", filterPosts);
+
+    loginEmail.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") login();
+    });
+
+    loginPassword.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") login();
+    });
+
+    postsList.addEventListener("click", function(event) {
+      const editButton = event.target.closest(".edit-post-btn");
+      const deleteButton = event.target.closest(".delete-post-btn");
+
+      if (editButton) {
+        const id = editButton.getAttribute("data-id");
+        const post = allPosts.find(function(item) {
+          return String(item.id) === String(id);
+        });
+        if (post) fillForm(post);
+      }
+
+      if (deleteButton) {
+        const id = deleteButton.getAttribute("data-id");
+        deletePost(id);
+      }
+    });
+
+    supabaseClient.auth.onAuthStateChange(function(event, session) {
+      setViewForSession(session);
+      if (session) {
+        fetchPosts();
+      }
+    });
+
+    syncVisibilityFromCheckbox();
+    checkSession();
+  </script>
+</body>
+</html>
