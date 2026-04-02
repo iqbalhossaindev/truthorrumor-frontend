@@ -4,16 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google-adsense-account" content="ca-pub-2944530159971400" />
-  <title>TruthOrRumor Bangla | সত্য ও গুজব যাচাই</title>
-  <meta name="description" content="TruthOrRumor Bangla পাঠকদের জন্য সত্য, গুজব, এবং যাচাইকৃত খবর সহজ ভাষায় তুলে ধরে।" />
-  <meta property="og:title" content="TruthOrRumor Bangla | সত্য ও গুজব যাচাই" />
-  <meta property="og:description" content="Bangla ভাষায় সত্য, গুজব, এবং যাচাইকৃত খবর সহজভাবে জানুন।" />
+
+  <title>TruthOrRumor Bangla | Bangla খবর, সত্য, গুজব ও যাচাইকৃত তথ্য</title>
+  <meta name="description" content="TruthOrRumor Bangla তে পড়ুন Bangla খবর, সত্য, গুজব, ফ্যাক্ট চেক, ভাইরাল দাবির বিশ্লেষণ এবং যাচাইকৃত তথ্য সহজ ভাষায়।" />
+
+  <meta property="og:title" content="TruthOrRumor Bangla | Bangla খবর, সত্য, গুজব ও যাচাইকৃত তথ্য" />
+  <meta property="og:description" content="Bangla ভাষায় সত্য, গুজব, ফ্যাক্ট চেক, ভাইরাল দাবি এবং যাচাইকৃত তথ্য পড়ুন।" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="/logo.png" />
   <meta property="og:url" content="https://www.truthorrumor.com/bd" />
+  <meta property="og:image" content="https://www.truthorrumor.com/logo.png" />
+
   <link rel="canonical" href="https://www.truthorrumor.com/bd" />
   <link rel="alternate" hreflang="bn" href="https://www.truthorrumor.com/bd" />
   <link rel="alternate" hreflang="en" href="https://www.truthorrumor.com/" />
+  <link rel="icon" href="/logo.png" />
 
   <script type="application/ld+json">
   {
@@ -54,7 +58,7 @@
       --bg-2: #101b2c;
       --bg-3: #152235;
       --text: #f8fafc;
-      --muted: rgba(248, 250, 252, 0.72);
+      --muted: rgba(248, 250, 252, 0.76);
       --line: rgba(255, 255, 255, 0.12);
       --glass: rgba(255, 255, 255, 0.08);
       --glass-2: rgba(255, 255, 255, 0.05);
@@ -68,7 +72,10 @@
       --shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
       --reader-font-size: 17px;
       --reader-line-height: 1.9;
-      --reader-width: 860px;
+      --reader-width: 980px;
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
     }
 
     body[data-theme="sepia"] {
@@ -89,7 +96,7 @@
       --bg-2: #e6edf7;
       --bg-3: #dce7f2;
       --text: #17212d;
-      --muted: rgba(23, 33, 45, 0.70);
+      --muted: rgba(23, 33, 45, 0.72);
       --line: rgba(23, 33, 45, 0.12);
       --glass: rgba(255, 255, 255, 0.46);
       --glass-2: rgba(255, 255, 255, 0.32);
@@ -118,20 +125,21 @@
       background-color: var(--bg);
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
-      overscroll-behavior-y: none;
     }
 
     body.reader-mode {
-      padding-top: 18px;
+      padding-top: 20px;
     }
 
     body.reader-mode .top-ticker,
-    body.reader-mode .site-header,
-    body.reader-mode .nav-row,
-    body.reader-mode .search-panel,
-    body.reader-mode .filter-panel,
+    body.reader-mode .hero-card,
+    body.reader-mode .hero-side,
     body.reader-mode .footer {
       display: none !important;
+    }
+
+    body.reader-mode .wrap {
+      max-width: var(--reader-width);
     }
 
     img {
@@ -139,18 +147,19 @@
       max-width: 100%;
     }
 
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
     .liquid-card,
-    .footer-card,
-    .modal-card {
+    .modal-card,
+    .footer-card {
       background: linear-gradient(180deg, var(--glass-3), var(--glass));
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(8px) saturate(130%);
-      -webkit-backdrop-filter: blur(8px) saturate(130%);
-      transform: translateZ(0);
-      -webkit-transform: translateZ(0);
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
+      backdrop-filter: blur(12px) saturate(145%);
+      -webkit-backdrop-filter: blur(12px) saturate(145%);
     }
 
     .wrap {
@@ -188,7 +197,7 @@
       border-right: 1px solid var(--line);
       white-space: nowrap;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .live-dot {
@@ -219,9 +228,10 @@
       gap: 38px;
       white-space: nowrap;
       padding-left: 100%;
-      animation: tickerMove 85s linear infinite;
+      animation: tickerMove 90s linear infinite;
       will-change: transform;
       font-size: 14px;
+      color: var(--muted);
     }
 
     .ticker-item {
@@ -240,37 +250,171 @@
     }
 
     @keyframes tickerMove {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
+      from { transform: translateX(0); }
+      to { transform: translateX(-100%); }
     }
 
-    .site-header {
-      border-radius: 30px;
+    .floating-accessibility-btn {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 95;
+      width: 58px;
+      height: 58px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.08));
+      color: var(--text);
+      box-shadow: var(--shadow);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .floating-accessibility-btn:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.10));
+    }
+
+    .floating-accessibility-btn svg.main {
+      width: 26px;
+      height: 26px;
+    }
+
+    .check-badge {
+      position: absolute;
+      right: -4px;
+      top: -4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, var(--gold), var(--orange));
+      color: #101010;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--bg);
+    }
+
+    .check-badge svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.46);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 120;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(620px, 100%);
+      border-radius: 28px;
       padding: 22px;
-      margin-bottom: 18px;
       position: relative;
       overflow: hidden;
     }
 
-    .site-header::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 14% 16%, rgba(255,255,255,0.12), transparent 16%),
-        radial-gradient(circle at 85% 22%, rgba(183,132,255,0.12), transparent 18%),
-        radial-gradient(circle at 78% 78%, rgba(79,209,255,0.10), transparent 18%);
-      pointer-events: none;
+    .share-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .share-top h3 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .modal-note {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .modal-close {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .access-group + .access-group {
+      margin-top: 18px;
+    }
+
+    .share-section-title {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .tool-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tool-btn {
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .tool-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.09);
+    }
+
+    .tool-btn.active {
+      background: linear-gradient(90deg, var(--gold), var(--orange));
+      color: #111827;
+      border-color: transparent;
+    }
+
+    .site-header {
+      border-radius: 28px;
+      padding: 22px;
+      margin-bottom: 18px;
     }
 
     .brand-row {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
+      gap: 18px;
       flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
     }
 
     .brand-left {
@@ -278,94 +422,29 @@
       align-items: center;
       gap: 16px;
       min-width: 0;
-      flex: 1 1 auto;
     }
 
     .site-logo {
       width: 76px;
       height: 76px;
-      object-fit: contain;
       border-radius: 22px;
       padding: 10px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      object-fit: contain;
       flex: 0 0 auto;
-    }
-
-    .brand-copy {
-      min-width: 0;
-      flex: 1 1 auto;
-    }
-
-    .brand-title-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-      flex-wrap: nowrap;
     }
 
     .brand-title {
       margin: 0;
-      font-size: clamp(28px, 5.8vw, 58px);
+      font-size: clamp(34px, 6vw, 58px);
       line-height: 1;
-      letter-spacing: -0.8px;
-      white-space: nowrap;
-      background: linear-gradient(90deg, #ffffff 0%, #ffffff 26%, #f2d07a 46%, #f2b53a 56%, #ff8d3a 74%, #ef4444 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      flex: 0 1 auto;
-      min-width: 0;
+      font-weight: 900;
+      letter-spacing: -0.03em;
     }
 
-    .flag-glass {
-      position: relative;
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      flex: 0 0 auto;
-      border: 1px solid rgba(255,255,255,0.24);
-      background: linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.08));
-      box-shadow: 0 12px 26px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.34);
-      backdrop-filter: blur(12px) saturate(160%);
-      -webkit-backdrop-filter: blur(12px) saturate(160%);
-      overflow: hidden;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .flag-glass::before {
-      content: "";
-      position: absolute;
-      inset: 5px;
-      border-radius: 10px;
-      background: linear-gradient(180deg, rgba(13,121,70,0.96), rgba(8,92,53,0.96));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
-    }
-
-    .flag-glass::after {
-      content: "";
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 32% 32%, #ff8f8f 0%, #e11d48 58%, #b91c1c 100%);
-      box-shadow: 0 0 14px rgba(225,29,72,0.24);
-      z-index: 1;
-    }
-
-    .flag-gloss {
-      position: absolute;
-      left: 4px;
-      right: 4px;
-      top: 4px;
-      height: 14px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.48), rgba(255,255,255,0.05));
-      z-index: 2;
-      pointer-events: none;
+    .brand-title .accent {
+      color: var(--gold);
     }
 
     .tagline {
@@ -378,777 +457,522 @@
     .updated {
       color: var(--muted);
       font-size: 14px;
+      font-weight: 700;
       white-space: nowrap;
-      position: relative;
-      z-index: 1;
     }
 
-    .nav-row,
-    .chip-row,
-    .footer-links,
-    .footer-social {
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .hero-main,
+    .hero-side {
+      border-radius: 28px;
+      padding: 26px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(38px, 8vw, 72px);
+      line-height: 1.05;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-title .gold {
+      color: var(--gold);
+    }
+
+    .hero-copy {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: var(--reader-font-size);
+      line-height: var(--reader-line-height);
+      max-width: 760px;
+    }
+
+    .hero-meta {
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
     }
 
-    .nav-row {
-      overflow-x: auto;
-      padding-bottom: 6px;
-      margin-bottom: 14px;
-      scrollbar-width: none;
+    .meta-chip {
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
     }
 
-    .nav-row::-webkit-scrollbar,
-    .chip-row::-webkit-scrollbar {
-      display: none;
+    .hero-side-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
     }
 
-    .nav-btn,
-    .chip,
-    .tiny-btn,
-    .tool-btn,
-    .story-mode-btn,
-    .share-option,
-    .footer-link-btn {
-      font-family: inherit;
-      transition: .2s ease;
-      cursor: pointer;
+    .hero-side-logo {
+      width: 88px;
+      height: 88px;
+      border-radius: 22px;
+      padding: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      object-fit: contain;
+      flex: 0 0 auto;
     }
 
-    .nav-btn:active,
-    .chip:active,
-    .tiny-btn:active,
-    .tool-btn:active,
-    .story-mode-btn:active,
-    .share-option:active,
-    .footer-link-btn:active {
-      transform: scale(.98);
+    .hero-side-title {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.25;
+      font-weight: 900;
+      letter-spacing: -0.02em;
     }
 
-    .nav-btn,
-    .chip,
-    .tiny-btn,
-    .tool-btn,
-    .footer-link-btn {
+    .hero-side-copy {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .pill-btn {
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 800;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 11px 15px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      text-decoration: none;
-      font-size: 14px;
-      white-space: nowrap;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
     }
 
-    .nav-btn.active,
-    .chip.active,
-    .tool-btn.active,
-    .story-mode-btn.active {
-      background: rgba(242,181,58,0.16);
-      border-color: rgba(242,181,58,0.22);
+    .pill-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.09);
     }
 
-    .search-panel {
-      border-radius: 28px;
-      padding: 14px 18px 16px;
+    .pill-btn.primary {
+      background: linear-gradient(90deg, var(--gold), var(--orange));
+      color: #111827;
+      border-color: transparent;
+    }
+
+    .search-panel,
+    .filter-panel,
+    .section-card {
+      border-radius: 26px;
+      padding: 20px;
       margin-bottom: 18px;
-      position: relative;
-      overflow: hidden;
     }
 
-    .search-panel::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 16% 16%, rgba(255,255,255,0.10), transparent 16%),
-        radial-gradient(circle at 78% 82%, rgba(79,209,255,0.08), transparent 16%);
-      pointer-events: none;
+    .search-title,
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 28px;
+      line-height: 1.2;
+      font-weight: 900;
+      letter-spacing: -0.02em;
     }
 
-    .search-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .search-title {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(242,181,58,0.14);
-      border: 1px solid rgba(242,181,58,0.18);
-      font-size: 14px;
-      font-weight: 700;
-      margin: 0 0 10px;
-    }
-
-    .search-title::before {
-      content: "";
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold), var(--orange));
-    }
-
-    .search-row,
-    .tool-row,
-    .card-actions,
-    .slider-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    .section-subtitle {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
     }
 
     .search-row {
-      flex-wrap: nowrap;
-      align-items: center;
-      margin-top: 0;
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: 10px;
     }
 
-    .search-input {
-      flex: 1 1 auto;
-      min-width: 0;
+    .search-input,
+    .search-select {
+      min-height: 52px;
       border-radius: 16px;
       border: 1px solid var(--line);
-      background: rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.05);
       color: var(--text);
+      padding: 0 16px;
       font-size: 15px;
-      padding: 12px 14px;
+      font-family: inherit;
       outline: none;
     }
 
     .search-input::placeholder {
-      color: var(--muted);
+      color: rgba(248,250,252,0.52);
+    }
+
+    .search-select option {
+      color: #111827;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      min-height: 52px;
+      padding: 0 18px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
     }
 
     .primary-btn {
-      border: none;
-      border-radius: 14px;
-      padding: 11px 14px;
-      min-width: 68px;
-      background: linear-gradient(135deg, var(--gold), var(--orange));
-      color: #180d00;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      box-shadow: 0 8px 18px rgba(242,181,58,0.14);
-      flex: 0 0 auto;
-      white-space: nowrap;
+      background: linear-gradient(90deg, var(--gold), var(--orange));
+      color: #111827;
+      border-color: transparent;
     }
 
     .secondary-btn {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 11px 14px;
-      min-width: 64px;
       background: rgba(255,255,255,0.06);
-      color: var(--text);
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      flex: 0 0 auto;
-      white-space: nowrap;
+    }
+
+    .primary-btn:hover,
+    .secondary-btn:hover {
+      transform: translateY(-1px);
     }
 
     .filter-panel {
       display: none;
-      border-radius: 28px;
-      padding: 18px;
-      margin-bottom: 18px;
     }
 
     .filter-panel.show {
       display: block;
     }
 
-    .filter-title,
-    .modal-note,
-    .share-section-title {
-      margin: 0 0 10px 0;
-      font-size: 15px;
+    .filter-title {
+      margin: 0 0 10px;
       color: var(--muted);
-    }
-
-    .chip-row {
-      overflow-x: auto;
-      padding-bottom: 6px;
-      margin-bottom: 12px;
-      scrollbar-width: none;
-    }
-
-    .chip-flag {
-      width: 18px;
-      height: 14px;
-      border-radius: 3px;
-      object-fit: cover;
-      flex: 0 0 auto;
-    }
-
-    .chip-svg {
-      width: 18px;
-      height: 18px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex: 0 0 auto;
-    }
-
-    .hero {
-      border-radius: 30px;
-      padding: 26px;
-      margin-bottom: 22px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 12% 14%, rgba(255,255,255,0.12), transparent 16%),
-        radial-gradient(circle at 84% 22%, rgba(183,132,255,0.12), transparent 18%),
-        radial-gradient(circle at 76% 78%, rgba(79,209,255,0.09), transparent 18%);
-      pointer-events: none;
-    }
-
-    .hero-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(242,181,58,0.12);
-      border: 1px solid rgba(242,181,58,0.16);
-      color: #ffe2a2;
       font-size: 12px;
-      letter-spacing: 1px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
-    .hero h2 {
-      margin: 16px 0 12px;
-      font-size: clamp(38px, 8vw, 72px);
-      line-height: 1.05;
-      letter-spacing: -1px;
-    }
-
-    .hero p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.8;
-      font-size: 16px;
-      max-width: 800px;
-    }
-
-    .hero-actions {
+    .chip-row {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
+      margin-bottom: 18px;
     }
 
-    .section-head,
-    .slider-head,
-    .share-top {
-      display: flex;
-      justify-content: space-between;
+    .chip {
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 700;
+      display: inline-flex;
       align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
     }
 
-    .section-head,
-    .slider-head {
-      margin-bottom: 12px;
+    .chip:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.08);
     }
 
-    .section-head h3,
-    .slider-head h3,
-    .share-top h3 {
-      margin: 0;
-      font-size: 28px;
+    .chip.active {
+      background: linear-gradient(90deg, var(--gold), var(--orange));
+      color: #111827;
+      border-color: transparent;
     }
 
-    .section-head span,
-    .slider-head span,
-    .meta,
-    .slider-meta,
-    .share-count {
+    .status-box {
+      display: none;
+      border-radius: 18px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.05);
       color: var(--muted);
       font-size: 14px;
       line-height: 1.7;
     }
 
-    .slider-section {
-      margin-bottom: 22px;
+    .status-box.show {
+      display: block;
     }
 
-    .slider-track {
+    .results-row {
       display: flex;
-      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .results-text {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .slider {
+      display: flex;
+      gap: 14px;
       overflow-x: auto;
-      padding: 4px 2px 10px;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
+      padding-bottom: 8px;
+      scroll-snap-type: x proximity;
     }
 
-    .slider-track::-webkit-scrollbar {
-      display: none;
+    .slider::-webkit-scrollbar {
+      height: 8px;
     }
 
-    .slider-nav {
+    .slider::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.16);
+      border-radius: 999px;
+    }
+
+    .slider-card {
+      min-width: min(360px, 88vw);
+      border-radius: 22px;
+      padding: 18px;
+      scroll-snap-align: start;
       display: flex;
-      gap: 10px;
+      flex-direction: column;
+      gap: 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease;
     }
 
-    .slider-nav button {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.08);
-      color: var(--text);
-      cursor: pointer;
+    .slider-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .slider-badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mini-badge {
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .mini-badge.truth {
+      background: rgba(34,197,94,0.88);
+    }
+
+    .mini-badge.rumor {
+      background: rgba(239,68,68,0.88);
+    }
+
+    .mini-badge.topic {
+      background: rgba(15,23,42,0.72);
+    }
+
+    .slider-title {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.4;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .slider-text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .slider-meta {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .grid {
       display: grid;
+      gap: 18px;
       grid-template-columns: 1fr;
-      gap: 16px;
     }
 
-    .card,
-    .slider-card {
-      border-radius: 28px;
+    .card {
+      border-radius: 24px;
       overflow: hidden;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 0;
+      cursor: pointer;
+      transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+    }
+
+    .card-media {
       position: relative;
-      padding: 18px;
-    }
-
-    .card::before,
-    .slider-card::before,
-    .footer-card::before,
-    .modal-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
+      min-height: 220px;
       background:
-        radial-gradient(circle at 16% 14%, rgba(255,255,255,0.08), transparent 14%),
-        radial-gradient(circle at 84% 82%, rgba(79,209,255,0.06), transparent 14%);
-      pointer-events: none;
+        radial-gradient(circle at 22% 18%, rgba(255,255,255,0.10), transparent 18%),
+        linear-gradient(135deg, #0f172a, #1e293b);
     }
 
-    .slider-card {
-      min-width: min(82vw, 320px);
-      max-width: 320px;
-      min-height: 112px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 18px 18px;
-    }
-
-    .photo-wrap {
-      width: 100%;
-      overflow: hidden;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--line);
-      aspect-ratio: 16 / 9;
-    }
-
-    .card-photo-wrap,
-    .slider-photo-wrap {
-      margin: -18px -18px 16px;
-      border-radius: 28px 28px 20px 20px;
-    }
-
-    .card-photo-wrap {
-      aspect-ratio: 16 / 9;
-    }
-
-    .card-photo,
-    .slider-photo {
+    .card-media img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center;
-      background: #060606;
-      display: block;
     }
 
-    .card-photo { height: 100%; }
-    .slider-photo { height: 100%; }
+    .card-badges {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-    .status-badge {
+    .badge {
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
       font-size: 12px;
-      font-weight: 700;
-      position: relative;
-      z-index: 1;
+      font-weight: 800;
+      color: #fff;
+      background: rgba(15,23,42,0.76);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
-    .status-badge.truth {
-      color: #b7ffd0;
-      background: rgba(34,197,94,0.14);
-      border: 1px solid rgba(34,197,94,0.18);
+    .badge.truth {
+      background: rgba(34,197,94,0.88);
     }
 
-    .status-badge.rumor {
-      color: #ffd1d1;
-      background: rgba(239,68,68,0.14);
-      border: 1px solid rgba(239,68,68,0.18);
+    .badge.rumor {
+      background: rgba(239,68,68,0.88);
     }
 
-    .status-badge svg {
-      width: 16px;
-      height: 16px;
-      flex: 0 0 auto;
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    .card h4,
-    .slider-card h4 {
-      margin: 12px 0 10px;
-      font-size: 22px;
-      line-height: 1.35;
-      position: relative;
-      z-index: 1;
+    .card-category {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    .slider-card h4 {
+    .card-title {
       margin: 0;
-      font-size: 18px;
-      line-height: 1.45;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      font-size: 30px;
+      line-height: 1.35;
+      font-weight: 900;
+      letter-spacing: -0.03em;
     }
 
-    .slider-card p,
-    .slider-card .slider-meta,
-    .slider-card .share-count,
-    .slider-card .slider-actions,
-    .slider-card .status-badge,
-    .slider-card .photo-wrap {
-      display: none !important;
-    }
-
-    .card p,
-    .slider-card p {
+    .card-excerpt {
       margin: 0;
       color: var(--muted);
-      line-height: 1.7;
-      position: relative;
-      z-index: 1;
+      font-size: var(--reader-font-size);
+      line-height: var(--reader-line-height);
     }
 
-    .card-actions,
-    .slider-actions {
-      margin-top: 14px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .tiny-btn {
-      border-radius: 16px;
-      padding: 10px 14px;
-      border: 1px solid transparent;
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    .share-btn {
-      display: inline-flex;
+    .card-meta {
+      display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(242,181,58,0.22);
-      background: linear-gradient(135deg, var(--gold), var(--orange));
-      color: #180d00;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: auto;
+      color: var(--muted);
+      font-size: 14px;
       font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 10px 22px rgba(242,181,58,0.16);
+    }
+
+    .read-link {
+      color: var(--cyan);
+      font-weight: 800;
     }
 
     .empty-state {
-      border-radius: 28px;
-      padding: 28px 18px;
+      border-radius: 24px;
+      padding: 26px;
       text-align: center;
       color: var(--muted);
-    }
-
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 14px;
-      background: rgba(0,0,0,0.58);
-      z-index: 130;
-    }
-
-    .modal-backdrop.show {
-      display: flex;
-    }
-
-    .modal-card {
-      width: min(620px, 100%);
-      max-height: 92vh;
-      overflow-y: auto;
-      border-radius: 28px;
-      position: relative;
-      padding: 18px;
-      overflow-x: hidden;
-    }
-
-    .modal-card > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .modal-close {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    .share-preview,
-    .qr-wrap,
-    .access-group {
-      border-radius: 22px;
-      padding: 14px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.06);
-      margin-bottom: 14px;
-    }
-
-    .share-preview-head {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .share-preview img {
-      width: 72px;
-      height: 72px;
-      object-fit: cover;
-      border-radius: 16px;
-      flex: 0 0 auto;
-    }
-
-    .share-preview h4 {
-      margin: 0 0 8px;
-      font-size: 17px;
-      line-height: 1.4;
-    }
-
-    .share-preview p,
-    .share-note {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 14px;
-    }
-
-    .story-mode-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .story-mode-btn {
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      background: rgba(255,255,255,0.08);
-      color: var(--text);
-      font-size: 13px;
-    }
-
-    .share-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .share-option {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-height: 84px;
-      padding: 12px 14px;
-      border-radius: 20px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.07);
-      color: var(--text);
-      text-align: left;
-    }
-
-    .icon-wrap {
-      width: 44px;
-      height: 44px;
-      border-radius: 16px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(242,181,58,0.12);
-      border: 1px solid rgba(242,181,58,0.12);
-      flex: 0 0 auto;
-    }
-
-    .icon-wrap svg {
-      width: 22px;
-      height: 22px;
-      display: block;
-    }
-
-    .icon-wrap.device { color: #7dd3fc; }
-    .icon-wrap.link { color: #f8fafc; }
-    .icon-wrap.whatsapp { color: #25d366; }
-    .icon-wrap.facebook { color: #1877f2; }
-    .icon-wrap.x { color: #f8fafc; }
-    .icon-wrap.telegram { color: #2aabee; }
-    .icon-wrap.email { color: #f59e0b; }
-    .icon-wrap.save { color: var(--purple); }
-    .icon-wrap.qr { color: #f8fafc; }
-
-    .qr-wrap {
-      text-align: center;
-    }
-
-    .qr-wrap img {
-      width: 190px;
-      height: 190px;
-      border-radius: 16px;
-      background: #ffffff;
-      padding: 8px;
-      object-fit: contain;
-      margin: 0 auto;
-    }
-
-    .qr-help {
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .floating-accessibility-btn {
-      position: fixed;
-      left: 14px;
-      bottom: 18px;
-      z-index: 95;
-      width: 58px;
-      height: 58px;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.24);
-      background: linear-gradient(180deg, rgba(255,255,255,0.34), rgba(255,255,255,0.08));
-      box-shadow: 0 16px 32px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.34);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      backdrop-filter: blur(14px) saturate(160%);
-      -webkit-backdrop-filter: blur(14px) saturate(160%);
-      overflow: hidden;
-    }
-
-    .floating-accessibility-btn::before {
-      content: "";
-      position: absolute;
-      inset: 2px;
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.02));
-      pointer-events: none;
-    }
-
-    .floating-accessibility-btn::after {
-      content: "";
-      position: absolute;
-      left: 6px;
-      right: 6px;
-      top: 5px;
-      height: 14px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.48), rgba(255,255,255,0.05));
-      pointer-events: none;
-    }
-
-    .floating-accessibility-btn svg.main {
-      width: 28px;
-      height: 28px;
-      color: #ffffff;
-      position: relative;
-      z-index: 1;
-      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.18));
-    }
-
-    .floating-accessibility-btn .check-badge {
-      position: absolute;
-      right: 2px;
-      bottom: 2px;
-      width: 19px;
-      height: 19px;
-      border-radius: 50%;
-      background: linear-gradient(180deg, #33d17a, #16a34a);
-      color: #ffffff;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid rgba(255,255,255,0.94);
-      z-index: 2;
-    }
-
-    .floating-accessibility-btn .check-badge svg {
-      width: 10px;
-      height: 10px;
+      font-size: 16px;
+      line-height: 1.9;
     }
 
     .footer {
-      margin-top: 20px;
+      margin-top: 10px;
       padding-bottom: 22px;
     }
 
     .footer-card {
       border-radius: 18px;
       padding: 14px 16px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .footer-copy {
-      font-size: 14px;
-      line-height: 1.55;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1156,130 +980,203 @@
       flex-wrap: wrap;
     }
 
-    .footer-copy-text {
-      color: var(--text);
+    .footer-text {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .footer-social {
+    .footer-social-inline {
       display: inline-flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
     }
 
-    .footer-social a {
-      width: 26px;
-      height: 26px;
-      color: var(--text);
+    .footer-social-inline a {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      text-decoration: none;
-      opacity: 0.95;
-      border: 1px solid var(--line);
+      width: 28px;
+      height: 28px;
       border-radius: 999px;
+      border: 1px solid var(--line);
       background: rgba(255,255,255,0.06);
+      color: var(--text);
+      transition: transform 0.2s ease, background 0.2s ease;
     }
 
-    .footer-social svg {
+    .footer-social-inline a:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.09);
+    }
+
+    .footer-social-inline svg {
       width: 14px;
       height: 14px;
-      display: block;
     }
 
     .toast {
       position: fixed;
       left: 50%;
-      bottom: 90px;
-      transform: translateX(-50%);
-      z-index: 160;
-      padding: 12px 16px;
-      border-radius: 14px;
-      background: rgba(15,23,42,0.92);
-      border: 1px solid rgba(255,255,255,0.10);
-      color: #fff;
+      bottom: 22px;
+      transform: translateX(-50%) translateY(16px);
       opacity: 0;
       pointer-events: none;
-      transition: .22s ease;
+      z-index: 130;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.88);
+      border: 1px solid rgba(255,255,255,0.12);
+      display: inline-flex;
+      align-items: center;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
     .toast.show {
       opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
-    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-      .liquid-card,
-      .footer-card,
-      .modal-card,
-      .floating-accessibility-btn {
-        background: rgba(16, 24, 38, 0.92);
+    .skeleton {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skeleton::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+      animation: shimmer 1.2s infinite;
+    }
+
+    @keyframes shimmer {
+      100% { transform: translateX(100%); }
+    }
+
+    @media (max-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .search-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .search-row .search-input {
+        grid-column: 1 / -1;
+      }
+
+      .card {
+        grid-template-columns: 1fr;
+      }
+
+      .card-media {
+        min-height: 240px;
       }
     }
 
-    @media (min-width: 768px) {
-      .grid {
-        grid-template-columns: repeat(2, 1fr);
+    @media (max-width: 760px) {
+      body {
+        padding-top: 78px;
       }
 
-      .slider-card {
-        min-width: 300px;
-        max-width: 300px;
+      .wrap {
+        padding: 12px;
       }
 
-      .share-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .grid {
-        grid-template-columns: repeat(3, 1fr);
+      .top-ticker {
+        width: calc(100% - 12px);
+        top: 10px;
       }
 
-      .slider-card {
-        min-width: 320px;
-        max-width: 320px;
+      .ticker-wrap {
+        min-height: 52px;
+        border-radius: 18px;
       }
-    }
-    @media (max-width: 767px) {
-      .brand-title-row {
-        gap: 10px;
+
+      .live-pill {
+        min-height: 52px;
+        font-size: 13px;
+      }
+
+      .ticker-track {
+        gap: 28px;
+        font-size: 13px;
+      }
+
+      .site-header,
+      .hero-main,
+      .hero-side,
+      .search-panel,
+      .filter-panel,
+      .section-card {
+        border-radius: 24px;
+      }
+
+      .brand-left {
+        align-items: flex-start;
+      }
+
+      .site-logo {
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
       }
 
       .brand-title {
+        font-size: 28px;
+      }
+
+      .tagline {
+        font-size: 14px;
+      }
+
+      .hero-title {
+        font-size: 27px;
+        line-height: 1.3;
+      }
+
+      .hero-copy {
+        font-size: 15px;
+      }
+
+      .hero-side-title {
         font-size: 22px;
       }
 
-      .flag-glass {
-        width: 34px;
-        height: 34px;
-        border-radius: 12px;
+      .search-row {
+        grid-template-columns: 1fr;
       }
 
-      .flag-glass::after {
-        width: 12px;
-        height: 12px;
+      .search-title,
+      .section-title {
+        font-size: 24px;
       }
 
-      .site-header {
-        padding: 18px;
+      .card-title {
+        font-size: 23px;
       }
 
-      .search-panel {
-        padding-top: 12px;
+      .card-media {
+        min-height: 210px;
       }
 
-      .search-title {
-        margin-bottom: 8px;
-      }
-
-      .slider-card {
-        min-width: min(78vw, 280px);
-        max-width: 280px;
-        min-height: 104px;
+      .floating-accessibility-btn {
+        right: 14px;
+        bottom: 14px;
       }
     }
-
   </style>
 </head>
 <body>
@@ -1287,12 +1184,12 @@
     <div class="ticker-wrap liquid-card">
       <div class="live-pill">
         <span class="live-dot"></span>
-        <span>Live Now</span>
+        <span>LIVE UPDATE</span>
       </div>
       <div class="ticker">
         <div class="ticker-track" id="headlineTicker">
-          <span class="ticker-item">Latest headlines will appear here.</span>
-          <span class="ticker-item">Latest headlines will appear here.</span>
+          <span class="ticker-item">Bangla আপডেট লোড হচ্ছে...</span>
+          <span class="ticker-item">Bangla আপডেট লোড হচ্ছে...</span>
         </div>
       </div>
     </div>
@@ -1313,40 +1210,12 @@
     </span>
   </button>
 
-  <div id="shareModalBackdrop" class="modal-backdrop" onclick="closeShareMenu(event)">
-    <div class="modal-card" onclick="event.stopPropagation()">
-      <div class="share-top">
-        <div>
-          <h3>Share Story</h3>
-          <div class="share-count" id="shareCountText">Shared 0 times</div>
-        </div>
-        <button class="modal-close" onclick="closeShareMenu()">×</button>
-      </div>
-
-      <div class="share-preview" id="sharePreview"></div>
-
-      <p class="share-section-title">Share As</p>
-      <div class="story-mode-row" id="storyModeRow"></div>
-
-      <p class="share-section-title">Quick Share</p>
-      <div class="share-grid" id="shareGrid"></div>
-
-      <div class="share-note" id="shareNote"></div>
-
-      <div class="qr-wrap">
-        <p class="share-section-title">QR Code</p>
-        <img id="qrImage" alt="QR Code" />
-        <div class="qr-help">QR code is generated automatically when you open the share box.</div>
-      </div>
-    </div>
-  </div>
-
   <div id="accessibilityBackdrop" class="modal-backdrop" onclick="closeAccessibilityModal(event)">
     <div class="modal-card" onclick="event.stopPropagation()">
       <div class="share-top">
         <div>
           <h3>Accessibility</h3>
-          <div class="modal-note">Adjust reading and display settings</div>
+          <div class="modal-note">পড়ার অভিজ্ঞতা নিজের মতো করে ঠিক করুন</div>
         </div>
         <button class="modal-close" onclick="closeAccessibilityModal()">×</button>
       </div>
@@ -1363,9 +1232,9 @@
       <div class="access-group">
         <p class="share-section-title">Reader Width</p>
         <div class="tool-row">
-          <button class="tool-btn" id="widthNarrowBtn" onclick="setReaderWidth('720px')">Narrow</button>
-          <button class="tool-btn" id="widthNormalBtn" onclick="setReaderWidth('860px')">Normal</button>
-          <button class="tool-btn" id="widthWideBtn" onclick="setReaderWidth('980px')">Wide</button>
+          <button class="tool-btn" id="widthNarrowBtn" onclick="setReaderWidth('760px')">Narrow</button>
+          <button class="tool-btn" id="widthNormalBtn" onclick="setReaderWidth('980px')">Normal</button>
+          <button class="tool-btn" id="widthWideBtn" onclick="setReaderWidth('1140px')">Wide</button>
         </div>
       </div>
 
@@ -1401,58 +1270,124 @@
     <header class="site-header liquid-card">
       <div class="brand-row">
         <div class="brand-left">
-          <img src="logo.png" alt="TruthOrRumor logo" class="site-logo" onerror="this.style.display='none'">
-          <div class="brand-copy">
-            <div class="brand-title-row">
-              <h1 class="brand-title">TruthOrRumor</h1>
-              <span class="flag-glass" aria-label="Bangladesh flag">
-                <span class="flag-gloss"></span>
-              </span>
-            </div>
-            <div class="tagline">বাংলায় সংবাদ, সত্য, গুজব, ভাইরাল পোস্ট, সামাজিক দাবির বিশ্লেষণ এবং যাচাইকৃত রিপোর্ট পড়ুন।</div>
+          <img src="/logo.png" alt="TruthOrRumor Bangla logo" class="site-logo" onerror="this.style.display='none'">
+          <div>
+            <h1 class="brand-title">
+              <span>TruthOr</span><span class="accent">Rumor</span>
+            </h1>
+            <div class="tagline">Bangla | Bangla খবর, সত্য, গুজব ও যাচাইকৃত তথ্য</div>
           </div>
         </div>
-        <div class="updated">আপডেট: <span id="updatedTime">লোড হচ্ছে...</span></div>
+
+        <div class="updated">Updated: <span id="updatedTime">Loading...</span></div>
+      </div>
+
+      <div class="top-actions">
+        <a class="pill-btn" href="/">English International News</a>
+        <button class="pill-btn primary" id="refreshBtn" type="button">রিফ্রেশ</button>
       </div>
     </header>
 
-    <nav class="nav-row" id="navRow"></nav>
+    <section class="hero">
+      <div class="hero-main liquid-card">
+        <div class="eyebrow">TruthOrRumor Bangla</div>
+
+        <h2 class="hero-title">
+          <span>সত্য আর</span><br />
+          <span class="gold">গুজব আলাদা করুন</span>
+        </h2>
+
+        <p class="hero-copy">
+          Bangla ভাষায় ভাইরাল দাবি, ফ্যাক্ট চেক, গুজব, সত্য খবর এবং যাচাইকৃত তথ্য সহজভাবে পড়ুন।
+          প্রতিটি পোস্টে দ্রুত বোঝা যাবে কোনটা সত্য, কোনটা গুজব, আর কোনটা যাচাই করা প্রয়োজন।
+        </p>
+
+        <div class="hero-meta">
+          <div class="meta-chip" id="totalPosts">মোট পোস্ট: 0</div>
+          <div class="meta-chip" id="latestPostTime">সর্বশেষ আপডেট: --</div>
+        </div>
+      </div>
+
+      <div class="hero-side liquid-card hero-card">
+        <div class="hero-side-top">
+          <img src="/logo.png" alt="TruthOrRumor Bangla logo" class="hero-side-logo" onerror="this.style.display='none'">
+          <div>
+            <h3 class="hero-side-title">TruthOrRumor Bangla</h3>
+            <p class="hero-side-copy">
+              বাংলায় সংবাদ, সত্য, গুজব, ভাইরাল পোস্ট, সামাজিক দাবির বিশ্লেষণ এবং যাচাইকৃত রিপোর্ট পড়ুন।
+            </p>
+          </div>
+        </div>
+
+        <p class="hero-side-copy">
+          সহজ ভাষা, পরিষ্কার উপস্থাপন, দ্রুত পড়া, সার্চ, ফিল্টার, অডিও শুনে পড়া এবং Accessibility সেটিংস দিয়ে আরামদায়ক অভিজ্ঞতা।
+        </p>
+      </div>
+    </section>
 
     <section class="search-panel liquid-card">
-      <div class="search-inner">
-        <div class="search-title">খবর খুঁজুন</div>
-        <div class="search-row">
-          <input id="searchInput" class="search-input" type="text" placeholder="খবর, দেশ, বা বিষয় খুঁজুন..." />
-          <button class="primary-btn" onclick="runSearch()">খুঁজুন</button>
-          <button class="secondary-btn" onclick="toggleFilters()">ফিল্টার</button>
-          <button class="secondary-btn" onclick="togglePageAudio(this)" data-speaking="false">শুনুন</button>
-        </div>
+      <h3 class="search-title">Bangla সংবাদ খুঁজুন</h3>
+
+      <div class="search-row">
+        <input id="searchInput" class="search-input" type="text" placeholder="শিরোনাম, বিষয়, সারাংশ বা কীওয়ার্ড লিখুন" />
+        <button class="primary-btn" onclick="runSearch()">খুঁজুন</button>
+        <button class="secondary-btn" onclick="toggleFilters()">ফিল্টার</button>
+        <button class="secondary-btn" id="audioBtn" onclick="togglePageAudio(this)" data-speaking="false">শুনুন</button>
       </div>
     </section>
 
     <section id="filterPanel" class="filter-panel liquid-card">
-      <p class="filter-title">দেশ ফিল্টার</p>
-      <div class="chip-row" id="countryFilters"></div>
-
-      <p class="filter-title">বিষয় ফিল্টার</p>
-      <div class="chip-row" id="topicFilters"></div>
+      <p class="filter-title">ক্যাটাগরি ফিল্টার</p>
+      <div class="chip-row" id="categoryFilters"></div>
 
       <p class="filter-title">সত্য / গুজব ফিল্টার</p>
-      <div class="chip-row" id="typeFilters"></div>
+      <div class="chip-row" id="verdictFilters"></div>
     </section>
 
-    <main id="app"></main>
+    <section class="section-card liquid-card">
+      <div class="results-row">
+        <div>
+          <h3 class="section-title">শীর্ষ Bangla পোস্ট</h3>
+          <p class="section-subtitle">সাম্প্রতিক, আলোচিত এবং যাচাইকৃত Bangla পোস্টগুলো এখানে দেখা যাবে।</p>
+        </div>
+        <div class="results-text" id="resultsText">0 results</div>
+      </div>
+
+      <div class="status-box" id="statusBox"></div>
+
+      <div class="slider" id="topStoriesSlider"></div>
+    </section>
+
+    <section class="section-card liquid-card">
+      <div class="results-row">
+        <div>
+          <h3 class="section-title">সর্বশেষ Bangla খবর ও ফ্যাক্ট চেক</h3>
+          <p class="section-subtitle">যাচাইকৃত তথ্য, গুজব বিশ্লেষণ এবং ভাইরাল দাবির আপডেট এক জায়গায়।</p>
+        </div>
+
+        <select id="sortSelect" class="search-select" style="max-width:220px;">
+          <option value="newest">নতুন আগে</option>
+          <option value="oldest">পুরোনো আগে</option>
+          <option value="truth">শুধু সত্য আগে</option>
+          <option value="rumor">শুধু গুজব আগে</option>
+        </select>
+      </div>
+
+      <main id="app" class="grid"></main>
+    </section>
 
     <footer class="footer">
       <div class="footer-card">
-        <div class="footer-copy">
-          <span class="footer-copy-text">TruthOrRumor Bangla | Bangla খবর, সত্য, গুজব এবং যাচাইকৃত তথ্যে</span>
-          <span class="footer-social">
+        <div class="footer-text">
+          <span>TruthOrRumor Bangla | Bangla খবর, সত্য, গুজব এবং যাচাইকৃত তথ্যে</span>
+
+          <span class="footer-social-inline">
             <a href="https://www.facebook.com/truthorrumor.news" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12Z"/>
               </svg>
             </a>
+
             <a href="https://www.instagram.com/truthorrumor.news" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
                 <rect x="3" y="3" width="18" height="18" rx="5"></rect>
@@ -1460,11 +1395,13 @@
                 <circle cx="17.3" cy="6.7" r="1"></circle>
               </svg>
             </a>
+
             <a href="https://x.com/truthorrumor.news" target="_blank" rel="noopener noreferrer" aria-label="X">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18.9 2H22l-6.8 7.8L23 22h-6.1l-4.8-6.3L6.6 22H3.5l7.2-8.3L1 2h6.2l4.3 5.7L18.9 2Zm-1.1 18h1.7L6.3 3.9H4.5L17.8 20Z"/>
               </svg>
             </a>
+
             <a href="https://t.me/truthorrumor" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M21.5 4.6c.3-1.2-.4-1.7-1.5-1.3L3.4 9.7c-1.1.4-1.1 1 .2 1.4l4.3 1.3 10-6.3c.5-.3 1-.1.6.2l-8.1 7.3-.3 4.5c.5 0 .7-.2 1-.5l2.1-2 4.4 3.2c.8.4 1.4.2 1.6-.8l2.3-13.4Z"/>
@@ -1483,66 +1420,29 @@
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const countryOptions = [
-      { value: "All", label: "সব দেশ" },
-      { value: "World", label: "বিশ্ব" },
-      { value: "Bangladesh", label: "বাংলাদেশ" },
-      { value: "India", label: "ভারত" },
-      { value: "China", label: "চীন" },
-      { value: "USA", label: "যুক্তরাষ্ট্র" },
-      { value: "Russia", label: "রাশিয়া" },
-      { value: "Iran", label: "ইরান" },
-      { value: "Israel", label: "ইসরায়েল" },
-      { value: "Middle East", label: "মধ্যপ্রাচ্য" },
-      { value: "Canada", label: "কানাডা" }
-    ];
-
-    const topicOptions = [
-      { value: "All", label: "সব বিষয়" },
-      { value: "World News", label: "বিশ্ব" },
-      { value: "Politics", label: "রাজনীতি" },
-      { value: "Business", label: "ব্যবসা" },
-      { value: "Finance", label: "অর্থনীতি" },
-      { value: "Technology", label: "প্রযুক্তি" },
-      { value: "Sports", label: "খেলা" },
-      { value: "Entertainment", label: "বিনোদন" }
-    ];
-
-    const typeOptions = [
+    const verdictOptions = [
       { value: "all", label: "সব" },
-      { value: "real", label: "সত্য" },
+      { value: "truth", label: "সত্য" },
       { value: "rumor", label: "গুজব" }
     ];
-
-    let articles = [];
-    let currentCountry = "All";
-    let currentTopic = "All";
-    let currentType = "all";
-    let currentSearch = "";
-    let filtersOpen = false;
-
-    let currentSpeech = null;
-    let currentSpeechButton = null;
-    let speechStartTimer = null;
-    let toastTimer = null;
-
-    let savedArticleIds = new Set();
-    let activeShareArticleId = null;
-    let shareMode = "full";
 
     const uiPrefs = {
       theme: "dark",
       fontSize: 17,
       lineHeight: 1.9,
-      width: "860px",
+      width: "980px",
       readerMode: false
     };
 
-    const userProfile = {
-      topicScores: {},
-      countryScores: {},
-      articleScores: {}
-    };
+    let articles = [];
+    let filteredArticles = [];
+    let currentCategory = "all";
+    let currentVerdict = "all";
+    let currentSearch = "";
+    let filtersOpen = false;
+    let toastTimer = null;
+    let currentSpeech = null;
+    let speechStartTimer = null;
 
     function safeJsonParse(value, fallback) {
       try {
@@ -1571,7 +1471,7 @@
 
     function formatDate(value) {
       const date = value ? new Date(value) : new Date();
-      if (Number.isNaN(date.getTime())) return "তারিখ নেই";
+      if (Number.isNaN(date.getTime())) return "তারিখ পাওয়া যায়নি";
       return new Intl.DateTimeFormat("bn-BD", {
         dateStyle: "medium",
         timeStyle: "short"
@@ -1580,22 +1480,46 @@
 
     function updateTime() {
       const target = document.getElementById("updatedTime");
-      if (target) {
-        target.textContent = new Intl.DateTimeFormat("bn-BD", {
-          dateStyle: "medium",
-          timeStyle: "short"
-        }).format(new Date());
-      }
+      if (target) target.textContent = formatDate(new Date());
+    }
+
+    function getCategory(article) {
+      return (article.category || "সাধারণ").trim();
+    }
+
+    function getVerdictValue(article) {
+      const raw = String(article.verdict || "").trim().toLowerCase();
+      if (raw === "rumor") return "rumor";
+      return "truth";
+    }
+
+    function getVerdictLabel(article) {
+      return getVerdictValue(article) === "rumor" ? "গুজব" : "সত্য";
+    }
+
+    function getExcerpt(article) {
+      const excerpt = article.excerpt || article.summary || "";
+      if (excerpt && excerpt.trim()) return excerpt.trim();
+
+      const content = article.content || "";
+      if (!content.trim()) return "এই পোস্টের বিস্তারিত জানতে ভেতরে ক্লিক করুন।";
+
+      const clean = content.replace(/\s+/g, " ").trim();
+      return clean.length > 190 ? clean.slice(0, 187) + "..." : clean;
+    }
+
+    function getImage(article) {
+      return article.image_url || article.image || "/logo.png";
     }
 
     function loadPrefs() {
-      const saved = safeJsonParse(localStorage.getItem("tor_reader_prefs") || "null", null);
+      const saved = safeJsonParse(localStorage.getItem("tor_bd_reader_prefs") || "null", null);
       if (saved) Object.assign(uiPrefs, saved);
       applyPrefs();
     }
 
     function savePrefs() {
-      localStorage.setItem("tor_reader_prefs", JSON.stringify(uiPrefs));
+      localStorage.setItem("tor_bd_reader_prefs", JSON.stringify(uiPrefs));
     }
 
     function applyPrefs() {
@@ -1633,16 +1557,16 @@
       if (themeBtn) themeBtn.classList.add("active");
 
       const widthBtn =
-        uiPrefs.width === "720px" ? "widthNarrowBtn" :
-        uiPrefs.width === "980px" ? "widthWideBtn" :
+        uiPrefs.width === "760px" ? "widthNarrowBtn" :
+        uiPrefs.width === "1140px" ? "widthWideBtn" :
         "widthNormalBtn";
 
       const widthEl = document.getElementById(widthBtn);
       if (widthEl) widthEl.classList.add("active");
 
       if (uiPrefs.readerMode) {
-        const btn = document.getElementById("readerModeBtn");
-        if (btn) btn.classList.add("active");
+        const readerBtn = document.getElementById("readerModeBtn");
+        if (readerBtn) readerBtn.classList.add("active");
       }
     }
 
@@ -1680,7 +1604,7 @@
       uiPrefs.theme = "dark";
       uiPrefs.fontSize = 17;
       uiPrefs.lineHeight = 1.9;
-      uiPrefs.width = "860px";
+      uiPrefs.width = "980px";
       uiPrefs.readerMode = false;
       savePrefs();
       applyPrefs();
@@ -1696,806 +1620,318 @@
       document.getElementById("accessibilityBackdrop").classList.remove("show");
     }
 
-    function loadUserProfile() {
-      const saved = safeJsonParse(localStorage.getItem("tor_user_profile") || "null", null);
-      if (!saved) return;
-      userProfile.topicScores = saved.topicScores || {};
-      userProfile.countryScores = saved.countryScores || {};
-      userProfile.articleScores = saved.articleScores || {};
+    function showStatus(message, isError = false) {
+      const box = document.getElementById("statusBox");
+      box.textContent = message;
+      box.classList.add("show");
+      box.style.borderColor = isError ? "rgba(239,68,68,0.35)" : "rgba(255,255,255,0.12)";
+      box.style.color = isError ? "#fecaca" : "var(--muted)";
+      box.style.background = isError ? "rgba(127,29,29,0.28)" : "rgba(255,255,255,0.05)";
     }
 
-    function saveUserProfile() {
-      localStorage.setItem("tor_user_profile", JSON.stringify(userProfile));
+    function hideStatus() {
+      const box = document.getElementById("statusBox");
+      box.classList.remove("show");
+      box.textContent = "";
     }
 
-    function learnFromArticle(article, action = "view") {
-      if (!article) return;
+    function renderCategoryFilters() {
+      const container = document.getElementById("categoryFilters");
+      const categories = ["all", ...new Set(articles.map(getCategory).filter(Boolean))];
 
-      const weights = { view: 3, read: 4, save: 5, share: 4, audio: 3 };
-      const amount = weights[action] || 1;
-
-      userProfile.topicScores[article.topic] = (userProfile.topicScores[article.topic] || 0) + amount;
-      userProfile.countryScores[article.country] = (userProfile.countryScores[article.country] || 0) + amount;
-      userProfile.articleScores[article.id] = (userProfile.articleScores[article.id] || 0) + amount;
-      saveUserProfile();
+      container.innerHTML = categories.map(cat => {
+        const label = cat === "all" ? "সব" : escapeHtml(cat);
+        const active = currentCategory === cat ? "active" : "";
+        return `<button class="chip ${active}" type="button" data-category="${escapeHtml(cat)}">${label}</button>`;
+      }).join("");
     }
 
-    function scoreArticleForUser(article) {
-      return (
-        (userProfile.topicScores[article.topic] || 0) * 3 +
-        (userProfile.countryScores[article.country] || 0) * 2 +
-        (userProfile.articleScores[article.id] || 0)
-      );
+    function renderVerdictFilters() {
+      const container = document.getElementById("verdictFilters");
+      container.innerHTML = verdictOptions.map(item => {
+        const active = currentVerdict === item.value ? "active" : "";
+        return `<button class="chip ${active}" type="button" data-verdict="${item.value}">${item.label}</button>`;
+      }).join("");
     }
 
-    function getPersonalizedArticles() {
-      return [...articles]
-        .filter(item => item.page === "today")
-        .sort((a, b) => scoreArticleForUser(b) - scoreArticleForUser(a))
-        .slice(0, 6);
-    }
+    function buildTicker(list) {
+      const ticker = document.getElementById("headlineTicker");
 
-    function loadSavedCache() {
-      return safeJsonParse(localStorage.getItem("tor_saved_articles") || "{}", {});
-    }
-
-    function saveSavedCache(cache) {
-      localStorage.setItem("tor_saved_articles", JSON.stringify(cache));
-      savedArticleIds = new Set(Object.keys(cache));
-    }
-
-    function initSavedArticles() {
-      const cache = loadSavedCache();
-      savedArticleIds = new Set(Object.keys(cache));
-    }
-
-    function loadShareCounts() {
-      return safeJsonParse(localStorage.getItem("tor_share_counts") || "{}", {});
-    }
-
-    function getShareCount(articleId) {
-      const counts = loadShareCounts();
-      return counts[String(articleId)] || 0;
-    }
-
-    function incrementShareCount(articleId) {
-      const counts = loadShareCounts();
-      const key = String(articleId);
-      counts[key] = (counts[key] || 0) + 1;
-      localStorage.setItem("tor_share_counts", JSON.stringify(counts));
-      updateShareCountText(key);
-    }
-
-    function updateShareCountText(articleId) {
-      const el = document.getElementById("shareCountText");
-      if (el) el.textContent = `Shared ${getShareCount(articleId)} times`;
-    }
-
-    function getCountryFlagUrl(country) {
-      const map = {
-        Bangladesh: "https://flagcdn.com/w40/bd.png",
-        India: "https://flagcdn.com/w40/in.png",
-        China: "https://flagcdn.com/w40/cn.png",
-        USA: "https://flagcdn.com/w40/us.png",
-        Russia: "https://flagcdn.com/w40/ru.png",
-        Iran: "https://flagcdn.com/w40/ir.png",
-        Israel: "https://flagcdn.com/w40/il.png",
-        Canada: "https://flagcdn.com/w40/ca.png"
-      };
-      return map[country] || "";
-    }
-
-    function getCountryIcon(country) {
-      const url = getCountryFlagUrl(country);
-      if (url) {
-        return `<img src="${url}" alt="${escapeHtml(country)} flag" class="chip-flag">`;
-      }
-      return `<span class="chip-svg"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a15 15 0 0 1 0 18"></path><path d="M12 3a15 15 0 0 0 0 18"></path></svg></span>`;
-    }
-
-    function getTopicIcon() {
-      return `<span class="chip-svg"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg></span>`;
-    }
-
-    function getTypeIcon(type) {
-      return `<span class="chip-svg">${getVerifiedIcon(type === "real" ? "#22c55e" : "#ef4444")}</span>`;
-    }
-
-    function getVerifiedIcon(color) {
-      return `
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="${color}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 3l6 2.5v5c0 4.3-2.6 8.1-6 9.5-3.4-1.4-6-5.2-6-9.5v-5L12 3z"></path>
-          <path d="M9.3 11.8l1.8 1.8 3.7-3.8"></path>
-        </svg>
-      `;
-    }
-
-    function renderStatusBadge(type) {
-      const isTruth = type === "real";
-      const badgeClass = isTruth ? "truth" : "rumor";
-      const label = isTruth ? "সত্য যাচাই" : "গুজব সতর্কতা";
-      const color = isTruth ? "#22c55e" : "#ef4444";
-      return `<span class="status-badge ${badgeClass}">${getVerifiedIcon(color)} <span>${label}</span></span>`;
-    }
-
-    function resetSpeechButton(button) {
-      if (!button) return;
-      button.textContent = "Tap To Listen";
-      button.dataset.speaking = "false";
-    }
-
-    function resetAllSpeechButtons() {
-      document.querySelectorAll('[data-speaking="true"]').forEach(resetSpeechButton);
-    }
-
-    function stopAllSpeech() {
-      if (speechStartTimer) clearTimeout(speechStartTimer);
-      speechStartTimer = null;
-      try {
-        window.speechSynthesis.cancel();
-      } catch {}
-      resetAllSpeechButtons();
-      currentSpeech = null;
-      currentSpeechButton = null;
-    }
-
-    function toggleSpeech(text, button) {
-      if (!text || !text.trim()) return;
-
-      const isSame = currentSpeechButton === button && button && button.dataset.speaking === "true";
-      if (isSame) {
-        stopAllSpeech();
+      if (!list.length) {
+        ticker.innerHTML = `
+          <span class="ticker-item">এখনও কোনো Bangla পোস্ট নেই</span>
+          <span class="ticker-item">এখনও কোনো Bangla পোস্ট নেই</span>
+        `;
         return;
       }
 
-      stopAllSpeech();
-
-      speechStartTimer = setTimeout(() => {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = "en-US";
-        currentSpeech = utterance;
-        currentSpeechButton = button;
-
-        if (button) {
-          button.textContent = "Tap To Stop Listening";
-          button.dataset.speaking = "true";
-        }
-
-        utterance.onend = () => {
-          if (currentSpeech === utterance) stopAllSpeech();
-        };
-
-        utterance.onerror = () => {
-          if (currentSpeech === utterance) stopAllSpeech();
-        };
-
-        try {
-          window.speechSynthesis.speak(utterance);
-        } catch {
-          stopAllSpeech();
-        }
-
-        speechStartTimer = null;
-      }, 60);
-    }
-
-    function togglePageAudio(button) {
-      const appText = document.getElementById("app")?.innerText || "";
-      toggleSpeech(appText, button);
-    }
-
-    function toggleArticleAudio(id, button) {
-      const article = getArticleById(id);
-      if (!article) return;
-      learnFromArticle(article, "audio");
-      toggleSpeech(`${article.text.title}. ${article.text.summary}. ${article.text.content}`, button);
-    }
-
-    function getArticleKey(article) {
-      return String(article.slug || article.id || "");
-    }
-
-    function getArticleById(id) {
-      const key = String(id);
-      return articles.find(item => getArticleKey(item) === key) || getSavedArticles().find(item => getArticleKey(item) === key) || null;
-    }
-
-    function getSavedArticles() {
-      return Object.values(loadSavedCache()).map((item, index) => normalizeArticle(item, index)).filter(Boolean);
-    }
-
-    function normalizeArticle(item, index) {
-      const createdAt = item?.created_at || item?.published_at || new Date().toISOString();
-      const updatedAt = item?.updated_at || createdAt;
-      const rawTitle = item?.title || "";
-      const rawSummary = item?.excerpt || item?.summary || "";
-      const rawContent = item?.content || rawSummary || "";
-      const country = typeof item?.country === "string" && item.country.trim() ? item.country.trim() : "World";
-      const topic = typeof item?.category === "string" && item.category.trim() ? item.category.trim() : "World News";
-      const type = String(item?.verdict || "truth").toLowerCase() === "rumor" ? "rumor" : "real";
-      const slug = String(item?.slug || item?.id || index + 1);
-      const ageInDays = Math.max(0, (Date.now() - new Date(createdAt).getTime()) / 86400000);
-      const page = ageInDays > 7 ? "old" : "today";
-
-      if (!rawTitle) return null;
-
-      return {
-        id: slug,
-        slug,
-        country,
-        topic,
-        type,
-        page,
-        popular: false,
-        publishedAt: createdAt,
-        updatedAt,
-        sourceUrl: item?.source_url || "",
-        imageUrl: item?.image_url || "",
-        text: {
-          title: rawTitle,
-          summary: rawSummary,
-          content: rawContent
-        }
-      };
-    }
-
-    function setNewsData(data) {
-      const normalized = Array.isArray(data)
-        ? data.map((item, index) => normalizeArticle(item, index)).filter(Boolean)
-        : [];
-
-      normalized.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-      normalized.forEach((article, index) => {
-        article.popular = index < 6;
+      const items = list.slice(0, 12).map(article => {
+        return `<span class="ticker-item">${escapeHtml(article.title || "শিরোনাম পাওয়া যায়নি")}</span>`;
       });
 
-      articles = normalized;
-      renderTicker();
-      renderRoute();
+      ticker.innerHTML = items.join("") + items.join("");
     }
 
-    function renderTicker() {
-      const latest = articles
-        .filter(item => item.page === "today")
-        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-        .slice(0, 8);
+    function renderTopStories(list) {
+      const slider = document.getElementById("topStoriesSlider");
 
-      const ticker = document.getElementById("headlineTicker");
-      if (!ticker) return;
-
-      if (!latest.length) {
-        ticker.innerHTML = `<span class="ticker-item">সর্বশেষ শিরোনাম এখানে দেখা যাবে।</span><span class="ticker-item">সর্বশেষ শিরোনাম এখানে দেখা যাবে।</span>`;
+      if (!list.length) {
+        slider.innerHTML = `
+          <div class="empty-state liquid-card" style="width:100%;">
+            এখনও কোনো Bangla পোস্ট পাওয়া যায়নি।
+          </div>
+        `;
         return;
       }
 
-      const row = latest.map(item => `<span class="ticker-item">${escapeHtml(item.text.title)}</span>`).join("");
-      ticker.innerHTML = row + row;
+      const items = list.slice(0, 6).map(article => {
+        const title = escapeHtml(article.title || "শিরোনাম পাওয়া যায়নি");
+        const excerpt = escapeHtml(getExcerpt(article));
+        const category = escapeHtml(getCategory(article));
+        const verdictClass = getVerdictValue(article);
+        const verdict = getVerdictLabel(article);
+        const dateText = escapeHtml(formatDate(article.updated_at || article.created_at));
+        const slug = encodeURIComponent(article.slug || "");
+
+        return `
+          <article class="slider-card liquid-card" onclick="openArticle('${slug}')">
+            <div class="slider-badge-row">
+              <span class="mini-badge ${verdictClass}">${escapeHtml(verdict)}</span>
+              <span class="mini-badge topic">${category}</span>
+            </div>
+            <h4 class="slider-title">${title}</h4>
+            <p class="slider-text">${excerpt}</p>
+            <div class="slider-meta">${dateText}</div>
+          </article>
+        `;
+      }).join("");
+
+      slider.innerHTML = items;
     }
 
-    function renderNav() {
-      const hash = location.hash || "#home";
-      const nav = [
-        { value: "#home", label: "হোম" },
-        { value: "#today", label: "আজকের খবর" },
-        { value: "#old", label: "পুরনো খবর" },
-        { value: "#rumors", label: "গুজব" },
-        { value: "#real", label: "সত্য" },
-        { value: "#popular", label: "জনপ্রিয়" },
-        { value: "#saved", label: "সেভ করা" }
-      ];
+    function renderLoading() {
+      const app = document.getElementById("app");
+      app.innerHTML = "";
 
-      document.getElementById("navRow").innerHTML = nav.map(item => {
-        return `<button class="nav-btn ${hash === item.value ? "active" : ""}" onclick="goTo('${item.value}')">${item.label}</button>`;
+      for (let i = 0; i < 5; i++) {
+        const article = document.createElement("article");
+        article.className = "card liquid-card skeleton";
+        article.innerHTML = `
+          <div class="card-media"></div>
+          <div class="card-body">
+            <div style="height:12px;width:90px;border-radius:999px;background:rgba(255,255,255,0.08);"></div>
+            <div style="height:24px;width:88%;border-radius:12px;background:rgba(255,255,255,0.08);"></div>
+            <div style="height:14px;width:100%;border-radius:12px;background:rgba(255,255,255,0.08);"></div>
+            <div style="height:14px;width:92%;border-radius:12px;background:rgba(255,255,255,0.08);"></div>
+            <div style="height:14px;width:70%;border-radius:12px;background:rgba(255,255,255,0.08);"></div>
+          </div>
+        `;
+        app.appendChild(article);
+      }
+    }
+
+    function renderArticles(list) {
+      const app = document.getElementById("app");
+
+      if (!list.length) {
+        app.innerHTML = `
+          <div class="empty-state liquid-card">
+            কোনো Bangla পোস্ট পাওয়া যায়নি। অন্য ফিল্টার ব্যবহার করুন অথবা পরে আবার দেখুন।
+          </div>
+        `;
+        return;
+      }
+
+      app.innerHTML = list.map(article => {
+        const title = escapeHtml(article.title || "শিরোনাম পাওয়া যায়নি");
+        const excerpt = escapeHtml(getExcerpt(article));
+        const category = escapeHtml(getCategory(article));
+        const verdictValue = getVerdictValue(article);
+        const verdictLabel = getVerdictLabel(article);
+        const dateText = escapeHtml(formatDate(article.updated_at || article.created_at));
+        const image = escapeHtml(getImage(article));
+        const slug = encodeURIComponent(article.slug || "");
+
+        return `
+          <article class="card liquid-card" onclick="openArticle('${slug}')">
+            <div class="card-media">
+              <img src="${image}" alt="${title}" loading="lazy" onerror="this.onerror=null;this.src='/logo.png';" />
+              <div class="card-badges">
+                <span class="badge ${verdictValue}">${escapeHtml(verdictLabel)}</span>
+                <span class="badge">${category}</span>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="card-category">${category}</div>
+              <h3 class="card-title">${title}</h3>
+              <p class="card-excerpt">${excerpt}</p>
+
+              <div class="card-meta">
+                <span>${dateText}</span>
+                <span class="read-link">আরও পড়ুন</span>
+              </div>
+            </div>
+          </article>
+        `;
       }).join("");
     }
 
-    function renderCountryFilters() {
-      document.getElementById("countryFilters").innerHTML = countryOptions.map(item => {
-        return `<button class="chip ${currentCountry === item.value ? "active" : ""}" onclick="currentCountry='${item.value}'; renderCountryFilters(); goTo('#results');">${getCountryIcon(item.value)} ${item.label}</button>`;
-      }).join("");
+    function updateSummaryInfo() {
+      document.getElementById("totalPosts").textContent = "মোট পোস্ট: " + articles.length;
+
+      const latest = articles[0];
+      document.getElementById("latestPostTime").textContent = latest
+        ? "সর্বশেষ আপডেট: " + formatDate(latest.updated_at || latest.created_at)
+        : "সর্বশেষ আপডেট: --";
     }
 
-    function renderTopicFilters() {
-      document.getElementById("topicFilters").innerHTML = topicOptions.map(item => {
-        return `<button class="chip ${currentTopic === item.value ? "active" : ""}" onclick="currentTopic='${item.value}'; renderTopicFilters(); goTo('#results');">${getTopicIcon()} ${item.label}</button>`;
-      }).join("");
+    function getSortedArticles(list) {
+      const sortBy = document.getElementById("sortSelect").value;
+      const items = [...list];
+
+      if (sortBy === "oldest") {
+        return items.sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0));
+      }
+
+      if (sortBy === "truth") {
+        return items.sort((a, b) => {
+          return (getVerdictValue(a) === "truth" ? 0 : 1) - (getVerdictValue(b) === "truth" ? 0 : 1);
+        });
+      }
+
+      if (sortBy === "rumor") {
+        return items.sort((a, b) => {
+          return (getVerdictValue(a) === "rumor" ? 0 : 1) - (getVerdictValue(b) === "rumor" ? 0 : 1);
+        });
+      }
+
+      return items.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
     }
 
-    function renderTypeFilters() {
-      document.getElementById("typeFilters").innerHTML =
-        typeOptions.map(item => {
-          return `<button class="chip ${currentType === item.value ? "active" : ""}" onclick="currentType='${item.value}'; renderTypeFilters(); goTo('#results');">${getTypeIcon(item.value)} ${item.label}</button>`;
-        }).join("") +
-        `<button class="chip" onclick="clearFilters()">ফিল্টার সরান</button>`;
+    function applyFilters() {
+      const query = currentSearch.trim().toLowerCase();
+
+      let list = articles.filter(article => {
+        const category = getCategory(article);
+        const verdict = getVerdictValue(article);
+
+        const haystack = [
+          article.title || "",
+          article.excerpt || "",
+          article.summary || "",
+          article.content || "",
+          article.category || ""
+        ].join(" ").toLowerCase();
+
+        const searchMatch = !query || haystack.includes(query);
+        const categoryMatch = currentCategory === "all" || category === currentCategory;
+        const verdictMatch = currentVerdict === "all" || verdict === currentVerdict;
+
+        return searchMatch && categoryMatch && verdictMatch;
+      });
+
+      list = getSortedArticles(list);
+      filteredArticles = list;
+
+      document.getElementById("resultsText").textContent = list.length + " results";
+      renderTopStories(list.length ? list : articles);
+      renderArticles(list);
+      renderCategoryFilters();
+      renderVerdictFilters();
+    }
+
+    function runSearch() {
+      currentSearch = document.getElementById("searchInput").value || "";
+      applyFilters();
+      showToast("সার্চ সম্পন্ন");
     }
 
     function toggleFilters() {
       filtersOpen = !filtersOpen;
-      document.getElementById("filterPanel").classList.toggle("show", filtersOpen);
+      const panel = document.getElementById("filterPanel");
+      panel.classList.toggle("show", filtersOpen);
     }
 
-    function clearFilters() {
-      currentCountry = "All";
-      currentTopic = "All";
-      currentType = "all";
-      currentSearch = "";
-      document.getElementById("searchInput").value = "";
-      renderCountryFilters();
-      renderTopicFilters();
-      renderTypeFilters();
-      goTo("#home");
+    function stopSpeech() {
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+      clearTimeout(speechStartTimer);
+      currentSpeech = null;
+
+      const button = document.getElementById("audioBtn");
+      if (button) {
+        button.dataset.speaking = "false";
+        button.textContent = "শুনুন";
+      }
     }
 
-    function runSearch() {
-      currentSearch = document.getElementById("searchInput").value.trim().toLowerCase();
-      goTo("#results");
-    }
-
-    function goTo(hash) {
-      const url = new URL(window.location.href);
-      url.hash = hash;
-      history.replaceState({}, "", url.toString());
-      renderRoute();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function matchesFilters(article) {
-      const text = `${article.text.title} ${article.text.summary} ${article.text.content} ${article.country} ${article.topic}`.toLowerCase();
-      const countryOk = currentCountry === "All" || article.country === currentCountry || (currentCountry === "World" && article.topic === "World News");
-      const topicOk = currentTopic === "All" || article.topic === currentTopic;
-      const typeOk = currentType === "all" || article.type === currentType;
-      const searchOk = currentSearch === "" || text.includes(currentSearch);
-      return countryOk && topicOk && typeOk && searchOk;
-    }
-
-    function getArticlesForPage(page) {
-      if (page === "saved") return getSavedArticles();
-
-      return articles.filter(article => {
-        if (!matchesFilters(article)) return false;
-        if (page === "today") return article.page === "today";
-        if (page === "old") return article.page === "old";
-        if (page === "rumors") return article.type === "rumor";
-        if (page === "real") return article.type === "real";
-        if (page === "popular") return article.popular === true;
-        return true;
-      });
-    }
-
-    function renderNewsPhoto(article, className = "card-photo") {
-      if (className === "slider-photo") return "";
-
-      const imageUrl = article.imageUrl || "";
-      if (!imageUrl) return "";
-
-      const wrapClass = "card-photo-wrap";
-      return `<div class="photo-wrap ${wrapClass}"><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(article.text.title)}" class="${className}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.style.display='none'"></div>`;
-    }
-
-    function renderMetaLine(article) {
-      return `${escapeHtml(article.country)} • ${escapeHtml(article.topic)} • ${article.page === "old" ? "পুরনো খবর" : "আজ"} • Published ${formatDate(article.publishedAt)} • Updated ${formatDate(article.updatedAt)}`;
-    }
-
-    function renderSourceButton(article) {
-      return article.sourceUrl
-        ? `<a class="tiny-btn" href="${escapeHtml(article.sourceUrl)}" target="_blank" rel="noopener noreferrer">উৎস</a>`
-        : "";
-    }
-
-    function renderSaveButton(article) {
-      return `<button class="tiny-btn" onclick='toggleSaveArticle(${JSON.stringify(getArticleKey(article))})'>${savedArticleIds.has(getArticleKey(article)) ? "সেভ করা" : "সেভ"}</button>`;
-    }
-
-    function renderShareButton(article) {
-      return `<button class="share-btn" onclick='openShareMenu(${JSON.stringify(getArticleKey(article))})'>শেয়ার</button>`;
-    }
-
-    function renderCard(article) {
-      return `<article class="card liquid-card">
-        ${renderNewsPhoto(article, "card-photo")}
-        ${renderStatusBadge(article.type)}
-        <h4>${escapeHtml(article.text.title)}</h4>
-        <p>${escapeHtml(article.text.summary)}</p>
-        <div class="meta">${renderMetaLine(article)}</div>
-        <div class="share-count">শেয়ার হয়েছে ${getShareCount(getArticleKey(article))} বার</div>
-        <div class="card-actions">
-          <button class="tiny-btn" onclick='openArticle(${JSON.stringify(article.slug)})'>বিস্তারিত</button>
-          <button class="tiny-btn" onclick='toggleArticleAudio(${JSON.stringify(getArticleKey(article))}, this)' data-speaking="false">শুনুন</button>
-          ${renderShareButton(article)}
-          ${renderSaveButton(article)}
-          ${renderSourceButton(article)}
-        </div>
-      </article>`;
-    }
-
-    function renderGrid(list) {
-      if (!list.length) return `<div class="empty-state liquid-card">এখনও কোনো পোস্ট নেই।</div>`;
-      return `<div class="grid">${list.map(renderCard).join("")}</div>`;
-    }
-
-    function renderSliderCard(article) {
-      return `<article class="slider-card liquid-card" onclick='openArticle(${JSON.stringify(article.slug)})' role="button" tabindex="0" aria-label="${escapeHtml(article.text.title)}">
-        <h4>${escapeHtml(article.text.title)}</h4>
-      </article>`;
-    }
-
-    function renderNewsSlider(list) {
-      if (!list.length) {
-        return `<section class="slider-section"><div class="slider-head"><h3>শীর্ষ খবর</h3><span>সর্বশেষ শিরোনাম</span></div><div class="empty-state liquid-card">এখনও স্লাইডার খবর নেই।</div></section>`;
+    function buildSpeechText() {
+      if (!filteredArticles.length) {
+        return "এখনও কোনো Bangla পোস্ট পাওয়া যায়নি।";
       }
 
-      return `<section class="slider-section">
-        <div class="slider-head">
-          <h3>Top Stories</h3>
-          <div class="slider-nav">
-            <button onclick="moveSlider('newsSlider', -1)">‹</button>
-            <button onclick="moveSlider('newsSlider', 1)">›</button>
-          </div>
-        </div>
-        <div class="slider-track" id="newsSlider">${list.map(renderSliderCard).join("")}</div>
-      </section>`;
+      const intro = "TruthOrRumor Bangla থেকে নির্বাচিত পোস্টগুলো শোনানো হচ্ছে।";
+      const stories = filteredArticles.slice(0, 8).map((article, index) => {
+        return `${index + 1}. ${article.title || ""}. ${getExcerpt(article)}`;
+      }).join(" ");
+
+      return intro + " " + stories;
     }
 
-    function moveSlider(id, direction) {
-      const slider = document.getElementById(id);
-      if (!slider) return;
-      slider.scrollBy({ left: direction * slider.clientWidth * 0.9, behavior: "smooth" });
-    }
+    function togglePageAudio(button) {
+      if (!("speechSynthesis" in window)) {
+        showToast("এই ডিভাইসে অডিও সমর্থন নেই");
+        return;
+      }
 
-    function startAutoSlider() {
-      const slider = document.getElementById("newsSlider");
-      if (!slider) return;
+      if (button.dataset.speaking === "true") {
+        stopSpeech();
+        showToast("অডিও বন্ধ হয়েছে");
+        return;
+      }
 
-      clearInterval(window.newsSliderTimer);
-      window.newsSliderTimer = setInterval(() => {
-        const maxScroll = slider.scrollWidth - slider.clientWidth;
-        const next = slider.scrollLeft + slider.clientWidth * 0.9;
+      stopSpeech();
 
-        if (next >= maxScroll - 5) {
-          slider.scrollTo({ left: 0, behavior: "smooth" });
-        } else {
-          slider.scrollBy({ left: slider.clientWidth * 0.9, behavior: "smooth" });
-        }
-      }, 5000);
-    }
+      const text = buildSpeechText();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "bn-BD";
+      utterance.rate = 0.95;
+      utterance.pitch = 1;
 
-    function renderHome() {
-      const latest = getArticlesForPage("today").sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-      const personalized = getPersonalizedArticles();
-      const popular = getArticlesForPage("popular").slice(0, 3);
-
-      setTimeout(startAutoSlider, 120);
-
-      return `
-        <section class="hero liquid-card">
-          <div class="hero-inner">
-            <div class="eyebrow">সত্য নাকি গুজব?</div>
-            <h2>সত্য জানুন। গুজব ছেঁকে নিন।</h2>
-            <p>বাংলায় সংবাদ, সত্য, গুজব, ভাইরাল পোস্ট, সামাজিক দাবির বিশ্লেষণ এবং যাচাইকৃত রিপোর্ট পড়ুন।</p>
-            <div class="hero-actions">
-              <button class="primary-btn" onclick="goTo('#today')">খবর দেখুন</button>
-              <button class="secondary-btn" onclick="togglePageAudio(this)" data-speaking="false">শুনুন</button>
-            </div>
-          </div>
-        </section>
-
-        ${renderNewsSlider(latest.slice(0, 6))}
-
-        <section style="margin-bottom:22px;">
-          <div class="section-head">
-            <h3>আপনার জন্য</h3>
-            <span>আপনার পড়ার পছন্দ অনুযায়ী</span>
-          </div>
-          ${renderGrid(personalized)}
-        </section>
-
-        <section style="margin-bottom:22px;">
-          <div class="section-head">
-            <h3>জনপ্রিয়</h3>
-            <span>ট্রেন্ডিং খবর</span>
-          </div>
-          ${renderGrid(popular)}
-        </section>
-
-        <section>
-          <div class="section-head">
-            <h3>সর্বশেষ খবর</h3>
-            <span>নতুন শিরোনাম</span>
-          </div>
-          ${renderGrid(latest.slice(0, 6))}
-        </section>
-      `;
-    }
-
-    function renderListPage(page) {
-      const list = getArticlesForPage(page);
-      const titleMap = {
-        today: "আজকের খবর",
-        old: "পুরনো খবর",
-        rumors: "গুজব",
-        real: "সত্য",
-        popular: "জনপ্রিয়",
-        saved: "সেভ করা খবর",
-        results: "ফিল্টার ফলাফল"
+      utterance.onend = () => {
+        button.dataset.speaking = "false";
+        button.textContent = "শুনুন";
+        currentSpeech = null;
       };
 
-      return `<section><div class="section-head"><h3>${titleMap[page] || "News"}</h3><span>আপডেট হওয়া খবর</span></div>${renderGrid(list)}</section>`;
+      utterance.onerror = () => {
+        button.dataset.speaking = "false";
+        button.textContent = "শুনুন";
+        currentSpeech = null;
+      };
+
+      currentSpeech = utterance;
+      button.dataset.speaking = "true";
+      button.textContent = "বন্ধ করুন";
+
+      speechStartTimer = setTimeout(() => {
+        window.speechSynthesis.speak(utterance);
+      }, 120);
+
+      showToast("অডিও শুরু হয়েছে");
     }
 
     function openArticle(slug) {
       if (!slug) return;
-      window.location.href = "/bd/article/" + encodeURIComponent(slug);
+      window.location.href = "/bd/article/" + slug;
     }
 
-    function toggleSaveArticle(id) {
-      const article = getArticleById(id);
-      if (!article) return;
+    async function loadArticles() {
+      renderLoading();
+      hideStatus();
 
-      const key = getArticleKey(article);
-      const cache = loadSavedCache();
-
-      if (savedArticleIds.has(key)) {
-        delete cache[key];
-      } else {
-        cache[key] = article;
-        learnFromArticle(article, "save");
-      }
-
-      saveSavedCache(cache);
-      renderRoute();
-    }
-
-    function buildArticleLink(article, source = "direct") {
-      const url = new URL(window.location.origin + "/bd/article/" + encodeURIComponent(article.slug));
-      url.searchParams.set("utm_source", source);
-      url.searchParams.set("utm_medium", "social");
-      url.searchParams.set("utm_campaign", "share");
-      return url.toString();
-    }
-
-    function getSharePayload(article, mode, url) {
-      const title = article.text?.title || "";
-      const summary = article.text?.summary || "";
-      const content = article.text?.content || "";
-      const quote = (content || summary || title).split(/(?<=[.!?])\s+/)[0] || title;
-
-      if (mode === "headline") {
-        return {
-          title,
-          text: title,
-          url,
-          previewTitle: title,
-          previewBody: "Share only the headline with the article link."
-        };
-      }
-
-      if (mode === "summary") {
-        return {
-          title,
-          text: summary || title,
-          url,
-          previewTitle: title,
-          previewBody: summary || "Short summary will be shared."
-        };
-      }
-
-      if (mode === "quote") {
-        return {
-          title,
-          text: quote,
-          url,
-          previewTitle: `"${quote}"`,
-          previewBody: "This quote card will be shared with the article link."
-        };
-      }
-
-      return {
-        title,
-        text: [title, summary].filter(Boolean).join("\n\n"),
-        url,
-        previewTitle: title,
-        previewBody: summary || "Full article preview will be shared."
-      };
-    }
-
-    function getShareIcon(type) {
-      const icons = {
-        device: `<span class="icon-wrap device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"></rect><path d="M11 18h2"></path></svg></span>`,
-        link: `<span class="icon-wrap link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l2.12-2.12a5 5 0 1 0-7.07-7.07L10.7 5.2"></path><path d="M14 11a5 5 0 0 0-7.07 0L4.81 13.12a5 5 0 1 0 7.07 7.07L13.3 18.8"></path></svg></span>`,
-        whatsapp: `<span class="icon-wrap whatsapp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.1 4.9A9.9 9.9 0 0 0 3.8 16.7L2.5 21.5l4.9-1.3a9.9 9.9 0 0 0 4.7 1.2h.1A9.9 9.9 0 0 0 19.1 4.9Zm-6.9 14.8a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-2.9.8.8-2.8-.2-.3a8.2 8.2 0 1 1 6.8 3.6Zm4.5-6.1c-.2-.1-1.3-.6-1.5-.7s-.3-.1-.5.1-.6.7-.8.9-.3.2-.6.1a6.7 6.7 0 0 1-2-1.2 7.6 7.6 0 0 1-1.4-1.8c-.2-.3 0-.4.1-.6l.3-.3.2-.4c.1-.1.1-.3 0-.4l-.7-1.7c-.2-.4-.3-.4-.5-.4h-.4a.8.8 0 0 0-.6.3 2.6 2.6 0 0 0-.8 1.9c0 1.1.8 2.1.9 2.3.1.1 1.7 2.7 4.2 3.7.6.3 1.1.5 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.3-.6 1.5-1.1.2-.5.2-1 .1-1.1 0-.2-.2-.2-.4-.3Z"/></svg></span>`,
-        facebook: `<span class="icon-wrap facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12Z"/></svg></span>`,
-        x: `<span class="icon-wrap x"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-6.8 7.8L23 22h-6.1l-4.8-6.3L6.6 22H3.5l7.2-8.3L1 2h6.2l4.3 5.7L18.9 2Zm-1.1 18h1.7L6.3 3.9H4.5L17.8 20Z"/></svg></span>`,
-        telegram: `<span class="icon-wrap telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 4.6c.3-1.2-.4-1.7-1.5-1.3L3.4 9.7c-1.1.4-1.1 1 .2 1.4l4.3 1.3 10-6.3c.5-.3 1-.1.6.2l-8.1 7.3-.3 4.5c.5 0 .7-.2 1-.5l2.1-2 4.4 3.2c.8.4 1.4.2 1.6-.8l2.3-13.4Z"/></svg></span>`,
-        email: `<span class="icon-wrap email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>`,
-        save: `<span class="icon-wrap save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v15H5z"></path><path d="M9 3v6h6V3"></path><path d="M9 21v-6h6v6"></path></svg></span>`,
-        qr: `<span class="icon-wrap qr"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3Zm2 2v4h4V5H5Zm8-2h8v8h-8V3Zm2 2v4h4V5h-4ZM3 13h8v8H3v-8Zm2 2v4h4v-4H5Zm10-2h2v2h-2v-2Zm2 2h2v2h-2v-2Zm-4 2h2v2h-2v-2Zm2 2h2v2h-2v-2Zm4-2h2v4h-2v-4Z"/></svg></span>`
-      };
-      return icons[type] || icons.link;
-    }
-
-    function setShareMode(mode) {
-      shareMode = mode;
-      renderShareModal();
-    }
-
-    function openShareMenu(id) {
-      activeShareArticleId = String(id);
-      shareMode = "full";
-      renderShareModal();
-      document.getElementById("shareModalBackdrop").classList.add("show");
-    }
-
-    function renderShareModal() {
-      const article = getArticleById(activeShareArticleId);
-      if (!article) return;
-
-      const articleKey = getArticleKey(article);
-      const payload = getSharePayload(article, shareMode, buildArticleLink(article, "share"));
-      const preview = document.getElementById("sharePreview");
-      const row = document.getElementById("storyModeRow");
-      const grid = document.getElementById("shareGrid");
-      const note = document.getElementById("shareNote");
-      const qrImage = document.getElementById("qrImage");
-
-      const shareTextForLink = [payload.text, payload.url].filter(Boolean).join("\n\n");
-      const encodedText = encodeURIComponent(shareTextForLink);
-      const encodedUrl = encodeURIComponent(payload.url);
-
-      preview.innerHTML = `
-        <div class="share-preview-head">
-          <img src="${article.imageUrl || "logo.png"}" alt="${escapeHtml(article.text.title)}" onerror="this.src='logo.png'">
-          <div>
-            <h4>${escapeHtml(payload.previewTitle)}</h4>
-            <p>${escapeHtml(payload.previewBody)}</p>
-          </div>
-        </div>
-      `;
-
-      row.innerHTML = `
-        <button class="story-mode-btn ${shareMode === "full" ? "active" : ""}" onclick="setShareMode('full')">Full Article</button>
-        <button class="story-mode-btn ${shareMode === "headline" ? "active" : ""}" onclick="setShareMode('headline')">Headline Only</button>
-        <button class="story-mode-btn ${shareMode === "summary" ? "active" : ""}" onclick="setShareMode('summary')">Short Summary</button>
-        <button class="story-mode-btn ${shareMode === "quote" ? "active" : ""}" onclick="setShareMode('quote')">Quote Card</button>
-      `;
-
-      grid.innerHTML = `
-        <button class="share-option" onclick="shareNative()">
-          ${getShareIcon("device")} <span>Device Share</span>
-        </button>
-
-        <button class="share-option" onclick="copyShareLink()">
-          ${getShareIcon("link")} <span>Copy Link</span>
-        </button>
-
-        <button class="share-option" onclick="openShareWindow('https://wa.me/?text=${encodedText}')">
-          ${getShareIcon("whatsapp")} <span>WhatsApp</span>
-        </button>
-
-        <button class="share-option" onclick="openShareWindow('https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}')">
-          ${getShareIcon("facebook")} <span>Facebook</span>
-        </button>
-
-        <button class="share-option" onclick="openShareWindow('https://twitter.com/intent/tweet?text=${encodedText}')">
-          ${getShareIcon("x")} <span>X</span>
-        </button>
-
-        <button class="share-option" onclick="openShareWindow('https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(payload.text)}')">
-          ${getShareIcon("telegram")} <span>Telegram</span>
-        </button>
-
-        <button class="share-option" onclick="shareByEmail()">
-          ${getShareIcon("email")} <span>Email</span>
-        </button>
-
-        <button class="share-option" onclick="toggleSaveArticle(${JSON.stringify(articleKey)})">
-          ${getShareIcon("save")} <span>${savedArticleIds.has(articleKey) ? "Saved" : "Save For Later"}</span>
-        </button>
-
-        <button class="share-option" onclick="downloadQr()">
-          ${getShareIcon("qr")} <span>Download QR</span>
-        </button>
-      `;
-
-      qrImage.dataset.url = payload.url;
-      qrImage.dataset.fallbackUsed = "no";
-      qrImage.onerror = function () {
-        if (qrImage.dataset.fallbackUsed === "yes") return;
-        qrImage.dataset.fallbackUsed = "yes";
-        qrImage.src = "https://quickchart.io/qr?size=220&text=" + encodeURIComponent(payload.url);
-      };
-      qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(payload.url);
-
-      note.innerHTML = `Share mode: <strong>${escapeHtml(
-        shareMode === "full" ? "Full Article" :
-        shareMode === "headline" ? "Headline Only" :
-        shareMode === "summary" ? "Short Summary" : "Quote Card"
-      )}</strong><br>Share URL: ${escapeHtml(payload.url)}`;
-
-      updateShareCountText(articleKey);
-
-      window.__sharePayload = payload;
-      window.__shareArticleKey = articleKey;
-    }
-
-    function shareNative() {
-      if (!window.__sharePayload) return;
-      const payload = window.__sharePayload;
-      if (navigator.share) {
-        navigator.share({
-          title: payload.title,
-          text: payload.text,
-          url: payload.url
-        }).then(() => {
-          incrementShareCount(window.__shareArticleKey);
-          learnFromArticle(getArticleById(window.__shareArticleKey), "share");
-        }).catch(() => {});
-      } else {
-        copyShareLink();
-      }
-    }
-
-    function copyShareLink() {
-      if (!window.__sharePayload) return;
-      navigator.clipboard.writeText(window.__sharePayload.url).then(() => {
-        incrementShareCount(window.__shareArticleKey);
-        showToast("Link copied");
-      });
-    }
-
-    function openShareWindow(url) {
-      incrementShareCount(window.__shareArticleKey);
-      learnFromArticle(getArticleById(window.__shareArticleKey), "share");
-      window.open(url, "_blank");
-    }
-
-    function shareByEmail() {
-      if (!window.__sharePayload) return;
-      const subject = encodeURIComponent(window.__sharePayload.title);
-      const body = encodeURIComponent([window.__sharePayload.text, window.__sharePayload.url].filter(Boolean).join("\n\n"));
-      incrementShareCount(window.__shareArticleKey);
-      learnFromArticle(getArticleById(window.__shareArticleKey), "share");
-      location.href = `mailto:?subject=${subject}&body=${body}`;
-    }
-
-    function downloadQr() {
-      const qrImage = document.getElementById("qrImage");
-      const a = document.createElement("a");
-      a.href = qrImage.src;
-      a.download = "truth-or-rumor-qr.png";
-      a.click();
-    }
-
-    function closeShareMenu(event) {
-      if (event && event.target && event.target.id !== "shareModalBackdrop") return;
-      document.getElementById("shareModalBackdrop").classList.remove("show");
-    }
-
-    function renderRoute() {
-      const app = document.getElementById("app");
-      if (!app) return;
-
-      renderNav();
-      renderCountryFilters();
-      renderTopicFilters();
-      renderTypeFilters();
-      updateAccessibilityButtons();
-
-      const hash = location.hash || "#home";
-      if (hash === "#home" || hash === "") return void(app.innerHTML = renderHome());
-      if (hash === "#today") return void(app.innerHTML = renderListPage("today"));
-      if (hash === "#old") return void(app.innerHTML = renderListPage("old"));
-      if (hash === "#rumors") return void(app.innerHTML = renderListPage("rumors"));
-      if (hash === "#real") return void(app.innerHTML = renderListPage("real"));
-      if (hash === "#popular") return void(app.innerHTML = renderListPage("popular"));
-      if (hash === "#saved") return void(app.innerHTML = renderListPage("saved"));
-      if (hash === "#results") return void(app.innerHTML = renderListPage("results"));
-
-      app.innerHTML = renderHome();
-    }
-
-    let lastNewsSignature = "";
-
-    async function loadAllNews() {
       try {
         const { data, error } = await supabaseClient
           .from(TABLE_NAME)
@@ -2505,22 +1941,35 @@
 
         if (error) throw error;
 
-        const list = data || [];
-        const signature = JSON.stringify(list.map(item => [item.id, item.updated_at, item.slug]));
+        articles = Array.isArray(data) ? data : [];
+        updateSummaryInfo();
+        buildTicker(articles);
+        applyFilters();
 
-        if (signature !== lastNewsSignature) {
-          lastNewsSignature = signature;
-          setNewsData(list);
+        if (!articles.length) {
+          showStatus("এখনও কোনো Bangla পোস্ট পাওয়া যায়নি। নতুন পোস্ট প্রকাশ হলে এখানে দেখা যাবে।");
         }
-
-        updateTime();
       } catch (error) {
         console.error(error);
-        if (!articles.length) {
-          const savedOnly = getSavedArticles();
-          setNewsData(savedOnly.length ? savedOnly : []);
-        }
-        showToast("Could not load live news");
+        articles = [];
+        filteredArticles = [];
+        updateSummaryInfo();
+        buildTicker([]);
+
+        document.getElementById("app").innerHTML = `
+          <div class="empty-state liquid-card">
+            পোস্ট লোড করা যায়নি। কিছুক্ষণ পরে আবার চেষ্টা করুন।
+          </div>
+        `;
+
+        document.getElementById("topStoriesSlider").innerHTML = `
+          <div class="empty-state liquid-card" style="width:100%;">
+            শীর্ষ পোস্ট লোড করা যায়নি।
+          </div>
+        `;
+
+        document.getElementById("resultsText").textContent = "0 results";
+        showStatus("Bangla পোস্ট লোড করা যায়নি। Supabase table, key, অথবা public select policy আবার চেক করুন।", true);
       }
     }
 
@@ -2528,32 +1977,33 @@
       if (event.key === "Enter") runSearch();
     });
 
-    window.addEventListener("popstate", () => {
-      stopAllSpeech();
-      renderRoute();
+    document.getElementById("sortSelect").addEventListener("change", applyFilters);
+    document.getElementById("refreshBtn").addEventListener("click", () => {
+      loadArticles();
+      showToast("রিফ্রেশ সম্পন্ন");
     });
 
-    window.addEventListener("hashchange", () => {
-      stopAllSpeech();
-      renderRoute();
+    document.getElementById("categoryFilters").addEventListener("click", event => {
+      const button = event.target.closest("[data-category]");
+      if (!button) return;
+      currentCategory = button.getAttribute("data-category");
+      applyFilters();
     });
 
-    window.addEventListener("keydown", event => {
-      if (event.key === "Escape") {
-        closeShareMenu();
-        closeAccessibilityModal();
-      }
+    document.getElementById("verdictFilters").addEventListener("click", event => {
+      const button = event.target.closest("[data-verdict]");
+      if (!button) return;
+      currentVerdict = button.getAttribute("data-verdict");
+      applyFilters();
     });
 
-    loadUserProfile();
-    initSavedArticles();
-    loadPrefs();
+    window.addEventListener("beforeunload", stopSpeech);
+
     updateTime();
-    renderRoute();
-
     setInterval(updateTime, 60000);
-    loadAllNews();
-    setInterval(loadAllNews, 300000);
+    loadPrefs();
+    loadArticles();
+    setInterval(loadArticles, 300000);
   </script>
 </body>
 </html>
