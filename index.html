@@ -23,6 +23,23 @@
   }
   </script>
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "TruthOrRumor",
+    "alternateName": "Truth Or Rumor",
+    "url": "https://www.truthorrumor.com/",
+    "logo": "https://www.truthorrumor.com/logo.png",
+    "sameAs": [
+      "https://www.facebook.com/truthorrumor.news",
+      "https://www.instagram.com/truthorrumor.news",
+      "https://t.me/truthorrumor",
+      "https://x.com/truthorrumor.news"
+    ]
+  }
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -122,8 +139,7 @@
 
     .liquid-card,
     .footer-card,
-    .modal-card,
-    .article-card {
+    .modal-card {
       background: linear-gradient(180deg, var(--glass-3), var(--glass));
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
@@ -416,8 +432,7 @@
     .search-row,
     .tool-row,
     .card-actions,
-    .slider-actions,
-    .article-actions {
+    .slider-actions {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
@@ -646,7 +661,6 @@
 
     .card::before,
     .slider-card::before,
-    .article-card::before,
     .footer-card::before,
     .modal-card::before {
       content: "";
@@ -1060,7 +1074,6 @@
       .liquid-card,
       .footer-card,
       .modal-card,
-      .article-card,
       .floating-accessibility-btn {
         background: rgba(16, 24, 38, 0.92);
       }
