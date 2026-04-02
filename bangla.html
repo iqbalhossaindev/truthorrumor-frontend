@@ -1,4 +1,1159 @@
-{
-  "source": "/bd",
-  "destination": "/bangla.html"
-}
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-adsense-account" content="ca-pub-2944530159971400" />
+
+  <title>TruthOrRumor Bangla | সত্য ও গুজব যাচাই</title>
+  <meta name="description" content="TruthOrRumor Bangla তে পড়ুন সত্য, গুজব, যাচাইকৃত খবর, ফ্যাক্ট চেক এবং ভাইরাল দাবির বিশ্লেষণ।" />
+
+  <meta property="og:title" content="TruthOrRumor Bangla | সত্য ও গুজব যাচাই" />
+  <meta property="og:description" content="Bangla ভাষায় সত্য, গুজব, যাচাইকৃত খবর এবং ফ্যাক্ট চেক পড়ুন।" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.truthorrumor.com/bd" />
+  <meta property="og:image" content="https://www.truthorrumor.com/logo.png" />
+
+  <link rel="canonical" href="https://www.truthorrumor.com/bd" />
+  <link rel="alternate" hreflang="bn" href="https://www.truthorrumor.com/bd" />
+  <link rel="alternate" hreflang="en" href="https://www.truthorrumor.com/" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "TruthOrRumor Bangla",
+    "alternateName": "Truth Or Rumor Bangla",
+    "url": "https://www.truthorrumor.com/bd"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "TruthOrRumor Bangla",
+    "alternateName": "Truth Or Rumor Bangla",
+    "url": "https://www.truthorrumor.com/bd",
+    "logo": "https://www.truthorrumor.com/logo.png",
+    "sameAs": [
+      "https://www.facebook.com/truthorrumor.news",
+      "https://www.instagram.com/truthorrumor.news",
+      "https://t.me/truthorrumor",
+      "https://x.com/truthorrumor.news"
+    ]
+  }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      color-scheme: dark;
+      --bg: #07111d;
+      --bg-2: #0d1b2a;
+      --card: rgba(255, 255, 255, 0.08);
+      --card-2: rgba(255, 255, 255, 0.05);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #f8fafc;
+      --muted: rgba(248, 250, 252, 0.72);
+      --gold: #f2b53a;
+      --orange: #ff8d3a;
+      --green: #22c55e;
+      --red: #ef4444;
+      --blue: #38bdf8;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(255,255,255,0.08), transparent 18%),
+        radial-gradient(circle at 84% 18%, rgba(242,181,58,0.12), transparent 16%),
+        radial-gradient(circle at 78% 70%, rgba(56,189,248,0.14), transparent 16%),
+        linear-gradient(135deg, var(--bg), var(--bg-2));
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .wrap {
+      width: min(1200px, calc(100% - 24px));
+      margin: 0 auto;
+    }
+
+    .glass {
+      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px) saturate(140%);
+      -webkit-backdrop-filter: blur(12px) saturate(140%);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(7, 17, 29, 0.74);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .topbar-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      padding: 8px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      flex: 0 0 auto;
+    }
+
+    .brand-text {
+      min-width: 0;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: clamp(22px, 3.2vw, 30px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-title .light {
+      color: #ffffff;
+    }
+
+    .brand-title .accent {
+      color: var(--gold);
+    }
+
+    .brand-sub {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .pill-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.09);
+    }
+
+    .pill-btn.primary {
+      background: linear-gradient(90deg, var(--gold), var(--orange));
+      color: #111827;
+      border-color: transparent;
+    }
+
+    .ticker-shell {
+      margin: 18px auto 0;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .ticker {
+      display: flex;
+      align-items: center;
+      min-height: 52px;
+      overflow: hidden;
+    }
+
+    .ticker-label {
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 16px;
+      border-right: 1px solid var(--line);
+      background: rgba(255,255,255,0.05);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+
+    .live-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 rgba(239,68,68,0.5);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(239,68,68,.45); }
+      70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239,68,68,0); }
+      100% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+    }
+
+    .ticker-track-wrap {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .ticker-track {
+      display: inline-flex;
+      align-items: center;
+      gap: 32px;
+      white-space: nowrap;
+      padding-left: 100%;
+      animation: tickerMove 70s linear infinite;
+      will-change: transform;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ticker-item::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex: 0 0 auto;
+    }
+
+    @keyframes tickerMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .hero {
+      padding: 28px;
+      margin-top: 20px;
+      border-radius: var(--radius-xl);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 16% 16%, rgba(255,255,255,0.08), transparent 16%),
+        radial-gradient(circle at 84% 20%, rgba(242,181,58,0.14), transparent 16%),
+        radial-gradient(circle at 78% 75%, rgba(56,189,248,0.12), transparent 18%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .hero-left {
+      min-width: 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(34px, 6vw, 64px);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+    }
+
+    .hero-title .white {
+      color: #ffffff;
+      display: inline-block;
+    }
+
+    .hero-title .accent {
+      color: var(--gold);
+      display: inline-block;
+    }
+
+    .hero-copy {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.75;
+      max-width: 760px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .hero-card {
+      padding: 22px;
+      border-radius: 24px;
+      justify-self: end;
+      width: min(100%, 420px);
+    }
+
+    .hero-card-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .hero-card-logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 22px;
+      padding: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      flex: 0 0 auto;
+    }
+
+    .hero-card-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .hero-card-text {
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr 0.7fr;
+      gap: 16px;
+      margin-top: 22px;
+      margin-bottom: 18px;
+    }
+
+    .control-card {
+      padding: 14px;
+      border-radius: 22px;
+    }
+
+    .control-label {
+      display: block;
+      margin: 0 0 10px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .input,
+    .select {
+      width: 100%;
+      min-height: 54px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      outline: none;
+      padding: 0 16px;
+      font-size: 16px;
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .input::placeholder {
+      color: rgba(248,250,252,0.45);
+    }
+
+    .select option {
+      color: #111827;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 10px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.1;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .section-sub {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .results-text {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .status-box {
+      margin-bottom: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.05);
+      color: var(--muted);
+      line-height: 1.7;
+      display: none;
+    }
+
+    .status-box.show {
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      padding-bottom: 36px;
+    }
+
+    .card {
+      border-radius: 24px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.18);
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+    }
+
+    .card-media {
+      aspect-ratio: 16 / 9;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 20%),
+        linear-gradient(135deg, #0f172a, #1e293b);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-badges {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .badge.truth {
+      background: rgba(34, 197, 94, 0.88);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .badge.rumor {
+      background: rgba(239, 68, 68, 0.88);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .card-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .card-category {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.3;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .card-excerpt {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 15px;
+      flex: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .card-link {
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      padding: 34px 20px;
+      border-radius: 24px;
+      text-align: center;
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 16px;
+    }
+
+    .footer {
+      padding: 10px 0 34px;
+    }
+
+    .footer-card {
+      padding: 18px 20px;
+      border-radius: 24px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    .skeleton {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skeleton::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+      animation: shimmer 1.2s infinite;
+    }
+
+    @keyframes shimmer {
+      100% { transform: translateX(100%); }
+    }
+
+    @media (max-width: 1100px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        justify-self: stretch;
+        width: 100%;
+      }
+
+      .controls {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .controls .search-control {
+        grid-column: 1 / -1;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .wrap {
+        width: min(100%, calc(100% - 16px));
+      }
+
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .top-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .hero {
+        padding: 20px;
+      }
+
+      .controls {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card-title {
+        font-size: 22px;
+      }
+
+      .brand-logo {
+        width: 48px;
+        height: 48px;
+      }
+
+      .hero-card-top {
+        align-items: flex-start;
+      }
+
+      .hero-card-logo {
+        width: 76px;
+        height: 76px;
+      }
+
+      .ticker-label {
+        font-size: 12px;
+        padding: 0 12px;
+      }
+
+      .ticker-track {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="/bd" aria-label="TruthOrRumor Bangla">
+        <img class="brand-logo" src="/logo.png" alt="TruthOrRumor Bangla logo" />
+        <div class="brand-text">
+          <h1 class="brand-title">
+            <span class="light">TruthOr</span><span class="accent">Rumor</span>
+          </h1>
+          <p class="brand-sub">Bangla | সত্য, গুজব ও যাচাইকৃত খবর</p>
+        </div>
+      </a>
+
+      <div class="top-actions">
+        <a class="pill-btn" href="/">English Home</a>
+        <a class="pill-btn" href="/adminbd">Bangla Admin</a>
+        <button class="pill-btn primary" id="refreshBtn" type="button">রিফ্রেশ</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <section class="ticker-shell glass" aria-label="Latest Bangla headlines">
+      <div class="ticker">
+        <div class="ticker-label">
+          <span class="live-dot"></span>
+          <span>LIVE UPDATE</span>
+        </div>
+        <div class="ticker-track-wrap">
+          <div class="ticker-track" id="tickerTrack">
+            <span class="ticker-item">Bangla আপডেট লোড হচ্ছে...</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero glass">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="eyebrow">TruthOrRumor Bangla</div>
+
+          <h2 class="hero-title">
+            <span class="white">সত্য আর</span><br />
+            <span class="accent">গুজব আলাদা করুন</span>
+          </h2>
+
+          <p class="hero-copy">
+            Bangla ভাষায় ভাইরাল দাবি, ফ্যাক্ট চেক, গুজব, সত্য খবর এবং যাচাইকৃত তথ্য সহজভাবে পড়ুন।
+            প্রতিটি পোস্টে দ্রুত বোঝা যাবে কোনটা সত্য, কোনটা গুজব, আর কোনটা যাচাই করা প্রয়োজন।
+          </p>
+
+          <div class="hero-meta">
+            <div class="meta-chip" id="updatedTime">Updated: --</div>
+            <div class="meta-chip" id="totalPosts">মোট পোস্ট: 0</div>
+          </div>
+        </div>
+
+        <div class="hero-card glass">
+          <div class="hero-card-top">
+            <img class="hero-card-logo" src="/logo.png" alt="TruthOrRumor Bangla logo" />
+            <div>
+              <h3 class="hero-card-title">TruthOrRumor Bangla</h3>
+              <p class="hero-card-text">
+                বাংলায় সংবাদ, গুজব, ভাইরাল পোস্ট, সামাজিক দাবির বিশ্লেষণ এবং যাচাইকৃত রিপোর্ট।
+              </p>
+            </div>
+          </div>
+          <p class="hero-card-text">
+            আপনি যদি Bangla পাঠকদের জন্য আলাদা সেকশন চান, তাহলে এই `/bd` পেজ আপনার Bangla হোমপেজ।
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="controls">
+      <div class="control-card glass search-control">
+        <label class="control-label" for="searchInput">খুঁজুন</label>
+        <input
+          id="searchInput"
+          class="input"
+          type="text"
+          placeholder="শিরোনাম, সারাংশ, ক্যাটাগরি বা কীওয়ার্ড লিখুন"
+        />
+      </div>
+
+      <div class="control-card glass">
+        <label class="control-label" for="categoryFilter">ক্যাটাগরি</label>
+        <select id="categoryFilter" class="select">
+          <option value="all">সব ক্যাটাগরি</option>
+        </select>
+      </div>
+
+      <div class="control-card glass">
+        <label class="control-label" for="verdictFilter">রায়</label>
+        <select id="verdictFilter" class="select">
+          <option value="all">সব</option>
+          <option value="truth">Truth</option>
+          <option value="rumor">Rumor</option>
+        </select>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">সর্বশেষ Bangla পোস্ট</h2>
+          <p class="section-sub">
+            এখানে Bangla ভাষার পোস্ট, ফ্যাক্ট চেক, গুজব বিশ্লেষণ এবং ভাইরাল দাবির আপডেট দেখানো হবে।
+          </p>
+        </div>
+        <div class="results-text" id="resultsText">0 results</div>
+      </div>
+
+      <div class="status-box" id="statusBox"></div>
+
+      <div class="grid" id="newsGrid" aria-live="polite"></div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-card glass">
+        TruthOrRumor Bangla | Bangla খবর, সত্য, গুজব এবং যাচাইকৃত তথ্যের জন্য আলাদা হোমপেজ
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://bsnezcbmsbsememwqsjs.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_HTgjJsMcfGgIJaUSAzXTfw_yQ2dD_Uy";
+    const TABLE_NAME = "posts_bd";
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const state = {
+      allPosts: [],
+      filteredPosts: [],
+      loading: true
+    };
+
+    const newsGrid = document.getElementById("newsGrid");
+    const searchInput = document.getElementById("searchInput");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const verdictFilter = document.getElementById("verdictFilter");
+    const resultsText = document.getElementById("resultsText");
+    const tickerTrack = document.getElementById("tickerTrack");
+    const updatedTime = document.getElementById("updatedTime");
+    const totalPosts = document.getElementById("totalPosts");
+    const statusBox = document.getElementById("statusBox");
+    const refreshBtn = document.getElementById("refreshBtn");
+
+    function showStatus(message, isError = false) {
+      statusBox.textContent = message;
+      statusBox.classList.add("show");
+      statusBox.style.borderColor = isError ? "rgba(239,68,68,0.35)" : "rgba(255,255,255,0.12)";
+      statusBox.style.color = isError ? "#fecaca" : "rgba(248,250,252,0.82)";
+      statusBox.style.background = isError ? "rgba(127,29,29,0.28)" : "rgba(255,255,255,0.05)";
+    }
+
+    function hideStatus() {
+      statusBox.classList.remove("show");
+      statusBox.textContent = "";
+    }
+
+    function safeText(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function formatBanglaDate(value) {
+      if (!value) return "তারিখ পাওয়া যায়নি";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "তারিখ পাওয়া যায়নি";
+      return date.toLocaleString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+      });
+    }
+
+    function getVerdictLabel(verdict) {
+      const value = String(verdict || "").trim().toLowerCase();
+      if (value === "rumor") return "Rumor";
+      return "Truth";
+    }
+
+    function getVerdictClass(verdict) {
+      const value = String(verdict || "").trim().toLowerCase();
+      return value === "rumor" ? "rumor" : "truth";
+    }
+
+    function getExcerpt(post) {
+      const excerpt = post.excerpt || post.summary || "";
+      if (excerpt && excerpt.trim()) return excerpt.trim();
+
+      const content = post.content || "";
+      if (!content.trim()) return "এই পোস্টের বিস্তারিত জানতে ভেতরে ক্লিক করুন।";
+
+      const clean = content.replace(/\s+/g, " ").trim();
+      return clean.length > 170 ? clean.slice(0, 167) + "..." : clean;
+    }
+
+    function getCategory(post) {
+      return (post.category || "Bangla").trim();
+    }
+
+    function getImage(post) {
+      return post.image_url || post.image || "/logo.png";
+    }
+
+    function updateHeaderTime() {
+      const now = new Date();
+      updatedTime.textContent = "Updated: " + now.toLocaleString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit"
+      });
+    }
+
+    function buildTicker(posts) {
+      if (!posts.length) {
+        tickerTrack.innerHTML = '<span class="ticker-item">এখনও কোনো Bangla পোস্ট নেই</span>';
+        return;
+      }
+
+      const items = posts.slice(0, 10).map(post => {
+        return `<span class="ticker-item">${safeText(post.title || "Untitled Bangla Post")}</span>`;
+      });
+
+      tickerTrack.innerHTML = items.join("");
+    }
+
+    function updateCategoryOptions(posts) {
+      const current = categoryFilter.value;
+      const unique = [...new Set(posts.map(getCategory).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+
+      categoryFilter.innerHTML = '<option value="all">সব ক্যাটাগরি</option>' +
+        unique.map(item => `<option value="${safeText(item)}">${safeText(item)}</option>`).join("");
+
+      if (unique.includes(current)) {
+        categoryFilter.value = current;
+      } else {
+        categoryFilter.value = "all";
+      }
+    }
+
+    function renderLoading() {
+      newsGrid.innerHTML = "";
+      for (let i = 0; i < 6; i++) {
+        const item = document.createElement("article");
+        item.className = "card glass skeleton";
+        item.innerHTML = `
+          <div class="card-media"></div>
+          <div class="card-body">
+            <div style="height:12px;width:90px;border-radius:999px;background:rgba(255,255,255,0.08);"></div>
+            <div style="height:24px;width:88%;border-radius:12px;background:rgba(255,255,255,0.08);"></div>
+            <div style="height:14px;width:100%;border-radius:12px;background:rgba(255,255,255,0.08);"></div>
+            <div style="height:14px;width:92%;border-radius:12px;background:rgba(255,255,255,0.08);"></div>
+            <div style="height:14px;width:70%;border-radius:12px;background:rgba(255,255,255,0.08);"></div>
+          </div>
+        `;
+        newsGrid.appendChild(item);
+      }
+    }
+
+    function renderEmpty(message) {
+      newsGrid.innerHTML = `
+        <div class="empty glass">
+          ${safeText(message)}
+        </div>
+      `;
+    }
+
+    function renderPosts(posts) {
+      if (!posts.length) {
+        renderEmpty("কোনো Bangla পোস্ট পাওয়া যায়নি। নতুন পোস্ট যোগ করুন অথবা ফিল্টার বদলান।");
+        return;
+      }
+
+      newsGrid.innerHTML = posts.map(post => {
+        const title = safeText(post.title || "Untitled Bangla Post");
+        const excerpt = safeText(getExcerpt(post));
+        const category = safeText(getCategory(post));
+        const verdict = getVerdictLabel(post.verdict);
+        const verdictClass = getVerdictClass(post.verdict);
+        const dateText = safeText(formatBanglaDate(post.updated_at || post.created_at));
+        const slug = encodeURIComponent(post.slug || "");
+        const image = safeText(getImage(post));
+
+        return `
+          <article class="card glass" onclick="openArticle('${slug}')">
+            <div class="card-media">
+              <img src="${image}" alt="${title}" loading="lazy" onerror="this.onerror=null;this.src='/logo.png';" />
+              <div class="card-badges">
+                <span class="badge ${verdictClass}">${safeText(verdict)}</span>
+                <span class="badge">${category}</span>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="card-category">${category}</div>
+              <h3 class="card-title">${title}</h3>
+              <p class="card-excerpt">${excerpt}</p>
+
+              <div class="card-meta">
+                <span>${dateText}</span>
+                <span class="card-link">আরও পড়ুন</span>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function applyFilters() {
+      const query = searchInput.value.trim().toLowerCase();
+      const selectedCategory = categoryFilter.value;
+      const selectedVerdict = verdictFilter.value;
+
+      const filtered = state.allPosts.filter(post => {
+        const haystack = [
+          post.title || "",
+          post.excerpt || "",
+          post.summary || "",
+          post.content || "",
+          post.category || ""
+        ].join(" ").toLowerCase();
+
+        const matchesSearch = !query || haystack.includes(query);
+        const matchesCategory = selectedCategory === "all" || getCategory(post) === selectedCategory;
+        const matchesVerdict = selectedVerdict === "all" || String(post.verdict || "").trim().toLowerCase() === selectedVerdict;
+
+        return matchesSearch && matchesCategory && matchesVerdict;
+      });
+
+      state.filteredPosts = filtered;
+      resultsText.textContent = filtered.length + " results";
+      renderPosts(filtered);
+    }
+
+    async function loadAllNews() {
+      state.loading = true;
+      hideStatus();
+      renderLoading();
+
+      try {
+        const { data, error } = await supabaseClient
+          .from(TABLE_NAME)
+          .select("*")
+          .eq("published", true)
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        state.allPosts = Array.isArray(data) ? data : [];
+        totalPosts.textContent = "মোট পোস্ট: " + state.allPosts.length;
+
+        updateCategoryOptions(state.allPosts);
+        buildTicker(state.allPosts);
+        applyFilters();
+
+        if (!state.allPosts.length) {
+          showStatus("এখনও কোনো Bangla পোস্ট পাওয়া যায়নি। প্রথমে adminbd থেকে একটি পোস্ট publish করুন।");
+        }
+      } catch (err) {
+        console.error(err);
+        state.allPosts = [];
+        state.filteredPosts = [];
+        totalPosts.textContent = "মোট পোস্ট: 0";
+        buildTicker([]);
+        renderEmpty("পোস্ট লোড করা যায়নি। Supabase table, policy, বা file setup আবার চেক করুন।");
+        showStatus("Bangla পোস্ট লোড করা যায়নি। `posts_bd` table, public select policy, এবং Supabase key ঠিক আছে কি না চেক করুন।", true);
+      } finally {
+        state.loading = false;
+      }
+    }
+
+    function openArticle(slug) {
+      if (!slug) return;
+      window.location.href = "/bd/article/" + slug;
+    }
+
+    searchInput.addEventListener("input", applyFilters);
+    categoryFilter.addEventListener("change", applyFilters);
+    verdictFilter.addEventListener("change", applyFilters);
+    refreshBtn.addEventListener("click", loadAllNews);
+
+    updateHeaderTime();
+    setInterval(updateHeaderTime, 60000);
+    loadAllNews();
+    setInterval(loadAllNews, 300000);
+  </script>
+</body>
+</html>
