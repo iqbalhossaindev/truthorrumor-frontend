@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-adsense-account" content="ca-pub-2944530159971400" />
+  <title>About | TruthOrRumor</title>
+  <meta name="description" content="Learn about TruthOrRumor, its mission, founder, team, and the platform's Bangla and English Global editions." />
+  <meta property="og:title" content="About | TruthOrRumor" />
+  <meta property="og:description" content="TruthOrRumor is a professional news and fact checking platform built to separate verified truth from false claims and online rumors." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/logo.png" />
+  <meta property="og:url" content="https://www.truthorrumor.com/about" />
+  <link rel="canonical" href="https://www.truthorrumor.com/about" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About TruthOrRumor",
+    "url": "https://www.truthorrumor.com/about",
+    "description": "About TruthOrRumor, its mission, founder, team, and platform editions.",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "TruthOrRumor",
+      "url": "https://www.truthorrumor.com/",
+      "logo": "https://www.truthorrumor.com/logo.png"
+    }
+  }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    :root {
+      --bg-1: #070b14;
+      --bg-2: #111827;
+      --bg-3: #0b1220;
+      --text: #f8fafc;
+      --muted: rgba(248,250,252,0.74);
+      --line: rgba(255,255,255,0.14);
+      --glass: rgba(255,255,255,0.08);
+      --glass-2: rgba(255,255,255,0.11);
+      --glass-3: rgba(255,255,255,0.05);
+      --shadow: 0 18px 55px rgba(0,0,0,0.30);
+      --gold: #f2b53a;
+      --gold-2: #ffcc66;
+      --cyan: #4fd1ff;
+      --cyan-2: #6fdcff;
+      --soft-bg-1: #eef3fb;
+      --soft-bg-2: #e5edf7;
+      --soft-bg-3: #dbe6f1;
+      --soft-text: #17212d;
+      --soft-muted: rgba(23,33,45,0.72);
+      --soft-line: rgba(23,33,45,0.12);
+      --soft-glass: rgba(255,255,255,0.45);
+      --soft-glass-2: rgba(255,255,255,0.60);
+      --reader-font-size: 17px;
+      --reader-line-height: 1.9;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 15% 12%, rgba(255,255,255,0.10), transparent 24%),
+        radial-gradient(circle at 82% 18%, rgba(192,132,252,0.26), transparent 22%),
+        radial-gradient(circle at 70% 66%, rgba(79,209,255,0.24), transparent 24%),
+        radial-gradient(circle at 52% 72%, rgba(242,181,58,0.18), transparent 20%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2) 48%, var(--bg-3));
+      overflow-x: hidden;
+      padding: 20px 0 40px;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body[data-theme="soft"] {
+      color: var(--soft-text);
+      background:
+        radial-gradient(circle at 15% 12%, rgba(255,255,255,0.50), transparent 24%),
+        radial-gradient(circle at 82% 18%, rgba(192,132,252,0.16), transparent 22%),
+        radial-gradient(circle at 70% 66%, rgba(79,209,255,0.16), transparent 24%),
+        radial-gradient(circle at 52% 72%, rgba(242,181,58,0.12), transparent 20%),
+        linear-gradient(135deg, var(--soft-bg-1), var(--soft-bg-2) 48%, var(--soft-bg-3));
+    }
+
+    body[data-theme="soft"] .glass {
+      background: linear-gradient(180deg, var(--soft-glass-2), var(--soft-glass));
+      border-color: var(--soft-line);
+    }
+
+    body[data-theme="soft"] .section-copy,
+    body[data-theme="soft"] .tagline,
+    body[data-theme="soft"] .section p,
+    body[data-theme="soft"] .meta-line,
+    body[data-theme="soft"] .mini-card p,
+    body[data-theme="soft"] .member-text p,
+    body[data-theme="soft"] .profile-copy p,
+    body[data-theme="soft"] .footer-note {
+      color: var(--soft-muted);
+    }
+
+    body[data-theme="soft"] .nav-btn,
+    body[data-theme="soft"] .tool-btn,
+    body[data-theme="soft"] .social-btn,
+    body[data-theme="soft"] .cta-btn,
+    body[data-theme="soft"] .team-nav-btn,
+    body[data-theme="soft"] .dot {
+      border-color: var(--soft-line);
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(50px);
+      z-index: 0;
+    }
+
+    .bg-orb.one {
+      top: -80px;
+      left: -70px;
+      width: 300px;
+      height: 300px;
+      background: rgba(255,255,255,0.18);
+    }
+
+    .bg-orb.two {
+      top: 100px;
+      right: -90px;
+      width: 270px;
+      height: 270px;
+      background: rgba(192,132,252,0.42);
+    }
+
+    .bg-orb.three {
+      bottom: 110px;
+      right: 20px;
+      width: 300px;
+      height: 300px;
+      background: rgba(79,209,255,0.30);
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .glass {
+      background: linear-gradient(180deg, var(--glass-2), var(--glass));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px) saturate(145%);
+      -webkit-backdrop-filter: blur(22px) saturate(145%);
+    }
+
+    .header,
+    .section,
+    .footer-card,
+    .mini-card,
+    .profile-card,
+    .member-card,
+    .stats-card {
+      border-radius: 30px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .header::before,
+    .section::before,
+    .footer-card::before,
+    .mini-card::before,
+    .profile-card::before,
+    .member-card::before,
+    .stats-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 12%, rgba(255,255,255,0.10), transparent 16%),
+        radial-gradient(circle at 85% 82%, rgba(79,209,255,0.08), transparent 14%);
+      pointer-events: none;
+    }
+
+    .header {
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    .brand-row {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .site-logo {
+      width: 78px;
+      height: 78px;
+      object-fit: contain;
+      border-radius: 22px;
+      padding: 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 6vw, 60px);
+      line-height: 1;
+      background: linear-gradient(90deg, #ffffff 0%, #ffffff 28%, #f2d07a 46%, #f2b53a 56%, #ff8d3a 73%, #df4a4a 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    body[data-theme="soft"] h1 {
+      background: linear-gradient(90deg, #0f172a 0%, #0f172a 32%, #a16207 58%, #ea580c 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .tagline {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .edition-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .edition-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      color: inherit;
+      padding: 11px 15px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .nav-row {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin: 0 0 18px 0;
+      scrollbar-width: none;
+    }
+
+    .nav-row::-webkit-scrollbar { display: none; }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: inherit;
+      background: rgba(255,255,255,0.06);
+      border-radius: 999px;
+      padding: 11px 15px;
+      font-size: 14px;
+      text-decoration: none;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .nav-btn.active {
+      background: rgba(242,181,58,0.18);
+      border-color: rgba(242,181,58,0.28);
+    }
+
+    .section {
+      padding: 26px;
+      margin-bottom: 20px;
+    }
+
+    .section-body {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      font-size: clamp(30px, 6vw, 48px);
+      letter-spacing: -0.6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: var(--reader-font-size);
+      line-height: var(--reader-line-height);
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    .section-copy {
+      max-width: 950px;
+    }
+
+    .section-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mini-grid,
+    .stats-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .mini-card,
+    .stats-card {
+      padding: 22px;
+    }
+
+    .mini-card h3,
+    .stats-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+
+    .mini-card p,
+    .stats-card p,
+    .stats-card li {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .bullet-list {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .bullet-list li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .bullet-list .bullet {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--line);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .editions-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .edition-card {
+      padding: 22px;
+      border-radius: 26px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      position: relative;
+      z-index: 1;
+    }
+
+    .edition-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--line);
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .edition-card h3 {
+      margin: 0 0 10px;
+      font-size: 24px;
+    }
+
+    .edition-card p {
+      margin: 0 0 12px;
+    }
+
+    .edition-link {
+      color: var(--gold-2);
+      text-decoration: none;
+      font-weight: 700;
+      word-break: break-word;
+    }
+
+    body[data-theme="soft"] .edition-link {
+      color: #a16207;
+    }
+
+    .profile-card,
+    .member-card {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+      gap: 22px;
+      align-items: stretch;
+      padding: 22px;
+    }
+
+    .profile-media,
+    .member-media {
+      position: relative;
+      min-height: 100%;
+      border-radius: 28px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .profile-media img,
+    .member-media img {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      object-fit: cover;
+      transform: translateY(32px);
+      opacity: 0;
+      transition: transform 0.8s ease, opacity 0.8s ease;
+    }
+
+    .reveal.visible .profile-media img,
+    .reveal.visible .member-media img {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .photo-badge {
+      position: absolute;
+      left: 18px;
+      bottom: 18px;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.28);
+      backdrop-filter: blur(14px) saturate(145%);
+      -webkit-backdrop-filter: blur(14px) saturate(145%);
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.22);
+    }
+
+    .photo-badge.founder {
+      background: linear-gradient(180deg, rgba(242,181,58,0.96), rgba(210,141,21,0.92));
+      color: #241300;
+    }
+
+    .photo-badge.team {
+      background: linear-gradient(180deg, rgba(79,209,255,0.95), rgba(42,141,191,0.92));
+      color: #031521;
+    }
+
+    .profile-copy,
+    .member-text {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .profile-copy h3,
+    .member-text h3 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 4vw, 40px);
+    }
+
+    .role-line {
+      margin: 0 0 16px;
+      color: var(--gold-2);
+      font-size: 15px;
+      line-height: 1.8;
+      font-weight: 700;
+    }
+
+    body[data-theme="soft"] .role-line {
+      color: #a16207;
+    }
+
+    .meta-line {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+      margin: 0 0 12px;
+    }
+
+    .cta-row,
+    .social-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .cta-btn,
+    .social-btn,
+    .team-nav-btn,
+    .tool-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 50px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.08));
+      color: inherit;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+      backdrop-filter: blur(18px) saturate(145%);
+      -webkit-backdrop-filter: blur(18px) saturate(145%);
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .cta-btn:hover,
+    .social-btn:hover,
+    .team-nav-btn:hover,
+    .tool-btn:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.10));
+    }
+
+    .founder-btn {
+      color: #111827;
+      background: linear-gradient(180deg, rgba(242,181,58,0.96), rgba(214,145,28,0.92));
+      border-color: rgba(255,214,130,0.42);
+    }
+
+    .team-slider-shell {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .team-track {
+      display: flex;
+      transition: transform 0.45s ease;
+      will-change: transform;
+    }
+
+    .team-slide {
+      min-width: 100%;
+    }
+
+    .team-controls {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .team-dots {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.12);
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .dot.active {
+      background: var(--gold);
+      border-color: rgba(242,181,58,0.38);
+      transform: scale(1.06);
+    }
+
+    .footer-card {
+      padding: 24px;
+      margin-top: 24px;
+    }
+
+    .footer-line {
+      height: 1px;
+      background: rgba(255,255,255,0.22);
+      margin-bottom: 24px;
+    }
+
+    .footer-copy {
+      font-size: clamp(24px, 5vw, 42px);
+      line-height: 1.45;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-note {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 24px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-social a {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .footer-social svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .floating-accessibility-btn {
+      position: fixed;
+      left: 14px;
+      bottom: 18px;
+      z-index: 95;
+      width: 64px;
+      height: 64px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.18);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+    }
+
+    .floating-accessibility-btn svg.main {
+      width: 34px;
+      height: 34px;
+      color: var(--text);
+    }
+
+    body[data-theme="soft"] .floating-accessibility-btn svg.main {
+      color: var(--soft-text);
+    }
+
+    .floating-accessibility-btn .check-badge {
+      position: absolute;
+      right: -3px;
+      top: -3px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #f2b53a;
+      color: #111827;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(255,255,255,0.9);
+    }
+
+    .floating-accessibility-btn .check-badge svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .accessibility-panel {
+      display: none;
+      position: fixed;
+      left: 16px;
+      bottom: 92px;
+      width: min(360px, calc(100% - 32px));
+      z-index: 100;
+      border-radius: 24px;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    body[data-theme="soft"] .accessibility-panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,255,255,0.58));
+      border-color: var(--soft-line);
+    }
+
+    .accessibility-panel.show {
+      display: block;
+    }
+
+    .accessibility-panel h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+
+    .tool-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .tool-row:last-child { margin-bottom: 0; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(34px);
+      transition: transform 0.75s ease, opacity 0.75s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .mini-grid,
+      .stats-grid,
+      .editions-grid,
+      .profile-card,
+      .member-card {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-media img,
+      .member-media img {
+        min-height: 320px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .brand-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header,
+      .section,
+      .footer-card,
+      .mini-card,
+      .profile-card,
+      .member-card,
+      .stats-card {
+        border-radius: 26px;
+      }
+
+      .section,
+      .mini-card,
+      .stats-card,
+      .profile-card,
+      .member-card,
+      .footer-card {
+        padding: 20px;
+      }
+
+      .site-logo {
+        width: 68px;
+        height: 68px;
+      }
+
+      .photo-badge {
+        left: 14px;
+        bottom: 14px;
+        min-height: 42px;
+        padding: 0 14px;
+        font-size: 13px;
+      }
+
+      .profile-media img,
+      .member-media img {
+        min-height: 280px;
+      }
+
+      .team-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orb one"></div>
+  <div class="bg-orb two"></div>
+  <div class="bg-orb three"></div>
+
+  <button class="floating-accessibility-btn" onclick="toggleAccessibilityPanel()" aria-label="Open accessibility tools">
+    <svg class="main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="4.5" r="1.8" fill="currentColor" stroke="none"></circle>
+      <path d="M5 8.5h14"></path>
+      <path d="M12 8.5v10"></path>
+      <path d="M8.5 21l3.5-6"></path>
+      <path d="M15.5 21L12 15"></path>
+    </svg>
+    <span class="check-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 13l4 4L19 7"></path>
+      </svg>
+    </span>
+  </button>
+
+  <div id="accessibilityPanel" class="accessibility-panel">
+    <h3>Accessibility</h3>
+
+    <div class="tool-row">
+      <button class="tool-btn" onclick="setTheme('dark')">Dark</button>
+      <button class="tool-btn" onclick="setTheme('soft')">Soft</button>
+    </div>
+
+    <div class="tool-row">
+      <button class="tool-btn" onclick="changeFont(1)">A+</button>
+      <button class="tool-btn" onclick="changeFont(-1)">A-</button>
+    </div>
+
+    <div class="tool-row">
+      <button class="tool-btn" onclick="changeSpacing(0.1)">Spacing +</button>
+      <button class="tool-btn" onclick="changeSpacing(-0.1)">Spacing -</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <header class="header glass reveal">
+      <div class="brand-row">
+        <div class="brand-left">
+          <img src="logo.png" alt="TruthOrRumor logo" class="site-logo" onerror="this.style.display='none'">
+          <div>
+            <h1>TruthOrRumor</h1>
+            <div class="tagline">Separating Facts from Rumors with clear, trusted, and responsible reporting.</div>
+          </div>
+        </div>
+
+        <div class="edition-row">
+          <a class="edition-pill" href="https://www.truthorrumor.com/" target="_blank" rel="noopener noreferrer">English Global</a>
+          <a class="edition-pill" href="https://www.truthorrumor.com/bd" target="_blank" rel="noopener noreferrer">Bangla Edition</a>
+        </div>
+      </div>
+    </header>
+
+    <nav class="nav-row reveal">
+      <a class="nav-btn" href="/">Home</a>
+      <a class="nav-btn active" href="/about">About</a>
+      <a class="nav-btn" href="/contact">Contact</a>
+    </nav>
+
+    <section class="section glass reveal">
+      <div class="section-body">
+        <div class="section-kicker">About TruthOrRumor</div>
+        <h2>Built to challenge misinformation with evidence and clarity.</h2>
+        <div class="section-copy">
+          <p>TruthOrRumor is a professional news and fact checking platform built to challenge misinformation, misleading claims, and online rumors. In a time when information spreads quickly and confusion spreads even faster, we focus on evidence, clarity, and responsibility.</p>
+          <p>Our mission is to verify trending news, investigate viral claims, and publish reliable reports that are easy to understand and trustworthy. We review sources carefully, compare facts responsibly, and help readers understand what is true, what is misleading, and what remains unverified.</p>
+          <p>We cover breaking news, political claims, viral social media content, and major world events. We are not here to add more noise to the internet. We are here to reduce confusion, bring facts to the surface, and keep truth in focus.</p>
+          <p>TruthOrRumor is designed for real readers. The platform includes country filters, topic filters, truth or rumor filters, accessibility tools, and a clean reading experience that helps people stay focused on verified information without distraction.</p>
+          <p>At our core, we believe trust must be earned. Accuracy comes before speed. Evidence comes before opinion. Responsibility comes before attention. Every report we publish follows one principle: readers deserve information they can believe in.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section glass reveal">
+      <div class="section-body">
+        <div class="mini-grid">
+          <article class="mini-card glass">
+            <h3>Our Mission</h3>
+            <p>Our mission is simple and clear: to help people read with confidence. We verify important stories, challenge questionable claims, and present information in a way that is responsible, transparent, and easy to follow.</p>
+          </article>
+
+          <article class="mini-card glass">
+            <h3>What We Cover</h3>
+            <ul class="bullet-list">
+              <li><span class="bullet">1</span><span>Breaking news and major world events</span></li>
+              <li><span class="bullet">2</span><span>Political claims and public statements</span></li>
+              <li><span class="bullet">3</span><span>Viral social media content and online rumors</span></li>
+              <li><span class="bullet">4</span><span>Truth focused and fact based reporting</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section glass reveal">
+      <div class="section-body">
+        <div class="mini-grid">
+          <article class="stats-card glass">
+            <h3>How We Verify</h3>
+            <ul class="bullet-list">
+              <li><span class="bullet">1</span><span>We identify the original claim.</span></li>
+              <li><span class="bullet">2</span><span>We review available sources carefully.</span></li>
+              <li><span class="bullet">3</span><span>We compare facts and supporting evidence.</span></li>
+              <li><span class="bullet">4</span><span>We separate confirmed, misleading, and unverified information.</span></li>
+              <li><span class="bullet">5</span><span>We publish a clear and responsible conclusion for readers.</span></li>
+            </ul>
+          </article>
+
+          <article class="stats-card glass">
+            <h3>Why Readers Trust Us</h3>
+            <ul class="bullet-list">
+              <li><span class="bullet">1</span><span>Accuracy comes before speed.</span></li>
+              <li><span class="bullet">2</span><span>Evidence comes before opinion.</span></li>
+              <li><span class="bullet">3</span><span>Clarity comes before noise.</span></li>
+              <li><span class="bullet">4</span><span>Responsibility comes before attention.</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section glass reveal">
+      <div class="section-body">
+        <div class="section-kicker">Platform Structure</div>
+        <h2>Two editions, one mission.</h2>
+        <div class="section-copy">
+          <p>TruthOrRumor currently operates in two editions to serve different audiences more effectively. The platform includes a Bangla edition for local and regional readers and an English Global edition for wider international coverage. This structure allows verified information to be presented in both regional and global contexts while creating a strong foundation for future expansion.</p>
+        </div>
+
+        <div class="editions-grid">
+          <article class="edition-card">
+            <div class="edition-label">English Global Edition</div>
+            <h3>Global reporting in English</h3>
+            <p>The English Global edition focuses on international stories, broader world coverage, and verified reporting for a wider audience.</p>
+            <a class="edition-link" href="https://www.truthorrumor.com/" target="_blank" rel="noopener noreferrer">www.truthorrumor.com</a>
+          </article>
+
+          <article class="edition-card">
+            <div class="edition-label">Bangla Edition</div>
+            <h3>Regional reporting in Bangla</h3>
+            <p>The Bangla edition serves local and regional readers with a focused reading experience designed for Bangla language audiences.</p>
+            <a class="edition-link" href="https://www.truthorrumor.com/bd" target="_blank" rel="noopener noreferrer">www.truthorrumor.com/bd</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section glass reveal">
+      <div class="section-body">
+        <div class="section-kicker">About the Founder</div>
+        <div class="profile-card glass">
+          <div class="profile-media">
+            <img src="founder.png" alt="Founder of TruthOrRumor" loading="lazy" onerror="this.style.display='none'">
+            <span class="photo-badge founder">Founder</span>
+          </div>
+
+          <div class="profile-copy">
+            <h3>Iqbal Hossain</h3>
+            <div class="role-line">Digital Marketing Expert · Cyber Security Specialist</div>
+            <p>TruthOrRumor was founded by Iqbal Hossain from Cumilla, Bangladesh. He brings together technical knowledge, digital strategy, and creative thinking to build platforms that inform, protect, and empower readers.</p>
+            <p>He is passionate about building digital products through concept, design, and development. His work reflects a strong focus on trusted information, user experience, and responsible digital publishing.</p>
+            <p>His goal with TruthOrRumor is clear: to build a platform where facts are respected, rumors are challenged, and people can read with confidence in a time of uncertainty.</p>
+            <div class="cta-row">
+              <a class="cta-btn founder-btn" href="https://iqbalhossain.bio.link" target="_blank" rel="noopener noreferrer">Know More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section glass reveal">
+      <div class="section-body">
+        <div class="section-kicker">Our Team</div>
+        <h2>A growing team built for research, verification, and trusted reporting.</h2>
+        <p>Our team section already supports a slider layout, so new team members can be added later without changing the structure.</p>
+
+        <div class="team-slider-shell" id="teamSliderShell">
+          <div class="team-track" id="teamTrack">
+            <div class="team-slide">
+              <article class="member-card glass reveal">
+                <div class="member-media">
+                  <img src="team.jpg" alt="HM Mohsin" loading="lazy" onerror="this.style.display='none'">
+                  <span class="photo-badge team">Team Member</span>
+                </div>
+
+                <div class="member-text">
+                  <h3>HM Mohsin</h3>
+                  <div class="role-line">Research Associate · Fact Checking Assistant · Content Verification Team · News Research Team</div>
+                  <div class="meta-line">Cumilla, Bangladesh</div>
+                  <p>HM Mohsin is a valued member of the TruthOrRumor team. He studied B.Sc. (Engg.) in Computer Science and Engineering at Islamic University, Kushtia, and also studied at Comilla Victoria Government College, Cumilla.</p>
+                  <p>He supports the platform through research, fact checking, content verification, and news analysis, helping ensure that published reports remain clear, accurate, and trustworthy.</p>
+                  <div class="social-row">
+                    <a class="social-btn" href="https://www.facebook.com/hm.mohsin" target="_blank" rel="noopener noreferrer">Follow on Facebook</a>
+                    <a class="social-btn" href="https://www.linkedin.com/in/Hm%20Mohsin" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-controls">
+          <button class="team-nav-btn" id="teamPrev" type="button" aria-label="Previous team member">Previous</button>
+          <div class="team-dots" id="teamDots"></div>
+          <button class="team-nav-btn" id="teamNext" type="button" aria-label="Next team member">Next</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section glass reveal">
+      <div class="section-body">
+        <div class="section-kicker">Closing Line</div>
+        <h2>TruthOrRumor is not here to follow the noise.</h2>
+        <div class="section-copy">
+          <p>It is here to challenge it, verify it, and reveal the truth.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer-card glass reveal">
+      <div class="footer-line"></div>
+      <div class="footer-copy">Copyright 2026 TruthOrRumor. All Rights Reserved.</div>
+      <div class="footer-note">Professional news, fact checking, and verified reporting for readers who want clarity over confusion.</div>
+
+      <div class="footer-social">
+        <a href="https://x.com/truthorrumor.news" target="_blank" rel="noopener noreferrer" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.9 2H22l-6.8 7.8L23 22h-6.1l-4.8-6.3L6.6 22H3.5l7.2-8.3L1 2h6.2l4.3 5.7L18.9 2Zm-1.1 18h1.7L6.3 3.9H4.5L17.8 20Z"/>
+          </svg>
+        </a>
+
+        <a href="https://www.instagram.com/truthorrumor.news" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <circle cx="12" cy="12" r="4.2"></circle>
+            <circle cx="17.3" cy="6.7" r="1"></circle>
+          </svg>
+        </a>
+
+        <a href="https://www.facebook.com/truthorrumor.news" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12Z"/>
+          </svg>
+        </a>
+
+        <a href="https://t.me/truthorrumor" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21.5 4.6c.3-1.2-.4-1.7-1.5-1.3L3.4 9.7c-1.1.4-1.1 1 .2 1.4l4.3 1.3 10-6.3c.5-.3 1-.1.6.2l-8.1 7.3-.3 4.5c.5 0 .7-.2 1-.5l2.1-2 4.4 3.2c.8.4 1.4.2 1.6-.8l2.3-13.4Z"/>
+          </svg>
+        </a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    let currentTheme = localStorage.getItem("tor_about_theme") || "dark";
+    let currentFont = Number(localStorage.getItem("tor_about_font") || 17);
+    let currentSpacing = Number(localStorage.getItem("tor_about_spacing") || 1.9);
+
+    function applyPrefs() {
+      document.body.setAttribute("data-theme", currentTheme === "soft" ? "soft" : "dark");
+      document.documentElement.style.setProperty("--reader-font-size", currentFont + "px");
+      document.documentElement.style.setProperty("--reader-line-height", currentSpacing);
+      localStorage.setItem("tor_about_theme", currentTheme);
+      localStorage.setItem("tor_about_font", currentFont);
+      localStorage.setItem("tor_about_spacing", currentSpacing);
+    }
+
+    function toggleAccessibilityPanel() {
+      document.getElementById("accessibilityPanel").classList.toggle("show");
+    }
+
+    function setTheme(theme) {
+      currentTheme = theme;
+      applyPrefs();
+    }
+
+    function changeFont(delta) {
+      currentFont = Math.max(14, Math.min(24, currentFont + delta));
+      applyPrefs();
+    }
+
+    function changeSpacing(delta) {
+      currentSpacing = Math.max(1.5, Math.min(2.4, +(currentSpacing + delta).toFixed(1)));
+      applyPrefs();
+    }
+
+    function setupReveal() {
+      const revealEls = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      revealEls.forEach((el) => observer.observe(el));
+    }
+
+    function setupTeamSlider() {
+      const track = document.getElementById('teamTrack');
+      const slides = Array.from(track.querySelectorAll('.team-slide'));
+      const prevBtn = document.getElementById('teamPrev');
+      const nextBtn = document.getElementById('teamNext');
+      const dotsWrap = document.getElementById('teamDots');
+      if (!track || !slides.length) return;
+
+      let index = 0;
+      let autoTimer = null;
+
+      dotsWrap.innerHTML = slides.map((_, i) => '<button class="dot' + (i === 0 ? ' active' : '') + '" type="button" aria-label="Go to slide ' + (i + 1) + '"></button>').join('');
+      const dots = Array.from(dotsWrap.querySelectorAll('.dot'));
+
+      function render() {
+        track.style.transform = 'translateX(-' + (index * 100) + '%)';
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+        const disabled = slides.length <= 1;
+        prevBtn.disabled = disabled;
+        nextBtn.disabled = disabled;
+        prevBtn.style.opacity = disabled ? '0.55' : '1';
+        nextBtn.style.opacity = disabled ? '0.55' : '1';
+      }
+
+      function goTo(nextIndex) {
+        index = (nextIndex + slides.length) % slides.length;
+        render();
+      }
+
+      function startAuto() {
+        if (slides.length <= 1) return;
+        stopAuto();
+        autoTimer = setInterval(() => goTo(index + 1), 5000);
+      }
+
+      function stopAuto() {
+        if (autoTimer) clearInterval(autoTimer);
+      }
+
+      prevBtn.addEventListener('click', () => {
+        goTo(index - 1);
+        startAuto();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        goTo(index + 1);
+        startAuto();
+      });
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          goTo(i);
+          startAuto();
+        });
+      });
+
+      render();
+      startAuto();
+    }
+
+    document.addEventListener('click', function (event) {
+      const panel = document.getElementById('accessibilityPanel');
+      const button = document.querySelector('.floating-accessibility-btn');
+      if (!panel || !button) return;
+      if (!panel.contains(event.target) && !button.contains(event.target)) {
+        panel.classList.remove('show');
+      }
+    });
+
+    applyPrefs();
+    setupReveal();
+    setupTeamSlider();
+  </script>
+</body>
+</html>
