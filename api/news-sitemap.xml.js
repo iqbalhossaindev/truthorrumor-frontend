@@ -1,76 +1,83 @@
 const {
   BASE_URL,
   escapeXml,
-  toIsoDate,
+  toIsoDateTime,
   cleanSlug,
   fetchPublishedRows
 } = require("./_sitemap-common");
 
+const TWO_DAYS_IN_MS = 2 * 24 * 60 * 60 * 1000;
+
+function isFresh(value) {
+  const date = value ? new Date(value) : null;
+  if (!date || Number.isNaN(date.getTime())) return false;
+  return Date.now() - date.getTime() <= TWO_DAYS_IN_MS;
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
   res.setHeader("Cache-Control", "no-store, max-age=0");
-
-  const staticPages = [
-    { loc: `${BASE_URL}/`, priority: "1.0", changefreq: "daily", lastmod: toIsoDate() },
-    { loc: `${BASE_URL}/bd`, priority: "0.95", changefreq: "daily", lastmod: toIsoDate() },
-    { loc: `${BASE_URL}/about`, priority: "0.80", changefreq: "monthly", lastmod: toIsoDate() },
-    { loc: `${BASE_URL}/contact`, priority: "0.80", changefreq: "monthly", lastmod: toIsoDate() }
-  ];
 
   let englishRows = [];
   let banglaRows = [];
 
   try {
     [englishRows, banglaRows] = await Promise.all([
-      fetchPublishedRows("posts", ["slug", "created_at", "updated_at"]),
-      fetchPublishedRows("posts_bd", ["slug", "created_at", "updated_at"])
+      fetchPublishedRows("posts", ["slug", "title", "created_at", "updated_at"]),
+      fetchPublishedRows("posts_bd", ["slug", "title", "created_at", "updated_at"])
     ]);
   } catch (error) {
-    console.error("Sitemap fetch error:", error);
+    console.error("News sitemap fetch error:", error);
   }
 
-  const articleRows = [];
-  const seen = new Set();
+  const rows = [];
 
   for (const row of englishRows) {
     const slug = cleanSlug(row.slug);
-    if (!slug || seen.has(`en:${slug}`)) continue;
+    const dateValue = row.updated_at || row.created_at;
 
-    seen.add(`en:${slug}`);
-    articleRows.push({
+    if (!slug || !isFresh(dateValue)) continue;
+
+    rows.push({
       loc: `${BASE_URL}/article/${encodeURIComponent(slug)}`,
-      priority: "0.90",
-      changefreq: "weekly",
-      lastmod: toIsoDate(row.updated_at || row.created_at)
+      title: row.title || slug,
+      publicationName: "TruthOrRumor",
+      language: "en",
+      publicationDate: toIsoDateTime(dateValue)
     });
   }
 
   for (const row of banglaRows) {
     const slug = cleanSlug(row.slug);
-    if (!slug || seen.has(`bn:${slug}`)) continue;
+    const dateValue = row.updated_at || row.created_at;
 
-    seen.add(`bn:${slug}`);
-    articleRows.push({
+    if (!slug || !isFresh(dateValue)) continue;
+
+    rows.push({
       loc: `${BASE_URL}/bd/article/${encodeURIComponent(slug)}`,
-      priority: "0.90",
-      changefreq: "weekly",
-      lastmod: toIsoDate(row.updated_at || row.created_at)
+      title: row.title || slug,
+      publicationName: "TruthOrRumor Bangla",
+      language: "bn",
+      publicationDate: toIsoDateTime(dateValue)
     });
   }
 
-  const allRows = [...staticPages, ...articleRows];
-
   const xml =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
-    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    allRows
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n` +
+    rows
       .map((row) => {
         return [
           `  <url>`,
           `    <loc>${escapeXml(row.loc)}</loc>`,
-          `    <lastmod>${escapeXml(row.lastmod)}</lastmod>`,
-          `    <changefreq>${escapeXml(row.changefreq)}</changefreq>`,
-          `    <priority>${escapeXml(row.priority)}</priority>`,
+          `    <news:news>`,
+          `      <news:publication>`,
+          `        <news:name>${escapeXml(row.publicationName)}</news:name>`,
+          `        <news:language>${escapeXml(row.language)}</news:language>`,
+          `      </news:publication>`,
+          `      <news:publication_date>${escapeXml(row.publicationDate)}</news:publication_date>`,
+          `      <news:title>${escapeXml(row.title)}</news:title>`,
+          `    </news:news>`,
           `  </url>`
         ].join("\n");
       })
