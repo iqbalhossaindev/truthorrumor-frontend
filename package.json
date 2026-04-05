@@ -1,0 +1,7 @@
+{
+  "name": "truthorrumor",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-articles.js"
+  }
+}
