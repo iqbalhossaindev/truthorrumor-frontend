@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-adsense-account" content="ca-pub-2944530159971400" />
+  <title>Loading Article | TruthOrRumor</title>
+  <meta name="description" content="Read the full article on TruthOrRumor." />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="TruthOrRumor Article" />
+  <meta property="og:description" content="Read the full article on TruthOrRumor." />
+  <meta property="og:image" content="/logo.png" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #07111d;
+      --bg-2: #101b2c;
+      --bg-3: #152235;
+      --text: #f8fafc;
+      --muted: rgba(248, 250, 252, 0.74);
+      --line: rgba(255, 255, 255, 0.12);
+      --glass: rgba(255, 255, 255, 0.08);
+      --glass-2: rgba(255, 255, 255, 0.11);
+      --gold: #f2b53a;
+      --orange: #ff8d3a;
+      --green: #22c55e;
+      --red: #ef4444;
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+      --reader-font-size: 18px;
+      --reader-line-height: 1.9;
+      --reader-width: 860px;
+    }
+
+    body[data-theme="sepia"] {
+      --bg: #f5eddf;
+      --bg-2: #eadcc7;
+      --bg-3: #dfd0bb;
+      --text: #2a2118;
+      --muted: rgba(42, 33, 24, 0.72);
+      --line: rgba(75, 58, 36, 0.12);
+      --glass: rgba(255, 248, 240, 0.42);
+      --glass-2: rgba(255, 248, 240, 0.56);
+      --shadow: 0 16px 36px rgba(73, 52, 26, 0.12);
+    }
+
+    body[data-theme="soft-light"] {
+      --bg: #eef3fb;
+      --bg-2: #e6edf7;
+      --bg-3: #dce7f2;
+      --text: #17212d;
+      --muted: rgba(23, 33, 45, 0.70);
+      --line: rgba(23, 33, 45, 0.12);
+      --glass: rgba(255, 255, 255, 0.46);
+      --glass-2: rgba(255, 255, 255, 0.60);
+      --shadow: 0 16px 36px rgba(19, 28, 43, 0.10);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(255,255,255,0.08), transparent 18%),
+        radial-gradient(circle at 86% 16%, rgba(183,132,255,0.16), transparent 18%),
+        radial-gradient(circle at 76% 72%, rgba(79,209,255,0.14), transparent 18%),
+        radial-gradient(circle at 52% 82%, rgba(242,181,58,0.10), transparent 14%),
+        linear-gradient(135deg, var(--bg), var(--bg-2) 48%, var(--bg-3));
+      background-color: var(--bg);
+      padding: 18px;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    .wrap {
+      width: min(var(--reader-width), 100%);
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .back-btn,
+    .tool-btn,
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(242, 181, 58, 0.22);
+      background: rgba(242, 181, 58, 0.12);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .action-btn.primary {
+      border: none;
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      color: #180d00;
+    }
+
+    .brand {
+      font-size: 18px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #ffffff 0%, #ffffff 26%, #f2d07a 46%, #f2b53a 56%, #ff8d3a 74%, #ef4444 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .article-card,
+    .modal-card {
+      background: linear-gradient(180deg, var(--glass-2), var(--glass));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px) saturate(145%);
+      -webkit-backdrop-filter: blur(12px) saturate(145%);
+      border-radius: 28px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .article-card::before,
+    .modal-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 16% 14%, rgba(255,255,255,0.08), transparent 14%),
+        radial-gradient(circle at 84% 82%, rgba(79,209,255,0.06), transparent 14%);
+      pointer-events: none;
+    }
+
+    .article-card > *,
+    .modal-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .status-badge.truth {
+      color: #b7ffd0;
+      background: rgba(34, 197, 94, 0.14);
+      border: 1px solid rgba(34, 197, 94, 0.18);
+    }
+
+    .status-badge.rumor {
+      color: #ffd1d1;
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(239, 68, 68, 0.18);
+    }
+
+    .status-badge svg {
+      width: 16px;
+      height: 16px;
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(30px, 6vw, 50px);
+      line-height: 1.15;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .summary {
+      padding: 14px 16px;
+      border-radius: 20px;
+      background: rgba(242, 181, 58, 0.12);
+      border: 1px solid rgba(242, 181, 58, 0.16);
+      margin-bottom: 18px;
+      line-height: 1.8;
+    }
+
+    .hero-image {
+      width: 100%;
+      border-radius: 22px;
+      margin-bottom: 18px;
+      object-fit: cover;
+      max-height: 430px;
+      border: 1px solid var(--line);
+      background: #050505;
+    }
+
+    .content {
+      font-size: var(--reader-font-size);
+      line-height: var(--reader-line-height);
+      white-space: pre-line;
+    }
+
+    .actions {
+      margin-top: 22px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .state {
+      text-align: center;
+      color: var(--muted);
+      padding: 40px 20px;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .floating-accessibility-btn {
+      position: fixed;
+      left: 14px;
+      bottom: 18px;
+      z-index: 95;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.82);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.16);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .floating-accessibility-btn svg.main {
+      width: 27px;
+      height: 27px;
+      color: #1f2937;
+    }
+
+    .floating-accessibility-btn .check-badge {
+      position: absolute;
+      right: 2px;
+      bottom: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+    }
+
+    .floating-accessibility-btn .check-badge svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      background: rgba(0,0,0,0.58);
+      z-index: 130;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(640px, 100%);
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .modal-top h3 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .modal-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .modal-close {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-size: 20px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .access-group {
+      border-radius: 22px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      margin-bottom: 14px;
+    }
+
+    .tool-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tool-btn.active {
+      background: rgba(242,181,58,0.16);
+      border-color: rgba(242,181,58,0.22);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 90px;
+      transform: translateX(-50%);
+      z-index: 160;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(15,23,42,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: #fff;
+      opacity: 0;
+      pointer-events: none;
+      transition: .22s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .article-card,
+      .modal-card,
+      .floating-accessibility-btn {
+        background: rgba(16,24,38,0.92);
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="floating-accessibility-btn" onclick="openAccessibilityModal()" aria-label="Accessibility">
+    <svg class="main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="4.5" r="1.8" fill="currentColor" stroke="none"></circle>
+      <path d="M5 8.5h14"></path>
+      <path d="M12 8.5v10"></path>
+      <path d="M8.5 21l3.5-6"></path>
+      <path d="M15.5 21L12 15"></path>
+    </svg>
+    <span class="check-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 13l4 4L19 7"></path>
+      </svg>
+    </span>
+  </button>
+
+  <div id="accessibilityBackdrop" class="modal-backdrop" onclick="closeAccessibilityModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-top">
+        <div>
+          <h3>Accessibility</h3>
+          <p class="modal-note">Adjust reading and display settings</p>
+        </div>
+        <button class="modal-close" onclick="closeAccessibilityModal()">×</button>
+      </div>
+
+      <div class="access-group">
+        <p class="modal-note">Theme</p>
+        <div class="tool-row">
+          <button class="tool-btn" id="themeDarkBtn" onclick="setTheme('dark')">Dark</button>
+          <button class="tool-btn" id="themeSepiaBtn" onclick="setTheme('sepia')">Sepia</button>
+          <button class="tool-btn" id="themeSoftBtn" onclick="setTheme('soft-light')">Soft Light</button>
+        </div>
+      </div>
+
+      <div class="access-group">
+        <p class="modal-note">Reader Width</p>
+        <div class="tool-row">
+          <button class="tool-btn" id="widthNarrowBtn" onclick="setReaderWidth('720px')">Narrow</button>
+          <button class="tool-btn" id="widthNormalBtn" onclick="setReaderWidth('860px')">Normal</button>
+          <button class="tool-btn" id="widthWideBtn" onclick="setReaderWidth('980px')">Wide</button>
+        </div>
+      </div>
+
+      <div class="access-group">
+        <p class="modal-note">Font Size</p>
+        <div class="tool-row">
+          <button class="tool-btn" onclick="changeFontSize(-1)">A-</button>
+          <button class="tool-btn" onclick="changeFontSize(1)">A+</button>
+        </div>
+      </div>
+
+      <div class="access-group">
+        <p class="modal-note">Line Spacing</p>
+        <div class="tool-row">
+          <button class="tool-btn" onclick="changeLineHeight(-0.1)">Tight</button>
+          <button class="tool-btn" onclick="changeLineHeight(0.1)">Relaxed</button>
+        </div>
+      </div>
+
+      <div class="access-group">
+        <p class="modal-note">Reset</p>
+        <div class="tool-row">
+          <button class="tool-btn" onclick="resetReadingSettings()">Reset Settings</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Done</div>
+
+  <div class="wrap">
+    <div class="topbar">
+      <a class="back-btn" href="/">Back to Home</a>
+      <div class="brand">TruthOrRumor</div>
+    </div>
+
+    <div id="articleRoot" class="article-card">
+      <div class="state">Loading article...</div>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://bsnezcbmsbsememwqsjs.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_HTgjJsMcfGgIJaUSAzXTfw_yQ2dD_Uy";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const readerPrefs = {
+      theme: "dark",
+      fontSize: 18,
+      lineHeight: 1.9,
+      width: "860px"
+    };
+
+    let toastTimer = null;
+    let currentUtterance = null;
+    let listenButtonActive = false;
+
+    function safeJsonParse(value, fallback) {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return fallback;
+      }
+    }
+
+    function escapeHtml(text) {
+      return String(text || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    function loadReaderPrefs() {
+      const saved = safeJsonParse(localStorage.getItem("tor_reader_prefs"), null);
+      if (saved) {
+        if (saved.theme) readerPrefs.theme = saved.theme;
+        if (saved.fontSize) readerPrefs.fontSize = saved.fontSize;
+        if (saved.lineHeight) readerPrefs.lineHeight = saved.lineHeight;
+        if (saved.width) readerPrefs.width = saved.width;
+      }
+    }
+
+    function saveReaderPrefs() {
+      localStorage.setItem("tor_reader_prefs", JSON.stringify(readerPrefs));
+    }
+
+    function applyReaderPrefs() {
+      document.body.dataset.theme = readerPrefs.theme;
+      document.documentElement.style.setProperty("--reader-font-size", readerPrefs.fontSize + "px");
+      document.documentElement.style.setProperty("--reader-line-height", String(readerPrefs.lineHeight));
+      document.documentElement.style.setProperty("--reader-width", readerPrefs.width);
+      updateAccessibilityButtons();
+    }
+
+    function updateAccessibilityButtons() {
+      const ids = [
+        "themeDarkBtn",
+        "themeSepiaBtn",
+        "themeSoftBtn",
+        "widthNarrowBtn",
+        "widthNormalBtn",
+        "widthWideBtn"
+      ];
+
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove("active");
+      });
+
+      const themeMap = {
+        dark: "themeDarkBtn",
+        sepia: "themeSepiaBtn",
+        "soft-light": "themeSoftBtn"
+      };
+
+      const themeBtn = document.getElementById(themeMap[readerPrefs.theme]);
+      if (themeBtn) themeBtn.classList.add("active");
+
+      const widthBtn =
+        readerPrefs.width === "720px" ? "widthNarrowBtn" :
+        readerPrefs.width === "980px" ? "widthWideBtn" :
+        "widthNormalBtn";
+
+      const widthEl = document.getElementById(widthBtn);
+      if (widthEl) widthEl.classList.add("active");
+    }
+
+    function setTheme(theme) {
+      readerPrefs.theme = theme;
+      saveReaderPrefs();
+      applyReaderPrefs();
+    }
+
+    function setReaderWidth(width) {
+      readerPrefs.width = width;
+      saveReaderPrefs();
+      applyReaderPrefs();
+    }
+
+    function changeFontSize(delta) {
+      readerPrefs.fontSize = Math.max(14, Math.min(26, readerPrefs.fontSize + delta));
+      saveReaderPrefs();
+      applyReaderPrefs();
+    }
+
+    function changeLineHeight(delta) {
+      readerPrefs.lineHeight = Math.max(1.5, Math.min(2.4, +(readerPrefs.lineHeight + delta).toFixed(1)));
+      saveReaderPrefs();
+      applyReaderPrefs();
+    }
+
+    function resetReadingSettings() {
+      readerPrefs.theme = "dark";
+      readerPrefs.fontSize = 18;
+      readerPrefs.lineHeight = 1.9;
+      readerPrefs.width = "860px";
+      saveReaderPrefs();
+      applyReaderPrefs();
+      showToast("Accessibility reset");
+    }
+
+    function openAccessibilityModal() {
+      document.getElementById("accessibilityBackdrop").classList.add("show");
+      updateAccessibilityButtons();
+    }
+
+    function closeAccessibilityModal(event) {
+      if (event && event.target && event.target.id !== "accessibilityBackdrop") return;
+      document.getElementById("accessibilityBackdrop").classList.remove("show");
+    }
+
+    function formatDate(value) {
+      const date = value ? new Date(value) : new Date();
+      if (Number.isNaN(date.getTime())) return "Unknown date";
+      return new Intl.DateTimeFormat("en", {
+        dateStyle: "medium",
+        timeStyle: "short"
+      }).format(date);
+    }
+
+    function getVerifiedIcon(color) {
+      return `
+        <svg viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l6 2.5v5c0 4.3-2.6 8.1-6 9.5-3.4-1.4-6-5.2-6-9.5v-5L12 3z"></path>
+          <path d="M9.3 11.8l1.8 1.8 3.7-3.8"></path>
+        </svg>
+      `;
+    }
+
+    function renderStatusBadge(type) {
+      const isTruth = String(type || "").toLowerCase() !== "rumor";
+      return isTruth
+        ? `<span class="status-badge truth">${getVerifiedIcon("#22c55e")} <span>Truth Verified</span></span>`
+        : `<span class="status-badge rumor">${getVerifiedIcon("#ef4444")} <span>Rumor Verified</span></span>`;
+    }
+
+    function getSlugFromPath() {
+      const parts = window.location.pathname.split("/").filter(Boolean);
+      return decodeURIComponent(parts[1] || "").trim().toLowerCase();
+    }
+
+    function stopAudio() {
+      if (currentUtterance) {
+        window.speechSynthesis.cancel();
+        currentUtterance = null;
+      }
+      const btn = document.getElementById("listenBtn");
+      if (btn) btn.textContent = "Tap To Listen";
+      listenButtonActive = false;
+    }
+
+    function toggleAudio(text) {
+      if (!text || !text.trim()) return;
+
+      if (listenButtonActive) {
+        stopAudio();
+        return;
+      }
+
+      stopAudio();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      currentUtterance = utterance;
+      listenButtonActive = true;
+
+      const btn = document.getElementById("listenBtn");
+      if (btn) btn.textContent = "Tap To Stop Listening";
+
+      utterance.onend = stopAudio;
+      utterance.onerror = stopAudio;
+
+      try {
+        window.speechSynthesis.speak(utterance);
+      } catch {
+        stopAudio();
+      }
+    }
+
+    async function loadArticle() {
+      const slug = getSlugFromPath();
+      const root = document.getElementById("articleRoot");
+
+      if (!slug) {
+        root.innerHTML = `<div class="state">Article slug not found.</div>`;
+        return;
+      }
+
+      let article = null;
+
+      const exactResult = await supabaseClient
+        .from("posts")
+        .select("*")
+        .eq("slug", slug)
+        .eq("published", true)
+        .limit(1);
+
+      if (Array.isArray(exactResult.data) && exactResult.data.length > 0) {
+        article = exactResult.data[0];
+      }
+
+      if (!article) {
+        const fallbackResult = await supabaseClient
+          .from("posts")
+          .select("*")
+          .ilike("slug", slug)
+          .eq("published", true)
+          .limit(1);
+
+        if (Array.isArray(fallbackResult.data) && fallbackResult.data.length > 0) {
+          article = fallbackResult.data[0];
+        }
+      }
+
+      if (!article) {
+        root.innerHTML = `<div class="state">Article not found.<br><br>Slug: ${escapeHtml(slug)}</div>`;
+        return;
+      }
+
+      const title = article.title || "TruthOrRumor Article";
+      const summary = article.excerpt || article.summary || "";
+      const content = article.content || "";
+      const imageUrl = article.image_url || "";
+      const country = article.country || "World";
+      const category = article.category || "World News";
+      const verdict = article.verdict || "truth";
+      const sourceUrl = article.source_url || "";
+      const publishedAt = article.created_at || "";
+      const updatedAt = article.updated_at || article.created_at || "";
+
+      document.title = title + " | TruthOrRumor";
+
+      const descriptionTag = document.querySelector('meta[name="description"]');
+      if (descriptionTag) descriptionTag.setAttribute("content", summary || title);
+
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute("content", title);
+
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute("content", summary || title);
+
+      const ogImage = document.querySelector('meta[property="og:image"]');
+      if (ogImage && imageUrl) ogImage.setAttribute("content", imageUrl);
+
+      root.innerHTML = `
+        ${renderStatusBadge(String(verdict).toLowerCase() === "rumor" ? "rumor" : "real")}
+        <h1>${escapeHtml(title)}</h1>
+        <div class="meta">
+          ${escapeHtml(country)} • ${escapeHtml(category)} • Published ${formatDate(publishedAt)} • Updated ${formatDate(updatedAt)}
+        </div>
+        ${summary ? `<div class="summary"><strong>Quick Summary:</strong> ${escapeHtml(summary)}</div>` : ""}
+        ${imageUrl ? `<img class="hero-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(title)}" onerror="this.style.display='none'">` : ""}
+        <div class="content">${escapeHtml(content)}</div>
+        <div class="actions">
+          <a class="action-btn primary" href="/">Home</a>
+          <button id="listenBtn" class="action-btn" onclick=${JSON.stringify("")}>Tap To Listen</button>
+          ${sourceUrl ? `<a class="action-btn" href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">Source</a>` : ""}
+        </div>
+      `;
+
+      const listenBtn = document.getElementById("listenBtn");
+      if (listenBtn) {
+        listenBtn.onclick = function () {
+          toggleAudio([title, summary, content].filter(Boolean).join(". "));
+        };
+      }
+    }
+
+    window.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        closeAccessibilityModal();
+      }
+    });
+
+    window.addEventListener("beforeunload", stopAudio);
+
+    loadReaderPrefs();
+    applyReaderPrefs();
+    loadArticle();
+  </script>
+</body>
+</html>
