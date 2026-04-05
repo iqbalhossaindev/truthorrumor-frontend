@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.truthorrumor.com/sitemap.xml
+Sitemap: https://www.truthorrumor.com/api/news-sitemap.xml

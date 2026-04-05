@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-adsense-account" content="ca-pub-2944530159971400" />
+  <title>লোড হচ্ছে | TruthOrRumor Bangla</title>
+  <meta name="description" content="TruthOrRumor Bangla তে সর্বশেষ যাচাইকৃত প্রতিবেদন পড়ুন।" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="author" content="TruthOrRumor Editorial Team" />
+  <link rel="canonical" href="https://www.truthorrumor.com/bd" />
+  <meta name="theme-color" content="#07111d" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="TruthOrRumor Bangla" />
+  <meta property="og:url" content="https://www.truthorrumor.com/bd" />
+  <meta property="og:locale" content="bn_BD" />
+  <meta property="og:title" content="TruthOrRumor Bangla Article" />
+  <meta property="og:description" content="TruthOrRumor Bangla তে সর্বশেষ যাচাইকৃত প্রতিবেদন পড়ুন।" />
+  <meta property="og:image" content="https://www.truthorrumor.com/logo.png" />
+  <meta property="og:image:alt" content="TruthOrRumor Bangla" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="TruthOrRumor Bangla Article" />
+  <meta name="twitter:description" content="TruthOrRumor Bangla তে সর্বশেষ যাচাইকৃত প্রতিবেদন পড়ুন।" />
+  <meta name="twitter:image" content="https://www.truthorrumor.com/logo.png" />
+  <script id="articleStructuredData" type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "TruthOrRumor Bangla Article",
+    "url": "https://www.truthorrumor.com/bd",
+    "inLanguage": "bn"
+  }</script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #07111d;
+      --bg-2: #101b2c;
+      --bg-3: #152235;
+      --text: #f8fafc;
+      --muted: rgba(248, 250, 252, 0.74);
+      --line: rgba(255, 255, 255, 0.12);
+      --glass: rgba(255, 255, 255, 0.08);
+      --glass-2: rgba(255, 255, 255, 0.11);
+      --gold: #f2b53a;
+      --orange: #ff8d3a;
+      --green: #22c55e;
+      --red: #ef4444;
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+      --reader-font-size: 18px;
+      --reader-line-height: 1.9;
+      --reader-width: 860px;
+    }
+
+    body[data-theme="sepia"] {
+      --bg: #f5eddf;
+      --bg-2: #eadcc7;
+      --bg-3: #dfd0bb;
+      --text: #2a2118;
+      --muted: rgba(42, 33, 24, 0.72);
+      --line: rgba(75, 58, 36, 0.12);
+      --glass: rgba(255, 248, 240, 0.42);
+      --glass-2: rgba(255, 248, 240, 0.56);
+      --shadow: 0 16px 36px rgba(73, 52, 26, 0.12);
+    }
+
+    body[data-theme="soft-light"] {
+      --bg: #eef3fb;
+      --bg-2: #e6edf7;
+      --bg-3: #dce7f2;
+      --text: #17212d;
+      --muted: rgba(23, 33, 45, 0.70);
+      --line: rgba(23, 33, 45, 0.12);
+      --glass: rgba(255, 255, 255, 0.46);
+      --glass-2: rgba(255, 255, 255, 0.60);
+      --shadow: 0 16px 36px rgba(19, 28, 43, 0.10);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(255,255,255,0.08), transparent 18%),
+        radial-gradient(circle at 86% 16%, rgba(183,132,255,0.16), transparent 18%),
+        radial-gradient(circle at 76% 72%, rgba(79,209,255,0.14), transparent 18%),
+        radial-gradient(circle at 52% 82%, rgba(242,181,58,0.10), transparent 14%),
+        linear-gradient(135deg, var(--bg), var(--bg-2) 48%, var(--bg-3));
+      background-color: var(--bg);
+      padding: 18px;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    .wrap {
+      width: min(var(--reader-width), 100%);
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .back-btn,
+    .tool-btn,
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(242, 181, 58, 0.22);
+      background: rgba(242, 181, 58, 0.12);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .action-btn.primary {
+      border: none;
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      color: #180d00;
+    }
+
+    .brand {
+      font-size: 18px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #ffffff 0%, #ffffff 26%, #f2d07a 46%, #f2b53a 56%, #ff8d3a 74%, #ef4444 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .article-card,
+    .modal-card {
+      background: linear-gradient(180deg, var(--glass-2), var(--glass));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px) saturate(145%);
+      -webkit-backdrop-filter: blur(12px) saturate(145%);
+      border-radius: 28px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .article-card::before,
+    .modal-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 16% 14%, rgba(255,255,255,0.08), transparent 14%),
+        radial-gradient(circle at 84% 82%, rgba(79,209,255,0.06), transparent 14%);
+      pointer-events: none;
+    }
+
+    .article-card > *,
+    .modal-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .status-badge.truth {
+      color: #b7ffd0;
+      background: rgba(34, 197, 94, 0.14);
+      border: 1px solid rgba(34, 197, 94, 0.18);
+    }
+
+    .status-badge.rumor {
+      color: #ffd1d1;
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(239, 68, 68, 0.18);
+    }
+
+    .status-badge svg {
+      width: 16px;
+      height: 16px;
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(30px, 6vw, 50px);
+      line-height: 1.15;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .summary {
+      padding: 14px 16px;
+      border-radius: 20px;
+      background: rgba(242, 181, 58, 0.12);
+      border: 1px solid rgba(242, 181, 58, 0.16);
+      margin-bottom: 18px;
+      line-height: 1.8;
+    }
+
+    .hero-media {
+      width: 100%;
+      margin-bottom: 18px;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #050505;
+      aspect-ratio: 16 / 9;
+    }
+
+    .hero-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #050505;
+    }
+
+    .content {
+      font-size: var(--reader-font-size);
+      line-height: var(--reader-line-height);
+      white-space: pre-line;
+    }
+
+    .actions {
+      margin-top: 22px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .state {
+      text-align: center;
+      color: var(--muted);
+      padding: 40px 20px;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .floating-accessibility-btn {
+      position: fixed;
+      left: 14px;
+      bottom: 18px;
+      z-index: 95;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.82);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.16);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .floating-accessibility-btn svg.main {
+      width: 27px;
+      height: 27px;
+      color: #1f2937;
+    }
+
+    .floating-accessibility-btn .check-badge {
+      position: absolute;
+      right: 2px;
+      bottom: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+    }
+
+    .floating-accessibility-btn .check-badge svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      background: rgba(0,0,0,0.58);
+      z-index: 130;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(640px, 100%);
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .modal-top h3 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .modal-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .modal-close {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-size: 20px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .access-group {
+      border-radius: 22px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      margin-bottom: 14px;
+    }
+
+    .tool-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tool-btn.active {
+      background: rgba(242,181,58,0.16);
+      border-color: rgba(242,181,58,0.22);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 90px;
+      transform: translateX(-50%);
+      z-index: 160;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(15,23,42,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: #fff;
+      opacity: 0;
+      pointer-events: none;
+      transition: .22s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .article-card,
+      .modal-card,
+      .floating-accessibility-btn {
+        background: rgba(16,24,38,0.92);
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="floating-accessibility-btn" onclick="openAccessibilityModal()" aria-label="Reading settings">
+    <svg class="main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="4.5" r="1.8" fill="currentColor" stroke="none"></circle>
+      <path d="M5 8.5h14"></path>
+      <path d="M12 8.5v10"></path>
+      <path d="M8.5 21l3.5-6"></path>
+      <path d="M15.5 21L12 15"></path>
+    </svg>
+    <span class="check-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 13l4 4L19 7"></path>
+      </svg>
+    </span>
+  </button>
+
+  <div id="accessibilityBackdrop" class="modal-backdrop" onclick="closeAccessibilityModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-top">
+        <div>
+          <h3>পড়ার সেটিংস</h3>
+          <p class="modal-note">পড়ার অভিজ্ঞতা নিজের মতো ঠিক করুন</p>
+        </div>
+        <button class="modal-close" onclick="closeAccessibilityModal()">×</button>
+      </div>
+
+      <div class="access-group">
+        <p class="modal-note">থিম</p>
+        <div class="tool-row">
+          <button class="tool-btn" id="themeDarkBtn" onclick="setTheme('dark')">ডার্ক</button>
+          <button class="tool-btn" id="themeSepiaBtn" onclick="setTheme('sepia')">সেপিয়া</button>
+          <button class="tool-btn" id="themeSoftBtn" onclick="setTheme('soft-light')">সফট লাইট</button>
+        </div>
+      </div>
+
+      <div class="access-group">
+        <p class="modal-note">পাঠের প্রস্থ</p>
+        <div class="tool-row">
+          <button class="tool-btn" id="widthNarrowBtn" onclick="setReaderWidth('720px')">ছোট</button>
+          <button class="tool-btn" id="widthNormalBtn" onclick="setReaderWidth('860px')">স্বাভাবিক</button>
+          <button class="tool-btn" id="widthWideBtn" onclick="setReaderWidth('980px')">বড়</button>
+        </div>
+      </div>
+
+      <div class="access-group">
+        <p class="modal-note">ফন্ট সাইজ</p>
+        <div class="tool-row">
+          <button class="tool-btn" onclick="changeFontSize(-1)">A-</button>
+          <button class="tool-btn" onclick="changeFontSize(1)">A+</button>
+        </div>
+      </div>
+
+      <div class="access-group">
+        <p class="modal-note">লাইন ফাঁক</p>
+        <div class="tool-row">
+          <button class="tool-btn" onclick="changeLineHeight(-0.1)">কম</button>
+          <button class="tool-btn" onclick="changeLineHeight(0.1)">বেশি</button>
+        </div>
+      </div>
+
+      <div class="access-group">
+        <p class="modal-note">রিসেট</p>
+        <div class="tool-row">
+          <button class="tool-btn" onclick="resetReadingSettings()">সেটিংস রিসেট</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">সম্পন্ন</div>
+
+  <div class="wrap">
+    <div class="topbar">
+      <a class="back-btn" href="/bd">হোমে ফিরে যান</a>
+      <div class="brand">TruthOrRumor Bangla</div>
+    </div>
+
+    <div id="articleRoot" class="article-card">
+      <div class="state">প্রতিবেদন লোড হচ্ছে...</div>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://bsnezcbmsbsememwqsjs.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_HTgjJsMcfGgIJaUSAzXTfw_yQ2dD_Uy";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const readerPrefs = {
+      theme: "dark",
+      fontSize: 18,
+      lineHeight: 1.9,
+      width: "860px"
+    };
+
+    let toastTimer = null;
+    let currentUtterance = null;
+    let listenButtonActive = false;
+
+    function safeJsonParse(value, fallback) {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return fallback;
+      }
+    }
+
+    function escapeHtml(text) {
+      return String(text || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const SITE_NAME = "TruthOrRumor Bangla";
+    const BASE_URL = "https://www.truthorrumor.com";
+    const DEFAULT_IMAGE_URL = BASE_URL + "/logo.png";
+    const DEFAULT_DESCRIPTION = "TruthOrRumor Bangla তে সর্বশেষ যাচাইকৃত প্রতিবেদন পড়ুন।";
+    const DEFAULT_AUTHOR = "TruthOrRumor Editorial Team";
+
+    function normalizeText(value) {
+      return String(value || "").replace(/\s+/g, " ").trim();
+    }
+
+    function makeMetaDescription(text, fallbackTitle) {
+      const base = normalizeText(text || fallbackTitle || DEFAULT_DESCRIPTION) || DEFAULT_DESCRIPTION;
+      return base.length > 160 ? base.slice(0, 157).trimEnd() + "..." : base;
+    }
+
+    function toAbsoluteUrl(value, fallback = DEFAULT_IMAGE_URL) {
+      const raw = normalizeText(value);
+      if (!raw) return fallback;
+      try {
+        return new URL(raw, BASE_URL).href;
+      } catch {
+        return fallback;
+      }
+    }
+
+    function setMetaTag(attribute, key, content) {
+      let element = document.querySelector(`meta[${attribute}="${key}"]`);
+      if (!element) {
+        element = document.createElement("meta");
+        element.setAttribute(attribute, key);
+        document.head.appendChild(element);
+      }
+      element.setAttribute("content", String(content || ""));
+    }
+
+    function setCanonical(url) {
+      let element = document.querySelector('link[rel="canonical"]');
+      if (!element) {
+        element = document.createElement("link");
+        element.setAttribute("rel", "canonical");
+        document.head.appendChild(element);
+      }
+      element.setAttribute("href", url);
+    }
+
+    function setStructuredData(data) {
+      let element = document.getElementById("articleStructuredData");
+      if (!element) {
+        element = document.createElement("script");
+        element.id = "articleStructuredData";
+        element.type = "application/ld+json";
+        document.head.appendChild(element);
+      }
+      element.textContent = JSON.stringify(data, null, 2);
+    }
+
+    function buildArticleUrl(slugValue) {
+      return BASE_URL + "/bd/article/" + encodeURIComponent(String(slugValue || getSlugFromPath() || "").trim().toLowerCase());
+    }
+
+    function buildAuthorSchema(name) {
+      const finalName = normalizeText(name) || DEFAULT_AUTHOR;
+      return finalName === DEFAULT_AUTHOR
+        ? { "@type": "Organization", name: SITE_NAME }
+        : { "@type": "Person", name: finalName };
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    function loadReaderPrefs() {
+      const saved = safeJsonParse(localStorage.getItem("tor_reader_prefs_bd"), null);
+      if (saved) {
+        if (saved.theme) readerPrefs.theme = saved.theme;
+        if (saved.fontSize) readerPrefs.fontSize = saved.fontSize;
+        if (saved.lineHeight) readerPrefs.lineHeight = saved.lineHeight;
+        if (saved.width) readerPrefs.width = saved.width;
+      }
+    }
+
+    function saveReaderPrefs() {
+      localStorage.setItem("tor_reader_prefs_bd", JSON.stringify(readerPrefs));
+    }
+
+    function applyReaderPrefs() {
+      document.body.dataset.theme = readerPrefs.theme;
+      document.documentElement.style.setProperty("--reader-font-size", readerPrefs.fontSize + "px");
+      document.documentElement.style.setProperty("--reader-line-height", String(readerPrefs.lineHeight));
+      document.documentElement.style.setProperty("--reader-width", readerPrefs.width);
+      updateAccessibilityButtons();
+    }
+
+    function updateAccessibilityButtons() {
+      const ids = [
+        "themeDarkBtn",
+        "themeSepiaBtn",
+        "themeSoftBtn",
+        "widthNarrowBtn",
+        "widthNormalBtn",
+        "widthWideBtn"
+      ];
+
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove("active");
+      });
+
+      const themeMap = {
+        dark: "themeDarkBtn",
+        sepia: "themeSepiaBtn",
+        "soft-light": "themeSoftBtn"
+      };
+
+      const themeBtn = document.getElementById(themeMap[readerPrefs.theme]);
+      if (themeBtn) themeBtn.classList.add("active");
+
+      const widthBtn =
+        readerPrefs.width === "720px" ? "widthNarrowBtn" :
+        readerPrefs.width === "980px" ? "widthWideBtn" :
+        "widthNormalBtn";
+
+      const widthEl = document.getElementById(widthBtn);
+      if (widthEl) widthEl.classList.add("active");
+    }
+
+    function setTheme(theme) {
+      readerPrefs.theme = theme;
+      saveReaderPrefs();
+      applyReaderPrefs();
+    }
+
+    function setReaderWidth(width) {
+      readerPrefs.width = width;
+      saveReaderPrefs();
+      applyReaderPrefs();
+    }
+
+    function changeFontSize(delta) {
+      readerPrefs.fontSize = Math.max(14, Math.min(26, readerPrefs.fontSize + delta));
+      saveReaderPrefs();
+      applyReaderPrefs();
+    }
+
+    function changeLineHeight(delta) {
+      readerPrefs.lineHeight = Math.max(1.5, Math.min(2.4, +(readerPrefs.lineHeight + delta).toFixed(1)));
+      saveReaderPrefs();
+      applyReaderPrefs();
+    }
+
+    function resetReadingSettings() {
+      readerPrefs.theme = "dark";
+      readerPrefs.fontSize = 18;
+      readerPrefs.lineHeight = 1.9;
+      readerPrefs.width = "860px";
+      saveReaderPrefs();
+      applyReaderPrefs();
+      showToast("সেটিংস রিসেট হয়েছে");
+    }
+
+    function openAccessibilityModal() {
+      document.getElementById("accessibilityBackdrop").classList.add("show");
+      updateAccessibilityButtons();
+    }
+
+    function closeAccessibilityModal(event) {
+      if (event && event.target && event.target.id !== "accessibilityBackdrop") return;
+      document.getElementById("accessibilityBackdrop").classList.remove("show");
+    }
+
+    function formatDate(value) {
+      const date = value ? new Date(value) : new Date();
+      if (Number.isNaN(date.getTime())) return "তারিখ পাওয়া যায়নি";
+      return new Intl.DateTimeFormat("bn-BD", {
+        dateStyle: "medium",
+        timeStyle: "short"
+      }).format(date);
+    }
+
+    function getVerifiedIcon(color) {
+      return `
+        <svg viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l6 2.5v5c0 4.3-2.6 8.1-6 9.5-3.4-1.4-6-5.2-6-9.5v-5L12 3z"></path>
+          <path d="M9.3 11.8l1.8 1.8 3.7-3.8"></path>
+        </svg>
+      `;
+    }
+
+    function renderStatusBadge(type) {
+      const isTruth = String(type || "").toLowerCase() !== "rumor";
+      return isTruth
+        ? `<span class="status-badge truth">${getVerifiedIcon("#22c55e")} <span>সত্য যাচাই</span></span>`
+        : `<span class="status-badge rumor">${getVerifiedIcon("#ef4444")} <span>গুজব সতর্কতা</span></span>`;
+    }
+
+    function getSlugFromPath() {
+      const parts = window.location.pathname.split("/").filter(Boolean);
+      return decodeURIComponent(parts[parts.length - 1] || "").trim().toLowerCase();
+    }
+
+    function stopAudio() {
+      if (currentUtterance) {
+        window.speechSynthesis.cancel();
+        currentUtterance = null;
+      }
+      const btn = document.getElementById("listenBtn");
+      if (btn) btn.textContent = "শুনুন";
+      listenButtonActive = false;
+    }
+
+    function toggleAudio(text) {
+      if (!text || !text.trim()) return;
+
+      if (listenButtonActive) {
+        stopAudio();
+        return;
+      }
+
+      stopAudio();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "bn-BD";
+      currentUtterance = utterance;
+      listenButtonActive = true;
+
+      const btn = document.getElementById("listenBtn");
+      if (btn) btn.textContent = "শোনা বন্ধ করুন";
+
+      utterance.onend = stopAudio;
+      utterance.onerror = stopAudio;
+
+      try {
+        window.speechSynthesis.speak(utterance);
+      } catch {
+        stopAudio();
+      }
+    }
+
+
+    async function shareArticle(title, text, url) {
+      const shareTitle = title || "TruthOrRumor Bangla";
+      const shareText = text || "TruthOrRumor Bangla তে এই প্রতিবেদনটি পড়ুন।";
+      const shareUrl = url || window.location.href;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: shareTitle,
+            text: shareText,
+            url: shareUrl
+          });
+          return;
+        } catch (error) {
+          if (error && error.name === "AbortError") return;
+        }
+      }
+
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        showToast("লিংক কপি হয়েছে");
+      } catch {
+        showToast("শেয়ার লিংক কপি করা যায়নি");
+      }
+    }
+
+    async function loadArticle() {
+      const slug = getSlugFromPath();
+      const root = document.getElementById("articleRoot");
+
+      if (!slug) {
+        setMetaTag("name", "robots", "noindex,follow");
+        root.innerHTML = `<div class="state">প্রতিবেদনের স্লাগ পাওয়া যায়নি।</div>`;
+        return;
+      }
+
+      let article = null;
+
+      const exactResult = await supabaseClient
+        .from("posts_bd")
+        .select("*")
+        .eq("slug", slug)
+        .eq("published", true)
+        .limit(1);
+
+      if (Array.isArray(exactResult.data) && exactResult.data.length > 0) {
+        article = exactResult.data[0];
+      }
+
+      if (!article) {
+        const fallbackResult = await supabaseClient
+          .from("posts_bd")
+          .select("*")
+          .ilike("slug", slug)
+          .eq("published", true)
+          .limit(1);
+
+        if (Array.isArray(fallbackResult.data) && fallbackResult.data.length > 0) {
+          article = fallbackResult.data[0];
+        }
+      }
+
+      if (!article) {
+        setMetaTag("name", "robots", "noindex,follow");
+        root.innerHTML = `<div class="state">প্রতিবেদন পাওয়া যায়নি।<br><br>Slug: ${escapeHtml(slug)}</div>`;
+        return;
+      }
+
+      const title = normalizeText(article.title) || "TruthOrRumor Bangla";
+      const summary = normalizeText(article.excerpt || article.summary || "");
+      const content = article.content || "";
+      const imageUrl = article.image_url || "";
+      const country = normalizeText(article.country) || "বিশ্ব";
+      const category = normalizeText(article.category) || "বাংলা খবর";
+      const verdict = article.verdict || "truth";
+      const sourceUrl = article.source_url || "";
+      const publishedAt = article.created_at || "";
+      const updatedAt = article.updated_at || article.created_at || "";
+      const authorName = normalizeText(article.author || article.author_name || article.authorName || "") || DEFAULT_AUTHOR;
+      const articleSlug = normalizeText(article.slug || slug).toLowerCase();
+      const articleUrl = buildArticleUrl(articleSlug);
+      const metaDescription = makeMetaDescription(summary, title);
+      const shareImage = toAbsoluteUrl(imageUrl, DEFAULT_IMAGE_URL);
+      const publishedIso = publishedAt ? new Date(publishedAt).toISOString() : "";
+      const updatedIso = updatedAt ? new Date(updatedAt).toISOString() : (publishedIso || "");
+
+      document.title = title + " | " + SITE_NAME;
+      setMetaTag("name", "description", metaDescription);
+      setMetaTag("name", "robots", "index,follow,max-image-preview:large");
+      setMetaTag("name", "author", authorName);
+      setMetaTag("property", "og:type", "article");
+      setMetaTag("property", "og:site_name", SITE_NAME);
+      setMetaTag("property", "og:title", title);
+      setMetaTag("property", "og:description", metaDescription);
+      setMetaTag("property", "og:image", shareImage);
+      setMetaTag("property", "og:image:alt", title);
+      setMetaTag("property", "og:url", articleUrl);
+      setMetaTag("property", "og:locale", "bn_BD");
+      if (publishedIso) setMetaTag("property", "article:published_time", publishedIso);
+      if (updatedIso) setMetaTag("property", "article:modified_time", updatedIso);
+      setMetaTag("property", "article:section", category);
+      setMetaTag("name", "twitter:card", "summary_large_image");
+      setMetaTag("name", "twitter:title", title);
+      setMetaTag("name", "twitter:description", metaDescription);
+      setMetaTag("name", "twitter:image", shareImage);
+      setCanonical(articleUrl);
+      setStructuredData({
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": articleUrl
+        },
+        headline: title,
+        description: metaDescription,
+        image: [shareImage],
+        datePublished: publishedIso || undefined,
+        dateModified: updatedIso || undefined,
+        author: [buildAuthorSchema(authorName)],
+        publisher: {
+          "@type": "Organization",
+          name: SITE_NAME,
+          logo: {
+            "@type": "ImageObject",
+            url: DEFAULT_IMAGE_URL
+          }
+        },
+        articleSection: category,
+        inLanguage: "bn",
+        isAccessibleForFree: true,
+        url: articleUrl
+      });
+
+      root.innerHTML = `
+        ${renderStatusBadge(String(verdict).toLowerCase() === "rumor" ? "rumor" : "real")}
+        <h1>${escapeHtml(title)}</h1>
+        <div class="meta">
+          ${escapeHtml(country)} • ${escapeHtml(category)} • প্রকাশ: ${formatDate(publishedAt)} • আপডেট: ${formatDate(updatedAt)}
+        </div>
+        ${summary ? `<div class="summary"><strong>সংক্ষিপ্ত সারাংশ:</strong> ${escapeHtml(summary)}</div>` : ""}
+        ${imageUrl ? `<div class="hero-media"><img class="hero-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(title)}" onerror="this.closest(\'.hero-media\').style.display=\'none\'"></div>` : ""}
+        <div class="content">${escapeHtml(content)}</div>
+        <div class="actions">
+          <a class="action-btn primary" href="/bd">হোম</a>
+          <button id="listenBtn" class="action-btn" onclick=${JSON.stringify("")}>শুনুন</button>
+          <button id="shareBtn" class="action-btn" onclick=${JSON.stringify("")}>শেয়ার</button>
+          ${sourceUrl ? `<a class="action-btn" href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">মূল সূত্র</a>` : ""}
+        </div>
+      `;
+
+      const listenBtn = document.getElementById("listenBtn");
+      if (listenBtn) {
+        listenBtn.onclick = function () {
+          toggleAudio([title, summary, content].filter(Boolean).join(". "));
+        };
+      }
+
+      const shareBtn = document.getElementById("shareBtn");
+      if (shareBtn) {
+        shareBtn.onclick = function () {
+          shareArticle(title, summary || "TruthOrRumor Bangla তে এই প্রতিবেদনটি পড়ুন।", articleUrl);
+        };
+      }
+    }
+
+    window.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        closeAccessibilityModal();
+      }
+    });
+
+    window.addEventListener("beforeunload", stopAudio);
+
+    loadReaderPrefs();
+    applyReaderPrefs();
+    loadArticle();
+  </script>
+</body>
+</html>
