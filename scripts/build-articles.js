@@ -14,12 +14,17 @@ function escapeHtml(value) {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
+    .replace(/\"/g, "&quot;")
     .replace(/'/g, "&#39;");
 }
 
 function stripHtml(value) {
-  return String(value || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  return String(value || "")
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function safeJson(value) {
@@ -44,10 +49,10 @@ function renderBody(value) {
     .join("\n");
 }
 
-function toIsoDate(value) {
-  const date = value ? new Date(value) : new Date();
-  if (Number.isNaN(date.getTime())) return new Date().toISOString().slice(0, 10);
-  return date.toISOString().slice(0, 10);
+function trimText(value, limit) {
+  const text = stripHtml(value);
+  if (text.length <= limit) return text;
+  return `${text.slice(0, Math.max(0, limit - 1)).trim()}…`;
 }
 
 function formatDisplayDate(value, lang) {
@@ -96,9 +101,9 @@ function getBody(post) {
     post.body ||
     post.article_body ||
     post.article_html ||
+    post.long_description ||
     post.description ||
     post.summary ||
-    post.verdict ||
     ""
   );
 }
@@ -132,31 +137,52 @@ function getStatus(post) {
   return verdict.includes("rumor") || verdict.includes("গুজব") ? "rumor" : "truth";
 }
 
-function trimText(value, limit) {
-  const text = stripHtml(value);
-  if (text.length <= limit) return text;
-  return `${text.slice(0, Math.max(0, limit - 1)).trim()}…`;
+function getTopicIcon(category) {
+  const c = String(category || "").toLowerCase();
+  if (c.includes("energy") || c.includes("power") || c.includes("fuel")) return "⚡";
+  if (c.includes("politic") || c.includes("national") || c.includes("government") || c.includes("bangladesh")) return "🏛";
+  if (c.includes("world") || c.includes("international") || c.includes("global")) return "🌍";
+  if (c.includes("econom") || c.includes("business") || c.includes("market") || c.includes("trade")) return "💹";
+  if (c.includes("sport")) return "🏅";
+  if (c.includes("tech") || c.includes("science")) return "🧪";
+  if (c.includes("health")) return "🩺";
+  if (c.includes("crime") || c.includes("law")) return "⚖️";
+  if (c.includes("entertainment") || c.includes("culture")) return "🎭";
+  return "•";
 }
 
 function labelsFor(lang) {
   if (lang === "bn") {
     return {
-      siteName: "TruthOrRumor Bangla",
+      siteName: "TruthOrRumor",
       backHome: "হোমে ফিরে যান",
       share: "শেয়ার",
       source: "সোর্স",
-      listen: "Tap To Listen",
+      listen: "শুনুন",
       stop: "শোনা বন্ধ করুন",
-      readingSettings: "পড়ার সেটিংস",
-      readingNote: "পড়ার অভিজ্ঞতা নিজের মতো ঠিক করুন",
-      theme: "থিম",
-      dark: "ডার্ক",
-      sepia: "সেপিয়া",
-      soft: "সফট লাইট",
-      textSize: "ফন্ট সাইজ",
-      lineSpace: "লাইন ফাঁক",
-      reset: "রিসেট",
-      resetNow: "সেটিংস রিসেট",
+      accessibility: "অ্যাক্সেসিবিলিটি",
+      close: "Close",
+      theme: "Theme",
+      dark: "Dark",
+      sepia: "Sepia",
+      soft: "Soft Light",
+      readerWidth: "Reader Width",
+      narrow: "Narrow",
+      normal: "Normal",
+      wide: "Wide",
+      textSize: "Font Size",
+      lineSpace: "Line Spacing",
+      tight: "Tight",
+      relaxed: "Relaxed",
+      readerMode: "Reader Mode",
+      toggleReaderMode: "Toggle Reader Mode",
+      reset: "Reset",
+      hapticsAndAutoScroll: "Haptic Feedback & Auto Scroll",
+      hapticsOn: "Haptics On",
+      hapticsOff: "Haptics Off",
+      autoScrollOn: "Auto Scroll On",
+      autoScrollOff: "Auto Scroll Off",
+      readingNote: "উন্নত রিডিং কন্ট্রোল ব্যবহার করে আরও স্বচ্ছল, ব্যক্তিগত ও আরামদায়ক পড়ার অভিজ্ঞতা উপভোগ করুন।",
       shareStory: "Share Story",
       sharedTimes: "Shared 0 times",
       shareAs: "Share As",
@@ -181,12 +207,13 @@ function labelsFor(lang) {
       copied: "লিংক কপি হয়েছে",
       saved: "Saved for later",
       noSource: "সোর্স পাওয়া যায়নি",
-      truthVerification: "TRUTH VERIFICATION",
-      sourceLabel: "Source",
+      verifiedNews: "Verified News",
+      rumorDetected: "Rumor Detected",
       updated: "আপডেট",
       category: "বিভাগ",
       narratorIntro: "এই প্রতিবেদনটি শোনানো হচ্ছে",
-      openSource: "মূল সোর্স খুলুন"
+      previewTitle: "TruthOrRumor",
+      actionFailed: "Action failed"
     };
   }
 
@@ -197,16 +224,29 @@ function labelsFor(lang) {
     source: "Source",
     listen: "Tap To Listen",
     stop: "Stop Listening",
-    readingSettings: "Reading settings",
-    readingNote: "Adjust your reading experience",
+    accessibility: "Accessibility",
+    close: "Close",
     theme: "Theme",
     dark: "Dark",
     sepia: "Sepia",
     soft: "Soft Light",
-    textSize: "Text size",
-    lineSpace: "Line spacing",
+    readerWidth: "Reader Width",
+    narrow: "Narrow",
+    normal: "Normal",
+    wide: "Wide",
+    textSize: "Font Size",
+    lineSpace: "Line Spacing",
+    tight: "Tight",
+    relaxed: "Relaxed",
+    readerMode: "Reader Mode",
+    toggleReaderMode: "Toggle Reader Mode",
     reset: "Reset",
-    resetNow: "Reset settings",
+    hapticsAndAutoScroll: "Haptic Feedback & Auto Scroll",
+    hapticsOn: "Haptics On",
+    hapticsOff: "Haptics Off",
+    autoScrollOn: "Auto Scroll On",
+    autoScrollOff: "Auto Scroll Off",
+    readingNote: "Use advanced reading controls for a smoother, more personal and comfortable reading experience.",
     shareStory: "Share Story",
     sharedTimes: "Shared 0 times",
     shareAs: "Share As",
@@ -231,12 +271,13 @@ function labelsFor(lang) {
     copied: "Link copied",
     saved: "Saved for later",
     noSource: "Source not available",
-    truthVerification: "TRUTH VERIFICATION",
-    sourceLabel: "Source",
+    verifiedNews: "Verified News",
+    rumorDetected: "Rumor Detected",
     updated: "Updated",
     category: "Category",
     narratorIntro: "Now reading this article",
-    openSource: "Open original source"
+    previewTitle: "TruthOrRumor",
+    actionFailed: "Action failed"
   };
 }
 
@@ -248,10 +289,13 @@ function buildArticleHtml(post, lang) {
   const image = getImage(post);
   const author = getAuthor(post);
   const category = getCategory(post);
+  const categoryIcon = getTopicIcon(category);
   const sourceUrl = getSourceUrl(post);
   const body = getBody(post);
   const bodyHtml = renderBody(body);
   const status = getStatus(post);
+  const statusLabel = status === "rumor" ? labels.rumorDetected : labels.verifiedNews;
+  const statusSymbol = status === "rumor" ? "✕" : "✓";
   const updated = post.updated_at || post.created_at || new Date().toISOString();
   const created = post.created_at || updated;
   const displayDate = formatDisplayDate(updated, lang);
@@ -275,8 +319,12 @@ function buildArticleHtml(post, lang) {
     image,
     author,
     category,
+    categoryIcon,
     sourceUrl,
     articleUrl,
+    verdict: status,
+    verdictLabel: statusLabel,
+    verdictSymbol: statusSymbol,
     utmCampaign: lang === "bn" ? "bangla_share" : "english_share",
     speechText: [labels.narratorIntro, title, shareSummary, stripHtml(body)].join(". "),
     shareCountKey: `${localStoragePrefix}_share_count_${slug}`,
@@ -327,8 +375,6 @@ function buildArticleHtml(post, lang) {
     ]
   };
 
-  const previewStatusClass = status === "rumor" ? "preview-rumor" : "preview-truth";
-
   return `<!doctype html>
 <html lang="${lang === "bn" ? "bn" : "en"}">
 <head>
@@ -355,14 +401,16 @@ function buildArticleHtml(post, lang) {
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
   <style>
     :root {
-      --bg: #07101f;
-      --bg-soft: rgba(14, 25, 46, 0.78);
-      --card: rgba(20, 32, 58, 0.82);
+      --bg: #050c18;
+      --bg-soft: rgba(10, 22, 44, 0.82);
+      --card: rgba(17, 30, 58, 0.84);
+      --card-2: rgba(22, 36, 67, 0.78);
       --line: rgba(255,255,255,0.12);
-      --text: #f5f7ff;
-      --muted: #b8c0df;
-      --accent: #f0b54d;
-      --accent-soft: rgba(240,181,77,0.22);
+      --line-strong: rgba(255,255,255,0.18);
+      --text: #f7f9ff;
+      --muted: #b7c2e2;
+      --accent: #f4b54d;
+      --accent-soft: rgba(244,181,77,0.22);
       --success: #22c55e;
       --danger: #ef4444;
       --reader-font-size: 18px;
@@ -375,85 +423,89 @@ function buildArticleHtml(post, lang) {
       font-family: Arial, Helvetica, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(239, 68, 68, 0.16), transparent 28%),
-        radial-gradient(circle at top right, rgba(59, 130, 246, 0.22), transparent 30%),
-        radial-gradient(circle at 30% 70%, rgba(34, 197, 94, 0.12), transparent 22%),
-        linear-gradient(180deg, #050c18 0%, #07101f 48%, #09152a 100%);
+        radial-gradient(circle at top left, rgba(244,181,77,0.08), transparent 24%),
+        radial-gradient(circle at top right, rgba(59,130,246,0.18), transparent 28%),
+        radial-gradient(circle at 20% 78%, rgba(34,197,94,0.10), transparent 18%),
+        linear-gradient(180deg, #030915 0%, #07101f 48%, #08172d 100%);
       background-attachment: fixed;
       font-size: var(--reader-font-size);
       line-height: var(--reader-line-height);
     }
     body[data-theme="sepia"] {
-      --bg: #2e2418;
-      --bg-soft: rgba(54, 39, 22, 0.82);
-      --card: rgba(70, 50, 28, 0.86);
-      --line: rgba(255,255,255,0.13);
-      --text: #f7ead7;
-      --muted: #dbc7aa;
-      --accent-soft: rgba(240,181,77,0.28);
-      background: linear-gradient(180deg, #24180e 0%, #312215 100%);
+      --bg: #24180e;
+      --bg-soft: rgba(52, 37, 20, 0.86);
+      --card: rgba(63, 46, 27, 0.88);
+      --card-2: rgba(73, 54, 31, 0.82);
+      --line: rgba(255,255,255,0.12);
+      --line-strong: rgba(255,255,255,0.18);
+      --text: #f6ebda;
+      --muted: #dbc8ab;
+      background: linear-gradient(180deg, #23170d 0%, #322314 100%);
     }
     body[data-theme="soft-light"] {
-      --bg: #f5f2eb;
-      --bg-soft: rgba(255,255,255,0.88);
-      --card: rgba(255,255,255,0.92);
-      --line: rgba(18, 28, 44, 0.12);
+      --bg: #f6f2ea;
+      --bg-soft: rgba(255,255,255,0.90);
+      --card: rgba(255,255,255,0.93);
+      --card-2: rgba(255,255,255,0.96);
+      --line: rgba(18,28,44,0.10);
+      --line-strong: rgba(18,28,44,0.16);
       --text: #152032;
-      --muted: #4f607d;
-      --accent-soft: rgba(240,181,77,0.22);
-      background: linear-gradient(180deg, #f7f4ef 0%, #ebe7de 100%);
+      --muted: #52637c;
+      background: linear-gradient(180deg, #f7f4ef 0%, #ece7de 100%);
     }
+    body.reader-mode .hero-media { display: none; }
+    body.reader-mode .article-summary { font-size: 20px; }
     a { color: inherit; }
     .page-shell {
       width: min(var(--reader-width), calc(100% - 24px));
       margin: 0 auto;
-      padding: 20px 0 56px;
+      padding: 18px 0 64px;
+      transition: width .25s ease;
     }
     .topbar {
       position: sticky;
-      top: 0;
-      z-index: 30;
+      top: 10px;
+      z-index: 25;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      margin: 6px 0 18px;
-      padding: 10px 14px;
+      padding: 12px 14px;
+      margin: 0 0 18px;
+      border-radius: 28px;
       border: 1px solid var(--line);
-      border-radius: 22px;
-      background: rgba(12, 20, 36, 0.66);
+      background: rgba(14, 23, 42, 0.68);
       backdrop-filter: blur(18px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.22);
+      box-shadow: 0 16px 42px rgba(0,0,0,0.22);
     }
     body[data-theme="soft-light"] .topbar { background: rgba(255,255,255,0.82); }
     .top-link, .brand-link {
-      text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      border-radius: 16px;
-      padding: 10px 14px;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 800;
+      border-radius: 18px;
+      padding: 12px 16px;
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.04);
-      color: var(--text);
-      font-weight: 700;
-      font-size: 14px;
     }
-    .brand-link { background: transparent; border-color: transparent; padding-right: 0; }
+    .brand-link { background: transparent; border-color: transparent; }
     .article-card {
+      border-radius: 30px;
+      overflow: hidden;
       border: 1px solid var(--line);
       background: var(--bg-soft);
-      border-radius: 28px;
-      overflow: hidden;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 18px 64px rgba(0,0,0,0.24);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 64px rgba(0,0,0,0.26);
     }
     .hero-media {
       position: relative;
-      aspect-ratio: 16 / 9;
       width: 100%;
+      aspect-ratio: 16 / 9;
       overflow: hidden;
-      background: rgba(255,255,255,0.04);
+      background: rgba(255,255,255,0.05);
     }
     .hero-media img {
       width: 100%;
@@ -464,37 +516,74 @@ function buildArticleHtml(post, lang) {
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(3,8,18,0.05) 0%, rgba(3,8,18,0.74) 100%);
+      background: linear-gradient(180deg, rgba(2, 6, 15, 0.05) 0%, rgba(2, 6, 15, 0.74) 100%);
     }
-    .hero-badge {
+    .hero-verdict,
+    .hero-topic {
       position: absolute;
-      left: 18px;
-      bottom: 18px;
+      z-index: 2;
       display: inline-flex;
-      gap: 8px;
       align-items: center;
-      padding: 9px 14px;
+      gap: 10px;
+      padding: 10px 16px;
       border-radius: 999px;
-      font-size: 13px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(16, 24, 43, 0.78);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.24);
       font-weight: 800;
-      letter-spacing: 0.05em;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(12, 18, 34, 0.7);
     }
-    .hero-badge.truth { color: #bbf7d0; }
-    .hero-badge.rumor { color: #fecaca; }
-    .content-wrap { padding: 22px 18px 28px; }
+    .hero-verdict {
+      top: 16px;
+      left: 16px;
+      color: white;
+    }
+    .hero-verdict.truth { background: rgba(34,197,94,0.92); }
+    .hero-verdict.rumor { background: rgba(239,68,68,0.92); }
+    .verdict-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      color: white;
+      flex: 0 0 auto;
+    }
+    .hero-topic {
+      top: 16px;
+      right: 16px;
+      color: white;
+    }
+    .hero-topic-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      line-height: 1;
+      flex: 0 0 auto;
+    }
+    .content-wrap {
+      padding: 22px 18px 28px;
+    }
     .eyebrow {
+      margin: 0 0 12px;
       color: var(--accent);
-      font-weight: 800;
       font-size: 13px;
-      letter-spacing: 0.08em;
+      font-weight: 800;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      margin: 0 0 10px;
     }
     .article-title {
-      margin: 0 0 14px;
-      font-size: clamp(30px, 4.6vw, 52px);
+      margin: 0 0 16px;
+      font-size: clamp(30px, 4.8vw, 54px);
       line-height: 1.08;
       font-weight: 800;
     }
@@ -512,97 +601,118 @@ function buildArticleHtml(post, lang) {
       font-size: 18px;
       line-height: 1.7;
     }
-    .article-body {
-      color: var(--text);
-    }
-    .article-body p {
-      margin: 0 0 1.25em;
-    }
-    .article-body img, .article-body iframe {
+    .article-body p { margin: 0 0 1.25em; }
+    .article-body img,
+    .article-body iframe,
+    .article-body video {
       max-width: 100%;
       border-radius: 20px;
     }
     .end-actions {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 30px;
     }
     .action-btn {
       appearance: none;
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
       color: var(--text);
-      padding: 14px 16px;
-      border-radius: 18px;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      text-decoration: none;
+      min-height: 72px;
+      padding: 16px 24px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 14px;
+      font-size: 18px;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+      flex: 1 1 220px;
     }
     .action-btn.primary {
-      background: linear-gradient(180deg, rgba(240,181,77,0.34), rgba(240,181,77,0.16));
-      border-color: rgba(240,181,77,0.48);
+      border-color: rgba(244,181,77,0.42);
+      background: linear-gradient(180deg, rgba(244,181,77,0.28), rgba(244,181,77,0.14));
+    }
+    .action-btn .icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      line-height: 1;
     }
     .action-btn[hidden] { display: none !important; }
-    .source-box {
-      margin-top: 18px;
-      padding: 18px;
-      border-radius: 20px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.04);
-    }
-    .source-box p { margin: 0 0 8px; font-size: 14px; color: var(--muted); }
-    .source-box a { color: var(--accent); word-break: break-word; }
     .floating-accessibility-btn {
       position: fixed;
       right: 18px;
       bottom: 18px;
       z-index: 40;
-      width: 64px;
-      height: 64px;
+      width: 86px;
+      height: 86px;
+      border-radius: 28px;
       border: 1px solid rgba(255,255,255,0.16);
-      border-radius: 50%;
-      background: rgba(12, 20, 36, 0.7);
-      color: var(--text);
+      background: rgba(74, 86, 120, 0.84);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 18px 44px rgba(0,0,0,0.28);
       display: flex;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(18px);
-      box-shadow: 0 14px 36px rgba(0,0,0,0.28);
       cursor: pointer;
     }
-    .floating-accessibility-btn svg { width: 28px; height: 28px; }
+    .floating-accessibility-btn svg {
+      width: 42px;
+      height: 42px;
+      color: white;
+    }
+    .accessibility-status {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #111;
+      border: 5px solid #07101f;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 18px;
+      line-height: 1;
+    }
+    body[data-theme="soft-light"] .accessibility-status { border-color: #f0ece3; }
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(4, 8, 18, 0.66);
+      background: rgba(5, 10, 19, 0.64);
       backdrop-filter: blur(10px);
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 18px;
+      padding: 16px;
       z-index: 60;
     }
     .modal-backdrop.show { display: flex; }
     .modal-card {
       width: min(980px, 100%);
-      max-height: min(88vh, 980px);
+      max-height: min(90vh, 980px);
       overflow: auto;
-      border-radius: 30px;
+      border-radius: 32px;
       border: 1px solid var(--line);
-      background: rgba(10, 18, 34, 0.88);
+      background: rgba(13, 22, 40, 0.88);
       color: var(--text);
       padding: 20px;
-      box-shadow: 0 30px 90px rgba(0,0,0,0.34);
-      backdrop-filter: blur(18px);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 28px 90px rgba(0,0,0,0.36);
     }
-    body[data-theme="soft-light"] .modal-card { background: rgba(248,248,248,0.94); }
+    body[data-theme="soft-light"] .modal-card { background: rgba(249,249,249,0.94); }
     .modal-header {
       display: flex;
       justify-content: space-between;
@@ -610,26 +720,50 @@ function buildArticleHtml(post, lang) {
       gap: 16px;
       margin-bottom: 18px;
     }
-    .modal-title {
-      font-size: clamp(32px, 5vw, 56px);
-      font-weight: 800;
-      margin: 0 0 4px;
-    }
-    .modal-subtitle {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-    .modal-close {
+    .close-pill {
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.05);
       color: var(--text);
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      font-size: 30px;
+      border-radius: 20px;
+      padding: 14px 18px;
+      font-weight: 800;
       cursor: pointer;
-      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .modal-title { margin: 0 0 6px; font-size: clamp(30px, 5vw, 56px); font-weight: 800; }
+    .modal-subtitle { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
+    .settings-section-title,
+    .share-section-title {
+      margin: 20px 0 12px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .setting-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+    .setting-btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border-radius: 18px;
+      padding: 14px 18px;
+      font-weight: 800;
+      cursor: pointer;
+      min-width: 120px;
+    }
+    .setting-btn.compact { min-width: 82px; }
+    .setting-btn.active {
+      border-color: rgba(244,181,77,0.52);
+      background: linear-gradient(180deg, rgba(244,181,77,0.42), rgba(244,181,77,0.20));
+      color: #111;
+    }
+    .setting-btn.success.active {
+      border-color: rgba(34,197,94,0.42);
+      background: linear-gradient(180deg, rgba(34,197,94,0.42), rgba(34,197,94,0.22));
+      color: white;
     }
     .preview-card {
       border: 1px solid var(--line);
@@ -642,6 +776,7 @@ function buildArticleHtml(post, lang) {
       margin-bottom: 18px;
     }
     .preview-media {
+      position: relative;
       width: 126px;
       height: 126px;
       border-radius: 22px;
@@ -654,14 +789,63 @@ function buildArticleHtml(post, lang) {
       object-fit: cover;
       display: block;
     }
-    .preview-kicker {
-      color: var(--accent);
+    .preview-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(3,8,18,0.05) 0%, rgba(3,8,18,0.65) 100%);
+    }
+    .preview-badge,
+    .preview-topic {
+      position: absolute;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.24);
+    }
+    .preview-badge {
+      top: 8px;
+      left: 8px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+    .preview-badge.truth { background: #22c55e; }
+    .preview-badge.rumor { background: #ef4444; }
+    .preview-topic {
+      top: 8px;
+      right: 8px;
+      min-width: 30px;
+      height: 30px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: rgba(13, 22, 40, 0.82);
+      font-size: 14px;
+    }
+    .preview-kicker-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .preview-kicker,
+    .preview-category-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 8px 12px;
       font-size: 13px;
       font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
+      letter-spacing: .04em;
     }
+    .preview-kicker.truth { background: rgba(34,197,94,0.18); color: #bbf7d0; }
+    .preview-kicker.rumor { background: rgba(239,68,68,0.18); color: #fecaca; }
+    .preview-category-chip { background: rgba(255,255,255,0.06); color: var(--text); }
     .preview-title {
       font-size: clamp(28px, 5vw, 54px);
       line-height: 1.08;
@@ -674,17 +858,14 @@ function buildArticleHtml(post, lang) {
       font-size: 18px;
       line-height: 1.7;
     }
-    .share-section-title {
-      font-size: 16px;
-      font-weight: 800;
-      margin: 20px 0 12px;
-    }
-    .mode-grid, .share-grid {
+    .mode-grid,
+    .share-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
     }
-    .mode-btn, .share-card {
+    .mode-btn,
+    .share-card {
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.05);
       color: var(--text);
@@ -694,9 +875,9 @@ function buildArticleHtml(post, lang) {
       font-weight: 800;
     }
     .mode-btn.active {
-      border-color: rgba(240,181,77,0.56);
-      background: linear-gradient(180deg, rgba(240,181,77,0.36), rgba(240,181,77,0.16));
-      box-shadow: 0 0 0 1px rgba(240,181,77,0.12) inset;
+      border-color: rgba(244,181,77,0.56);
+      background: linear-gradient(180deg, rgba(244,181,77,0.36), rgba(244,181,77,0.16));
+      box-shadow: 0 0 0 1px rgba(244,181,77,0.12) inset;
     }
     .share-card {
       display: flex;
@@ -709,19 +890,13 @@ function buildArticleHtml(post, lang) {
       width: 52px;
       height: 52px;
       border-radius: 18px;
-      border: 1px solid rgba(240,181,77,0.34);
+      border: 1px solid rgba(244,181,77,0.34);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: var(--text);
-      flex: 0 0 auto;
       font-weight: 900;
       font-size: 20px;
-    }
-    .share-details {
-      display: grid;
-      gap: 6px;
-      min-width: 0;
+      flex: 0 0 auto;
     }
     .share-details strong { font-size: 16px; }
     .share-output {
@@ -751,7 +926,8 @@ function buildArticleHtml(post, lang) {
       border-radius: 24px;
       background: rgba(255,255,255,0.03);
     }
-    #qrCanvas canvas, #qrCanvas img {
+    #qrCanvas canvas,
+    #qrCanvas img {
       width: min(280px, 100%);
       height: auto;
       max-width: 100%;
@@ -762,10 +938,10 @@ function buildArticleHtml(post, lang) {
     .toast {
       position: fixed;
       left: 50%;
-      bottom: 26px;
-      transform: translateX(-50%) translateY(20px);
+      bottom: 24px;
+      transform: translateX(-50%) translateY(18px);
       opacity: 0;
-      background: rgba(12,18,34,0.9);
+      background: rgba(12,18,34,0.92);
       color: white;
       padding: 12px 18px;
       border-radius: 999px;
@@ -775,36 +951,23 @@ function buildArticleHtml(post, lang) {
       transition: opacity .22s ease, transform .22s ease;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    .setting-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 18px; }
-    .setting-btn {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
-      border-radius: 16px;
-      padding: 12px 14px;
-      cursor: pointer;
-      font-weight: 700;
-    }
-    .setting-btn.active { border-color: rgba(240,181,77,0.56); background: rgba(240,181,77,0.18); }
-    .article-card a, .modal-card a { color: var(--accent); }
     @media (max-width: 760px) {
       .page-shell { width: calc(100% - 16px); padding-top: 12px; }
-      .topbar { padding: 10px 12px; border-radius: 18px; }
       .preview-card { grid-template-columns: 1fr; }
       .preview-media { width: 110px; height: 110px; }
-      .end-actions { grid-template-columns: 1fr; }
-      .share-grid, .mode-grid { grid-template-columns: 1fr 1fr; }
-      .modal-card { padding: 16px; border-radius: 24px; }
-      .modal-close { width: 50px; height: 50px; }
+      .action-btn { min-height: 66px; font-size: 17px; }
       .content-wrap { padding: 18px 14px 24px; }
     }
     @media (max-width: 520px) {
-      .share-grid, .mode-grid { grid-template-columns: 1fr; }
-      .topbar { gap: 8px; }
-      .top-link, .brand-link { font-size: 13px; padding: 9px 12px; }
+      .topbar { gap: 8px; padding: 10px 12px; }
+      .top-link, .brand-link { font-size: 13px; padding: 10px 12px; }
+      .brand-link { padding-right: 0; }
       .article-title { font-size: clamp(28px, 9vw, 42px); }
+      .mode-grid, .share-grid { grid-template-columns: 1fr; }
+      .action-btn { flex-basis: 100%; }
+      .floating-accessibility-btn { width: 76px; height: 76px; border-radius: 24px; }
+      .floating-accessibility-btn svg { width: 38px; height: 38px; }
       .preview-title { font-size: clamp(24px, 10vw, 42px); }
-      .floating-accessibility-btn { width: 58px; height: 58px; }
     }
   </style>
 </head>
@@ -819,8 +982,16 @@ function buildArticleHtml(post, lang) {
       <div class="hero-media">
         <img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" onerror="this.src='${escapeHtml(`${SITE_URL}/logo.png`)}'" />
         <div class="hero-overlay"></div>
-        <div class="hero-badge ${status === "rumor" ? "rumor" : "truth"}">${escapeHtml(labels.truthVerification)}</div>
+        <div class="hero-verdict ${status === "rumor" ? "rumor" : "truth"}">
+          <span class="verdict-icon">${escapeHtml(statusSymbol)}</span>
+          <span>${escapeHtml(statusLabel)}</span>
+        </div>
+        <div class="hero-topic">
+          <span class="hero-topic-icon">${escapeHtml(categoryIcon)}</span>
+          <span>${escapeHtml(category)}</span>
+        </div>
       </div>
+
       <div class="content-wrap">
         <div class="eyebrow">${escapeHtml(category)}</div>
         <h1 class="article-title">${escapeHtml(title)}</h1>
@@ -831,57 +1002,73 @@ function buildArticleHtml(post, lang) {
         </div>
         <p class="article-summary">${escapeHtml(shareSummary)}</p>
         <div class="article-body">${bodyHtml}</div>
+
         <div class="end-actions">
-          <button class="action-btn primary" id="shareBtn" type="button">${escapeHtml(labels.share)}</button>
-          <a class="action-btn" id="sourceBtn" href="${escapeHtml(sourceUrl || "#")}" target="_blank" rel="noopener noreferrer" ${sourceUrl ? "" : "hidden"}>${escapeHtml(labels.source)}</a>
-          <button class="action-btn" id="listenBtn" type="button">${escapeHtml(labels.listen)}</button>
-        </div>
-        <div class="source-box" id="sourceBox" ${sourceUrl ? "" : "hidden"}>
-          <p>${escapeHtml(labels.sourceLabel)}</p>
-          <a href="${escapeHtml(sourceUrl || "#")}" target="_blank" rel="noopener noreferrer">${escapeHtml(sourceUrl || labels.noSource)}</a>
+          <button class="action-btn" id="listenBtn" type="button"><span class="icon">🔊</span><span>${escapeHtml(labels.listen)}</span></button>
+          <button class="action-btn primary" id="shareBtn" type="button"><span class="icon">⤴</span><span>${escapeHtml(labels.share)}</span></button>
+          <a class="action-btn" id="sourceBtn" href="${escapeHtml(sourceUrl || "#")}" target="_blank" rel="noopener noreferrer" ${sourceUrl ? "" : "hidden"}><span class="icon">↗</span><span>${escapeHtml(labels.source)}</span></a>
         </div>
       </div>
     </article>
   </div>
 
-  <button class="floating-accessibility-btn" id="accessibilityBtn" aria-label="${escapeHtml(labels.readingSettings)}">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="5" r="2"></circle>
-      <path d="M12 7v13"></path>
-      <path d="M8 11h8"></path>
-      <path d="M9.5 20l2.5-6 2.5 6"></path>
+  <button class="floating-accessibility-btn" id="accessibilityBtn" aria-label="${escapeHtml(labels.accessibility)}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="4.5" r="1.6"></circle>
+      <path d="M6 8.2h12"></path>
+      <path d="M12 6v6.2"></path>
+      <path d="M9.4 19.2l2.6-5.6 2.6 5.6"></path>
     </svg>
+    <span class="accessibility-status">✓</span>
   </button>
 
   <div class="modal-backdrop" id="accessibilityBackdrop">
     <div class="modal-card" onclick="event.stopPropagation()">
       <div class="modal-header">
+        <button class="close-pill" type="button" id="accessibilityClose">‹ ${escapeHtml(labels.close)}</button>
         <div>
-          <h2 class="modal-title">${escapeHtml(labels.readingSettings)}</h2>
+          <h2 class="modal-title">${escapeHtml(labels.accessibility)}</h2>
           <p class="modal-subtitle">${escapeHtml(labels.readingNote)}</p>
         </div>
-        <button class="modal-close" type="button" id="accessibilityClose">×</button>
       </div>
+
       <div>
-        <p class="share-section-title">${escapeHtml(labels.theme)}</p>
+        <p class="settings-section-title">${escapeHtml(labels.theme)}</p>
         <div class="setting-row">
           <button class="setting-btn" data-theme-value="dark">${escapeHtml(labels.dark)}</button>
           <button class="setting-btn" data-theme-value="sepia">${escapeHtml(labels.sepia)}</button>
           <button class="setting-btn" data-theme-value="soft-light">${escapeHtml(labels.soft)}</button>
         </div>
-        <p class="share-section-title">${escapeHtml(labels.textSize)}</p>
+
+        <p class="settings-section-title">${escapeHtml(labels.readerWidth)}</p>
         <div class="setting-row">
-          <button class="setting-btn" id="fontMinus">A-</button>
-          <button class="setting-btn" id="fontPlus">A+</button>
+          <button class="setting-btn" data-width-value="narrow">${escapeHtml(labels.narrow)}</button>
+          <button class="setting-btn" data-width-value="normal">${escapeHtml(labels.normal)}</button>
+          <button class="setting-btn" data-width-value="wide">${escapeHtml(labels.wide)}</button>
         </div>
-        <p class="share-section-title">${escapeHtml(labels.lineSpace)}</p>
+
+        <p class="settings-section-title">${escapeHtml(labels.textSize)}</p>
         <div class="setting-row">
-          <button class="setting-btn" id="lineMinus">-</button>
-          <button class="setting-btn" id="linePlus">+</button>
+          <button class="setting-btn compact" id="fontMinus">A-</button>
+          <button class="setting-btn compact" id="fontPlus">A+</button>
         </div>
-        <p class="share-section-title">${escapeHtml(labels.reset)}</p>
+
+        <p class="settings-section-title">${escapeHtml(labels.lineSpace)}</p>
         <div class="setting-row">
-          <button class="setting-btn" id="readerReset">${escapeHtml(labels.resetNow)}</button>
+          <button class="setting-btn" data-spacing-value="tight">${escapeHtml(labels.tight)}</button>
+          <button class="setting-btn" data-spacing-value="relaxed">${escapeHtml(labels.relaxed)}</button>
+        </div>
+
+        <p class="settings-section-title">${escapeHtml(labels.readerMode)}</p>
+        <div class="setting-row">
+          <button class="setting-btn" id="readerModeBtn">${escapeHtml(labels.toggleReaderMode)}</button>
+          <button class="setting-btn" id="readerReset">${escapeHtml(labels.reset)}</button>
+        </div>
+
+        <p class="settings-section-title">${escapeHtml(labels.hapticsAndAutoScroll)}</p>
+        <div class="setting-row">
+          <button class="setting-btn success" id="hapticsBtn">${escapeHtml(labels.hapticsOn)}</button>
+          <button class="setting-btn" id="autoScrollBtn">${escapeHtml(labels.autoScrollOff)}</button>
         </div>
       </div>
     </div>
@@ -894,13 +1081,21 @@ function buildArticleHtml(post, lang) {
           <h2 class="modal-title">${escapeHtml(labels.shareStory)}</h2>
           <p class="modal-subtitle" id="shareCountText">${escapeHtml(labels.sharedTimes)}</p>
         </div>
-        <button class="modal-close" type="button" id="shareClose">×</button>
+        <button class="close-pill" type="button" id="shareClose">×</button>
       </div>
 
       <div class="preview-card">
-        <div class="preview-media"><img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" onerror="this.src='${escapeHtml(`${SITE_URL}/logo.png`)}'" /></div>
+        <div class="preview-media">
+          <img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" onerror="this.src='${escapeHtml(`${SITE_URL}/logo.png`)}'" />
+          <div class="preview-overlay"></div>
+          <span class="preview-badge ${status === "rumor" ? "rumor" : "truth"}">${escapeHtml(statusSymbol)}</span>
+          <span class="preview-topic">${escapeHtml(categoryIcon)}</span>
+        </div>
         <div>
-          <div class="preview-kicker ${previewStatusClass}">${escapeHtml(labels.truthVerification)}</div>
+          <div class="preview-kicker-row">
+            <span class="preview-kicker ${status === "rumor" ? "rumor" : "truth"}">${escapeHtml(statusLabel)}</span>
+            <span class="preview-category-chip">${escapeHtml(categoryIcon)} ${escapeHtml(category)}</span>
+          </div>
           <h3 class="preview-title" id="previewTitle">${escapeHtml(title)}</h3>
           <p class="preview-summary" id="previewSummary">${escapeHtml(shareSummary)}</p>
         </div>
@@ -945,11 +1140,22 @@ function buildArticleHtml(post, lang) {
   <script>
     const articleData = ${safeJson(articleData)};
     const labels = ${safeJson(labels)};
-    const readerDefaults = { theme: "dark", fontSize: 18, lineHeight: 1.9 };
+    const readerDefaults = {
+      theme: "dark",
+      width: "normal",
+      fontSize: 18,
+      spacing: "tight",
+      readerMode: false,
+      haptics: true,
+      autoScroll: false
+    };
+    const widthMap = { narrow: 760, normal: 860, wide: 1040 };
+    const spacingMap = { tight: 1.9, relaxed: 2.2 };
     let readerPrefs = { ...readerDefaults };
     let currentShareMode = "full";
     let currentUtterance = null;
     let toastTimer = null;
+    let autoScrollTimer = null;
 
     function showToast(message) {
       const toast = document.getElementById("toast");
@@ -959,8 +1165,18 @@ function buildArticleHtml(post, lang) {
       toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
     }
 
+    function vibrateSoft() {
+      if (readerPrefs.haptics && navigator.vibrate) {
+        navigator.vibrate(18);
+      }
+    }
+
     function safeJsonParse(value, fallback) {
       try { return JSON.parse(value); } catch { return fallback; }
+    }
+
+    function saveReaderPrefs() {
+      localStorage.setItem(articleData.readerPrefKey, JSON.stringify(readerPrefs));
     }
 
     function loadReaderPrefs() {
@@ -971,28 +1187,66 @@ function buildArticleHtml(post, lang) {
       applyReaderPrefs();
     }
 
-    function saveReaderPrefs() {
-      localStorage.setItem(articleData.readerPrefKey, JSON.stringify(readerPrefs));
-    }
-
     function applyReaderPrefs() {
       document.body.dataset.theme = readerPrefs.theme;
+      document.documentElement.style.setProperty("--reader-width", widthMap[readerPrefs.width] + "px");
       document.documentElement.style.setProperty("--reader-font-size", readerPrefs.fontSize + "px");
-      document.documentElement.style.setProperty("--reader-line-height", String(readerPrefs.lineHeight));
+      document.documentElement.style.setProperty("--reader-line-height", String(spacingMap[readerPrefs.spacing]));
+      document.body.classList.toggle("reader-mode", !!readerPrefs.readerMode);
+
       document.querySelectorAll("[data-theme-value]").forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.themeValue === readerPrefs.theme);
       });
+      document.querySelectorAll("[data-width-value]").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.widthValue === readerPrefs.width);
+      });
+      document.querySelectorAll("[data-spacing-value]").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.spacingValue === readerPrefs.spacing);
+      });
+
+      const readerModeBtn = document.getElementById("readerModeBtn");
+      if (readerModeBtn) {
+        readerModeBtn.classList.toggle("active", !!readerPrefs.readerMode);
+      }
+
+      const hapticsBtn = document.getElementById("hapticsBtn");
+      if (hapticsBtn) {
+        hapticsBtn.textContent = readerPrefs.haptics ? labels.hapticsOn : labels.hapticsOff;
+        hapticsBtn.classList.toggle("active", !!readerPrefs.haptics);
+      }
+
+      const autoScrollBtn = document.getElementById("autoScrollBtn");
+      if (autoScrollBtn) {
+        autoScrollBtn.textContent = readerPrefs.autoScroll ? labels.autoScrollOn : labels.autoScrollOff;
+        autoScrollBtn.classList.toggle("active", !!readerPrefs.autoScroll);
+      }
+
+      syncAutoScroll();
     }
 
     function resetReaderPrefs() {
       readerPrefs = { ...readerDefaults };
       saveReaderPrefs();
       applyReaderPrefs();
-      showToast(labels.resetNow);
+      showToast(labels.reset);
+      vibrateSoft();
+    }
+
+    function syncAutoScroll() {
+      if (autoScrollTimer) {
+        clearInterval(autoScrollTimer);
+        autoScrollTimer = null;
+      }
+      if (readerPrefs.autoScroll) {
+        autoScrollTimer = setInterval(() => {
+          window.scrollBy({ top: 1, left: 0, behavior: "auto" });
+        }, 45);
+      }
     }
 
     function openAccessibilityModal() {
       document.getElementById("accessibilityBackdrop").classList.add("show");
+      vibrateSoft();
     }
 
     function closeAccessibilityModal(event) {
@@ -1072,6 +1326,7 @@ function buildArticleHtml(post, lang) {
     function openShareModal() {
       document.getElementById("shareBackdrop").classList.add("show");
       renderShareModal();
+      vibrateSoft();
     }
 
     function closeShareModal(event) {
@@ -1089,6 +1344,7 @@ function buildArticleHtml(post, lang) {
           try {
             await navigator.share({ title: payload.title, text: payload.text, url: payload.url });
             updateShareCount(true);
+            vibrateSoft();
             return;
           } catch (error) {
             if (error && error.name === "AbortError") return;
@@ -1097,6 +1353,7 @@ function buildArticleHtml(post, lang) {
         await navigator.clipboard.writeText(payload.text);
         showToast(labels.copied);
         updateShareCount(true);
+        vibrateSoft();
         return;
       }
 
@@ -1104,6 +1361,7 @@ function buildArticleHtml(post, lang) {
         await navigator.clipboard.writeText(payload.url);
         showToast(labels.copied);
         updateShareCount(true);
+        vibrateSoft();
         return;
       }
 
@@ -1112,31 +1370,26 @@ function buildArticleHtml(post, lang) {
         updateShareCount(true);
         return;
       }
-
       if (action === "facebook") {
         window.open("https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl, "_blank");
         updateShareCount(true);
         return;
       }
-
       if (action === "x") {
         window.open("https://twitter.com/intent/tweet?text=" + encodedText, "_blank");
         updateShareCount(true);
         return;
       }
-
       if (action === "telegram") {
         window.open("https://t.me/share/url?url=" + encodedUrl + "&text=" + encodeURIComponent(payload.title), "_blank");
         updateShareCount(true);
         return;
       }
-
       if (action === "email") {
         window.location.href = "mailto:?subject=" + encodeURIComponent(payload.title) + "&body=" + encodedText;
         updateShareCount(true);
         return;
       }
-
       if (action === "save") {
         const saved = safeJsonParse(localStorage.getItem(articleData.savedKey), []);
         if (!saved.find((item) => item.slug === articleData.slug && item.lang === articleData.lang)) {
@@ -1144,9 +1397,9 @@ function buildArticleHtml(post, lang) {
           localStorage.setItem(articleData.savedKey, JSON.stringify(saved.slice(0, 50)));
         }
         showToast(labels.saved);
+        vibrateSoft();
         return;
       }
-
       if (action === "download-qr") {
         const canvas = document.querySelector("#qrCanvas canvas");
         const img = document.querySelector("#qrCanvas img");
@@ -1159,7 +1412,7 @@ function buildArticleHtml(post, lang) {
           link.href = img.src;
           link.click();
         }
-        return;
+        vibrateSoft();
       }
     }
 
@@ -1168,16 +1421,17 @@ function buildArticleHtml(post, lang) {
         speechSynthesis.cancel();
         currentUtterance = null;
       }
-      const listenBtn = document.getElementById("listenBtn");
-      if (listenBtn) listenBtn.textContent = labels.listen;
+      const listenBtnText = document.getElementById("listenBtnText");
+      if (listenBtnText) listenBtnText.textContent = labels.listen;
     }
 
     function toggleSpeech() {
-      const listenBtn = document.getElementById("listenBtn");
-      if (!listenBtn) return;
+      const listenBtnText = document.getElementById("listenBtnText");
+      if (!listenBtnText) return;
 
       if (currentUtterance) {
         stopSpeech();
+        vibrateSoft();
         return;
       }
 
@@ -1186,50 +1440,89 @@ function buildArticleHtml(post, lang) {
       utterance.onend = stopSpeech;
       utterance.onerror = stopSpeech;
       currentUtterance = utterance;
-      listenBtn.textContent = labels.stop;
+      listenBtnText.textContent = labels.stop;
       speechSynthesis.cancel();
       speechSynthesis.speak(utterance);
+      vibrateSoft();
+    }
+
+    function openSource(event) {
+      if (!articleData.sourceUrl) {
+        event.preventDefault();
+        showToast(labels.noSource);
+        return;
+      }
+      vibrateSoft();
     }
 
     document.getElementById("shareBtn").addEventListener("click", openShareModal);
     document.getElementById("listenBtn").addEventListener("click", toggleSpeech);
+    document.getElementById("sourceBtn").addEventListener("click", openSource);
     document.getElementById("accessibilityBtn").addEventListener("click", openAccessibilityModal);
     document.getElementById("accessibilityClose").addEventListener("click", () => closeAccessibilityModal());
     document.getElementById("shareClose").addEventListener("click", () => closeShareModal());
     document.getElementById("accessibilityBackdrop").addEventListener("click", closeAccessibilityModal);
     document.getElementById("shareBackdrop").addEventListener("click", closeShareModal);
     document.getElementById("readerReset").addEventListener("click", resetReaderPrefs);
+    document.getElementById("readerModeBtn").addEventListener("click", () => {
+      readerPrefs.readerMode = !readerPrefs.readerMode;
+      saveReaderPrefs();
+      applyReaderPrefs();
+      vibrateSoft();
+    });
+    document.getElementById("hapticsBtn").addEventListener("click", () => {
+      readerPrefs.haptics = !readerPrefs.haptics;
+      saveReaderPrefs();
+      applyReaderPrefs();
+      vibrateSoft();
+    });
+    document.getElementById("autoScrollBtn").addEventListener("click", () => {
+      readerPrefs.autoScroll = !readerPrefs.autoScroll;
+      saveReaderPrefs();
+      applyReaderPrefs();
+      vibrateSoft();
+    });
     document.getElementById("fontMinus").addEventListener("click", () => {
       readerPrefs.fontSize = Math.max(14, readerPrefs.fontSize - 1);
       saveReaderPrefs();
       applyReaderPrefs();
+      vibrateSoft();
     });
     document.getElementById("fontPlus").addEventListener("click", () => {
-      readerPrefs.fontSize = Math.min(26, readerPrefs.fontSize + 1);
+      readerPrefs.fontSize = Math.min(28, readerPrefs.fontSize + 1);
       saveReaderPrefs();
       applyReaderPrefs();
-    });
-    document.getElementById("lineMinus").addEventListener("click", () => {
-      readerPrefs.lineHeight = Math.max(1.5, +(readerPrefs.lineHeight - 0.1).toFixed(1));
-      saveReaderPrefs();
-      applyReaderPrefs();
-    });
-    document.getElementById("linePlus").addEventListener("click", () => {
-      readerPrefs.lineHeight = Math.min(2.4, +(readerPrefs.lineHeight + 0.1).toFixed(1));
-      saveReaderPrefs();
-      applyReaderPrefs();
+      vibrateSoft();
     });
     document.querySelectorAll("[data-theme-value]").forEach((btn) => {
       btn.addEventListener("click", () => {
         readerPrefs.theme = btn.dataset.themeValue;
         saveReaderPrefs();
         applyReaderPrefs();
+        vibrateSoft();
+      });
+    });
+    document.querySelectorAll("[data-width-value]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        readerPrefs.width = btn.dataset.widthValue;
+        saveReaderPrefs();
+        applyReaderPrefs();
+        vibrateSoft();
+      });
+    });
+    document.querySelectorAll("[data-spacing-value]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        readerPrefs.spacing = btn.dataset.spacingValue;
+        saveReaderPrefs();
+        applyReaderPrefs();
+        vibrateSoft();
       });
     });
     document.querySelectorAll("[data-share-mode]").forEach((btn) => {
       btn.addEventListener("click", () => {
         currentShareMode = btn.dataset.shareMode;
         renderShareModal();
+        vibrateSoft();
       });
     });
     document.querySelectorAll("[data-share-action]").forEach((btn) => {
@@ -1237,12 +1530,11 @@ function buildArticleHtml(post, lang) {
         try {
           await doShareAction(btn.dataset.shareAction);
         } catch (error) {
-          showToast("Action failed");
+          showToast(labels.actionFailed);
           console.error(error);
         }
       });
     });
-
     window.addEventListener("beforeunload", stopSpeech);
     loadReaderPrefs();
     updateShareCount(false);
