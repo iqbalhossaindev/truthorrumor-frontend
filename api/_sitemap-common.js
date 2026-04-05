@@ -41,13 +41,12 @@ async function fetchPublishedRows(table, columns) {
   url.searchParams.set("published", "eq.true");
   url.searchParams.set("order", "updated_at.desc.nullslast");
 
-  const response = await fetch(url.toString(), {
-    headers: {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-      Accept: "application/json"
-    }
-  });
+  const headers = {
+    apikey: SUPABASE_ANON_KEY,
+    Accept: "application/json"
+  };
+
+  const response = await fetch(url.toString(), { headers });
 
   if (!response.ok) {
     const errorText = await response.text();
