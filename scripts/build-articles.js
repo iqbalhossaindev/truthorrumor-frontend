@@ -129,9 +129,7 @@ function getLabels(lang) {
       verifiedNews: 'Verified News',
       rumorDetected: 'Rumor Detected',
       update: 'Update',
-      topic: 'Topic',
-      truthEyebrow: 'TRUTH VERIFICATION',
-      rumorEyebrow: 'RUMOR VERIFICATION'
+      topic: 'Topic'
     };
   }
 
@@ -215,9 +213,7 @@ function getLabels(lang) {
     verifiedNews: 'Verified News',
     rumorDetected: 'Rumor Detected',
     update: 'Update',
-    topic: 'Topic',
-    truthEyebrow: 'TRUTH VERIFICATION',
-    rumorEyebrow: 'RUMOR VERIFICATION'
+    topic: 'Topic'
   };
 }
 
@@ -319,7 +315,6 @@ async function fetchPublishedRows(table) {
   const response = await fetch(url.toString(), {
     headers: {
       apikey: SUPABASE_ANON_KEY,
-      authorization: `Bearer ${SUPABASE_ANON_KEY}`,
       accept: 'application/json'
     }
   });
@@ -398,6 +393,7 @@ function buildArticleScript(article, labels) {
       el.classList.remove('show');
     }, 1900);
   }
+  window.showToast = showToast;
 
   function animatePressedButton(button) {
     if (!button) return;
@@ -623,14 +619,14 @@ function buildArticleScript(article, labels) {
   }
 
   function shortenText(text, maxLength) {
-    const clean = String(text || '').replace(/\s+/g, ' ').trim();
+    const clean = String(text || '').replace(/\\s+/g, ' ').trim();
     if (clean.length <= maxLength) return clean;
     return clean.slice(0, Math.max(0, maxLength - 3)).trim() + '...';
   }
 
   function getSharePayload(mode) {
     const title = article.title || labels.siteName;
-    const excerpt = article.summary || '';
+    const excerpt = article.aiSummary || '';
     const trackedUrl = getTrackedShareUrl();
     const intro = (article.verdictStatus === 'rumor' ? labels.rumorDetected : labels.verifiedNews) + ' | ' + title;
     const shortSummary = shortenText(excerpt, 150);
@@ -639,22 +635,22 @@ function buildArticleScript(article, labels) {
       full: {
         label: labels.fullArticle,
         preview: excerpt,
-        text: intro + '\n\n' + excerpt + '\n\n' + trackedUrl
+        text: intro + '\\n\\n' + excerpt + '\\n\\n' + trackedUrl
       },
       headline: {
         label: labels.headlineOnly,
         preview: title,
-        text: intro + '\n\n' + trackedUrl
+        text: intro + '\\n\\n' + trackedUrl
       },
       summary: {
         label: labels.shortSummary,
         preview: shortSummary,
-        text: intro + '\n\n' + shortSummary + '\n\n' + trackedUrl
+        text: intro + '\\n\\n' + shortSummary + '\\n\\n' + trackedUrl
       },
       quote: {
         label: labels.quoteCard,
         preview: quote,
-        text: intro + '\n\n' + quote + '\n\n' + trackedUrl
+        text: intro + '\\n\\n' + quote + '\\n\\n' + trackedUrl
       }
     };
     return Object.assign({ url: trackedUrl, title: title, excerpt: excerpt }, map[mode] || map.full);
@@ -788,7 +784,7 @@ function buildArticleScript(article, labels) {
   function shareToEmail() {
     const payload = getSharePayload(shareMode);
     const subject = encodeURIComponent(payload.title);
-    const body = encodeURIComponent(payload.preview + '\n\n' + payload.url);
+    const body = encodeURIComponent(payload.preview + '\\n\\n' + payload.url);
     increaseShareCount(article.slug || '');
     renderShareModal();
     window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
@@ -806,7 +802,7 @@ function buildArticleScript(article, labels) {
   }
 
   function downloadShareQr() {
-    const qrUrl = shareQrDataUrl || $('shareQrImage')?.src || '';
+    const qrUrl = shareQrDataUrl || ($('shareQrImage') && $('shareQrImage').src) || '';
     if (!qrUrl) {
       renderShareModal();
       showToast(labels.qrGenerating);
@@ -883,8 +879,7 @@ function buildArticleScript(article, labels) {
 
   document.addEventListener('click', function (event) {
     const target = event.target.closest('button, a');
-    if (!target) return;
-    if (target.disabled) return;
+    if (!target || target.disabled) return;
     performHapticFeedback(target.classList.contains('share-card-btn') ? 'light' : 'medium');
   }, true);
 
@@ -967,7 +962,6 @@ function buildArticleHtml(post, lang) {
       --reader-line-height: 1.9;
       --bg: #031226;
       --card: rgba(13,24,52,0.78);
-      --card-2: rgba(17,29,60,0.74);
       --text: #f8fafc;
       --muted: rgba(241,245,249,0.74);
       --line: rgba(255,255,255,0.12);
@@ -1003,16 +997,14 @@ function buildArticleHtml(post, lang) {
     body.reader-mode { --page-bg: linear-gradient(180deg, rgba(1,10,28,.98), rgba(1,10,28,1)); }
 
     body[data-theme='sepia'] {
-      --bg: #efe0c4;
       --card: rgba(248,239,223,0.86);
-      --card-2: rgba(243,231,210,0.84);
       --text: #312412;
       --muted: rgba(49,36,18,0.72);
       --line: rgba(49,36,18,0.12);
       --gold: #b2781f;
       --orange: #cb7b22;
       --cyan: #0f6db0;
-      --summary-label: #0b6b87;
+      --summary-label: #0f6db0;
       --summary-border: rgba(15,109,176,0.22);
       --summary-bg-1: rgba(15,109,176,0.12);
       --summary-bg-2: rgba(178,120,31,0.10);
@@ -1024,9 +1016,7 @@ function buildArticleHtml(post, lang) {
     }
 
     body[data-theme='soft-light'] {
-      --bg: #ecf4ff;
       --card: rgba(255,255,255,0.82);
-      --card-2: rgba(246,249,255,0.86);
       --text: #18283d;
       --muted: rgba(24,40,61,0.70);
       --line: rgba(24,40,61,0.10);
@@ -1044,28 +1034,8 @@ function buildArticleHtml(post, lang) {
         linear-gradient(180deg, #edf4ff 0%, #dce8ff 100%);
     }
 
-    body[data-theme='sepia'] .share-preview-eyebrow,
-    body[data-theme='sepia'] .summary-box-label {
-      color: #0f6db0;
-    }
-
-    body[data-theme='soft-light'] .share-preview-eyebrow,
-    body[data-theme='soft-light'] .summary-box-label {
-      color: #2563eb;
-    }
-
     body[data-theme='soft-light'] .share-modal,
     body[data-theme='soft-light'] .accessibility-modal,
-    body[data-theme='soft-light'] .share-card-btn,
-    body[data-theme='soft-light'] .share-mode-btn,
-    body[data-theme='soft-light'] .tool-btn,
-    body[data-theme='soft-light'] .modal-close,
-    body[data-theme='soft-light'] .share-close,
-    body[data-theme='soft-light'] .action-btn,
-    body[data-theme='soft-light'] .home-btn {
-      color: #18283d;
-    }
-
     body[data-theme='soft-light'] .share-card-btn,
     body[data-theme='soft-light'] .share-mode-btn,
     body[data-theme='soft-light'] .tool-btn,
@@ -1076,7 +1046,8 @@ function buildArticleHtml(post, lang) {
     body[data-theme='soft-light'] .share-preview,
     body[data-theme='soft-light'] .share-url-box,
     body[data-theme='soft-light'] .share-qr-box {
-      background: rgba(255,255,255,0.76);
+      color: #18283d;
+      background: rgba(255,255,255,0.82);
     }
 
     a { color: inherit; }
@@ -1158,7 +1129,7 @@ function buildArticleHtml(post, lang) {
       padding: 14px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
       background: linear-gradient(180deg, rgba(3,10,25,0.12), rgba(1,10,28,0.22) 55%, rgba(1,10,28,0.34));
     }
 
@@ -1302,21 +1273,6 @@ function buildArticleHtml(post, lang) {
       transition: transform .18s ease, background .18s ease, border-color .18s ease;
     }
 
-    .action-btn:hover,
-    .action-btn:active,
-    .tool-btn:hover,
-    .tool-btn:active,
-    .share-mode-btn:hover,
-    .share-mode-btn:active,
-    .share-card-btn:hover,
-    .share-card-btn:active,
-    .floating-accessibility-btn:hover,
-    .floating-accessibility-btn:active,
-    .modal-close:hover,
-    .modal-close:active {
-      transform: translateY(-1px);
-    }
-
     .action-btn.primary {
       background: linear-gradient(90deg, rgba(242,181,58,0.28), rgba(255,141,58,0.24));
       border-color: rgba(242,181,58,0.42);
@@ -1362,12 +1318,12 @@ function buildArticleHtml(post, lang) {
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: linear-gradient(90deg, var(--gold), var(--orange));
-      color: #101010;
+      background: ${verdictColor};
+      color: #fff;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid var(--bg);
+      border: 2px solid #0b1222;
       font-size: 13px;
       font-weight: 900;
       line-height: 1;
@@ -1510,8 +1466,10 @@ function buildArticleHtml(post, lang) {
       opacity: 1;
     }
 
-    .share-modal::-webkit-scrollbar, .accessibility-modal::-webkit-scrollbar { width: 7px; }
-    .share-modal::-webkit-scrollbar-thumb, .accessibility-modal::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.16); border-radius: 999px; }
+    .share-modal::-webkit-scrollbar,
+    .accessibility-modal::-webkit-scrollbar { width: 7px; }
+    .share-modal::-webkit-scrollbar-thumb,
+    .accessibility-modal::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.16); border-radius: 999px; }
 
     .share-modal-top {
       display: flex;
@@ -1800,9 +1758,7 @@ function buildArticleHtml(post, lang) {
       transform: translateX(-50%) translateY(0);
     }
 
-    .pop-click {
-      animation: popClick 0.22s ease;
-    }
+    .pop-click { animation: popClick 0.22s ease; }
 
     @keyframes popClick {
       0% { transform: scale(1); }
@@ -1819,15 +1775,13 @@ function buildArticleHtml(post, lang) {
       .hero { border-radius: 22px; }
       .hero-overlay { padding: 10px; }
       .hero-verdict, .hero-topic { padding: 6px 10px; font-size: 11px; gap: 6px; }
-      .hero-verdict-icon { width: 12px; height: 12px; }
-      .hero-topic-icon { width: 13px; height: 13px; }
+      .hero-verdict-icon, .hero-topic-icon { width: 12px; height: 12px; }
       .meta-row { font-size: 12px; }
       .category-line { font-size: 13px; }
       h1 { font-size: clamp(28px, 8vw, 38px); }
       .summary-box { padding: 13px; border-radius: 18px; }
       .summary-box-label { font-size: 10px; }
       .summary-box-text { font-size: 13px; }
-      .action-row { gap: 8px; }
       .action-btn { min-height: 42px; padding: 0 10px; font-size: 12px; gap: 6px; }
       .action-btn svg { width: 16px; height: 16px; }
       .floating-accessibility-btn { width: 58px; height: 58px; border-radius: 18px; }
@@ -1836,8 +1790,7 @@ function buildArticleHtml(post, lang) {
       .modal-backdrop { align-items: flex-end; padding: 10px 10px max(10px, env(safe-area-inset-bottom)); }
       .accessibility-modal,
       .share-modal { width: 100%; max-height: min(84vh, 820px); padding: 14px; border-radius: 24px 24px 18px 18px; }
-      .modal-title,
-      .share-modal-title { font-size: clamp(26px, 9vw, 34px); }
+      .modal-title, .share-modal-title { font-size: clamp(26px, 9vw, 34px); }
       .modal-close { min-height: 44px; padding: 0 14px; font-size: 14px; }
       .tool-row { gap: 9px; }
       .tool-btn { min-height: 44px; padding: 0 14px; border-radius: 16px; font-size: 13px; }
@@ -1849,7 +1802,6 @@ function buildArticleHtml(post, lang) {
       .share-card-btn { min-height: 68px; padding: 10px; border-radius: 16px; font-size: 13px; }
       .share-icon-bubble { width: 40px; height: 40px; }
       .share-icon-bubble svg { width: 20px; height: 20px; }
-      .share-icon-bubble { width: 40px; height: 40px; border-radius: 13px; font-size: 18px; }
       .share-qr-image { width: min(100%, 190px); }
     }
   </style>
