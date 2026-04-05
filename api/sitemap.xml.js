@@ -1,16 +1,14 @@
 const {
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY,
   BASE_URL,
   escapeXml,
   toIsoDate,
-  fetchPublishedRows,
-  cleanSlug
+  cleanSlug,
+  fetchPublishedRows
 } = require("./_sitemap-common");
 
-module.exports = async (req, res) => {
+module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
-  res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400");
+  res.setHeader("Cache-Control", "no-store, max-age=0");
 
   const staticPages = [
     { loc: `${BASE_URL}/`, priority: "1.0", changefreq: "daily", lastmod: toIsoDate() },
@@ -28,7 +26,7 @@ module.exports = async (req, res) => {
       fetchPublishedRows("posts_bd", ["slug", "created_at", "updated_at"])
     ]);
   } catch (error) {
-    console.error(error);
+    console.error("Sitemap fetch error:", error);
   }
 
   const articleRows = [];
@@ -37,6 +35,7 @@ module.exports = async (req, res) => {
   for (const row of englishRows) {
     const slug = cleanSlug(row.slug);
     if (!slug || seen.has(`en:${slug}`)) continue;
+
     seen.add(`en:${slug}`);
     articleRows.push({
       loc: `${BASE_URL}/article/${encodeURIComponent(slug)}`,
@@ -49,6 +48,7 @@ module.exports = async (req, res) => {
   for (const row of banglaRows) {
     const slug = cleanSlug(row.slug);
     if (!slug || seen.has(`bn:${slug}`)) continue;
+
     seen.add(`bn:${slug}`);
     articleRows.push({
       loc: `${BASE_URL}/bd/article/${encodeURIComponent(slug)}`,
@@ -60,19 +60,23 @@ module.exports = async (req, res) => {
 
   const allRows = [...staticPages, ...articleRows];
 
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n` +
+  const xml =
+    `<?xml version="1.0" encoding="UTF-8"?>\n` +
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    allRows.map((row) => {
-      return [
-        `  <url>`,
-        `    <loc>${escapeXml(row.loc)}</loc>`,
-        `    <lastmod>${escapeXml(row.lastmod)}</lastmod>`,
-        `    <changefreq>${escapeXml(row.changefreq)}</changefreq>`,
-        `    <priority>${escapeXml(row.priority)}</priority>`,
-        `  </url>`
-      ].join("\n");
-    }).join("\n") +
+    allRows
+      .map((row) => {
+        return [
+          `  <url>`,
+          `    <loc>${escapeXml(row.loc)}</loc>`,
+          `    <lastmod>${escapeXml(row.lastmod)}</lastmod>`,
+          `    <changefreq>${escapeXml(row.changefreq)}</changefreq>`,
+          `    <priority>${escapeXml(row.priority)}</priority>`,
+          `  </url>`
+        ].join("\n");
+      })
+      .join("\n") +
     `\n</urlset>`;
 
-  res.status(200).send(xml);
+  res.statusCode = 200;
+  res.end(xml);
 };
