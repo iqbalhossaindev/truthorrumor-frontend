@@ -28,7 +28,7 @@ function toIsoDateTime(value) {
 }
 
 function cleanSlug(value) {
-  return decodeURIComponent(String(value || "").trim()).replace(/^\/+|\/+$/g, "");
+  return String(value || "").trim().replace(/^\/+|\/+$/g, "");
 }
 
 async function fetchPublishedRows(table, columns) {
