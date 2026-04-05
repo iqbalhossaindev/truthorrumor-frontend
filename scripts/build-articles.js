@@ -17,12 +17,27 @@ function escapeHtml(value) {
     .replace(/"/g, "&quot;");
 }
 
+function looksLikeHtml(value) {
+  return /<[^>]+>/.test(String(value || ""));
+}
+
+function renderBody(value) {
+  const text = String(value || "").trim();
+  if (!text) return "";
+
+  if (looksLikeHtml(text)) {
+    return text;
+  }
+
+  return text
+    .split(/\n\s*\n/)
+    .map((part) => `<p>${escapeHtml(part).replace(/\n/g, "<br>")}</p>`)
+    .join("\n");
+}
+
 async function fetchPublishedRows(table) {
   const url = new URL(`${SUPABASE_URL}/rest/v1/${table}`);
-  url.searchParams.set(
-    "select",
-    "slug,title,excerpt,content,image_url,author,category,created_at,updated_at,published"
-  );
+  url.searchParams.set("select", "*");
   url.searchParams.set("published", "eq.true");
   url.searchParams.set("order", "updated_at.desc.nullslast");
 
@@ -42,17 +57,71 @@ async function fetchPublishedRows(table) {
   return Array.isArray(data) ? data : [];
 }
 
+function getDescription(post) {
+  return (
+    post.excerpt ||
+    post.summary ||
+    post.description ||
+    post.verdict ||
+    post.title ||
+    "News article"
+  );
+}
+
+function getBody(post) {
+  return (
+    post.content ||
+    post.body ||
+    post.article_body ||
+    post.article_html ||
+    post.description ||
+    post.summary ||
+    post.verdict ||
+    ""
+  );
+}
+
+function getImage(post) {
+  return (
+    post.image_url ||
+    post.image ||
+    post.thumbnail ||
+    post.cover_image ||
+    `${SITE_URL}/logo.png`
+  );
+}
+
+function getAuthor(post) {
+  return (
+    post.author ||
+    post.author_name ||
+    post.writer ||
+    "TruthOrRumor"
+  );
+}
+
+function getCategory(post) {
+  return post.category || "News";
+}
+
 function buildArticleHtml(post, lang) {
   const slug = safeSlug(post.slug);
   const title = post.title || "Article";
-  const description = post.excerpt || title;
-  const image = post.image_url || `${SITE_URL}/logo.png`;
+  const description = getDescription(post);
+  const image = getImage(post);
+  const author = getAuthor(post);
+  const category = getCategory(post);
+  const body = getBody(post);
+  const sourceUrl = post.source_url || "";
   const updated = post.updated_at || post.created_at || new Date().toISOString();
   const created = post.created_at || updated;
+
   const articleUrl =
     lang === "bn"
       ? `${SITE_URL}/bd/article/${encodeURIComponent(slug)}`
       : `${SITE_URL}/article/${encodeURIComponent(slug)}`;
+
+  const bodyHtml = renderBody(body);
 
   return `<!doctype html>
 <html lang="${lang === "bn" ? "bn" : "en"}">
@@ -84,7 +153,7 @@ function buildArticleHtml(post, lang) {
     dateModified: updated,
     author: {
       "@type": "Person",
-      name: post.author || "TruthOrRumor"
+      name: author
     },
     publisher: {
       "@type": "Organization",
@@ -94,17 +163,52 @@ function buildArticleHtml(post, lang) {
         url: `${SITE_URL}/logo.png`
       }
     },
+    articleSection: category,
     mainEntityOfPage: articleUrl,
-    description
+    description: description
   })}
   </script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #111;
+      background: #fff;
+    }
+    main {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      margin: 16px 0;
+    }
+    .meta {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    .source {
+      margin-top: 24px;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
   <main>
     <h1>${escapeHtml(title)}</h1>
+    <div class="meta">
+      ${escapeHtml(author)} • ${escapeHtml(category)} • ${escapeHtml(created)}
+    </div>
     <p>${escapeHtml(description)}</p>
-    ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" />` : ""}
-    <article>${post.content || ""}</article>
+    <img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" />
+    <article>${bodyHtml}</article>
+    ${sourceUrl ? `<p class="source">Source: <a href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(sourceUrl)}</a></p>` : ""}
   </main>
 </body>
 </html>`;
