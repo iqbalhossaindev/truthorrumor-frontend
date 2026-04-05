@@ -16,14 +16,6 @@
     {
       "source": "/bd",
       "destination": "/bangla.html"
-    },
-    {
-      "source": "/bd/article/:slug",
-      "destination": "/article-bd.html"
-    },
-    {
-      "source": "/article/:slug",
-      "destination": "/article.html"
     }
   ]
 }
